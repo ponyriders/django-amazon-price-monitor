@@ -5,7 +5,7 @@ from setuptools import setup
 setup(
     name='django-amazon-price-monitor',
     description='Monitors prices of Amazon products via Product Advertising API',
-    version='0.1.0',
+    version=__import__('price_monitor').get_version().replace(' ', '-'),
     author='Alexander Herrmann & Martin Mrose',
     author_email='mrosemartin84@gmail.com',
     license='MIT',
