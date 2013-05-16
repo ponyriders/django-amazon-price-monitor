@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='django-amazon-price-monitor',
-    description='share django users and groups with other services via ldap',
+    description='Monitors prices of Amazon products via Product Advertising API',
     version='0.1.0',
     author='Alexander Herrmann & Martin Mrose',
     author_email='mrosemartin84@gmail.com',
