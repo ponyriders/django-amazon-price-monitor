@@ -3,3 +3,6 @@
 *.pyc
 local_settings.py
 .idea
+.project
+.pydevproject
+
