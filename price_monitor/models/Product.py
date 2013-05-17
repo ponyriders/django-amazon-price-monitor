@@ -18,7 +18,7 @@ class Product(models.Model):
     prices = models.ManyToManyField('Price', verbose_name=_('Prices of Product'))
     title = models.CharField(max_length=255, verbose_name=_('Title'))
     asin = models.CharField(max_length=100, verbose_name=_('ASIN'))
-    status = models.SmallIntegerField(choices=STATUS_CHOICES, verbose_name=_('Status'))
+    status = models.SmallIntegerField(choices=STATUS_CHOICES, default=0, verbose_name=_('Status'))
     large_image_url = models.URLField(verbose_name=_('URL to large product image'))
     offer_url = models.URLField(verbose_name=_('URL to the offer'))
 
