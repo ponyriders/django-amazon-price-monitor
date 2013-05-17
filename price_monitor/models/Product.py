@@ -16,11 +16,11 @@ class Product(models.Model):
     date_updated = models.DateTimeField(auto_now=True, verbose_name=_('Date of last update'))
     users = models.ManyToManyField(User, verbose_name=_('Users monitoring this product'))
     prices = models.ManyToManyField('Price', verbose_name=_('Prices of Product'))
-    title = models.CharField(max_length=255, verbose_name=_('Title'))
+    title = models.CharField(blank=True, null=True, max_length=255, verbose_name=_('Title'))
     asin = models.CharField(max_length=100, verbose_name=_('ASIN'))
     status = models.SmallIntegerField(choices=STATUS_CHOICES, default=0, verbose_name=_('Status'))
-    large_image_url = models.URLField(verbose_name=_('URL to large product image'))
-    offer_url = models.URLField(verbose_name=_('URL to the offer'))
+    large_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to large product image'))
+    offer_url = models.URLField(blank=True, null=True, verbose_name=_('URL to the offer'))
 
     class Meta:
         app_label = 'price_monitor'
