@@ -22,6 +22,17 @@ class Product(models.Model):
     large_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to large product image'))
     offer_url = models.URLField(blank=True, null=True, verbose_name=_('URL to the offer'))
 
+    def __unicode__(self):
+        """
+        Returns the unicode representation of the Product.
+        :return: the unicode representation
+        :rtype: unicode
+        """
+        return u'%(name)s (ASIN: %(asin)s)' % {
+            'name': self.title if len(self.title) > 0 else _('Unsynced Product'),
+            'asin': self.asin,
+        }
+
     class Meta:
         app_label = 'price_monitor'
         verbose_name = ugettext_lazy('Product')
