@@ -1,7 +1,8 @@
 django-amazon-price-monitor
 ===========================
 
-Monitors prices of Amazon products via Product Advertising API
+Monitors prices of Amazon products via Product Advertising API.
+Relies on python-amazon-simple-product-api under the hood.
 
 
 Setup
