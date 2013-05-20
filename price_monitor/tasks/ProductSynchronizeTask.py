@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from .. import app_settings as settings
 from ..api import get_api
 from amazon.api import AmazonProduct, LookupException
@@ -40,6 +39,9 @@ class ProductSynchronizeTask(PeriodicTask):
             for p in lookup:
                 products[p.asin].title = p.title
                 products[p.asin].large_image_url = p.large_image_url
+                products[p.asin].medium_image_url = p.medium_image_url
+                products[p.asin].small_image_url = p.small_image_url
+                products[p.asin].tiny_image_url = p.tiny_image_url
                 products[p.asin].offer_url = p.offer_url
                 products[p.asin].status = 1
                 products[p.asin].save()
