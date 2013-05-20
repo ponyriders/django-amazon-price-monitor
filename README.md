@@ -30,3 +30,7 @@ Set the setting for selecting the Amazon region store and your associate handle:
      # can be found in your Amazon associate account
      AMAZON_PRODUCT_API_ASSOC_TAG = '<your-assoc-tag>'
 
+Celery tasks
+============
+
+TODO add description, defaults and recommended settings
