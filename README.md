@@ -33,7 +33,19 @@ Set the setting for selecting the Amazon region store and your associate handle:
 Celery tasks
 ============
 
-TODO add description, defaults and recommended settings
+There are 2 Celery tasks responsible for the synchronization of products:
+
+ProductSynchronizeTask
+----------------------
+
+Syncs the products initially created with only the ASIN.
+Runs by default every 5 minutes as PeriodicTask.
+
+PriceTrendTask
+--------------
+
+Fetches the current prices of all initially synced products.
+Runs by default every 6 hours as PeriodicTask.
 
 
 Logger

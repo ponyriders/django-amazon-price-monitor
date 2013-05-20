@@ -1,1 +1,2 @@
 from .ProductSynchronizeTask import ProductSynchronizeTask
+from .PriceTrendTask import PriceTrendTask
