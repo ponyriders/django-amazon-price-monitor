@@ -34,3 +34,10 @@ Celery tasks
 ============
 
 TODO add description, defaults and recommended settings
+
+
+Logger
+======
+
+The app uses the logger "price_monitor" to log error and info messages.
+Please see the [Django logging documentation](https://docs.djangoproject.com/en/1.5/topics/logging/ "Django logging documentation") for how to setup loggers.

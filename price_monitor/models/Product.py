@@ -10,6 +10,7 @@ class Product(models.Model):
     STATUS_CHOICES = (
         (0, _('Created'),),
         (1, _('Synced over API'),),
+        (2, _('Unsynchable'),),
     )
 
     date_creation = models.DateTimeField(auto_now_add=True, verbose_name=_('Date of creation'))
@@ -23,8 +24,14 @@ class Product(models.Model):
     medium_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to medium product image'))
     small_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to small product image'))
     tiny_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to tiny product image'))
-
     offer_url = models.URLField(blank=True, null=True, verbose_name=_('URL to the offer'))
+
+    def set_failed_to_sync(self):
+        """
+        Marks the product as failed to sync. This happens if the Amazon API request for this product fails.
+        """
+        self.status = 2
+        self.save()
 
     def __unicode__(self):
         """
