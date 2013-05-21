@@ -40,7 +40,7 @@ class ProductSynchronizeTask(PeriodicTask):
                 try:
                     lookup = get_api().lookup(ItemId=asin)
                 except (LookupException, AsinNotFound):
-                    logger.exception()
+                    logger.exception('Unable to lookup product with ASIN %s' % asin)
                     product.set_failed_to_sync()
                 else:
                     self.sync_product(lookup, product)
