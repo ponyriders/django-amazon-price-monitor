@@ -11,9 +11,9 @@ class PriceAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('asin', 'title', 'status', 'date_updated', )
 
 
 admin.site.register(Price, PriceAdmin)
-admin.site.register(Product, PriceAdmin)
+admin.site.register(Product, ProductAdmin)
 
