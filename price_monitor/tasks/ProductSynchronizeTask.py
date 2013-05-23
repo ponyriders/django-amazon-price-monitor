@@ -50,8 +50,8 @@ class ProductSynchronizeTask(PeriodicTask):
                 lookup = [lookup]
 
             # iterate an sync
-            for p in lookup:
-                self.sync_product(lookup, p)
+            for amazon_product in lookup:
+                self.sync_product(amazon_product, products[amazon_product.asin])
 
     def sync_product(self, amazon_product, product):
         """
