@@ -2,10 +2,18 @@ import logging
 
 from .. import app_settings as settings
 from ..api import get_api
-from amazon.api import AmazonProduct, AsinNotFound, LookupException
+from amazon.api import (
+    AmazonProduct,
+    AsinNotFound,
+    LookupException,
+)
 from celery.task import PeriodicTask
+from django.utils import timezone
 from datetime import timedelta
-from price_monitor.models import Product
+from price_monitor.models import (
+    Price,
+    Product
+)
 
 
 logger = logging.getLogger('price_monitor')
@@ -19,13 +27,10 @@ class ProductSynchronizeTask(PeriodicTask):
 
     def run(self, **kwargs):
         """
-        Runs the synchronization by fetching settings.PRODUCT_SYNCHRONIZE_COUNT number of products and requests their data from Amazon.
+        Runs the synchronization by fetching settings.AMAZON_PRODUCT_SYNCHRONIZE_COUNT number of products and requests their data from Amazon.
         """
-
-        # get all relevant products
-        products = {
-            p.asin: p for p in Product.objects.filter(status=0).order_by('date_creation')[:settings.PRODUCT_SYNCHRONIZE_COUNT]
-        }
+        products = self.get_products_to_sync()
+        logger.info(products)
 
         # exit if there is no food
         if len(products) == 0:
@@ -40,7 +45,7 @@ class ProductSynchronizeTask(PeriodicTask):
                 try:
                     lookup = get_api().lookup(ItemId=asin)
                 except (LookupException, AsinNotFound):
-                    logger.exception('Unable to lookup product with ASIN %s' % asin)
+                    logger.exception('unable to lookup product with asin %s' % asin)
                     product.set_failed_to_sync()
                 else:
                     self.sync_product(lookup, product)
@@ -52,6 +57,27 @@ class ProductSynchronizeTask(PeriodicTask):
             # iterate an sync
             for amazon_product in lookup:
                 self.sync_product(amazon_product, products[amazon_product.asin])
+
+    def get_products_to_sync(self):
+        """
+        Returns the products to synchronize.
+        These are newly created products with status "0" or products that are older than settings.AMAZON_PRODUCT_REFRESH_THRESHOLD.
+        :return: dictionary with the Products
+        :rtype: dict
+        """
+        # prefer already synced products over newly created
+        # TODO implement
+        products = {}
+
+        if len(products) < settings.AMAZON_PRODUCT_SYNCHRONIZE_COUNT:
+            # there is still some space for products to sync, append newly created if available
+            products = dict(
+                products.items() + {
+                    p.asin: p for p in Product.objects.filter(status=0).order_by('date_creation')[:(settings.AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products))]
+                }.items()
+            )
+
+        return products
 
     def sync_product(self, amazon_product, product):
         """
@@ -68,4 +94,16 @@ class ProductSynchronizeTask(PeriodicTask):
         product.tiny_image_url = amazon_product.tiny_image_url
         product.offer_url = amazon_product.offer_url
         product.status = 1
+        product.date_last_synced = timezone.now()
         product.save()
+
+        price = amazon_product.price_and_currency
+
+        if not price[0] is None:
+            product.prices.add(
+                Price.objects.create(
+                    value=price[0],
+                    currency=price[1],
+                    date_seen=timezone.now(),
+                )
+            )

@@ -15,6 +15,7 @@ class Product(models.Model):
 
     date_creation = models.DateTimeField(auto_now_add=True, verbose_name=_('Date of creation'))
     date_updated = models.DateTimeField(auto_now=True, verbose_name=_('Date of last update'))
+    date_last_synced = models.DateTimeField(blank=True, null=True, verbose_name=_('Date of last synchronization'))
     users = models.ManyToManyField(User, blank=True, null=True, verbose_name=_('Users monitoring this product'))
     prices = models.ManyToManyField('Price', blank=True, null=True, verbose_name=_('Prices of Product'))
     title = models.CharField(blank=True, null=True, max_length=255, verbose_name=_('Title'))

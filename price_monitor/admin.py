@@ -8,7 +8,7 @@ from price_monitor.models import (
 
 
 class PriceAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('date_seen', 'value', 'currency', )
 
 
 class ProductAdmin(admin.ModelAdmin):
