@@ -31,13 +31,20 @@ Set the setting for selecting the Amazon region store and your associate handle:
      AMAZON_PRODUCT_API_ASSOC_TAG = '<your-assoc-tag>'
 
 ProductSynchronizeTask
-============
+======================
 
 This is the Celery task responsible for the synchronization of products:
 
 Syncs the products initially created with only the ASIN and updates products with a last synchronization date older than
 settings.AMAZON_PRODUCT_REFRESH_THRESHOLD_HOURS (number of hours). Prices for these products are created, too.
 Runs by default every 5 minutes as PeriodicTask.
+
+
+Management Commands
+===================
+There is a management command to batch create a number of products by providing their ASIN:
+
+    python manage.py price_monitor_batch_create_products "<ASIN1>,<ASIN2>,<ASIN3"
 
 
 Logger
