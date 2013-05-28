@@ -1,7 +1,7 @@
 import logging
 
-from .. import app_settings as settings
-from ..api import get_api
+from . import app_settings as settings
+from .api import get_api
 from amazon.api import (
     AmazonProduct,
     AsinNotFound,
