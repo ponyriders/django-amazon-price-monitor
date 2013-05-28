@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy
 from price_monitor.models import (
     Price,
     Product,
+    Subscription,
 )
 
 
@@ -21,7 +22,11 @@ class ProductAdmin(admin.ModelAdmin):
     reset_to_created.short_description = ugettext_lazy('Reset to status "Created".')
 
 
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_display = ('product', 'price_limit', 'owner')
+
 
 admin.site.register(Price, PriceAdmin)
 admin.site.register(Product, ProductAdmin)
+admin.site.register(Subscription, SubscriptionAdmin)
 
