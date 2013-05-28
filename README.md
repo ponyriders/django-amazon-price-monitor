@@ -36,7 +36,8 @@ ProductSynchronizeTask
 This is the Celery task responsible for the synchronization of products:
 
 Syncs the products initially created with only the ASIN and updates products with a last synchronization date older than
-settings.AMAZON_PRODUCT_REFRESH_THRESHOLD. Prices for these products are created, too. Runs by default every 5 minutes as PeriodicTask.
+settings.AMAZON_PRODUCT_REFRESH_THRESHOLD_HOURS (number of hours). Prices for these products are created, too.
+Runs by default every 5 minutes as PeriodicTask.
 
 
 Logger
