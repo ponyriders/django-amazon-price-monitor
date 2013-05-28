@@ -102,10 +102,9 @@ class ProductSynchronizeTask(PeriodicTask):
         price = amazon_product.price_and_currency
 
         if not price[0] is None:
-            product.prices.add(
-                Price.objects.create(
-                    value=price[0],
-                    currency=price[1],
-                    date_seen=now,
-                )
+            Price.objects.create(
+                value=price[0],
+                currency=price[1],
+                date_seen=now,
+                product=product,
             )
