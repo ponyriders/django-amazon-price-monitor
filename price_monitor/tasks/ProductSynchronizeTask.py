@@ -30,7 +30,6 @@ class ProductSynchronizeTask(PeriodicTask):
         Runs the synchronization by fetching settings.AMAZON_PRODUCT_SYNCHRONIZE_COUNT number of products and requests their data from Amazon.
         """
         products = self.get_products_to_sync()
-        logger.info(products)
 
         # exit if there is no food
         if len(products) == 0:
@@ -61,13 +60,14 @@ class ProductSynchronizeTask(PeriodicTask):
     def get_products_to_sync(self):
         """
         Returns the products to synchronize.
-        These are newly created products with status "0" or products that are older than settings.AMAZON_PRODUCT_REFRESH_THRESHOLD.
+        These are newly created products with status "0" or products that are older than settings.AMAZON_PRODUCT_REFRESH_THRESHOLD_HOURS.
         :return: dictionary with the Products
         :rtype: dict
         """
         # prefer already synced products over newly created
-        # TODO implement
-        products = {}
+        products = {
+            p.asin: p for p in Product.objects.filter(date_last_synced__lte=(timezone.now() - timedelta(hours=settings.AMAZON_PRODUCT_REFRESH_THRESHOLD_HOURS)))
+        }
 
         if len(products) < settings.AMAZON_PRODUCT_SYNCHRONIZE_COUNT:
             # there is still some space for products to sync, append newly created if available
@@ -87,6 +87,8 @@ class ProductSynchronizeTask(PeriodicTask):
         :param product: the product to update
         :type product: price_monitor.models.Product
         """
+        now = timezone.now()
+
         product.title = amazon_product.title
         product.large_image_url = amazon_product.large_image_url
         product.medium_image_url = amazon_product.medium_image_url
@@ -94,7 +96,7 @@ class ProductSynchronizeTask(PeriodicTask):
         product.tiny_image_url = amazon_product.tiny_image_url
         product.offer_url = amazon_product.offer_url
         product.status = 1
-        product.date_last_synced = timezone.now()
+        product.date_last_synced = now
         product.save()
 
         price = amazon_product.price_and_currency
@@ -104,6 +106,6 @@ class ProductSynchronizeTask(PeriodicTask):
                 Price.objects.create(
                     value=price[0],
                     currency=price[1],
-                    date_seen=timezone.now(),
+                    date_seen=now,
                 )
             )

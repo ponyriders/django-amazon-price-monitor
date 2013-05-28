@@ -12,9 +12,9 @@ class PriceAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('asin', 'title', 'status', 'date_updated', )
+    list_display = ('asin', 'title', 'status', 'date_updated', 'date_last_synced', )
 
-    actions = ['reset_to_created',]
+    actions = ['reset_to_created', ]
 
     def reset_to_created(self, request, queryset):
         queryset.update(status=0)
