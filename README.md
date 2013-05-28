@@ -44,7 +44,7 @@ Management Commands
 ===================
 There is a management command to batch create a number of products by providing their ASIN:
 
-    python manage.py price_monitor_batch_create_products "<ASIN1>,<ASIN2>,<ASIN3"
+    python manage.py price_monitor_batch_create_products "<ASIN1>,<ASIN2>,<ASIN3>"
 
 
 Logger
