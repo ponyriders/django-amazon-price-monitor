@@ -1,0 +1,28 @@
+{% extends 'price_monitor/base.html' %}
+{% load i18n %}
+
+{% block header %}Amazon Prize Monitor{% endblock %}
+
+{% block content %}
+<h3>{% trans 'Add new product' %}</h3>
+<form class="form-horizontal" method="POST" action=".">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="control-group{% if form.errors or field.errors %} error{% endif %}">
+            <label class="control-label" for="{{ field.id }}">{{ field.label }}</label>
+            <div class="controls">
+                {{ field }}
+                {% for error in field.errors %}
+                    <span class="help-block">{{ error }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{% trans 'Monitor ASINs' %}</button>
+    </div>
+</form>
+
+<h3>{% trans 'Already monitored products' %}</h3>
+
+{% endblock %}
