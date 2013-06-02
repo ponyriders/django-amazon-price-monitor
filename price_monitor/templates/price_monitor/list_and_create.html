@@ -25,4 +25,21 @@
 
 <h3>{% trans 'Already monitored products' %}</h3>
 
+<div class="accordion" id="product-list">
+    {% for product in product_list %}
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#product-list" href="#{{ product.asin }}">
+                {{ product.title }}
+            </a>
+        </div>
+        <div id="{{ product.asin }}" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <img src="{{ product.large_image_url }}" />
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
 {% endblock %}
