@@ -16,9 +16,8 @@ class EmailNotification(models.Model):
         :return: the unicode representation
         :rtype: unicode
         """
-        return u'EmailNotification of %(user)s to %(email)s' % {
+        return u' %(email)s' % {
             'email': self.email,
-            'user': self.owner.username,
         }
 
     class Meta:
