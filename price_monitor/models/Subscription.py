@@ -10,6 +10,26 @@ class Subscription(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Owner'))
     product = models.ForeignKey('Product', verbose_name=_('Product'))
     price_limit = models.FloatField(verbose_name=_('Price limit'))
+    email_notification = models.ForeignKey('EmailNotification', verbose_name=_('Email Notification'))
+
+    def get_email_address(self):
+        """
+        Returns the email address of the notification.
+        :return: string
+        """
+        return self.email_notification.email
+    get_email_address.short_description = ugettext_lazy('Notification email')
+
+    def __unicode__(self):
+        """
+        Returns the unicode representation of the Subscription.
+        :return: the unicode representation
+        :rtype: unicode
+        """
+        return u'Subscription of "%(product)s" for %(user)s' % {
+            'product': self.product.title,
+            'user': self.owner.username,
+        }
 
     class Meta:
         app_label = 'price_monitor'

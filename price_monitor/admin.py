@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy
 
 from price_monitor.models import (
+    EmailNotification,
     Price,
     Product,
     Subscription,
@@ -23,10 +24,15 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('product', 'price_limit', 'owner')
+    list_display = ('product', 'price_limit', 'owner', 'get_email_address', )
+
+
+class EmailNotificationAdmin(admin.ModelAdmin):
+    list_display = ('email', 'owner',)
 
 
 admin.site.register(Price, PriceAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Subscription, SubscriptionAdmin)
+admin.site.register(EmailNotification, EmailNotificationAdmin)
 
