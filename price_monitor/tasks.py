@@ -48,6 +48,8 @@ class ProductSynchronizeTask(PeriodicTask):
                     product.set_failed_to_sync()
                 else:
                     self.sync_product(lookup, product)
+        except UnicodeEncodeError:
+            logger.exception('Unable to communicate with Amazon, the access key is probably not allowed to fetch Product API.')
         else:
             # api.lookup hides a list of AmazonProducts or a single AmazonProduct
             if type(lookup) == AmazonProduct:
