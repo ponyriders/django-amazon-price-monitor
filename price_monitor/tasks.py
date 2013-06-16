@@ -35,6 +35,8 @@ class ProductSynchronizeTask(PeriodicTask):
         if len(products) == 0:
             logger.info('No products to sync.')
             return
+        else:
+            logger.info('Syncing %(count)d products.' % {'count': len(products)})
 
         try:
             lookup = get_api().lookup(ItemId=','.join(products.keys()))
@@ -62,20 +64,23 @@ class ProductSynchronizeTask(PeriodicTask):
     def get_products_to_sync(self):
         """
         Returns the products to synchronize.
-        These are newly created products with status "0" or products that are older than settings.AMAZON_PRODUCT_REFRESH_THRESHOLD_HOURS.
+        These are newly created products with status "0" or products that are older than settings.AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES.
         :return: dictionary with the Products
         :rtype: dict
         """
         # prefer already synced products over newly created
         products = {
-            p.asin: p for p in Product.objects.filter(date_last_synced__lte=(timezone.now() - timedelta(hours=settings.AMAZON_PRODUCT_REFRESH_THRESHOLD_HOURS)))
+            p.asin: p for p in Product.objects.select_related().filter(
+                date_last_synced__lte=(timezone.now() - timedelta(minutes=settings.AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES))
+            )
         }
 
         if len(products) < settings.AMAZON_PRODUCT_SYNCHRONIZE_COUNT:
             # there is still some space for products to sync, append newly created if available
             products = dict(
                 products.items() + {
-                    p.asin: p for p in Product.objects.filter(status=0).order_by('date_creation')[:(settings.AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products))]
+                    p.asin: p for p in Product.objects.select_related().filter(status=0)
+                        .order_by('date_creation')[:(settings.AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products))]
                 }.items()
             )
 
