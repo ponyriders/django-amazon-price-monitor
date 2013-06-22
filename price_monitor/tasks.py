@@ -8,11 +8,13 @@ from amazon.api import (
     LookupException,
 )
 from celery.task import PeriodicTask
+from django.db.models import Q
 from django.utils import timezone
 from datetime import timedelta
 from price_monitor.models import (
     Price,
-    Product
+    Product,
+    Subscription,
 )
 
 
@@ -106,9 +108,27 @@ class ProductSynchronizeTask(PeriodicTask):
         product.date_last_synced = now
         product.save()
 
+        # tuple: (price, currency)
         price = amazon_product.price_and_currency
 
         if not price[0] is None:
+            # get all subscriptions of product that are subscribed to the current price or a higher one and
+            # whose owners have not been notified about that particular subscription price since before settings.SUBSCRIPTION_RENOTIFICATION_MINUTES.
+            for sub in Subscription.objects.filter(
+                Q(
+                    product=product,
+                    price_limit__gte=price[0],
+                    date_last_notification__lte=(timezone.now() - timedelta(minutes=settings.SUBSCRIPTION_RENOTIFICATION_MINUTES))
+                ) | Q(
+                    product=product,
+                    price_limit__gte=price[0],
+                    date_last_notification__isnull=True
+                )
+            ):
+                # TODO continue here
+                pass
+
+            # create the price entry
             Price.objects.create(
                 value=price[0],
                 currency=price[1],

@@ -47,6 +47,11 @@ There is a management command to batch create a number of products by providing 
     python manage.py price_monitor_batch_create_products "<ASIN1>,<ASIN2>,<ASIN3>"
 
 
+Additional Options
+==================
+TODO specify
+
+
 Logger
 ======
 
