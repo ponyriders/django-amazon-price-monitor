@@ -11,6 +11,7 @@ from price_monitor.models import (
 
 class PriceAdmin(admin.ModelAdmin):
     list_display = ('date_seen', 'value', 'currency', )
+    list_filter = ('product', )
 
 
 class ProductAdmin(admin.ModelAdmin):
@@ -24,7 +25,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('product', 'price_limit', 'owner', 'get_email_address', )
+    list_display = ('product', 'price_limit', 'owner', 'date_last_notification', 'get_email_address', )
 
 
 class EmailNotificationAdmin(admin.ModelAdmin):
