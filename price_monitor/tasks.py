@@ -125,8 +125,8 @@ class ProductSynchronizeTask(PeriodicTask):
                     date_last_notification__isnull=True
                 )
             ):
-                # TODO continue here
-                pass
+                # TODO use celery for this
+                sub.email_notification.notify(sub)
 
             # create the price entry
             Price.objects.create(
