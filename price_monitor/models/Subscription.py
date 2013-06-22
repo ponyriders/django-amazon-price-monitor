@@ -10,6 +10,7 @@ class Subscription(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Owner'))
     product = models.ForeignKey('Product', verbose_name=_('Product'))
     price_limit = models.FloatField(verbose_name=_('Price limit'))
+    date_last_notification = models.DateTimeField(null=True, blank=True, verbose_name=_('Date of last sent notification'))
     email_notification = models.ForeignKey('EmailNotification', verbose_name=_('Email Notification'))
 
     def get_email_address(self):
