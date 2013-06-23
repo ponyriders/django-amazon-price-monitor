@@ -18,6 +18,7 @@ from price_monitor.models import (
     Product,
     Subscription,
 )
+from smtplib import SMTPServerDisconnected
 
 
 logger = logging.getLogger('price_monitor')
@@ -157,17 +158,24 @@ class NotifySubscriberTask(Task):
         :type currency: string
         :type subscription: .Subscription
         """
-        logger.info('Sending notification mail to %(email)s.' % {'email': subscription.email_notification.email})
-        send_mail(
-            _(settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT) % {'product': product.title},
-            _(settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY) % {
-                'price_limit': subscription.price_limit,
-                'currency': currency,
-                'price': price,
-                'product_title': product.title,
-                'link': product.offer_url,
-            },
-            settings.PRICE_MONITOR_EMAIL_SENDER,
-            [subscription.email_notification.email],
-            fail_silently=False,
-        )
+        logger.info('Trying to send notification email to %(email)s...' % {'email': subscription.email_notification.email})
+        try:
+            send_mail(
+                _(settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT) % {'product': product.title},
+                _(settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY) % {
+                    'price_limit': subscription.price_limit,
+                    'currency': currency,
+                    'price': price,
+                    'product_title': product.title,
+                    'link': product.offer_url,
+                },
+                settings.PRICE_MONITOR_EMAIL_SENDER,
+                [subscription.email_notification.email],
+                fail_silently=False,
+            )
+        except SMTPServerDisconnected:
+            logger.exception('SMTP server was disconnected.')
+        else:
+            logger.info('Notification email to %(email)s was sent!' % {'email': subscription.email_notification.email})
+            subscription.date_last_notification = timezone.now()
+            subscription.save()
