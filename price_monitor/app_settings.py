@@ -17,3 +17,12 @@ AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES = getattr(settings, 'AMAZON_PRODUCT_REF
 SUBSCRIPTION_RENOTIFICATION_MINUTES = getattr(settings, 'SUBSCRIPTION_RENOTIFICATION_MINUTES', 60 * 24 * 7)
 # the email sender for notification emails
 PRICE_MONITOR_EMAIL_SENDER = getattr(settings, 'PRICE_MONITOR_EMAIL_SENDER', 'noreply@localhost')
+
+# i18n for email notifications
+gettext = lambda x: x
+PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT = gettext('price limit for %(product)s reached')
+PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY = gettext(
+    'The price limit of %(price_limit)0.2f %(currency)s has been reached for the article "%(product_title)s" - the current price is %(price)0.2f %(currency)s.'
+    '\n\nPlease support our platform by using this link for buying: %(link)s\n\n\nRegards,\nThe Team'
+)
+

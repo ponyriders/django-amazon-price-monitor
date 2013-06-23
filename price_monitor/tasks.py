@@ -156,19 +156,15 @@ class NotifySubscriberTask(Task):
         :type currency: string
         :type subscription: .Subscription
         """
-        # TODO: move mail texts to settings
         send_mail(
-            _('price limit for %(product)s reached' % {'product': product.title}),
-            _(
-                'The price limit of %(price_limit)0.2f %(currency)s has been reached for the article "%(product_title)s" - the current price is %(price)0.2f '
-                '%(currency)s.\n\nPlease support our platform by using this link for buying: %(link)s\n\n\nRegards,\nThe Team' % {
-                    'price_limit': subscription.price_limit,
-                    'currency': currency,
-                    'price': price,
-                    'product_title': product.title,
-                    'link': product.offer_url,
-                }
-            ),
+            _(settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT) % {'product': product.title},
+            _(settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY) % {
+                'price_limit': subscription.price_limit,
+                'currency': currency,
+                'price': price,
+                'product_title': product.title,
+                'link': product.offer_url,
+            },
             settings.PRICE_MONITOR_EMAIL_SENDER,
             [subscription.email_notification.email],
             fail_silently=False,
