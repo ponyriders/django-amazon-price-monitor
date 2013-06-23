@@ -157,6 +157,7 @@ class NotifySubscriberTask(Task):
         :type currency: string
         :type subscription: .Subscription
         """
+        logger.info('Sending notification mail to %(email)s.' % {'email': subscription.email_notification.email})
         send_mail(
             _(settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT) % {'product': product.title},
             _(settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY) % {
