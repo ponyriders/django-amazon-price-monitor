@@ -25,4 +25,6 @@ class ProductListAndCreateView(ListView):
         return context
 
     def post(self, request, *args, **kwargs):
-        return super(ProductListAndCreateView, self).get(request, *args, **kwargs)
+        parent_view = super(ProductListAndCreateView, self).get(request, *args, **kwargs)
+        print parent_view.context_data['form'].is_valid()
+        return parent_view
