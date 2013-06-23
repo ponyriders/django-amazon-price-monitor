@@ -85,7 +85,7 @@ This is a list of all settings that can be overwritten:
 </tr>
 <tr>
     <td>AMAZON_PRODUCT_API_ASSOC_TAG</td>
-    <td>Tracking id enable for use with Product Adverstising API. Can be found in Amazon PartnerNet account.</td>
+    <td>Tracking id enable for use with Product Advertising API. Can be found in Amazon PartnerNet account.</td>
     <td>(empty)</td>
     <td>yes</td>
 </tr>
@@ -110,7 +110,7 @@ This is a list of all settings that can be overwritten:
 <tr>
     <td>PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES</td>
     <td>Time after which products shall be refreshed (in minutes).</td>
-    <td>12 \* 60</td>
+    <td>12 * 60</td>
     <td>no</td>
 </tr>
 <tr>
