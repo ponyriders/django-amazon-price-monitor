@@ -8,6 +8,18 @@ class Price(models.Model):
     date_seen = models.DateTimeField(verbose_name=_('Date of price'))
     product = models.ForeignKey('Product', verbose_name=_('Product'))
 
+    def __unicode__(self):
+        """
+        Returns the unicode representation of the Product.
+        :return: the unicode representation
+        :rtype: unicode
+        """
+        return u'%(value)0.2f %(currency)s on %(date_seen)s' % {
+            'value': self.value,
+            'currency': self.currency,
+            'date_seen': self.date_seen,
+        }
+
     class Meta:
         app_label = 'price_monitor'
         verbose_name = ugettext_lazy('Price')
