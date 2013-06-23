@@ -115,7 +115,8 @@ class ProductSynchronizeTask(PeriodicTask):
 
         if not price[0] is None:
             # get all subscriptions of product that are subscribed to the current price or a higher one and
-            # whose owners have not been notified about that particular subscription price since before settings.PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES.
+            # whose owners have not been notified about that particular subscription price since before
+            # settings.PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES.
             for sub in Subscription.objects.filter(
                 Q(
                     product=product,
