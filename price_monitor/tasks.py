@@ -8,8 +8,10 @@ from amazon.api import (
     LookupException,
 )
 from celery.task import PeriodicTask
+from django.core.mail import send_mail
 from django.db.models import Q
 from django.utils import timezone
+from django.utils.translation import ugettext as _
 from datetime import timedelta
 from price_monitor.models import (
     Price,
@@ -126,7 +128,7 @@ class ProductSynchronizeTask(PeriodicTask):
                 )
             ):
                 # TODO use celery for this
-                sub.email_notification.notify(sub)
+                self.notify_subscriber(product, price[0], price[1], sub)
 
             # create the price entry
             Price.objects.create(
@@ -135,3 +137,34 @@ class ProductSynchronizeTask(PeriodicTask):
                 date_seen=now,
                 product=product,
             )
+
+    # TODO: celery-ize
+    def notify_subscriber(self, product, price, currency, subscription):
+        """
+        Sends an email to the subscriber.
+        :param product: the product to notify about
+        :param price: the current price of the product
+        :param currency:  the currency of the price
+        :param subscription: the Subscription class connecting subscriber and product
+        :type product: .Product
+        :type price: float
+        :type currency: string
+        :type subscription: .Subscription
+        """
+        # TODO: move mail texts to settings
+        send_mail(
+            _('price limit for %(product)s reached' % {'product': product.title}),
+            _(
+                'The price limit of %(price_limit)0.2f %(currency)s has been reached for the article "%(product_title)s" - the current price is %(price)0.2f '
+                '%(currency)s.\n\nPlease support our platform by using this link for buying: %(link)s\n\n\nRegards,\nThe Team' % {
+                    'price_limit': subscription.price_limit,
+                    'currency': currency,
+                    'price': price,
+                    'product_title': product.title,
+                    'link': product.offer_url,
+                }
+            ),
+            settings.PRICE_MONITOR_EMAIL_SENDER,
+            [subscription.email_notification.email],
+            fail_silently=False,
+        )
