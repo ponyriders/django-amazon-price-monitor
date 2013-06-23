@@ -7,28 +7,28 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-23 14:59+0200\n"
-"PO-Revision-Date: 2013-06-23 15:06+0100\n"
+"POT-Creation-Date: 2013-06-23 15:51+0200\n"
+"PO-Revision-Date: 2013-06-23 15:51+0100\n"
 "Last-Translator: Alexander Herrmann <darignac@gmail.com>\n"
 "Language-Team: Deutsch <darignac@gmail.com>\n"
+"Language: Deutsch\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.4\n"
-"Language: Deutsch\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: admin.py:24
 msgid "Reset to status \"Created\"."
 msgstr "Auf Status \"Erstellt\" zurücksetzen."
 
-#: app_settings.py:23
+#: app_settings.py:22
 #, python-format
-msgid "price limit for %(product)s reached"
+msgid "Price limit for %(product)s reached"
 msgstr "Preislimit für %(product)s erreicht"
 
-#: app_settings.py:25
+#: app_settings.py:24
 #, python-format
 msgid ""
 "The price limit of %(price_limit)0.2f %(currency)s has been reached for the "

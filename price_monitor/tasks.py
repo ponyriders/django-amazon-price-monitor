@@ -31,7 +31,7 @@ class ProductSynchronizeTask(PeriodicTask):
 
     def run(self, **kwargs):
         """
-        Runs the synchronization by fetching settings.AMAZON_PRODUCT_SYNCHRONIZE_COUNT number of products and requests their data from Amazon.
+        Runs the synchronization by fetching settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT number of products and requests their data from Amazon.
         """
         products = self.get_products_to_sync()
 
@@ -68,23 +68,23 @@ class ProductSynchronizeTask(PeriodicTask):
     def get_products_to_sync(self):
         """
         Returns the products to synchronize.
-        These are newly created products with status "0" or products that are older than settings.AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES.
+        These are newly created products with status "0" or products that are older than settings.PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES.
         :return: dictionary with the Products
         :rtype: dict
         """
         # prefer already synced products over newly created
         products = {
             p.asin: p for p in Product.objects.select_related().filter(
-                date_last_synced__lte=(timezone.now() - timedelta(minutes=settings.AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES))
+                date_last_synced__lte=(timezone.now() - timedelta(minutes=settings.PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES))
             )
         }
 
-        if len(products) < settings.AMAZON_PRODUCT_SYNCHRONIZE_COUNT:
+        if len(products) < settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT:
             # there is still some space for products to sync, append newly created if available
             products = dict(
                 products.items() + {
                     p.asin: p for p in Product.objects.select_related().filter(status=0)
-                        .order_by('date_creation')[:(settings.AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products))]
+                        .order_by('date_creation')[:(settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products))]
                 }.items()
             )
 
@@ -115,12 +115,12 @@ class ProductSynchronizeTask(PeriodicTask):
 
         if not price[0] is None:
             # get all subscriptions of product that are subscribed to the current price or a higher one and
-            # whose owners have not been notified about that particular subscription price since before settings.SUBSCRIPTION_RENOTIFICATION_MINUTES.
+            # whose owners have not been notified about that particular subscription price since before settings.PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES.
             for sub in Subscription.objects.filter(
                 Q(
                     product=product,
                     price_limit__gte=price[0],
-                    date_last_notification__lte=(timezone.now() - timedelta(minutes=settings.SUBSCRIPTION_RENOTIFICATION_MINUTES))
+                    date_last_notification__lte=(timezone.now() - timedelta(minutes=settings.PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES))
                 ) | Q(
                     product=product,
                     price_limit__gte=price[0],
