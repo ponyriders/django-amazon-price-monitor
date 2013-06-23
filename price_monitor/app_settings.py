@@ -7,6 +7,8 @@ AWS_SECRET_ACCESS_KEY = getattr(settings, 'AWS_SECRET_ACCESS_KEY', '')
 AMAZON_PRODUCT_API_REGION = getattr(settings, 'AMAZON_PRODUCT_API_REGION', '')
 AMAZON_PRODUCT_API_ASSOC_TAG = getattr(settings, 'AMAZON_PRODUCT_API_ASSOC_TAG', '')
 
+# run product synchronization every X minutes
+PRICE_MONITOR_PRODUCT_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES = getattr(settings, 'PRICE_MONITOR_PRODUCT_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES', 5)
 # number of products to throw at once against the Amazon API
 AMAZON_PRODUCT_SYNCHRONIZE_COUNT = getattr(settings, 'AMAZON_PRODUCT_SYNCHRONIZE_COUNT', 20)
 # refresh product after 12 hours

@@ -7,7 +7,7 @@ from amazon.api import (
     AsinNotFound,
     LookupException,
 )
-from celery.task import PeriodicTask
+from celery.task import PeriodicTask, Task
 from django.core.mail import send_mail
 from django.db.models import Q
 from django.utils import timezone
@@ -27,7 +27,7 @@ class ProductSynchronizeTask(PeriodicTask):
     """
     Synchronizes Products in status "Created" (0) initially with Product API.
     """
-    run_every = timedelta(minutes=5)
+    run_every = timedelta(minutes=settings.PRICE_MONITOR_PRODUCT_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES)
 
     def run(self, **kwargs):
         """
@@ -127,8 +127,8 @@ class ProductSynchronizeTask(PeriodicTask):
                     date_last_notification__isnull=True
                 )
             ):
-                # TODO use celery for this
-                self.notify_subscriber(product, price[0], price[1], sub)
+                # TODO: how to handle failed notifications?
+                NotifySubscriberTask().delay(product, price[0], price[1], sub)
 
             # create the price entry
             Price.objects.create(
@@ -138,8 +138,13 @@ class ProductSynchronizeTask(PeriodicTask):
                 product=product,
             )
 
-    # TODO: celery-ize
-    def notify_subscriber(self, product, price, currency, subscription):
+
+class NotifySubscriberTask(Task):
+    """
+    Task for notifying a single user about a product that has reached the desired price.
+    """
+
+    def run(self, product, price, currency, subscription, **kwargs):
         """
         Sends an email to the subscriber.
         :param product: the product to notify about
