@@ -24,3 +24,4 @@ class EmailNotification(models.Model):
         app_label = 'price_monitor'
         verbose_name = ugettext_lazy('Email Notification')
         verbose_name_plural = ugettext_lazy('Email Notifications')
+        ordering = ('email', )

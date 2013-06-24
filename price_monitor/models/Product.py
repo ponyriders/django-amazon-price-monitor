@@ -48,3 +48,4 @@ class Product(models.Model):
         app_label = 'price_monitor'
         verbose_name = ugettext_lazy('Product')
         verbose_name_plural = ugettext_lazy('Products')
+        ordering = ('title', 'asin', )
