@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import (
     ListView,
@@ -20,7 +21,9 @@ class ProductListAndCreateView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(ProductListAndCreateView, self).get_context_data(*args, **kwargs)
         if self.request.method == 'POST':
-            creation_form = SubscriptionCreationForm(self.request.POST)
+            post = self.request.POST.copy()
+            post.update({'owner': self.request.user.pk })
+            creation_form = SubscriptionCreationForm(post)
         else:
             creation_form = SubscriptionCreationForm()
         context['creation_form'] = creation_form
@@ -28,6 +31,10 @@ class ProductListAndCreateView(ListView):
 
     def post(self, request, *args, **kwargs):
         parent_view = super(ProductListAndCreateView, self).get(request, *args, **kwargs)
+        creation_form = parent_view.context_data['creation_form']
+        if creation_form.is_valid():
+            creation_form.save()
+            return redirect('monitor_view')
         return parent_view
 
     @method_decorator(login_required)
