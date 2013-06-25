@@ -33,7 +33,7 @@ Set the setting for selecting the Amazon region store and your associate handle:
 
 ### Celery settings
 
-To be able to run the required Celery tasks, Celery itself has to be set up.Please see the
+To be able to run the required Celery tasks, Celery itself has to be set up. Please see the
 [Celery Documentation](http://docs.celeryproject.org/en/latest/index.html) about how to setup the whole thing. You'll need a broker and a result backend
 configured.
 
@@ -132,6 +132,12 @@ This is a list of all settings that can be overwritten:
         'The price limit of %(price_limit)0.2f %(currency)s has been reached for the article "%(product_title)s" - the current price is %(price)0.2f
         %(currency)s.\n\nPlease support our platform by using this link for buying: %(link)s\n\n\nRegards,\nThe Team'
     </td>
+    <td>no</td>
+</tr>
+<tr>
+    <td>PRICE_MONITOR_ASIN_REGEX</td>
+    <td>Regular expression for validating ASINs</td>
+    <td>'[A-Z0-9]+'</td>
     <td>no</td>
 </tr>
 </table>

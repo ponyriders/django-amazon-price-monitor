@@ -1,8 +1,6 @@
 from django.conf import settings
 
 
-ASIN_SEPARATORS = [',', ';']
-
 AWS_ACCESS_KEY_ID = getattr(settings, 'AWS_ACCESS_KEY_ID', '')
 AWS_SECRET_ACCESS_KEY = getattr(settings, 'AWS_SECRET_ACCESS_KEY', '')
 AMAZON_PRODUCT_API_REGION = getattr(settings, 'AMAZON_PRODUCT_API_REGION', '')
@@ -27,3 +25,5 @@ PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY = gettext(
     '\n\nPlease support our platform by using this link for buying: %(link)s\n\n\nRegards,\nThe Team'
 )
 
+# Regex for ASIN validation
+PRICE_MONITOR_ASIN_REGEX = getattr(settings, 'PRICE_MONITOR_ASIN_REGEX', r'[A-Z0-9]+')

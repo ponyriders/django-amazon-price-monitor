@@ -4,7 +4,7 @@ from django.views.generic import (
     ListView,
 )
 
-from price_monitor.forms import MultiASINForm
+from price_monitor.forms import CustomSubscriptionForm
 from price_monitor.models import Product
 
 class ProductListAndCreateView(ListView):
@@ -19,11 +19,11 @@ class ProductListAndCreateView(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ProductListAndCreateView, self).get_context_data(*args, **kwargs)
-        if self.request.method == 'POST':
-            form = MultiASINForm(self.request.POST)
-        else:
-            form = MultiASINForm()
-        context['form'] = form
+#        if self.request.method == 'POST':
+#            form = MultiASINForm(self.request.POST)
+#        else:
+#            form = MultiASINForm()
+#        context['form'] = form
         return context
 
     def post(self, request, *args, **kwargs):
