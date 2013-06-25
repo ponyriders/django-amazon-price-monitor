@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views.generic import (
     ListView,
 )
@@ -27,3 +29,11 @@ class ProductListAndCreateView(ListView):
     def post(self, request, *args, **kwargs):
         parent_view = super(ProductListAndCreateView, self).get(request, *args, **kwargs)
         return parent_view
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        """
+        Overwritting this method the make every instance of the view
+        login_required
+        """
+        return super(ProductListAndCreateView, self).dispatch(*args, **kwargs)
