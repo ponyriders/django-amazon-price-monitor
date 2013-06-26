@@ -18,7 +18,7 @@ class Product(models.Model):
     date_last_synced = models.DateTimeField(blank=True, null=True, verbose_name=_('Date of last synchronization'))
     subscribers = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Subscription', verbose_name=_('Subscribers'))
     title = models.CharField(blank=True, null=True, max_length=255, verbose_name=_('Title'))
-    asin = models.CharField(max_length=100, verbose_name=_('ASIN'))
+    asin = models.CharField(max_length=100, unique=True, verbose_name=_('ASIN'))
     status = models.SmallIntegerField(choices=STATUS_CHOICES, default=0, verbose_name=_('Status'))
     large_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to large product image'))
     medium_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to medium product image'))
