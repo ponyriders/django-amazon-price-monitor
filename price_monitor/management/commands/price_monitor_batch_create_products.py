@@ -1,17 +1,20 @@
+from ...models import Product
+
 from django.core.management.base import BaseCommand, CommandError
 from django.utils.translation import ugettext as _
-
-from ...models import Product
 
 
 class Command(BaseCommand):
     """
     Command for batch creating of products.
     """
-    args = 'list of ASINs separated by comma'
+    args = '<List of ASINs separated by comma>'
     help = 'Creates multiple products from the given ASIN list. Skips products already in database.'
 
     def handle(self, *args, **options):
+        """
+        Batch create products from given ASIN list.
+        """
         if len(args) != 1:
             raise CommandError(_('Please specify a list of ASINs as only argument, separated by comma!'))
 
