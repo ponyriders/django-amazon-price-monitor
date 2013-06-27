@@ -101,12 +101,7 @@ class ProductSynchronizeTask(PeriodicTask):
         """
         now = timezone.now()
 
-        product.title = amazon_product.title
-        product.large_image_url = amazon_product.large_image_url
-        product.medium_image_url = amazon_product.medium_image_url
-        product.small_image_url = amazon_product.small_image_url
-        product.tiny_image_url = amazon_product.tiny_image_url
-        product.offer_url = amazon_product.offer_url
+        product.set_values_from_amazon_product(amazon_product)
         product.status = 1
         product.date_last_synced = now
         product.save()
