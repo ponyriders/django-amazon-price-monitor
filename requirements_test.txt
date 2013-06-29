@@ -1,0 +1,5 @@
+Django>=1.5
+django-discover-runner
+python-amazon-simple-product-api==1.4.0
+coverage
+flake8
