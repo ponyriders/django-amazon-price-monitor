@@ -1,5 +1,5 @@
-Django>=1.5
-django-discover-runner
-python-amazon-simple-product-api==1.4.0
+lxml
 coverage
 flake8
+django-discover-runner
+python-amazon-simple-product-api==1.4.0
