@@ -1,5 +1,3 @@
-import re
-
 from . import app_settings as settings
 from .models.Product import Product
 from .models.Subscription import Subscription
@@ -26,6 +24,7 @@ class SubscriptionCreationForm(forms.ModelForm):
             product = Product.objects.create(asin=cleaned_data['product'])
         cleaned_data['product'] = product
         return cleaned_data
+
 
 class SubscriptionUpdateForm(forms.ModelForm):
     class Meta:

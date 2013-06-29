@@ -8,6 +8,7 @@ from django.views.generic import (
 from price_monitor.forms import SubscriptionCreationForm
 from price_monitor.models import Product
 
+
 class ProductListAndCreateView(ListView):
     model = Product
 
@@ -22,7 +23,7 @@ class ProductListAndCreateView(ListView):
         context = super(ProductListAndCreateView, self).get_context_data(*args, **kwargs)
         if self.request.method == 'POST':
             post = self.request.POST.copy()
-            post.update({'owner': self.request.user.pk })
+            post.update({'owner': self.request.user.pk})
             creation_form = SubscriptionCreationForm(post)
         else:
             creation_form = SubscriptionCreationForm()

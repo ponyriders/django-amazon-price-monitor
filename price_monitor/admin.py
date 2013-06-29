@@ -36,4 +36,3 @@ admin.site.register(Price, PriceAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Subscription, SubscriptionAdmin)
 admin.site.register(EmailNotification, EmailNotificationAdmin)
-
