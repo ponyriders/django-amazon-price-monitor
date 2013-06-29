@@ -7,6 +7,11 @@ Relies on python-amazon-simple-product-api under the hood.
 
 ## Setup
 
+### Prerequisites
+
+- Python 2.7
+- Django 1.5
+
 ### Basic setup
 
 Add the app "price_monitor" to *INSTALLED_APPS*:
