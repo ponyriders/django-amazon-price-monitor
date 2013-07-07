@@ -26,4 +26,4 @@ PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY = gettext(
 )
 
 # Regex for ASIN validation
-PRICE_MONITOR_ASIN_REGEX = getattr(settings, 'PRICE_MONITOR_ASIN_REGEX', r'[A-Z0-9]+')
+PRICE_MONITOR_ASIN_REGEX = getattr(settings, 'PRICE_MONITOR_ASIN_REGEX', r'[A-Z0-9]\-+')
