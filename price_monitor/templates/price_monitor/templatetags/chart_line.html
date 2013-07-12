@@ -18,8 +18,8 @@
             chart_{{ id }}.noData('{% trans "No price data available." %}');
             chart_{{ id }}.showLegend(false);
             chart_{{ id }}.showXAxis(false);
-            chart_{{ id }}.showYAxis({% if show_yaxis %}true{% else %}false{% endif %});
-            {% if show_yaxis %}chart.yAxis.axisLabel('{% trans "Price" %}').tickFormat(d3.format(',.2f'));{% endif %}
+            chart_{{ id }}.showYAxis({% if show_y_axis %}true{% else %}false{% endif %});
+            {% if show_y_axis %}chart.yAxis.axisLabel('{% trans "Price" %}').tickFormat(d3.format(',.2f'));{% endif %}
             chart_{{ id }}.tooltipContent(function(key, x, y, e, graph) {
                 return y + ' € {% trans "at" %} ' + e.point.x;
             });
