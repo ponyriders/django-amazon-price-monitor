@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils import formats
 from django.utils.translation import ugettext as _, ugettext_lazy
 
 
@@ -48,6 +49,15 @@ class Product(models.Model):
     small_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to small product image'))
     tiny_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to tiny product image'))
     offer_url = models.URLField(blank=True, null=True, verbose_name=_('URL to the offer'))
+
+    def get_prices_for_chart(self):
+        """
+        Returns all prices of the product.
+        :return: list
+        """
+        # TODO: be able to specify a range, like last 100 days
+        # TODO: don't select all prices, but a representive representation, like each 5th price aso
+        return [{'x': str(formats.date_format(p.date_seen, 'SHORT_DATETIME_FORMAT')), 'y': p.value} for p in self.price_set.all().order_by('date_seen')]
 
     def set_values_from_amazon_product(self, amazon_product):
         """

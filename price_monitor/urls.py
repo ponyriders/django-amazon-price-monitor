@@ -4,4 +4,5 @@ from price_monitor.views import ProductListAndCreateView
 
 urlpatterns = patterns('',
     url(r'^$', ProductListAndCreateView.as_view(), name='monitor_view'),
+    url(r'^charts-demo/$', 'price_monitor.views.charts_demo_view', name='charts_demo_view'),
 )

@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render_to_response
 from django.utils.decorators import method_decorator
 from django.views.generic import (
     ListView,
@@ -45,3 +45,19 @@ class ProductListAndCreateView(ListView):
         login_required
         """
         return super(ProductListAndCreateView, self).dispatch(*args, **kwargs)
+
+
+def charts_demo_view(request):
+    """
+    Demo view for displaying charts.
+    :param request: the incoming request
+    :return: the final response
+    :type request: HttpRequest
+    :rtype: HttpResponse
+    """
+    return render_to_response(
+        'price_monitor/charts_demo.html',
+        {
+            'products': Product.objects.all().order_by('?')[0:20],
+        }
+    )
