@@ -1,4 +1,5 @@
 from . import app_settings as settings
+from .models.EmailNotification import EmailNotification
 from .models.Product import Product
 from .models.Subscription import Subscription
 
@@ -7,7 +8,25 @@ from django.utils.translation import ugettext as _
 
 
 class SubscriptionCreationForm(forms.ModelForm):
+    """
+    Form for creating an product Subscription
+    """
     product = forms.RegexField(label=_('ASIN'), regex=settings.PRICE_MONITOR_ASIN_REGEX)
+    email_notification = forms.ModelChoiceField(queryset=EmailNotification.objects.all(), empty_label=None)
+
+    def clean_product(self):
+        """
+        At creation, user gives an ASIN. But for saving the model, a product
+        instance is needed. So this product is looked up or created if not
+        present here.
+        """
+        asin = self.cleaned_data['product']
+        try:
+            product = Product.objects.get(asin=asin)
+        except Product.DoesNotExist:
+            product = Product.objects.create(asin=asin)
+        asin = product
+        return asin
 
     class Meta:
         fields = ('product', 'email_notification', 'price_limit', 'owner')
@@ -15,15 +34,6 @@ class SubscriptionCreationForm(forms.ModelForm):
         widgets = {
             'owner': forms.HiddenInput(),
         }
-
-    def clean(self):
-        cleaned_data = super(SubscriptionCreationForm, self).clean()
-        try:
-            product = Product.objects.get(asin=cleaned_data['product'])
-        except Product.DoesNotExist:
-            product = Product.objects.create(asin=cleaned_data['product'])
-        cleaned_data['product'] = product
-        return cleaned_data
 
 
 class SubscriptionUpdateForm(forms.ModelForm):
