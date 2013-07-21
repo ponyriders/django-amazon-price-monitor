@@ -17,7 +17,7 @@ from .models import (
 
 class BaseListAndCreateView(ListView):
     """
-    Abstract base view for ProductListAndCreationView and 
+    Abstract base view for ProductListAndCreationView and
     EmailNotificationListAndCreateView as do nearly the same underneath
     """
 
@@ -83,7 +83,7 @@ class BaseListAndCreateView(ListView):
         :param args: positional arguments
         :param kwargs: keyword arguments
         :return: Result of super method. As this dispatches the handling method
-        for the incoming request and calls it, the return is a HttpResponse 
+        for the incoming request and calls it, the return is a HttpResponse
         object
         :type args: List
         :type kwargs: Dict
