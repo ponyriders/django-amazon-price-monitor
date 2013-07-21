@@ -64,3 +64,20 @@ class ProductListAndCreateView(BaseListAndCreateView):
     def get_queryset(self):
         qs = super(ProductListAndCreateView, self).get_queryset()
         return qs.filter(subscription__owner=self.request.user.pk)
+
+
+@login_required
+def charts_demo_view(request):
+    """
+    Demo view for displaying charts.
+    :param request: the incoming request
+    :return: the final response
+    :type request: HttpRequest
+    :rtype: HttpResponse
+    """
+    return render_to_response(
+        'price_monitor/charts_demo.html',
+        {
+            'products': Product.objects.all().order_by('?')[0:20],
+        }
+    )
