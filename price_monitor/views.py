@@ -93,11 +93,23 @@ class BaseListAndCreateView(ListView):
 
 
 class ProductListAndCreateView(BaseListAndCreateView):
+    """
+    View based on BaseListAndCreateView for displaying subscripted products
+    and create new subscriptions
+    """
+
+    # The model, that is listed. As we don't want to see Subscriptions, this is
+    # Product
     list_model = Product
+    # The model to be created. As Product instances are created on the fly,
+    # we create only Subscriptions
     create_model = Subscription
+    # The form class for creation
     create_form = SubscriptionCreationForm
+    # The formset class for creation
     create_formset = SubscriptionModelFormset
 
+    # The template name for rendering
     template_name = 'price_monitor/product_list_and_create.html'
     template_name_suffix = ''
 
