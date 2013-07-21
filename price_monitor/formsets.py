@@ -15,7 +15,6 @@ class SubscriptionModelFormset(BaseModelFormSet):
         """
         super(SubscriptionModelFormset, self).__init__(*args, **kwargs)
         self.user = user
-        self.queryset = self.queryset.filter(owner=self.user)
         notifications = EmailNotification.objects.filter(owner=self.user)
 
         for form in self.forms:
