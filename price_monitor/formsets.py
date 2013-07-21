@@ -2,6 +2,7 @@ from django.forms.models import BaseModelFormSet
 
 from .models.EmailNotification import EmailNotification
 
+
 class SubscriptionModelFormset(BaseModelFormSet):
     """
     Formset helper class for custom filtering operations on form fields
