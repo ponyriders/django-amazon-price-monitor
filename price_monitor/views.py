@@ -17,7 +17,7 @@ from .models import (
 class ProductListAndCreateView(ListView):
     model = Product
 
-    template_name = 'price_monitor/list_and_create.html'
+    template_name = 'price_monitor/product_list_and_create.html'
     template_name_suffix = ''
 
     def get_queryset(self):
