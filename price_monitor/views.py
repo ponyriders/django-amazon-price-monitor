@@ -16,13 +16,33 @@ from .models import (
 
 
 class BaseListAndCreateView(ListView):
+    """
+    Abstract base view for ProductListAndCreationView and 
+    EmailNotificationListAndCreateView as do nearly the same underneath
+    """
 
     def __init__(self, *args, **kwargs):
+        """
+        Overwritten init method sets list model as model for ListView
+        :param args: positional arguments
+        :param kwargs: keyword arguments
+        :type args: List
+        :type kwargs: Dict
+        """
         self.model = self.list_model
 
         super(BaseListAndCreateView, self).__init__(*args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
+        """
+        Extends base context with formular context
+        :param args: positional arguments
+        :param kwargs: keyword arguments
+        :return: updated context with formular data
+        :type args: List
+        :type kwargs: Dict
+        :rtype: Dict
+        """
         context = super(BaseListAndCreateView, self).get_context_data(*args, **kwargs)
         creation_formset_class = modelformset_factory(model=self.create_model, formset=self.create_formset, form=self.create_form)
         if self.request.method == 'POST':
@@ -36,6 +56,18 @@ class BaseListAndCreateView(ListView):
         return context
 
     def post(self, request, *args, **kwargs):
+        """
+        Represents the post view. Redirects to monitor_view if form is valid,
+        else renders form with errors
+        :param request: Incoming HttpRequest
+        :param args: positional arguments
+        :param kwargs: keyword arguments
+        :return: HttpResponse object
+        :type request: HttpRequest
+        :type args: List
+        :type kwargs: Dict
+        :rtype: HttpResponse
+        """
         parent_view = super(BaseListAndCreateView, self).get(request, *args, **kwargs)
         creation_formset = parent_view.context_data['creation_formset']
         if creation_formset.is_valid():
@@ -48,6 +80,14 @@ class BaseListAndCreateView(ListView):
         """
         Overwritting this method the make every instance of the view
         login_required
+        :param args: positional arguments
+        :param kwargs: keyword arguments
+        :return: Result of super method. As this dispatches the handling method
+        for the incoming request and calls it, the return is a HttpResponse 
+        object
+        :type args: List
+        :type kwargs: Dict
+        :rtype: HttpResponse
         """
         return super(BaseListAndCreateView, self).dispatch(*args, **kwargs)
 
