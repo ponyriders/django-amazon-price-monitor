@@ -76,6 +76,7 @@ class ProductSynchronizeTask(PeriodicTask):
         # prefer already synced products over newly created
         products = {
             p.asin: p for p in Product.objects.select_related().filter(
+                subscription__isnull=False,
                 date_last_synced__lte=(timezone.now() - timedelta(minutes=settings.PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES))
             )
         }
