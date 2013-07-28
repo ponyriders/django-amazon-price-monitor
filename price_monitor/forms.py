@@ -44,3 +44,11 @@ class SubscriptionUpdateForm(forms.ModelForm):
             'owner': forms.HiddenInput(),
             'product': forms.TextInput(attrs={'readonly': True}),
         }
+
+class EmailNotificationForm(forms.ModelForm):
+    class Meta:
+        fields = ('email', 'owner')
+        model = EmailNotification
+        widgets = {
+            'owner': forms.HiddenInput(),
+        }
