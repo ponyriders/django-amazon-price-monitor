@@ -45,6 +45,7 @@ class SubscriptionUpdateForm(forms.ModelForm):
             'product': forms.TextInput(attrs={'readonly': True}),
         }
 
+
 class EmailNotificationForm(forms.ModelForm):
     class Meta:
         fields = ('email', 'owner')
