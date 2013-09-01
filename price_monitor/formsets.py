@@ -19,3 +19,10 @@ class SubscriptionModelFormset(BaseModelFormSet):
 
         for form in self.forms:
             form.fields['email_notification'].queryset = notifications
+
+
+class EmailNotificationFormset(BaseModelFormSet):
+    """
+    Formset class needed for views. Does nothing specific
+    """
+    pass
