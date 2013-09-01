@@ -13,6 +13,7 @@ from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 from datetime import timedelta
+from itertools import islice
 from price_monitor.models import (
     Price,
     Product,
@@ -34,14 +35,19 @@ class ProductSynchronizeTask(PeriodicTask):
         """
         Runs the synchronization by fetching settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT number of products and requests their data from Amazon.
         """
-        products = self.get_products_to_sync()
+        products, recall = self.get_products_to_sync()
 
         # exit if there is no food
         if len(products) == 0:
             logger.info('No products to sync.')
             return
         else:
-            logger.info('Syncing %(count)d products.' % {'count': len(products)})
+            logger.info(
+                'Syncing %(count)d products. %(recall)s' % {
+                    'count': len(products),
+                    'recall': 'Still more products available to sync.' if recall else 'No more products to sync there.'
+                }
+            )
 
         try:
             lookup = get_api().lookup(ItemId=','.join(products.keys()))
@@ -66,12 +72,16 @@ class ProductSynchronizeTask(PeriodicTask):
             for amazon_product in lookup:
                 self.sync_product(amazon_product, products[amazon_product.asin])
 
+            # finally, if there are more products that can be synchronized, recall the task
+            if recall:
+                self.apply_async(countdown=120)
+
     def get_products_to_sync(self):
         """
         Returns the products to synchronize.
         These are newly created products with status "0" or products that are older than settings.PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES.
-        :return: dictionary with the Products
-        :rtype: dict
+        :return: tuple with 0: dictionary with the Products and 1: if there are still products that need to be synced
+        :rtype: tuple
         """
         # prefer already synced products over newly created
         products = {
@@ -81,16 +91,32 @@ class ProductSynchronizeTask(PeriodicTask):
             )
         }
 
+        # there is still some space for products to sync, append newly created if available
         if len(products) < settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT:
-            # there is still some space for products to sync, append newly created if available
-            products = dict(
-                products.items() + {
-                    p.asin: p for p in Product.objects.select_related().filter(status=0)
-                        .order_by('date_creation')[:(settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products))]
-                }.items()
+            return (
+                dict(
+                    products.items() + {
+                        p.asin: p for p in Product.objects.select_related().filter(status=0)
+                            .order_by('date_creation')[:(settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products))]
+                    }.items()
+                ),
+                # set recall to true if there are more unsynched products than already included
+                Product.objects.select_related().filter(status=0).count() > settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products)
             )
+        else:
+            def take(n, iterable):
+                """
+                Takes n elements out of the given iterable.
+                :param n: number of elements to take
+                :type n: int
+                :param iterable; the iterable dict
+                :type iterable: dictionary-itemiterator
+                :returns: the resized dictionary
+                :rtype : dict
+                """
+                return dict(list(islice(iterable, n)))
 
-        return products
+            return take(settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT, products.iteritems()), True
 
     def sync_product(self, amazon_product, product):
         """
