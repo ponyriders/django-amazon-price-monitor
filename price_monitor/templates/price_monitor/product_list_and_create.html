@@ -1,5 +1,5 @@
 {% extends 'price_monitor/base.html' %}
-{% load i18n static %}
+{% load i18n price_monitor_util static %}
 
 {% block header %}Amazon Prize Monitor{% endblock %}
 
@@ -8,14 +8,23 @@
     <h3>{% trans 'Already monitored products' %}</h3>
     <div class="accordion" id="product-list">
         {% for product in product_list %}
-            <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#product-list" href="#{{ product.asin }}">
-                    {{ product.title }}
-                </a>
-            </div>
-            <div id="{{ product.asin }}" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <img src="{{ product.large_image_url }}" />
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#{{ product.asin }}">{{ product.title }}</a>
+                        </div>
+                        <div class="col-xs-4">
+                            {% with price=price_list|get:product.asin %}
+                                <span class="pull-right">{{ price.value }} {{ price.currency}} ({{ price.date_seen }})</span>
+                            {% endwith %}
+                        </div>
+                    </div>
+                </div>
+                <div id="{{ product.asin }}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <img src="{{ product.large_image_url }}" />
+                    </div>
                 </div>
             </div>
         {% endfor %}

@@ -10,6 +10,7 @@ from django.views.generic import (
 from .forms import SubscriptionCreationForm
 from .formsets import SubscriptionModelFormset
 from .models import (
+    Price,
     Product,
     Subscription,
 )
@@ -53,6 +54,12 @@ class BaseListAndCreateView(ListView):
         else:
             creation_formset = creation_formset_class(user=self.request.user, queryset=QuerySet(model=self.model).none())
         context['creation_formset'] = creation_formset
+        context['price_list'] = {}
+        for product in context['product_list']:
+            try:
+                context['price_list'][product.asin] = product.price_set.latest()
+            except Price.DoesNotExist:
+                pass
         return context
 
     def post(self, request, *args, **kwargs):
