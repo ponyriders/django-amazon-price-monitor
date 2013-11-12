@@ -22,6 +22,7 @@ class Price(models.Model):
 
     class Meta:
         app_label = 'price_monitor'
+        get_latest_by = 'date_seen'
         verbose_name = ugettext_lazy('Price')
         verbose_name_plural = ugettext_lazy('Prices')
-        ordering = ('date_seen', )
+        ordering = ('date_seen',)
