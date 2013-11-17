@@ -1,5 +1,5 @@
 {% extends 'price_monitor/base.html' %}
-{% load i18n price_monitor_util static %}
+{% load i18n l10n price_monitor_util static %}
 
 {% block header %}Amazon Prize Monitor{% endblock %}
 
@@ -16,7 +16,7 @@
                         </div>
                         <div class="col-xs-4">
                             {% with price=price_list|get:product.asin %}
-                                <span class="pull-right">{{ price.value }} {{ price.currency}} ({{ price.date_seen }})</span>
+                                {% if price %}<span class="pull-right">{{ price.value|floatformat:2 }} {{ price.currency }} ({{ price.date_seen|localize }})</span>{% endif %}
                             {% endwith %}
                         </div>
                     </div>
