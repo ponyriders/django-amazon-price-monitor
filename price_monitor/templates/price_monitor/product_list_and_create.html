@@ -32,20 +32,20 @@
 {% endif %}
 
 <h3>{% trans 'Add new products' %}</h3>
-<form class="form-inline" method="POST" action=".">
+<form class="form-inline" role="form" method="POST" action=".">
     {% csrf_token %}
     {{ creation_formset.management_form }}
     {% for form in creation_formset %}
         {% if forloop.first %}
             <div class="row">
                 {% for field in form.visible_fields %}
-                    <div class="span4"><h5>{{ field.label }}</h5></div>
+                    <div class="col-md-4"><h5>{{ field.label }}</h5></div>
                 {% endfor %}
             </div>
         {% endif %}
         <div class="row">
             {% for field in form.visible_fields %}
-                <div class="span4 control-group{% if form.errors or field.errors %} error{% endif %}">
+                <div class="col-md-4 control-group{% if form.errors or field.errors %} error{% endif %}">
                     <div class="controls">
                         {{ field }}
                         {% for error in field.errors %}
