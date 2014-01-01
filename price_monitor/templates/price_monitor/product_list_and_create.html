@@ -39,13 +39,14 @@
         {% if forloop.first %}
             <div class="row">
                 {% for field in form.visible_fields %}
-                    <div class="col-md-4"><h5>{{ field.label }}</h5></div>
+                    <div class="col-md-3"><h5>{{ field.label }}</h5></div>
                 {% endfor %}
+                <div class="col-md-3">&nbsp;</div>
             </div>
         {% endif %}
         <div class="row">
             {% for field in form.visible_fields %}
-                <div class="col-md-4 control-group{% if form.errors or field.errors %} error{% endif %}">
+                <div class="col-md-3 control-group{% if form.errors or field.errors %} error{% endif %}">
                     <div class="controls">
                         {{ field }}
                         {% for error in field.errors %}
@@ -54,10 +55,10 @@
                     </div>
                 </div>
             {% endfor %}
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary">{% trans 'Monitor ASINs' %}</button>
+            </div>
         </div>
     {% endfor %}
-    <div class="form-actions">
-        <button type="submit" class="btn btn-primary">{% trans 'Monitor ASINs' %}</button>
-    </div>
 </form>
 {% endblock %}

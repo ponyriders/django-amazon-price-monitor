@@ -1,0 +1,4 @@
+form.form-inline input,
+form.form-inline select {
+    width: 100%;
+}
