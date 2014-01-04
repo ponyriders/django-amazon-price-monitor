@@ -1,7 +1,12 @@
 {% extends 'price_monitor/base.html' %}
-{% load i18n l10n price_monitor_util static %}
+{% load i18n l10n price_monitor_charts price_monitor_util static %}
 
 {% block header %}Amazon Prize Monitor{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    {% charts_load_js_amd_css 'line' %}
+{% endblock %}
 
 {% block content %}
 {% if product_list %}
@@ -26,7 +31,11 @@
                 </div>
                 <div id="{{ product.asin }}" class="panel-collapse collapse">
                     <div class="panel-body">
-                        <img src="{{ product.large_image_url }}" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                {% chart_line '280px' '160px' product.get_prices_for_chart 0 product.title '#62a9ff' %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
