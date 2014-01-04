@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import (
     ListView,
 )
+import pdb
 
 from .forms import SubscriptionCreationForm
 from .formsets import SubscriptionModelFormset
@@ -50,7 +51,7 @@ class BaseListAndCreateView(ListView):
             post = self.request.POST.copy()
             for i in range(int(self.request.POST.get('form-TOTAL_FORMS', 1000))):
                 post.update({'form-%s-owner' % i: self.request.user.id})
-            creation_formset = creation_formset_class(self.request.user, post)
+            creation_formset = creation_formset_class(user=self.request.user, data=post)
         else:
             creation_formset = creation_formset_class(user=self.request.user, queryset=QuerySet(model=self.model).none())
         context['creation_formset'] = creation_formset

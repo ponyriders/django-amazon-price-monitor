@@ -1,4 +1,20 @@
+#empty-line {
+    display: none;
+}
+
+form.form-inline .glyphicon {
+    cursor: pointer;
+}
+
+form.form-inline .row {
+    padding: 5px 0;
+}
+
 form.form-inline input,
 form.form-inline select {
     width: 100%;
+}
+
+form.form-inline #form-add-button {
+    margin-left: 5px;
 }

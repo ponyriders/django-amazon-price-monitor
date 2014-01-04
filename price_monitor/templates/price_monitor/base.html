@@ -18,6 +18,8 @@
         </div>
         <script src="{% get_static_prefix %}price_monitor/js/jquery-2.0.2.min.js"></script>
         <script src="{% get_static_prefix %}price_monitor/bootstrap/js/bootstrap.min.js"></script>
-        {% block js %}{% endblock %}
+        {% block js %}
+            <script src="{% get_static_prefix %}price_monitor/js/inline-form.js"></script>
+        {% endblock %}
     </body>
 </html>

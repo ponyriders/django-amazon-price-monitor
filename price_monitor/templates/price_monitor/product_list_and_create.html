@@ -38,18 +38,31 @@
 <form class="form-inline" role="form" method="POST" action=".">
     {% csrf_token %}
     {{ creation_formset.management_form }}
+
+    <div id="empty-line" class="row form-line">
+        {% for field in creation_formset.empty_form.visible_fields %}
+            <div class="col-md-{% if forloop.last %}3{% else %}4{% endif %} control-group">
+                <div class="controls">
+                    {{ field }}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="col-md-1 form-remove-button">
+            <span class="glyphicon glyphicon-minus"></span>
+        </div>
+    </div>
+
     {% for form in creation_formset %}
         {% if forloop.first %}
             <div class="row">
                 {% for field in form.visible_fields %}
-                    <div class="col-md-3"><h5>{{ field.label }}</h5></div>
+                    <div class="col-md-{% if forloop.last %}3{% else %}4{% endif %}"><h5>{{ field.label }}</h5></div>
                 {% endfor %}
-                <div class="col-md-3">&nbsp;</div>
             </div>
         {% endif %}
-        <div class="row">
+        <div class="row form-line">
             {% for field in form.visible_fields %}
-                <div class="col-md-3 control-group{% if form.errors or field.errors %} error{% endif %}">
+                <div class="col-md-{% if forloop.last %}3{% else %}4{% endif %} control-group{% if form.errors or field.errors %} error{% endif %}">
                     <div class="controls">
                         {{ field }}
                         {% for error in field.errors %}
@@ -58,10 +71,19 @@
                     </div>
                 </div>
             {% endfor %}
-            <div class="col-md-3">
-                <button type="submit" class="btn btn-primary">{% trans 'Monitor ASINs' %}</button>
+            <div class="col-md-1 form-remove-button{% if forloop.first and forloop.last %} hidden{% endif %}">
+                <span class="glyphicon glyphicon-minus"></span>
             </div>
         </div>
     {% endfor %}
+
+    <div class="row">
+        <div class="col-md-10">
+            <span id="form-add-button" class="glyphicon glyphicon-plus"></span>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">{% trans 'Monitor ASINs' %}</button>
+        </div>
+    </div>
 </form>
 {% endblock %}
