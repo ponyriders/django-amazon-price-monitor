@@ -6,7 +6,6 @@ from django.utils.decorators import method_decorator
 from django.views.generic import (
     ListView,
 )
-import pdb
 
 from .forms import SubscriptionCreationForm
 from .formsets import SubscriptionModelFormset
