@@ -56,7 +56,7 @@ class Product(models.Model):
         :return: list
         """
         # TODO: be able to specify a range, like last 100 days
-        # TODO: don't select all prices, but a representive representation, like each 5th price aso
+        # TODO: don't select all prices, but a representative representation, like each 5th price aso
         return [{'x': str(formats.date_format(p.date_seen, 'SHORT_DATETIME_FORMAT')), 'y': p.value} for p in self.price_set.all().order_by('date_seen')]
 
     def set_values_from_amazon_product(self, amazon_product):
