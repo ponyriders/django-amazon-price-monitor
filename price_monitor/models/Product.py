@@ -1,7 +1,11 @@
+from .. import app_settings
+
 from django.conf import settings
 from django.db import models
 from django.utils import formats
 from django.utils.translation import ugettext as _, ugettext_lazy
+
+from urlparse import urljoin, urlparse
 
 
 class Product(models.Model):
@@ -66,10 +70,10 @@ class Product(models.Model):
         :type amazon_product: amazon.api.AmazonProduct
         """
         self.title = amazon_product.title
-        self.large_image_url = amazon_product.large_image_url
-        self.medium_image_url = amazon_product.medium_image_url
-        self.small_image_url = amazon_product.small_image_url
-        self.tiny_image_url = amazon_product.tiny_image_url
+        self.large_image_url = self.__get_image_url(amazon_product.large_image_url)
+        self.medium_image_url = self.__get_image_url(amazon_product.medium_image_url)
+        self.small_image_url = self.__get_image_url(amazon_product.small_image_url)
+        self.tiny_image_url = self.__get_image_url(amazon_product.tiny_image_url)
         self.offer_url = amazon_product.offer_url
         self.isbn = amazon_product.isbn
         self.eisbn = amazon_product.eisbn
@@ -92,6 +96,18 @@ class Product(models.Model):
         """
         self.status = 2
         self.save()
+
+    @staticmethod
+    def __get_image_url(url):
+        """
+        Returns the correct image url depending on the settings. Will either be a HTTP or HTTPS host.
+        :param url: the original (HTTP) image url
+        :return: the adjusted image url if SSL is enabled
+        """
+        if url is None or not app_settings.PRICE_MONITOR_IMAGES_USE_SSL:
+            return url
+        else:
+            return urljoin(app_settings.PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN, urlparse(url).path)
 
     def __unicode__(self):
         """

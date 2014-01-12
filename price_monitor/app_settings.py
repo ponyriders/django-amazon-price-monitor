@@ -27,3 +27,8 @@ PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY = gettext(
 
 # Regex for ASIN validation
 PRICE_MONITOR_ASIN_REGEX = getattr(settings, 'PRICE_MONITOR_ASIN_REGEX', r'[A-Z0-9\-]+')
+
+# serve the product images via HTTPS
+PRICE_MONITOR_IMAGES_USE_SSL = getattr(settings, 'PRICE_MONITOR_IMAGES_USE_SSL', True)
+# HTTPS host to use for getting the images. Seems to be https://images-<REGION>.ssl-images-amazon.com.
+PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN = getattr(settings, 'PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN', 'https://images-eu.ssl-images-amazon.com')
