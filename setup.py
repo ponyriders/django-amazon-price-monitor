@@ -13,7 +13,9 @@ setup(
     packages=['price_monitor'],
     long_description=open('README.md').read(),
     install_requires=[
+        'Django>=1.5,<1.7',
         'python-amazon-simple-product-api==1.4.0',
+        'celery>=3',
     ],
     dependency_links=[
     ]
