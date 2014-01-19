@@ -28,7 +28,7 @@ class Command(BaseCommand):
         Searches for a product with the given ASIN.
         """
         if len(args) != 1:
-            raise CommandError(_('Please specify a single ASINs as only argument!'))
+            raise CommandError(_('Please specify a single ASIN as only argument!'))
 
         try:
             product = get_api().lookup(ItemId=args[0])

@@ -116,7 +116,7 @@ class Product(models.Model):
         :rtype: unicode
         """
         return u'%(name)s (ASIN: %(asin)s)' % {
-            'name': self.title if self.title is not None and len(self.title) > 0 else _('Unsynced Product'),
+            'name': self.title if self.title is not None and len(self.title) > 0 else _('Unsynchronized Product'),
             'asin': self.asin,
         }
 
