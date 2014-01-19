@@ -1,4 +1,6 @@
 # flake8: noqa
+import os
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -21,6 +23,6 @@ def synchronize_product_after_creation(sender, instance, created, **kwargs):
     :param kwargs: additional keywords arguments, see https://docs.djangoproject.com/en/1.6/ref/signals/#django.db.models.signals.post_save
     :type kwargs: dict
     """
-    if created:
+    if created and os.environ.get('STAGE', 'Live') != 'TravisCI':
         from price_monitor.tasks import ProductSynchronizeTask
         ProductSynchronizeTask().delay(instance)
