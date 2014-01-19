@@ -28,6 +28,8 @@ logger = logging.getLogger('price_monitor')
 class ProductSynchronizationMixin(object):
     """
     Mixin encapsulating the functionality to update a product.
+    Used by the tasks:
+    - ProductsSynchronizeTask (Periodic)
     """
 
     @staticmethod
@@ -119,11 +121,11 @@ class ProductSynchronizationMixin(object):
             return take(settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT, products.iteritems()), True
 
 
-class ProductSynchronizeTask(PeriodicTask, ProductSynchronizationMixin):
+class ProductsSynchronizeTask(PeriodicTask, ProductSynchronizationMixin):
     """
     Synchronizes Products in status "Created" (0) initially with Product API.
     """
-    run_every = timedelta(minutes=settings.PRICE_MONITOR_PRODUCT_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES)
+    run_every = timedelta(minutes=settings.PRICE_MONITOR_PRODUCTS_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES)
 
     def run(self, **kwargs):
         """
