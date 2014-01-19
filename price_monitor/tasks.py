@@ -173,6 +173,30 @@ class ProductsSynchronizeTask(PeriodicTask, ProductSynchronizationMixin):
                 self.apply_async(countdown=120)
 
 
+class ProductSynchronizeTask(Task, ProductSynchronizationMixin):
+    """
+    Task for synchronizing a single product.
+    """
+
+    def run(self, product, **kwargs):
+        """
+        Queries the API with the ASIN of the given product and synchronizes the fields.
+        :param product: the base Product to use
+        :type product: price_monitor.model.Product
+        """
+        logger.info('synchronizing Product with ASIN %(asin)s' % {'asin': product.asin})
+
+        try:
+            lookup = get_api().lookup(ItemId=product.asin)
+        except (LookupException, AsinNotFound):
+            logger.exception('Unable to synchronize product with ASIN %(asin)s' % {'asin': product.asin})
+            product.set_failed_to_sync()
+        except UnicodeEncodeError:
+            logger.exception('Unable to communicate with Amazon, the access key is probably not allowed to fetch Product API.')
+        else:
+            self.sync_product(lookup, product)
+
+
 class NotifySubscriberTask(Task):
     """
     Task for notifying a single user about a product that has reached the desired price.
