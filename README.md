@@ -164,3 +164,8 @@ There is a management command to batch create a number of products by providing 
 
 The app uses the logger "price_monitor" to log error and info messages.
 Please see the [Django logging documentation](https://docs.djangoproject.com/en/1.5/topics/logging/ "Django logging documentation") for how to setup loggers.
+
+
+## Models
+
+![Model Graph](https://github.com/ponyriders/django-amazon-price-monitor/raw/master/models.png "Model Graph")
