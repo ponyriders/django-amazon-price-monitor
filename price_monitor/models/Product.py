@@ -109,6 +109,14 @@ class Product(models.Model):
         else:
             return urljoin(app_settings.PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN, urlparse(url).path)
 
+    def get_graph_cache_key(self):
+        """
+        Returns cache key used for caching the price graph
+        :return: the cache key
+        :rtype:  str
+        """
+        return 'graph-%s-%s' % (self.asin, self.date_last_synced.isoformat())
+
     def __unicode__(self):
         """
         Returns the unicode representation of the Product.

@@ -1,5 +1,5 @@
 {% extends 'price_monitor/base.html' %}
-{% load i18n l10n price_monitor_charts price_monitor_util static %}
+{% load cache i18n l10n price_monitor_charts price_monitor_util static %}
 
 {% block header %}Amazon Price Monitor{% endblock %}
 
@@ -33,7 +33,9 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                {% chart_line '1000px' '160px' product.get_prices_for_chart 0 product.title '#62a9ff' %}
+                                {% cache 86400 graph product.get_graph_cache_key %}
+                                    {% chart_line '1050px' '200px' product.get_prices_for_chart 0 product.title '#62a9ff' %}
+                                {% endcache %}
                             </div>
                         </div>
                     </div>
