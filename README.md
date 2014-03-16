@@ -10,7 +10,8 @@ Relies on python-amazon-simple-product-api under the hood.
 ### Prerequisites
 
 - Python 2.7
-- Django 1.5
+- Django >= 1.5
+- Celery >= 3
 
 ### Basic setup
 
@@ -45,13 +46,17 @@ configured.
 
 The following tasks are consumed:
 
-#### ProductSynchronizeTask (PeriodicTask)
+#### ProductsSynchronizeTask (PeriodicTask)
 
 This is the Celery task responsible for the synchronization of products:
 
 Syncs the products initially created with only the ASIN and updates products with a last synchronization date older than
 settings.PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES (number of minutes). Prices for these products are created, too.
-Runs by default every 5 minutes, overwrite the run time by setting the PRICE_MONITOR_PRODUCT_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES setting.
+Runs by default every 5 minutes, overwrite the run time by setting the PRICE_MONITOR_PRODUCTS_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES setting.
+
+#### ProductSynchronizeTask (Task)
+
+A task for synchronizing a single product. Is called after the creation of new product.
 
 #### NotifySubscriberTask (Task)
 Sends out an email to a single subscriber of a product that has reached the price limit. Is called through ProductSynchronizeTask.
@@ -159,3 +164,8 @@ There is a management command to batch create a number of products by providing 
 
 The app uses the logger "price_monitor" to log error and info messages.
 Please see the [Django logging documentation](https://docs.djangoproject.com/en/1.5/topics/logging/ "Django logging documentation") for how to setup loggers.
+
+
+## Models
+
+![Model Graph](https://github.com/ponyriders/django-amazon-price-monitor/raw/master/models.png "Model Graph")

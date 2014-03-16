@@ -20,6 +20,4 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(TEST_DIR, 'static')
 
-TEST_RUNNER = 'discover_runner.DiscoverRunner'
-
 SECRET_KEY = 'F(fxm_9aKa9F_7e$!U1can%;%qc9A[.Jcx2lVCwWo3}*DL,y?H'

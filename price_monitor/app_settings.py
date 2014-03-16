@@ -7,7 +7,7 @@ AMAZON_PRODUCT_API_REGION = getattr(settings, 'AMAZON_PRODUCT_API_REGION', '')
 AMAZON_PRODUCT_API_ASSOC_TAG = getattr(settings, 'AMAZON_PRODUCT_API_ASSOC_TAG', '')
 
 # run product synchronization every X minutes
-PRICE_MONITOR_PRODUCT_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES = getattr(settings, 'PRICE_MONITOR_PRODUCT_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES', 5)
+PRICE_MONITOR_PRODUCTS_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES = getattr(settings, 'PRICE_MONITOR_PRODUCTS_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES', 5)
 # number of products to throw at once against the Amazon API
 PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT = getattr(settings, 'PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT', 20)
 # refresh product after 12 hours
@@ -27,3 +27,8 @@ PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY = gettext(
 
 # Regex for ASIN validation
 PRICE_MONITOR_ASIN_REGEX = getattr(settings, 'PRICE_MONITOR_ASIN_REGEX', r'[A-Z0-9\-]+')
+
+# serve the product images via HTTPS
+PRICE_MONITOR_IMAGES_USE_SSL = getattr(settings, 'PRICE_MONITOR_IMAGES_USE_SSL', True)
+# HTTPS host to use for getting the images. Seems to be https://images-<REGION>.ssl-images-amazon.com.
+PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN = getattr(settings, 'PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN', 'https://images-eu.ssl-images-amazon.com')
