@@ -11,6 +11,9 @@
 {% block content %}
 {% if product_list %}
     <h3>{% trans 'Already monitored products' %}</h3>
+
+    {% pagination %}
+
     <div class="accordion" id="product-list">
         {% for product in product_list %}
             <div class="panel panel-default">
@@ -43,6 +46,8 @@
             </div>
         {% endfor %}
     </div>
+
+    {% pagination %}
 {% endif %}
 
 <h3>{% trans 'Add new products' %}</h3>

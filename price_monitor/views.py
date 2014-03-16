@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import resolve
 from django.db.models.query import QuerySet
 from django.forms.models import modelformset_factory
 from django.shortcuts import redirect, render_to_response
@@ -117,9 +118,27 @@ class ProductListAndCreateView(BaseListAndCreateView):
     # The formset class for creation
     create_formset = SubscriptionModelFormset
 
+    # pagination stuff
+    paginate_by = 10
+    allow_empty = True
+
     # The template name for rendering
     template_name = 'price_monitor/product_list_and_create.html'
     template_name_suffix = ''
+
+    def get_context_data(self, *args, **kwargs):
+        """
+        Added view name to context for pagination
+        :param args:   positional arguments
+        :type  args:   list
+        :param kwargs: keyword arguments
+        :type  kwargs: dict
+        :return:       updated context
+        :rtype:         dict
+        """
+        context = super(ProductListAndCreateView, self).get_context_data(*args, **kwargs)
+        context['view_url_name'] = resolve(self.request.path_info).url_name
+        return context
 
     def get_queryset(self):
         qs = super(ProductListAndCreateView, self).get_queryset()

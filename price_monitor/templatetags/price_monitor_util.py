@@ -13,3 +13,15 @@ def get(d, key):
     :returns: Value for key
     """
     return d[key] if key in d else ''
+
+
+@register.inclusion_tag('price_monitor/templatetags/pagination.html', takes_context=True)
+def pagination(context):
+    """
+    Renders pagination template with full context
+    :param context: Context of page
+    :type  context: RequestContext
+    :return:        Context
+    :rtype:         RequestContext
+    """
+    return context
