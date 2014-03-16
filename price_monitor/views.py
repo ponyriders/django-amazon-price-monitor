@@ -46,7 +46,7 @@ class BaseListAndCreateView(ListView):
         """
         context = super(BaseListAndCreateView, self).get_context_data(*args, **kwargs)
         creation_formset_class = modelformset_factory(model=self.create_model, formset=self.create_formset, form=self.create_form)
-        if self.request.method == 'POST':
+        if self.request.method == 'POST' and 'create_products' in self.request.POST:
             post = self.request.POST.copy()
             for i in range(int(self.request.POST.get('form-TOTAL_FORMS', 1000))):
                 post.update({'form-%s-owner' % i: self.request.user.id})
@@ -77,9 +77,10 @@ class BaseListAndCreateView(ListView):
         """
         parent_view = super(BaseListAndCreateView, self).get(request, *args, **kwargs)
         creation_formset = parent_view.context_data['creation_formset']
-        if creation_formset.is_valid():
-            creation_formset.save()
-            return redirect('monitor_view')
+        if 'create_products' in self.request.POST:
+            if creation_formset.is_valid():
+                creation_formset.save()
+                return redirect('monitor_view')
         return parent_view
 
     @method_decorator(login_required)
