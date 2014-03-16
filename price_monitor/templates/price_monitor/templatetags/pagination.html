@@ -12,7 +12,7 @@
                         <li class="{% if page_obj.number == page_number %}active{% endif %}"><a href="{% if slug %}{% url view_url_name page=page_number slug=slug %}{% else %}{% url view_url_name page=page_number %}{% endif %}">{{ page_number }}</a></li>
                     {% endif %}
                 {% endfor %}
-                <li class="{% if page_obj.has_next %}"><a href="{% if slug %}{% url view_url_name page=page_obj.next_page_number slug=slug %}{% else %}{% url view_url_name page=page_obj.next_page_number %}{% endif %}"{% else %}disabled"><span{% endif %}>&raquo;{% if page_obj.has_previous %}</a>{% else %}</span>{% endif %}</li>
+                <li class="{% if page_obj.has_next %}"><a href="{% if slug %}{% url view_url_name page=page_obj.next_page_number slug=slug %}{% else %}{% url view_url_name page=page_obj.next_page_number %}{% endif %}"{% else %}disabled"></a><span{% endif %}>&raquo;{% if page_obj.has_next %}</a>{% else %}</span>{% endif %}</li>
             </ul>
         </div>
     </div>
