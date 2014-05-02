@@ -25,10 +25,10 @@ class Command(BaseCommand):
         product_asins = [p.asin for p in Product.objects.filter(asin__in=asins)]
 
         # remove the asins that are already there
-        asins = filter(lambda a: a not in product_asins, asins)
+        asins = [a for a in asins if a not in product_asins]
 
         # create some products
         for asin in asins:
             Product.objects.create(asin=asin)
 
-        print 'created %d products' % len(asins)
+        print('created %d products' % len(asins))

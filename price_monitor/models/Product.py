@@ -5,7 +5,8 @@ from django.db import models
 from django.utils import formats
 from django.utils.translation import ugettext as _, ugettext_lazy
 
-from urlparse import urljoin, urlparse
+from six import text_type
+from six.moves.urllib.parse import urljoin, urlparse
 
 
 class Product(models.Model):
@@ -123,10 +124,12 @@ class Product(models.Model):
         :return: the unicode representation
         :rtype: unicode
         """
-        return u'%(name)s (ASIN: %(asin)s)' % {
-            'name': self.title if self.title is not None and len(self.title) > 0 else _('Unsynchronized Product'),
-            'asin': self.asin,
-        }
+        return text_type(
+            '%(name)s (ASIN: %(asin)s)' % {
+                'name': self.title if self.title is not None and len(self.title) > 0 else _('Unsynchronized Product'),
+                'asin': self.asin,
+            }
+        )
 
     class Meta:
         app_label = 'price_monitor'

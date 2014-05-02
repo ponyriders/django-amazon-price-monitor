@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext as _, ugettext_lazy
 
+from six import text_type
+
 
 class Price(models.Model):
     value = models.FloatField(verbose_name=_('Price'))
@@ -14,11 +16,13 @@ class Price(models.Model):
         :return: the unicode representation
         :rtype: unicode
         """
-        return u'%(value)0.2f %(currency)s on %(date_seen)s' % {
-            'value': self.value,
-            'currency': self.currency,
-            'date_seen': self.date_seen,
-        }
+        return text_type(
+            '%(value)0.2f %(currency)s on %(date_seen)s' % {
+                'value': self.value,
+                'currency': self.currency,
+                'date_seen': self.date_seen,
+            }
+        )
 
     class Meta:
         app_label = 'price_monitor'

@@ -97,10 +97,10 @@ class ProductSynchronizationMixin(object):
         if len(products) < settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT:
             return (
                 dict(
-                    products.items() + {
+                    list(products.items()) + list({
                         p.asin: p for p in Product.objects.select_related().filter(status=0)
                             .order_by('date_creation')[:(settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products))]
-                    }.items()
+                    }.items())
                 ),
                 # set recall to true if there are more unsynched products than already included
                 Product.objects.select_related().filter(status=0).count() > settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products)
@@ -118,7 +118,7 @@ class ProductSynchronizationMixin(object):
                 """
                 return dict(list(islice(iterable, n)))
 
-            return take(settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT, products.iteritems()), True
+            return take(settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT, iter(products.items())), True
 
 
 class ProductsSynchronizeTask(PeriodicTask, ProductSynchronizationMixin):
@@ -146,10 +146,10 @@ class ProductsSynchronizeTask(PeriodicTask, ProductSynchronizationMixin):
             )
 
         try:
-            lookup = get_api().lookup(ItemId=','.join(products.keys()))
+            lookup = get_api().lookup(ItemId=','.join(list(products.keys())))
         except (LookupException, AsinNotFound):
             # if the lookup for all ASINs fails, do one by one to get the erroneous one(s)
-            for asin, product in products.items():
+            for asin, product in list(products.items()):
                 try:
                     lookup = get_api().lookup(ItemId=asin)
                 except (LookupException, AsinNotFound):

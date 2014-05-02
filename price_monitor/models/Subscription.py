@@ -2,6 +2,8 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _, ugettext_lazy
 
+from six import text_type
+
 
 class Subscription(models.Model):
     """
@@ -27,10 +29,12 @@ class Subscription(models.Model):
         :return: the unicode representation
         :rtype: unicode
         """
-        return u'Subscription of "%(product)s" for %(user)s' % {
-            'product': self.product.title,
-            'user': self.owner.username,
-        }
+        return text_type(
+            'Subscription of "%(product)s" for %(user)s' % {
+                'product': self.product.title,
+                'user': self.owner.username,
+            }
+        )
 
     class Meta:
         app_label = 'price_monitor'

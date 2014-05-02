@@ -2,6 +2,8 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _, ugettext_lazy
 
+from six import text_type
+
 
 class EmailNotification(models.Model):
     """
@@ -16,9 +18,11 @@ class EmailNotification(models.Model):
         :return: the unicode representation
         :rtype: unicode
         """
-        return u' %(email)s' % {
-            'email': self.email,
-        }
+        return text_type(
+            ' %(email)s' % {
+                'email': self.email,
+            }
+        )
 
     class Meta:
         app_label = 'price_monitor'
