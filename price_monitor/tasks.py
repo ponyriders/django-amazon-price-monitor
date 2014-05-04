@@ -98,8 +98,7 @@ class ProductSynchronizationMixin(object):
             return (
                 dict(
                     list(products.items()) + list({
-                        p.asin: p for p in Product.objects.select_related().filter(status=0)
-                            .order_by('date_creation')[:(settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products))]
+                        p.asin: p for p in Product.objects.select_related().filter(status=0).order_by('date_creation')[:(settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products))]
                     }.items())
                 ),
                 # set recall to true if there are more unsynched products than already included
