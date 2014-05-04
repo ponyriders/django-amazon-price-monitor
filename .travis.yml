@@ -14,3 +14,5 @@ env:
   - DJANGO=1.6.4 DB=postgres STAGE=TravisCI
 script:
   - make test
+notifications:
+  email: false
