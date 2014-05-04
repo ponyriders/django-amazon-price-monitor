@@ -16,7 +16,7 @@ def send_mail(title, price_limit, currency, price, offer_url, send_to):
     :param price: the current product price
     :type price: float
     :param offer_url: the offer url for the user to click
-    :type offer_url: sring
+    :type offer_url: string
     :param send_to: the email address to send the email to
     :type send_to: str
     """

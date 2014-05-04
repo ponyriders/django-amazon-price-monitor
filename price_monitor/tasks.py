@@ -2,23 +2,28 @@ import logging
 
 from . import app_settings as settings
 from .api import get_api
+from .utils import send_mail
+
 from amazon.api import (
     AmazonProduct,
     AsinNotFound,
     LookupException,
 )
+
 from celery.task import PeriodicTask, Task
-from django.core.mail import send_mail
+
 from django.db.models import Q
 from django.utils import timezone
-from django.utils.translation import ugettext as _
 from datetime import timedelta
+
 from itertools import islice
+
 from price_monitor.models import (
     Price,
     Product,
     Subscription,
 )
+
 from smtplib import SMTPServerDisconnected
 
 
@@ -216,17 +221,12 @@ class NotifySubscriberTask(Task):
         logger.info('Trying to send notification email to %(email)s...' % {'email': subscription.email_notification.email})
         try:
             send_mail(
-                _(settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT) % {'product': product.title},
-                _(settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY) % {
-                    'price_limit': subscription.price_limit,
-                    'currency': currency,
-                    'price': price,
-                    'product_title': product.title,
-                    'link': product.offer_url,
-                },
-                settings.PRICE_MONITOR_EMAIL_SENDER,
-                [subscription.email_notification.email],
-                fail_silently=False,
+                product.title,
+                subscription.price_limit,
+                currency,
+                price,
+                product.offer_url,
+                subscription.email_notification.email,
             )
         except SMTPServerDisconnected:
             logger.exception('SMTP server was disconnected.')
