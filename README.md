@@ -3,7 +3,8 @@
 Monitors prices of Amazon products via Product Advertising API.
 Relies on python-amazon-simple-product-api under the hood.
 
-[![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.png?branch=master)](https://travis-ci.org/ponyriders/django-amazon-price-monitor)
+Python 2.7 [![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=master)](https://travis-ci.org/ponyriders/django-amazon-price-monitor)
+Python 3.x [![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=python3)](https://travis-ci.org/ponyriders/django-amazon-price-monitor)
 
 ## Setup
 
