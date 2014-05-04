@@ -12,9 +12,10 @@ Relies on python-amazon-simple-product-api under the hood.
 
 ### Prerequisites
 
-- Python 2.7
+- Python 2.7, 3.2, 3.3, 3.4
 - Django >= 1.5
 - Celery >= 3
+- six
 
 ### Basic setup
 
