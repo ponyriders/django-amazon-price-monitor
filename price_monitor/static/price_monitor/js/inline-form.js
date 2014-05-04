@@ -12,7 +12,8 @@ $(document).ready(function() {
 
         // replace __prefix__ in form elements of new line
         newLine.find('input, select').each(function(index, element) {
-            $(element).attr('id', $(element).attr('id').replace('__prefix__', $('form.form-inline .form-line').length));
+            // length - 1 is used here because empty line is also counted
+            $(element).attr('id', $(element).attr('id').replace('__prefix__', $('form.form-inline .form-line').length - 1));
         });
 
         // add it
