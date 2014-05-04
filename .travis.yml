@@ -16,3 +16,4 @@ script:
   - make test
 notifications:
   email: false
+cache: apt
