@@ -116,7 +116,7 @@ class Product(models.Model):
         :return: the cache key
         :rtype:  str
         """
-        return 'graph-%s-%s' % (self.asin, self.date_last_synced.isoformat())
+        return 'graph-%s-%s' % (self.asin, self.date_last_synced.isoformat() if self.date_last_synced is not None else '')
 
     def __unicode__(self):
         """
