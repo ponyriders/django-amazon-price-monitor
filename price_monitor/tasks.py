@@ -159,6 +159,10 @@ class ProductsSynchronizeTask(PeriodicTask, ProductSynchronizationMixin):
                 except (LookupException, AsinNotFound):
                     logger.exception('unable to lookup product with asin %s' % asin)
                     product.set_failed_to_sync()
+                except OSError:
+                    # this exception happened once while trying to fetch an existing product but where an AsinNotFound error occurred.
+                    # While handling the exception this exception was thrown but it did not point to the exception handling core above but to the lookup call
+                    logger.exception('Unable to communicate with Amazon, an unknown error occurred.')
                 else:
                     self.sync_product(lookup, product)
         except UnicodeEncodeError:
