@@ -6,7 +6,6 @@ Relies on python-amazon-simple-product-api under the hood.
 | Branch  | Build status |
 | --------| ------------ |
 | master  | [![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=master)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) |
-| python3 | [![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=python3)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) |
 
 ## Setup
 
