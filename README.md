@@ -149,6 +149,12 @@ This is a list of all settings that can be overwritten:
     <td>no</td>
 </tr>
 <tr>
+    <td>PRICE_MONITOR_SITENAME</td>
+    <td>The name of your site. Used in price tooltips.</td>
+    <td>'Price Monitor'</td>
+    <td>no</td>
+</tr>
+<tr>
     <td>PRICE_MONITOR_ASIN_REGEX</td>
     <td>Regular expression for validating ASINs</td>
     <td>'[A-Z0-9]+'</td>

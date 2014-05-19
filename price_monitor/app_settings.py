@@ -24,6 +24,7 @@ PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY = gettext(
     'The price limit of %(price_limit)0.2f %(currency)s has been reached for the article "%(product_title)s" - the current price is %(price)0.2f %(currency)s.'
     '\n\nPlease support our platform by using this link for buying: %(link)s\n\n\nRegards,\nThe Team'
 )
+PRICE_MONITOR_SITENAME = getattr(settings, 'PRICE_MONITOR_SITENAME', 'Price Monitor')
 
 # Regex for ASIN validation
 PRICE_MONITOR_ASIN_REGEX = getattr(settings, 'PRICE_MONITOR_ASIN_REGEX', r'[A-Z0-9\-]+')

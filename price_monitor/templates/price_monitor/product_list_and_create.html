@@ -28,7 +28,7 @@
                         <div class="col-xs-5">
                             {% with price=price_list|get:product.asin %}
                                 {% if price %}
-                                    {% trans "Price" %}: {{ price.currency }} {{ price.value|floatformat:2 }} ( as of {{ price.date_seen|localize }} {{ price.date_seen|date:"e" }} - Details)
+                                    {% trans "Price" %}: {{ price.currency }} {{ price.value|floatformat:2 }} ( as of {{ price.date_seen|localize }} {{ price.date_seen|date:"e" }} - <span data-toggle="tooltip" data-placement="top" title="{% blocktrans %}Product prices and availability are accurate as of the date/time indicated and are subject to change. Any price and availability information displayed on {{ site_name }} at the time of purchase will apply to the purchase of this product.{% endblocktrans %}">{% trans "Details" %}</span>)
                                 {% endif %}
                             {% endwith %}
                         </div>
