@@ -22,12 +22,14 @@
                         <div class="col-xs-1">
                             {%  if product.small_image_url %}<img src="{{ product.small_image_url }}" />{% else %}&nbsp;{% endif %}
                         </div>
-                        <div class="col-xs-7">
+                        <div class="col-xs-6">
                             {{ product.title }}
                         </div>
-                        <div class="col-xs-4">
+                        <div class="col-xs-5">
                             {% with price=price_list|get:product.asin %}
-                                {% if price %}<span class="pull-right">{{ price.value|floatformat:2 }} {{ price.currency }} ({{ price.date_seen|localize }})</span>{% endif %}
+                                {% if price %}
+                                    {% trans "Price" %}: {{ price.currency }} {{ price.value|floatformat:2 }} ( as of {{ price.date_seen|localize }} {{ price.date_seen|date:"e" }} - Details)
+                                {% endif %}
                             {% endwith %}
                         </div>
                     </div>
