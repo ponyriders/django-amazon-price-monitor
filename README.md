@@ -25,6 +25,10 @@ Add the app "price_monitor" to *INSTALLED_APPS*:
         'price_monitor',
     )
 
+### South
+
+The app also supports [South](http://south.readthedocs.org/en/latest/).
+
 ### Amazon account details
 *You can get these values from the accounts area of your Amazon account.*
 
