@@ -149,6 +149,12 @@ class ProductListAndCreateView(BaseListAndCreateView):
 
 
 @login_required
+def delete_subscription_view(request, public_id):
+    # TODO implementation and documentation
+    pass
+
+
+@login_required
 def charts_demo_view(request):
     """
     Demo view for displaying charts.
