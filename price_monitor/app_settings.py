@@ -8,8 +8,9 @@ AMAZON_PRODUCT_API_ASSOC_TAG = getattr(settings, 'AMAZON_PRODUCT_API_ASSOC_TAG',
 
 # run product synchronization every X minutes
 PRICE_MONITOR_PRODUCTS_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES = getattr(settings, 'PRICE_MONITOR_PRODUCTS_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES', 5)
-# number of products to throw at once against the Amazon API
-PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT = getattr(settings, 'PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT', 20)
+# number of products to throw against the Amazon API at once, limited by Amazon to a maximum of 10, see bug #17
+TMP_SYNC_COUNT = getattr(settings, 'PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT', 10)
+PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT = 10 if TMP_SYNC_COUNT > 10 else TMP_SYNC_COUNT
 # refresh product after 12 hours
 PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES = getattr(settings, 'PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES', 12 * 60)
 # time after when to notify about a subscription again

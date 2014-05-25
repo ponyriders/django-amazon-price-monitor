@@ -121,8 +121,8 @@ This is a list of all settings that can be overwritten:
 </tr>
 <tr>
     <td>PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT</td>
-    <td>Number of products to query with one call to Product Advertising API.</td>
-    <td>20</td>
+    <td>Number of products to query with one call to Product Advertising API. Maximum allowed values is 10.</td>
+    <td>10</td>
     <td>no</td>
 </tr>
 <tr>
