@@ -39,10 +39,10 @@ class BaseListAndCreateView(ListView):
 
     def get_context_data(self, *args, **kwargs):
         """
-        Extends base context with formular context
+        Extends base context with form context
         :param args: positional arguments
         :param kwargs: keyword arguments
-        :return: updated context with formular data
+        :return: updated context with form data
         :type args: List
         :type kwargs: Dict
         :rtype: Dict
@@ -89,7 +89,7 @@ class BaseListAndCreateView(ListView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         """
-        Overwritting this method the make every instance of the view
+        Overwriting this method the make every instance of the view
         login_required
         :param args: positional arguments
         :param kwargs: keyword arguments
@@ -105,7 +105,7 @@ class BaseListAndCreateView(ListView):
 
 class ProductListAndCreateView(BaseListAndCreateView):
     """
-    View based on BaseListAndCreateView for displaying subscripted products
+    View based on BaseListAndCreateView for displaying subscribed products
     and create new subscriptions
     """
 
