@@ -1,8 +1,9 @@
-from django.conf.urls import patterns, url, include
+from django.conf.urls import patterns, url
 
 from price_monitor.api.views.ProductListView import ProductListView
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^products/$', ProductListView.as_view(), name='userpost-list'),
 )
