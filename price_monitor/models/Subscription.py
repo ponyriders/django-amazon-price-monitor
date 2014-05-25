@@ -1,3 +1,5 @@
+import uuid
+
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _, ugettext_lazy
@@ -9,6 +11,7 @@ class Subscription(models.Model):
     """
     Model for a user being able to subscribe to a product and be notified if the price_limit is reached.
     """
+    public_id = models.CharField(max_length=36, default=str(uuid.uuid4()), unique=True, editable=False, null=False, verbose_name=_('Public-ID'))
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Owner'))
     product = models.ForeignKey('Product', verbose_name=_('Product'))
     price_limit = models.FloatField(verbose_name=_('Price limit'))

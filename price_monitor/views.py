@@ -2,12 +2,14 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import resolve
 from django.db.models.query import QuerySet
 from django.forms.models import modelformset_factory
-from django.shortcuts import redirect, render_to_response
-from django.utils.decorators import method_decorator
-from django.views.generic import (
-    ListView,
+from django.shortcuts import (
+    redirect,
+    render_to_response
 )
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView
 
+from . import app_settings
 from .forms import SubscriptionCreationForm
 from .formsets import SubscriptionModelFormset
 from .models import (
@@ -138,11 +140,18 @@ class ProductListAndCreateView(BaseListAndCreateView):
         """
         context = super(ProductListAndCreateView, self).get_context_data(*args, **kwargs)
         context['view_url_name'] = resolve(self.request.path_info).url_name
+        context['site_name'] = app_settings.PRICE_MONITOR_SITENAME
         return context
 
     def get_queryset(self):
         qs = super(ProductListAndCreateView, self).get_queryset()
         return qs.filter(subscription__owner=self.request.user.pk)
+
+
+@login_required
+def delete_subscription_view(request, public_id):
+    # TODO implementation and documentation
+    pass
 
 
 @login_required

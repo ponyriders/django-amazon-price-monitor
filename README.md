@@ -25,6 +25,10 @@ Add the app "price_monitor" to *INSTALLED_APPS*:
         'price_monitor',
     )
 
+### South
+
+The app also supports [South](http://south.readthedocs.org/en/latest/).
+
 ### Amazon account details
 *You can get these values from the accounts area of your Amazon account.*
 
@@ -117,8 +121,8 @@ This is a list of all settings that can be overwritten:
 </tr>
 <tr>
     <td>PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT</td>
-    <td>Number of products to query with one call to Product Advertising API.</td>
-    <td>20</td>
+    <td>Number of products to query with one call to Product Advertising API. Maximum allowed value is 10.</td>
+    <td>10</td>
     <td>no</td>
 </tr>
 <tr>
@@ -146,6 +150,12 @@ This is a list of all settings that can be overwritten:
         'The price limit of %(price_limit)0.2f %(currency)s has been reached for the article "%(product_title)s" - the current price is %(price)0.2f
         %(currency)s.\n\nPlease support our platform by using this link for buying: %(link)s\n\n\nRegards,\nThe Team'
     </td>
+    <td>no</td>
+</tr>
+<tr>
+    <td>PRICE_MONITOR_SITENAME</td>
+    <td>The name of your site. Used in price tooltips.</td>
+    <td>'Price Monitor'</td>
     <td>no</td>
 </tr>
 <tr>

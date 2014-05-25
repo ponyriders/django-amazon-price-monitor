@@ -25,7 +25,8 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('product', 'price_limit', 'owner', 'date_last_notification', 'get_email_address', )
+    list_display = ('product', 'price_limit', 'owner', 'date_last_notification', 'get_email_address', 'public_id',)
+    list_filter = ('owner__username', 'price_limit', )
 
 
 class EmailNotificationAdmin(admin.ModelAdmin):
