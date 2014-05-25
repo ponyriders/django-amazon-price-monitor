@@ -19,6 +19,11 @@ from .models import (
 )
 
 
+@login_required
+def angular_index_view(request):
+    return render_to_response('price_monitor/angular_index_view.html')
+
+
 class BaseListAndCreateView(ListView):
     """
     Abstract base view for ProductListAndCreationView and
