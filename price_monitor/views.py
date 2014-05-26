@@ -1,7 +1,13 @@
+import logging
+
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import resolve
+from django.core.urlresolvers import (
+    resolve,
+    reverse,
+)
 from django.db.models.query import QuerySet
 from django.forms.models import modelformset_factory
+from django.http import HttpResponseRedirect
 from django.shortcuts import (
     redirect,
     render_to_response
@@ -17,6 +23,9 @@ from .models import (
     Product,
     Subscription,
 )
+
+
+logger = logging.getLogger('price_monitor')
 
 
 class BaseListAndCreateView(ListView):
@@ -63,6 +72,12 @@ class BaseListAndCreateView(ListView):
                 context['price_list'][product.asin] = product.price_set.latest()
             except Price.DoesNotExist:
                 pass
+
+        # TODO this is only a bad helper until the angular frontend is working, remove afterwards
+        context['subscription_list'] = {}
+        for product in context['product_list']:
+            context['subscription_list'][product.asin] = Subscription.objects.only('public_id').get(owner=self.request.user.pk, product=product)
+
         return context
 
     def post(self, request, *args, **kwargs):
@@ -150,18 +165,34 @@ class ProductListAndCreateView(BaseListAndCreateView):
 
 @login_required
 def delete_subscription_view(request, public_id):
-    # TODO implementation and documentation
-    pass
+    """
+    View that deletes the subscription with the given public id and returns to the monitor view.
+    :param request: incoming request
+    :type request: django.http.HttpRequest
+    :param public_id: public id of subscription that shall be deleted
+    :type public_id: string
+    :return: the response redirecting to the monitor view
+    :rtype: django.http.HttpResponseRedirect
+    """
+    # TODO tell user about failure
+    try:
+        Subscription.objects.get(public_id=public_id).delete()
+    except Subscription.DoesNotExist:
+        logger.exception('Unable to delete Subscription with public_id "%(public_id)s"' % {
+            'public_id': public_id,
+        })
+
+    return HttpResponseRedirect(reverse('monitor_view'))
 
 
 @login_required
 def charts_demo_view(request):
     """
     Demo view for displaying charts.
-    :param request: the incoming request
-    :return: the final response
-    :type request: HttpRequest
-    :rtype: HttpResponse
+    :param request: incoming request
+    :type request: django.http.HttpRequest
+    :return: the response
+    :rtype: django.http.HttpResponse
     """
     return render_to_response(
         'price_monitor/charts_demo.html',
