@@ -36,6 +36,14 @@ PriceMonitorApp.controller('MainCtrl', function ($scope, $location) {
     }
 });
 
+PriceMonitorApp.controller('ProductsCtr', function($scope) {
+    
+});
+
+PriceMonitorApp.controller('SubscriptionCtrl', function($scope) {
+    
+});
+
 /**
  * Adding value of CSRF cookie to request headers
  */
