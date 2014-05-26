@@ -5,7 +5,9 @@ var PriceMonitorApp = angular.module(
     [
         'ngCookies',
         'ngRoute',
-        'ngResource'
+        'ngResource',
+        'ui.bootstrap',
+        'PriceMonitorServerConnector'
     ]
 );
 
@@ -13,11 +15,7 @@ PriceMonitorApp.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when('/products', {
             controller: 'ProductsCtrl',
-            templateUrl: 'partials/products.html'
-        })
-        .when('/subscriptions', {
-            controller: 'SubscriptionCtrl',
-            templateUrl: 'partials/subscriptions.html'
+            templateUrl: URIS['static'] + 'price_monitor/app/partials/products.html'
         })
         .otherwise({redirectTo: '/products'});
 }]);
@@ -36,12 +34,18 @@ PriceMonitorApp.controller('MainCtrl', function ($scope, $location) {
     }
 });
 
-PriceMonitorApp.controller('ProductsCtr', function($scope) {
+PriceMonitorApp.controller('ProductsCtr', function($scope, Product, Subscription) {
+    $scope.subscriptions = Subscription.query();
+    $scope.products = {}
     
-});
-
-PriceMonitorApp.controller('SubscriptionCtrl', function($scope) {
-    
+    $scope.getProduct = function(productId) {
+        if ($scope.products[productId]) {
+            return $scope.products[productId];
+        } else {
+            $scope.products[productId] = Product.get({'pk': productId});
+            return $scope.products[productId];
+        }
+    };
 });
 
 /**
