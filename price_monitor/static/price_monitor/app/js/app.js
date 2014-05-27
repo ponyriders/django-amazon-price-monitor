@@ -11,14 +11,14 @@ var PriceMonitorApp = angular.module(
     ]
 );
 
-PriceMonitorApp.config(['$routeProvider', function ($routeProvider) {
+PriceMonitorApp.config(function ($routeProvider) {
     $routeProvider
         .when('/products', {
             controller: 'ProductCtrl',
-            templateUrl: '/static/price_monitor/app/partials/products.html'
+            templateUrl: SETTINGS.uris.static + 'price_monitor/app/partials/products.html'
         })
         .otherwise({redirectTo: '/products'});
-}]);
+});
 
 /**
  * Setting X-Requested-With header to enable Django to identify the request as asyncronous.

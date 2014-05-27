@@ -52,15 +52,8 @@
         </div>
                 
         <!-- Angular.js -->
-        <script src="{% get_static_prefix %}price_monitor/angular/angular.1.3.beta-10.min.js"></script>
-        <script src="{% get_static_prefix %}price_monitor/angular/angular-cookies.min.js"></script>
-        <script src="{% get_static_prefix %}price_monitor/angular/angular-resource.min.js"></script>
-        <script src="{% get_static_prefix %}price_monitor/angular/angular-route.min.js"></script>
-        <script src="{% get_static_prefix %}price_monitor/angular/ui-bootstrap-tpls-0.11.0.min.js"></script>
-        <script src="{% get_static_prefix %}price_monitor/app/js/server-connector.js"></script>
-        <script src="{% get_static_prefix %}price_monitor/app/js/app.js"></script>
         <script type="text/javascript">
-            PriceMonitorApp.settings = {
+            var SETTINGS = {
                 'uris': {
                     'static': '{% get_static_prefix %}',
                     'product': '{% url "api_product_crud" %}',
@@ -68,6 +61,13 @@
                 }
             };
         </script>
+        <script src="{% get_static_prefix %}price_monitor/angular/angular.1.3.beta-10.min.js"></script>
+        <script src="{% get_static_prefix %}price_monitor/angular/angular-cookies.min.js"></script>
+        <script src="{% get_static_prefix %}price_monitor/angular/angular-resource.min.js"></script>
+        <script src="{% get_static_prefix %}price_monitor/angular/angular-route.min.js"></script>
+        <script src="{% get_static_prefix %}price_monitor/angular/ui-bootstrap-tpls-0.11.0.min.js"></script>
+        <script src="{% get_static_prefix %}price_monitor/app/js/server-connector.js"></script>
+        <script src="{% get_static_prefix %}price_monitor/app/js/app.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/controller/main-ctrl.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/controller/product-ctrl.js"></script>
     </body>
