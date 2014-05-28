@@ -7,7 +7,14 @@ PriceMonitorServerConnector.factory('Product', ['$resource', function($resource)
     });
 }]);
 
-PriceMonitorServerConnector.factory('Subscription', ['$resource', function($resource, URIS) {
-    return $resource(SETTINGS.uris.subscription, {'pk': '@pk'}, {
-    });
+PriceMonitorServerConnector.factory('Subscription', ['$resource', 'Product', function($resource, Product) {
+    var Subscription = $resource(SETTINGS.uris.subscription, {'pk': '@pk'}, {});
+    Subscription._fetched_product = null;
+    Subscription.prototype.get_product = function() {
+        if (this._fetched_product == null) {
+            this._fetched_product = Product.get({'pk': this.product});
+        }
+        return this._fetched_product;
+    }
+    return Subscription;
 }]);

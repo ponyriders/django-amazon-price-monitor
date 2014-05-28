@@ -1,5 +1,5 @@
 <accordion close-others="true">
-    <accordion-group heading="{{ getProduct(subscription.product).title }}" ng-repeat="subscription in subscriptions">
-        {{ getProduct(subscription.product).asin }}
+    <accordion-group heading="{{ subscription.get_product().title }}" ng-repeat="subscription in subscriptions">
+        {{ subscription.get_product().asin }}
     </accordion-group>
 </accordion>
