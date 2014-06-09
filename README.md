@@ -71,23 +71,6 @@ A task for synchronizing a single product. Is called after the creation of new p
 #### NotifySubscriberTask (Task)
 Sends out an email to a single subscriber of a product that has reached the price limit. Is called through ProductSynchronizeTask.
 
-### Websocket related settings
-
-You need to specify an URL for the websocket requests:
-
-    WEBSOCKET_URL = '/ws/'
-    
-If your Redis server has different than the default connectivity settingss, you need to specify them, too:
-
-    WS4REDIS_CONNECTION = {
-        'host': 'redis.example.com',
-        'port': 16379,
-        'db': 17,
-        'password': 'verysecret',
-    }
-
-Also have a look at the documentation of [django-websocket-redis](http://django-websocket-redis.readthedocs.org/en/latest/installation.html) for the full list of settings for this package.
-
 ### Email notifications
 To be able to send out the notification emails, set up a proper email backend (see
 [Django documentation](https://docs.djangoproject.com/en/1.5/topics/email/#topic-email-backends)) and set the PRICE_MONITOR_EMAIL_SENDER setting to the email

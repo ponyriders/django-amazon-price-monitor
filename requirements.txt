@@ -3,5 +3,3 @@ djangorestframework>=2.3.13
 python-amazon-simple-product-api==1.4.0
 celery>=3
 six
-django-websocket-redis==0.4.1
-wsaccel==0.6.2
