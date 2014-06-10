@@ -117,6 +117,12 @@ This is a list of all settings that can be overwritten:
     <td>yes</td>
 </tr>
 <tr>
+    <td>PRICE_MONITOR_DEFAULT_CURRENCY</td>
+    <td>The default currency - used for display in frontend.</td>
+    <td>EUR</td>
+    <td>no</td>
+</tr>
+<tr>
     <td>PRICE_MONITOR_PRODUCT_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES</td>
     <td>Run the ProductSynchronizeTask every this minutes.</td>
     <td>5</td>

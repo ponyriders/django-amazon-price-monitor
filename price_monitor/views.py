@@ -1,10 +1,14 @@
 import json
+import logging
 
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import resolve
+from django.core.urlresolvers import (
+    resolve,
+    reverse,
+)
 from django.db.models.query import QuerySet
 from django.forms.models import modelformset_factory
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import (
     redirect,
     render_to_response
@@ -20,6 +24,8 @@ from .models import (
     Product,
     Subscription,
 )
+
+logger = logging.getLogger('price_monitor')
 
 
 class AngularIndexView(TemplateView):
@@ -43,6 +49,7 @@ class AngularIndexView(TemplateView):
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+
 class BaseListAndCreateView(ListView):
     """
     Abstract base view for ProductListAndCreationView and
@@ -63,10 +70,10 @@ class BaseListAndCreateView(ListView):
 
     def get_context_data(self, *args, **kwargs):
         """
-        Extends base context with formular context
+        Extends base context with form context
         :param args: positional arguments
         :param kwargs: keyword arguments
-        :return: updated context with formular data
+        :return: updated context with form data
         :type args: List
         :type kwargs: Dict
         :rtype: Dict
@@ -87,6 +94,23 @@ class BaseListAndCreateView(ListView):
                 context['price_list'][product.asin] = product.price_set.latest()
             except Price.DoesNotExist:
                 pass
+
+        # TODO this is only a bad helper until the angular frontend is working, remove afterwards
+        context['subscription_list'] = {}
+        for product in context['product_list']:
+            try:
+                context['subscription_list'][product.asin] = Subscription.objects.only('public_id').get(owner=self.request.user.pk, product=product)
+            except Subscription.MultipleObjectsReturned:
+                logger.error(
+                    'Failed to get a single subscription for user with pk %(user_pk)s and product with pk %(product_pk)s' % {
+                        'user_pk': self.request.user.pk,
+                        'product_pk': product.pk
+                    }
+                )
+                raise
+
+        context['default_currency'] = app_settings.PRICE_MONITOR_DEFAULT_CURRENCY
+
         return context
 
     def post(self, request, *args, **kwargs):
@@ -113,7 +137,7 @@ class BaseListAndCreateView(ListView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         """
-        Overwritting this method the make every instance of the view
+        Overwriting this method the make every instance of the view
         login_required
         :param args: positional arguments
         :param kwargs: keyword arguments
@@ -129,7 +153,7 @@ class BaseListAndCreateView(ListView):
 
 class ProductListAndCreateView(BaseListAndCreateView):
     """
-    View based on BaseListAndCreateView for displaying subscripted products
+    View based on BaseListAndCreateView for displaying subscribed products
     and create new subscriptions
     """
 
@@ -174,18 +198,34 @@ class ProductListAndCreateView(BaseListAndCreateView):
 
 @login_required
 def delete_subscription_view(request, public_id):
-    # TODO implementation and documentation
-    pass
+    """
+    View that deletes the subscription with the given public id and returns to the monitor view.
+    :param request: incoming request
+    :type request: django.http.HttpRequest
+    :param public_id: public id of subscription that shall be deleted
+    :type public_id: string
+    :return: the response redirecting to the monitor view
+    :rtype: django.http.HttpResponseRedirect
+    """
+    # TODO tell user about failure
+    try:
+        Subscription.objects.get(public_id=public_id).delete()
+    except Subscription.DoesNotExist:
+        logger.exception('Unable to delete Subscription with public_id "%(public_id)s"' % {
+            'public_id': public_id,
+        })
+
+    return HttpResponseRedirect(reverse('monitor_view'))
 
 
 @login_required
 def charts_demo_view(request):
     """
     Demo view for displaying charts.
-    :param request: the incoming request
-    :return: the final response
-    :type request: HttpRequest
-    :rtype: HttpResponse
+    :param request: incoming request
+    :type request: django.http.HttpRequest
+    :return: the response
+    :rtype: django.http.HttpResponse
     """
     return render_to_response(
         'price_monitor/charts_demo.html',
