@@ -43,6 +43,12 @@
         <div class="content">
             <div class="container">
                 <div ng-view></div>
+                <div class="row">
+                    <form name="{{ form.form_name }}" novalidate>
+                        {{ subscription_create_form }}
+                        <input type="submit" class="btn" ng-disabled="{{ form.form_name }}.$invalid" value="Submit">
+                    </form>
+                </div>
                 <div class="row" id="footer">
                     <div class="col-md-12">
                         CERTAIN CONTENT THAT APPEARS ON THIS SITE COMES FROM AMAZON EU S.à r.l. THIS CONTENT IS PROVIDED 'AS IS' AND IS SUBJECT TO CHANGE OR REMOVAL AT ANY TIME.
@@ -66,6 +72,7 @@
         <script src="{% get_static_prefix %}price_monitor/angular/angular-resource.min.js"></script>
         <script src="{% get_static_prefix %}price_monitor/angular/angular-route.min.js"></script>
         <script src="{% get_static_prefix %}price_monitor/angular/ui-bootstrap-tpls-0.11.0.min.js"></script>
+        <script src="{% get_static_prefix %}djangular/js/django-angular.min.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/server-connector.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/app.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/controller/main-ctrl.js"></script>

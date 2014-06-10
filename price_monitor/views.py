@@ -1,13 +1,16 @@
+import json
+
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import resolve
 from django.db.models.query import QuerySet
 from django.forms.models import modelformset_factory
+from django.http import HttpResponse
 from django.shortcuts import (
     redirect,
     render_to_response
 )
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 
 from . import app_settings
 from .forms import SubscriptionCreationForm
@@ -19,9 +22,25 @@ from .models import (
 )
 
 
-@login_required
-def angular_index_view(request):
-    return render_to_response('price_monitor/angular_index_view.html')
+class AngularIndexView(TemplateView):
+    template_name = 'price_monitor/angular_index_view.html'
+    form = SubscriptionCreationForm
+
+    def get_context_data(self, form=None, **kwargs):
+        context = super(AngularIndexView, self).get_context_data(**kwargs)
+        context.update(subscription_create_form=form)
+        return context
+
+    def get(self, request, **kwargs):
+        form = self.form()
+        context = self.get_context_data(form=form, **kwargs)
+        return self.render_to_response(context)
+
+    def post(self, request, **kwargs):
+        in_data = json.loads(request.body)
+        form = self.form(data=in_data)
+        response_data = {'errors': form.errors}
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
 class BaseListAndCreateView(ListView):
