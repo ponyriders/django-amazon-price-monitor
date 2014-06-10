@@ -76,7 +76,16 @@ class BaseListAndCreateView(ListView):
         # TODO this is only a bad helper until the angular frontend is working, remove afterwards
         context['subscription_list'] = {}
         for product in context['product_list']:
-            context['subscription_list'][product.asin] = Subscription.objects.only('public_id').get(owner=self.request.user.pk, product=product)
+            try:
+                context['subscription_list'][product.asin] = Subscription.objects.only('public_id').get(owner=self.request.user.pk, product=product)
+            except Subscription.MultipleObjectsReturned:
+                logger.error(
+                    'Failed to get a single subscription for user with pk %(user_pk)s and product with pk %(product_pk)s' % {
+                        'user_pk': self.request.user.pk,
+                        'product_pk': product.pk
+                    }
+                )
+                raise
 
         context['default_currency'] = app_settings.PRICE_MONITOR_DEFAULT_CURRENCY
 
