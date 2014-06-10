@@ -78,6 +78,8 @@ class BaseListAndCreateView(ListView):
         for product in context['product_list']:
             context['subscription_list'][product.asin] = Subscription.objects.only('public_id').get(owner=self.request.user.pk, product=product)
 
+        context['default_currency'] = app_settings.PRICE_MONITOR_DEFAULT_CURRENCY
+
         return context
 
     def post(self, request, *args, **kwargs):

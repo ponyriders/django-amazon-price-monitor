@@ -17,6 +17,8 @@ PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES = getattr(settings, 'PRIC
 PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES = getattr(settings, 'PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES', 60 * 24 * 7)
 # the email sender for notification emails
 PRICE_MONITOR_EMAIL_SENDER = getattr(settings, 'PRICE_MONITOR_EMAIL_SENDER', 'noreply@localhost')
+# default currency
+PRICE_MONITOR_DEFAULT_CURRENCY = getattr(settings, 'PRICE_MONITOR_DEFAULT_CURRENCY', 'EUR')
 
 # i18n for email notifications
 gettext = lambda x: x
