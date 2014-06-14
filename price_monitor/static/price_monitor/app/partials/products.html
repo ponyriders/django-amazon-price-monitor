@@ -7,29 +7,5 @@
 
     <div class="media-body">
         <h4 class="media-heading">{{ subscription.get_product().title }}</h4>
-        <div class="row">
-            <div class="col-xs-1">{% trans "Price" %}:</div>
-            <div class="col-xs-11">
-                {% if price %}
-                    {{ subscription.get_product().currency }} {{ price.value|floatformat:2 }} (as of {{ price.date_seen|localize }} {{ price.date_seen|date:"e" }} - <span data-toggle="tooltip" data-placement="top" title="{% blocktrans %}Product prices and availability are accurate as of the date/time indicated and are subject to change. Any price and availability information displayed on {{ site_name }} at the time of purchase will apply to the purchase of this product.{% endblocktrans %}">{% trans "Details" %}</span>)
-                {% else %}
-                    {% trans "No price information available." %}
-                {% endif %}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-1">{% trans "Limit" %}:</div>
-            <div class="col-xs-11">{{ default_currency }} {{ subscription.price_limit|floatformat:2 }} ({% price_diff price.value subscription.price_limit %})</div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">&nbsp;</div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <a href="{% url 'delete_subscription_view' subscription.public_id %}">
-                    <span class="glyphicon glyphicon-remove"></span> {% trans "Remove" %}
-                </a>
-            </div>
-        </div>
     </div>
 </div>
