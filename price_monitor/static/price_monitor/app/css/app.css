@@ -1,3 +1,11 @@
 .content {
     margin-top: 55px;
 }
+
+.media .media-object {
+    max-width: 75px;
+}
+
+.media .media-body {
+    margin-left: 85px;
+}
