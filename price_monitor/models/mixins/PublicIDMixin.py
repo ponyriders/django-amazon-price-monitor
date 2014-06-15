@@ -1,6 +1,7 @@
 import uuid
 
 from django.db import models
+from django.utils.translation import ugettext as _
 
 
 class PublicIDMixin(models.Model):
@@ -19,3 +20,4 @@ class PublicIDMixin(models.Model):
 
     class Meta:
         abstract = True
+        app_label = 'price_monitor'
