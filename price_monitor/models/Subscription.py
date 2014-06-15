@@ -11,7 +11,7 @@ class Subscription(models.Model):
     """
     Model for a user being able to subscribe to a product and be notified if the price_limit is reached.
     """
-    public_id = models.CharField(max_length=36, default=str(uuid.uuid4()), unique=True, editable=False, null=False, verbose_name=_('Public-ID'))
+    public_id = models.CharField(max_length=36, default=None, unique=True, editable=False, null=False, verbose_name=_('Public-ID'))
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Owner'))
     product = models.ForeignKey('Product', verbose_name=_('Product'))
     price_limit = models.FloatField(verbose_name=_('Price limit'))
@@ -38,6 +38,10 @@ class Subscription(models.Model):
                 'user': self.owner.username,
             }
         )
+
+    def save(self, *args, **kwargs):
+        self.public_id = str(uuid.uuid4())
+        super(Subscription, self).save(*args, **kwargs)
 
     class Meta:
         app_label = 'price_monitor'
