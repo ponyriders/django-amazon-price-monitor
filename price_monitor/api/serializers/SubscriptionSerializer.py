@@ -5,6 +5,9 @@ from rest_framework import serializers
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
+    """
+    Serializes subscription with product inline. Also renders id frm public_id
+    """
     product = ProductSerializer()
     id = serializers.CharField(source='public_id')
 
