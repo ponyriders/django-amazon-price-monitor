@@ -15,5 +15,7 @@ def price_diff(price, limit):
     :return: formatted string of difference
     :rtype: str
     """
+    if price == '':
+        return 'No price information available'
     difference = price - limit
     return '%s%.2f' % ('+' if difference >= 0 else '', difference)
