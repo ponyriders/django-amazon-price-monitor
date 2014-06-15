@@ -30,7 +30,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
 
 
 class EmailNotificationAdmin(admin.ModelAdmin):
-    list_display = ('email', 'owner',)
+    list_display = ('email', 'owner', 'public_id',)
 
 
 admin.site.register(Price, PriceAdmin)
