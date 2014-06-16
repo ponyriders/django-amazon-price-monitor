@@ -46,7 +46,6 @@ class ProductSerializer(serializers.ModelSerializer):
         )
         # TODO: check if this is good
         read_only_fields = (
-            'id',
             'date_creation',
             'date_updated',
             'date_last_synced',
