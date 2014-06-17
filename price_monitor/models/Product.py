@@ -1,9 +1,9 @@
-from .. import app_settings
-
 from django.conf import settings
 from django.db import models
 from django.utils import formats
 from django.utils.translation import ugettext as _, ugettext_lazy
+
+from price_monitor import app_settings
 
 from six import text_type
 from six.moves.urllib.parse import urljoin, urlparse
