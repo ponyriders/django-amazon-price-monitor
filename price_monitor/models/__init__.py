@@ -28,4 +28,4 @@ def synchronize_product_after_creation(sender, instance, created, **kwargs):
         logger = logging.getLogger('price_monitor')
         from price_monitor.tasks import ProductSynchronizeTask
         logger.info('Synchronizing single product %(product_pk)s with ASIN %(asin)s' % {'product_pk': instance.pk, 'asin': instance.asin})
-        ProductSynchronizeTask().delay(instance)
+        ProductSynchronizeTask.delay(instance)
