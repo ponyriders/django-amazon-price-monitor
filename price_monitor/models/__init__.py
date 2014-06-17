@@ -1,4 +1,5 @@
 # flake8: noqa
+import logging
 import os
 
 from django.db.models.signals import post_save
@@ -24,5 +25,7 @@ def synchronize_product_after_creation(sender, instance, created, **kwargs):
     :type kwargs: dict
     """
     if created and os.environ.get('STAGE', 'Live') != 'TravisCI':
+        logger = logging.getLogger('price_monitor')
         from price_monitor.tasks import ProductSynchronizeTask
+        logger.info('Synchronizing single product %(product_pk)s with ASIN %(asin)s' % {'product_pk': instance.pk, 'asin': instance.asin})
         ProductSynchronizeTask().delay(instance)
