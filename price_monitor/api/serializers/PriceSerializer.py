@@ -1,4 +1,4 @@
-from price_monitor.models import Price
+from ...models import Price
 
 from rest_framework import serializers
 

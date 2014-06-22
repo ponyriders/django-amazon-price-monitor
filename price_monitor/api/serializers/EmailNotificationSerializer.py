@@ -1,4 +1,4 @@
-from price_monitor.models import EmailNotification
+from ...models import EmailNotification
 
 from rest_framework import serializers
 

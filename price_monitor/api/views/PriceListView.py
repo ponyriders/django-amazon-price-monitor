@@ -1,5 +1,5 @@
-from price_monitor.api.serializers.PriceSerializer import PriceSerializer
-from price_monitor.models.Price import Price
+from ..serializers.PriceSerializer import PriceSerializer
+from ...models.Price import Price
 
 from rest_framework.generics import ListAPIView
 

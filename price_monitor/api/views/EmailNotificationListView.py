@@ -1,5 +1,5 @@
-from price_monitor.api.serializers.EmailNotificationSerializer import EmailNotificationSerializer
-from price_monitor.models.EmailNotification import EmailNotification
+from ..serializers.EmailNotificationSerializer import EmailNotificationSerializer
+from ...models.EmailNotification import EmailNotification
 
 from rest_framework import generics, permissions
 
@@ -8,7 +8,7 @@ class EmailNotificationListView(generics.ListAPIView):
     """
     View for rendering list of EmailNotification objects
     """
-    
+
     model = EmailNotification
     serializer_class = EmailNotificationSerializer
     permission_classes = [

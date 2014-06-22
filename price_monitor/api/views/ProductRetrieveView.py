@@ -1,5 +1,5 @@
-from price_monitor.api.serializers.ProductSerializer import ProductSerializer
-from price_monitor.models.Product import Product
+from ..serializers.ProductSerializer import ProductSerializer
+from ...models.Product import Product
 
 from rest_framework import generics, permissions
 

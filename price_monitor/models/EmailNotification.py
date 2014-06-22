@@ -1,8 +1,8 @@
+from .mixins.PublicIDMixin import PublicIDMixin
+
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _, ugettext_lazy
-
-from price_monitor.models.mixins.PublicIDMixin import PublicIDMixin
 
 from six import text_type
 

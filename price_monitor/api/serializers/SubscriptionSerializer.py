@@ -1,5 +1,4 @@
-from price_monitor.api.serializers.ProductSerializer import ProductSerializer
-from price_monitor.models import Subscription
+from ...models import Subscription
 
 from rest_framework import serializers
 

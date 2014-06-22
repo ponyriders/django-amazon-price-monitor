@@ -1,11 +1,11 @@
 from django.conf.urls import patterns, url
 
-from price_monitor.api.views.EmailNotificationListView import EmailNotificationListView
-from price_monitor.api.views.PriceListView import PriceListView
-from price_monitor.api.views.ProductListView import ProductListView
-from price_monitor.api.views.ProductRetrieveView import ProductRetrieveView
-from price_monitor.api.views.SubscriptionRetrieveView import SubscriptionRetrieveView
-from price_monitor.api.views.SubscriptionListView import SubscriptionListView
+from ..api.views.EmailNotificationListView import EmailNotificationListView
+from ..api.views.PriceListView import PriceListView
+from ..api.views.ProductListView import ProductListView
+from ..api.views.ProductRetrieveView import ProductRetrieveView
+from ..api.views.SubscriptionRetrieveView import SubscriptionRetrieveView
+from ..api.views.SubscriptionListView import SubscriptionListView
 
 
 urlpatterns = patterns(
