@@ -44,9 +44,8 @@
             <div class="container">
                 <div ng-view></div>
                 <div class="row">
-                    <form name="{{ form.form_name }}" novalidate>
-                        {{ subscription_create_form }}
-                        <input type="submit" class="btn" ng-disabled="{{ form.form_name }}.$invalid" value="Submit">
+                    <form name="form">
+                        <input type="text" name="asin" ng-model="subscription.asin" placeholder="ASIN" required ng-pattern="/[A-Z0-9]/"/>
                     </form>
                 </div>
                 <div class="row" id="footer">
@@ -62,8 +61,8 @@
             var SETTINGS = {
                 'uris': {
                     'static': '{% get_static_prefix %}',
-                    'product': '{% url "api_product_crud" %}',
-                    'subscription': '{% url "api_subscription_crud" %}'
+                    'product': '/monitor/api/products/:asin/{#{% url "api_product_retrieve" asin=":asin" %}#}',
+                    'subscription': '/monitor/api/subscriptions/:public_id/{#{% url "api_subscription_retrieve" public_id=":public_id" %}#}'
                 }
             };
         </script>
@@ -72,7 +71,7 @@
         <script src="{% get_static_prefix %}price_monitor/angular/angular-resource.min.js"></script>
         <script src="{% get_static_prefix %}price_monitor/angular/angular-route.min.js"></script>
         <script src="{% get_static_prefix %}price_monitor/angular/ui-bootstrap-tpls-0.11.0.min.js"></script>
-        <script src="{% get_static_prefix %}djangular/js/django-angular.min.js"></script>
+        <script src="{% get_static_prefix %}price_monitor/angular/angular-django-rest-resource.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/server-connector.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/app.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/controller/main-ctrl.js"></script>

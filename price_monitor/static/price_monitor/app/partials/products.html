@@ -1,11 +1,11 @@
 <div class="media" ng-repeat="subscription in subscriptions">
-    <a class="pull-left" href="{{ subscription.get_product().offer_url }}"
-       ng-if="subscription.get_product().small_image_url">
-        <img class="media-object" ng-src="{{ subscription.get_product().small_image_url }}"
-             alt="{{ subscription.get_product().title }}">
+    <a class="pull-left" href="{{ subscription.fetchedProduct.offer_url }}"
+       ng-if="subscription.fetchedProduct.small_image_url">
+        <img class="media-object" ng-src="{{ subscription.fetchedProduct.small_image_url }}"
+             alt="{{ subscription.fetchedProduct.title }}">
     </a>
 
     <div class="media-body">
-        <h4 class="media-heading">{{ subscription.get_product().title }}</h4>
+        <h4 class="media-heading">{{ subscription.fetchedProduct.title }}</h4>
     </div>
 </div>

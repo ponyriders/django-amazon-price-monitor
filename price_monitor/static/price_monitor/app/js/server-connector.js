@@ -1,20 +1,12 @@
 'use strict';
 
-var PriceMonitorServerConnector = angular.module('PriceMonitorServerConnector', ['ngResource']);
+var PriceMonitorServerConnector = angular.module('PriceMonitorServerConnector', ['ngResource', 'djangoRESTResources']);
 
-PriceMonitorServerConnector.factory('Product', ['$resource', function($resource) {
-    return $resource(SETTINGS.uris.product, {'pk': '@pk'}, {
+PriceMonitorServerConnector.factory('Product', ['djResource', function(djResource) {
+    return djResource(SETTINGS.uris.product, {'asin': '@asin'}, {
     });
 }]);
 
-PriceMonitorServerConnector.factory('Subscription', ['$resource', 'Product', function($resource, Product) {
-    var Subscription = $resource(SETTINGS.uris.subscription, {'pk': '@pk'}, {});
-    Subscription._fetched_product = null;
-    Subscription.prototype.get_product = function() {
-        if (this._fetched_product == null) {
-            this._fetched_product = Product.get({'pk': this.product});
-        }
-        return this._fetched_product;
-    }
-    return Subscription;
+PriceMonitorServerConnector.factory('Subscription', ['djResource', 'Product', function(djResource) {
+    return djResource(SETTINGS.uris.subscription, {'public_id': '@public_id'}, {});
 }]);

@@ -7,6 +7,7 @@ var PriceMonitorApp = angular.module(
         'ngRoute',
         'ngResource',
         'ui.bootstrap',
+        'djangoRESTResources',
         'PriceMonitorServerConnector'
     ]
 );
