@@ -11,7 +11,7 @@ class SubscriptionListView(generics.ListAPIView):
     model = Subscription
     serializer_class = SubscriptionSerializer
     allow_empty = True
-    
+
     permission_classes = [
         # only return the list if user is authenticated
         permissions.IsAuthenticated

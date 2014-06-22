@@ -49,7 +49,6 @@ class AngularIndexView(TemplateView):
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-
 class BaseListAndCreateView(ListView):
     """
     Abstract base view for ProductListAndCreationView and
