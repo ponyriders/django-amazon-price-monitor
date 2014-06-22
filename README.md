@@ -20,7 +20,7 @@ Relies on python-amazon-simple-product-api under the hood.
 
 ### Included angular libraries
 
-- angular-django-rest-resource [commit: 81d752b363668d674201c09d7a2ce6f418a44f13](https://github.com/blacklocus/angular-django-rest-resource/tree/81d752b363668d674201c09d7a2ce6f418a44f13)
+- angular-django-rest-resource ([commit: 81d752b363668d674201c09d7a2ce6f418a44f13](https://github.com/blacklocus/angular-django-rest-resource/tree/81d752b363668d674201c09d7a2ce6f418a44f13))
 
 ### Basic setup
 
