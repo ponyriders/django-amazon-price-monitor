@@ -20,7 +20,7 @@ class SubscriptionListView(generics.ListAPIView):
     def get_queryset(self):
         """
         Filters queryset by the authenticated user
-        :returns: filtered EmailNotification objects
+        :returns: filtered Subscription objects
         :rtype:   QuerySet
         """
         return super(SubscriptionListView, self).get_queryset().filter(owner=self.request.user)

@@ -6,7 +6,7 @@ from rest_framework import generics, permissions
 
 class ProductRetrieveView(generics.RetrieveAPIView):
     """
-    Returns list of Products, if user is authenticated
+    Returns single instance of Product, if user is authenticated
     """
     model = Product
     serializer_class = ProductSerializer
@@ -15,3 +15,11 @@ class ProductRetrieveView(generics.RetrieveAPIView):
         # only return the list if user is authenticated
         permissions.IsAuthenticated
     ]
+
+    def get_queryset(self):
+        """
+        Filters queryset by the authenticated user
+        :returns: filtered Product objects
+        :rtype:   QuerySet
+        """
+        return super(ProductRetrieveView, self).get_queryset().filter(subscription__owner=self.request.user)

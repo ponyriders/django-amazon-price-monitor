@@ -15,3 +15,11 @@ class ProductListView(generics.ListAPIView):
         # only return the list if user is authenticated
         permissions.IsAuthenticated
     ]
+
+    def get_queryset(self):
+        """
+        Filters queryset by the authenticated user
+        :returns: filtered Product objects
+        :rtype:   QuerySet
+        """
+        return super(ProductListView, self).get_queryset().filter(subscription__owner=self.request.user)

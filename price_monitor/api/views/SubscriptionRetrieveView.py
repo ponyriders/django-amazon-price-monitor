@@ -6,7 +6,7 @@ from rest_framework import generics, permissions
 
 class SubscriptionRetrieveView(generics.RetrieveAPIView):
     """
-    Returns list of subscriptions, if user is authenticated
+    Returns instance of Subscription, if user is authenticated
     """
     model = Subscription
     serializer_class = SubscriptionSerializer
@@ -19,7 +19,7 @@ class SubscriptionRetrieveView(generics.RetrieveAPIView):
     def get_queryset(self):
         """
         Filters queryset by the authenticated user
-        :returns: filtered EmailNotification objects
+        :returns: filtered Subscription objects
         :rtype:   QuerySet
         """
         return super(SubscriptionRetrieveView, self).get_queryset().filter(owner=self.request.user)
