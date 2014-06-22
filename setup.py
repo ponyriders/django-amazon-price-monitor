@@ -16,7 +16,8 @@ setup(
         'Django>=1.5,<1.7',
         'python-amazon-simple-product-api==1.4.0',
         'celery>=3',
-        'six'
+        'six',
+        'djangorestframework>=2.3.13',
     ],
     dependency_links=[
     ]
