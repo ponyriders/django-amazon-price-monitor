@@ -6,6 +6,7 @@ Relies on python-amazon-simple-product-api under the hood.
 | Branch  | Build status |
 | --------| ------------ |
 | master  | [![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=master)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) |
+| angular  | [![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=angular-frontend)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) |
 
 ## Setup
 
@@ -16,6 +17,10 @@ Relies on python-amazon-simple-product-api under the hood.
 - Celery >= 3
 - six
 - redis
+
+### Included angular libraries
+
+- angular-django-rest-resource [commit: 81d752b363668d674201c09d7a2ce6f418a44f13](https://github.com/blacklocus/angular-django-rest-resource/tree/81d752b363668d674201c09d7a2ce6f418a44f13)
 
 ### Basic setup
 
