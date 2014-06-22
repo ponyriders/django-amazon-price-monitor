@@ -4,13 +4,13 @@ from price_monitor.models.Product import Product
 from rest_framework import generics, permissions
 
 
-class ProductListView(generics.ListAPIView):
+class ProductRetrieveView(generics.RetrieveAPIView):
     """
     Returns list of Products, if user is authenticated
     """
     model = Product
     serializer_class = ProductSerializer
-    allow_empty = True
+    lookup_field = 'asin'
     permission_classes = [
         # only return the list if user is authenticated
         permissions.IsAuthenticated

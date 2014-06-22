@@ -8,7 +8,7 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     """
     Serializes subscription with product inline. Also renders id frm public_id
     """
-    product = ProductSerializer()
+    product = serializers.HyperlinkedRelatedField(view_name='api_product_retrieve', lookup_field='asin')
     id = serializers.CharField(source='public_id')
 
     class Meta:

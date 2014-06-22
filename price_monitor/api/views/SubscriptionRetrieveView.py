@@ -4,14 +4,13 @@ from price_monitor.models.Subscription import Subscription
 from rest_framework import generics, permissions
 
 
-class SubscriptionListView(generics.ListAPIView):
+class SubscriptionRetrieveView(generics.RetrieveAPIView):
     """
     Returns list of subscriptions, if user is authenticated
     """
     model = Subscription
     serializer_class = SubscriptionSerializer
-    allow_empty = True
-    
+    lookup_field = 'public_id'
     permission_classes = [
         # only return the list if user is authenticated
         permissions.IsAuthenticated
@@ -23,4 +22,4 @@ class SubscriptionListView(generics.ListAPIView):
         :returns: filtered EmailNotification objects
         :rtype:   QuerySet
         """
-        return super(SubscriptionListView, self).get_queryset().filter(owner=self.request.user)
+        return super(SubscriptionRetrieveView, self).get_queryset().filter(owner=self.request.user)

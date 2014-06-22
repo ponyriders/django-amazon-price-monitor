@@ -8,12 +8,10 @@ class ProductSerializer(serializers.ModelSerializer):
     Product serializer. Serializes all fields needed for frontend and id from asin.
     Also sets all fields but asin to read only
     """
-    id = serializers.CharField(source='asin')
 
     class Meta:
         model = Product
         fields = (
-            'id',
             'date_creation',
             'date_updated',
             'date_last_synced',
