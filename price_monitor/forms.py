@@ -5,15 +5,12 @@ from .models.Subscription import Subscription
 
 from django import forms
 from django.utils.translation import ugettext as _
-from djangular.forms import NgFormValidationMixin
 
 
-class SubscriptionCreationForm(NgFormValidationMixin, forms.ModelForm):
+class SubscriptionCreationForm(forms.ModelForm):
     """
     Form for creating an product Subscription
     """
-    form_name = 'subscription_creation_form'
-
     product = forms.RegexField(label=_('ASIN'), regex=settings.PRICE_MONITOR_ASIN_REGEX)
     email_notification = forms.ModelChoiceField(queryset=EmailNotification.objects.all(), empty_label=None)
 
@@ -25,7 +22,7 @@ class SubscriptionCreationForm(NgFormValidationMixin, forms.ModelForm):
         """
         asin = self.cleaned_data['product']
         try:
-            product = Product.objects.get(asin_iexact=asin)
+            product = Product.objects.get(asin__iexact=asin)
         except Product.DoesNotExist:
             product = Product.objects.create(asin=asin)
         asin = product
