@@ -24,12 +24,10 @@ Relies on python-amazon-simple-product-api under the hood.
 
 ### Basic setup
 
-Add the app "price_monitor" and the to apps for websockets to *INSTALLED_APPS*:
+Add the app "price_monitor" to *INSTALLED_APPS*:
 
     INSTALLED_APPS = (
         ...
-        'djangular',
-        'ws4redis',
         'price_monitor',
     )
 
