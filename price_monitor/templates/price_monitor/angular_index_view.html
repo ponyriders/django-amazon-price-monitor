@@ -63,6 +63,12 @@
                     'static': '{% get_static_prefix %}',
                     'product': '/monitor/api/products/:asin/{#{% url "api_product_retrieve" asin=":asin" %}#}',
                     'subscription': '/monitor/api/subscriptions/:public_id/{#{% url "api_subscription_retrieve" public_id=":public_id" %}#}'
+                },
+                'pagination': {
+                    'maxPageCount': 7,
+                    'itemsPerPage': 15,
+                    'paginationBoundaryLinks': true,
+                    'paginationRotate': false
                 }
             };
         </script>
