@@ -61,6 +61,7 @@
             var SETTINGS = {
                 'uris': {
                     'static': '{% get_static_prefix %}',
+                    'price': '/monitor/api/products/:asin/prices/{#{% url "api_product_retrieve" asin=":asin" %}#}',
                     'product': '/monitor/api/products/:asin/{#{% url "api_product_retrieve" asin=":asin" %}#}',
                     'subscription': '/monitor/api/subscriptions/:public_id/{#{% url "api_subscription_retrieve" public_id=":public_id" %}#}'
                 },
