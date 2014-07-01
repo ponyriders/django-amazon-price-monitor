@@ -1,10 +1,11 @@
+from .mixins.PublicIDMixin import PublicIDMixin
 from django.db import models
 from django.utils.translation import ugettext as _, ugettext_lazy
 
 from six import text_type
 
 
-class Price(models.Model):
+class Price(PublicIDMixin, models.Model):
     value = models.FloatField(verbose_name=_('Price'))
     currency = models.CharField(max_length=3, verbose_name=_('Currency'))
     date_seen = models.DateTimeField(verbose_name=_('Date of price'))
