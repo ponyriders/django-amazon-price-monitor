@@ -12,7 +12,7 @@ PriceMonitorApp.controller('ProductCtrl', function($scope, Product, Subscription
             angular.forEach($scope.subscriptions, function(subscription) {
                 subscription.fetchedProduct = sortedProducts[subscription.product];
             });
-            
+            $scope.defaultCurrency = SETTINGS.defaultCurrency;
             $scope.subscriptionCount = $scope.subscriptions.length;
             $scope.currentPage = 1;
             $scope.maxPageCount = SETTINGS.pagination.maxPageCount;

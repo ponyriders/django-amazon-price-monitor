@@ -8,6 +8,18 @@
 
     <div class="media-body">
         <h4 class="media-heading">{{ subscription.fetchedProduct.title }}</h4>
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="row">
+                    <div class="col-xs-1">Price:</div>
+                    <div class="col-xs-11">{{ defaultCurrency }} &lt;price&gt;</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-1">Limit:</div>
+                    <div class="col-xs-11">{{ defaultCurrency }} {{ subscription.price_limit | number: 2 }}</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <pagination total-items="subscriptionCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
