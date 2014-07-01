@@ -10,3 +10,7 @@ PriceMonitorServerConnector.factory('Product', ['djResource', function(djResourc
 PriceMonitorServerConnector.factory('Subscription', ['djResource', 'Product', function(djResource) {
     return djResource(SETTINGS.uris.subscription, {'public_id': '@public_id'}, {});
 }]);
+
+PriceMonitorServerConnector.factory('Price', ['djResource', function(djResource) {
+    return djResource(SETTINGS.uris.price, {'asin': '@asin'}, {});
+}]);
