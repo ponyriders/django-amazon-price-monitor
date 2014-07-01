@@ -6,6 +6,9 @@ from six import text_type
 
 
 class Price(PublicIDMixin, models.Model):
+    """
+    Representing fetched price for a product
+    """
     value = models.FloatField(verbose_name=_('Price'))
     currency = models.CharField(max_length=3, verbose_name=_('Currency'))
     date_seen = models.DateTimeField(verbose_name=_('Date of price'))
