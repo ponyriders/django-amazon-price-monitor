@@ -1,5 +1,5 @@
-<pagination total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
-<div class="media" ng-repeat="subscription in subscriptions | startFrom:currentPage*itemsPerPage | limitTo:itemsPerPage">
+<pagination total-items="subscriptionCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
+<div class="media" ng-repeat="subscription in subscriptions | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage">
     <a class="pull-left" href="{{ subscription.fetchedProduct.offer_url }}"
        ng-if="subscription.fetchedProduct.small_image_url">
         <img class="media-object" ng-src="{{ subscription.fetchedProduct.small_image_url }}"
@@ -10,4 +10,4 @@
         <h4 class="media-heading">{{ subscription.fetchedProduct.title }}</h4>
     </div>
 </div>
-<pagination total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
+<pagination total-items="subscriptionCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
