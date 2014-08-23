@@ -9,6 +9,27 @@ class ProductSerializer(serializers.ModelSerializer):
     Also sets all fields but asin to read only
     """
 
+    current_price = serializers.SerializerMethodField('get_price_values')
+
+    def get_price_values(self, obj):
+        """
+        Renderes price dict as read only value into product representation
+        :param obj: product to get price for
+        :type obj:  Product
+        :returns:   Dict with price values
+        :rtype:     dict
+        """
+        try:
+            price = obj.price_set.order_by('-date_seen')[0]
+        except IndexError:
+            return None
+        else:
+            return {
+                'value': price.value,
+                'currency': price.currency,
+                'date_seen': price.date_seen,
+            }
+
     class Meta:
         model = Product
         fields = (
@@ -41,6 +62,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'small_image_url',
             'tiny_image_url',
             'offer_url',
+            'current_price',
         )
         # TODO: check if this is good
         read_only_fields = (
