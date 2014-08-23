@@ -1,4 +1,4 @@
-PriceMonitorApp.controller('ProductCtrl', function($scope, Product, Subscription, Price) {
+PriceMonitorApp.controller('ProductCtrl', function($scope, Product, Subscription) {
     // do the loading of products after subscriptions
     $scope.subscriptions = Subscription.query(function() {
         // do the combination of subscriptions and products after both are loaded
@@ -7,14 +7,12 @@ PriceMonitorApp.controller('ProductCtrl', function($scope, Product, Subscription
             
             angular.forEach(queryProducts, function(product) {
                 sortedProducts[product.asin] = product;
-                sortedProducts[product.asin].prices = Price.query({asin: product.asin});
             });
             
             angular.forEach($scope.subscriptions, function(subscription) {
                 subscription.fetchedProduct = sortedProducts[subscription.product];
             });
 
-            $scope.defaultCurrency = SETTINGS.defaultCurrency;
             $scope.subscriptionCount = $scope.subscriptions.length;
             $scope.currentPage = 1;
             $scope.maxPageCount = SETTINGS.pagination.maxPageCount;
