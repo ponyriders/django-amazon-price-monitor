@@ -104,9 +104,10 @@ class BaseListAndCreateView(ListView):
                 context['subscription_list'][product.asin] = Subscription.objects.only('public_id').get(owner=self.request.user.pk, product=product)
             except Subscription.MultipleObjectsReturned:
                 logger.error(
-                    'Failed to get a single subscription for user with pk %(user_pk)s and product with pk %(product_pk)s' % {
+                    'Failed to get a single subscription for user with pk %(user_pk)s and product with pk %(product_pk)s and ASIN %(asin)s' % {
                         'user_pk': self.request.user.pk,
-                        'product_pk': product.pk
+                        'product_pk': product.pk,
+                        'asin': product.asin,
                     }
                 )
                 raise

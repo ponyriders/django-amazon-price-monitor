@@ -1,9 +1,9 @@
-from .. import app_settings
-
 from django.conf import settings
 from django.db import models
 from django.utils import formats
 from django.utils.translation import ugettext as _, ugettext_lazy
+
+from price_monitor import app_settings
 
 from six import text_type
 from six.moves.urllib.parse import urljoin, urlparse
@@ -46,7 +46,7 @@ class Product(models.Model):
     date_release = models.DateField(blank=True, null=True, verbose_name=_('Release date'))
     edition = models.CharField(blank=True, null=True, max_length=255, verbose_name=_('Edition'))
     model = models.CharField(blank=True, null=True, max_length=255, verbose_name=_('Model'))
-    part_number = models.CharField(blank=True, null=True, max_length=255, verbose_name=_('Binding'))
+    part_number = models.CharField(blank=True, null=True, max_length=255, verbose_name=_('Part number'))
 
     # amazon urls
     large_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to large product image'))
