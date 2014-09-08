@@ -1,9 +1,5 @@
 import logging
 
-from . import app_settings as settings
-from .api import get_api
-from .utils import send_mail
-
 from amazon.api import (
     AmazonProduct,
     AsinNotFound,
@@ -18,10 +14,15 @@ from datetime import timedelta
 
 from itertools import islice
 
+from price_monitor import app_settings as settings
 from price_monitor.models import (
     Price,
     Product,
     Subscription,
+)
+from price_monitor.utils import (
+    get_api,
+    send_mail,
 )
 
 from smtplib import SMTPServerDisconnected

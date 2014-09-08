@@ -1,6 +1,6 @@
 import traceback
 
-from ...api import get_api
+from price_monitor.utils import get_api
 
 from amazon.api import (
     AsinNotFound,

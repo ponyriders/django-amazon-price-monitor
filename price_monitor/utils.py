@@ -1,7 +1,23 @@
-from . import app_settings as settings
+from amazon.api import AmazonAPI
 
 from django.core.mail import send_mail as django_send_mail
 from django.utils.translation import ugettext as _
+
+from price_monitor import app_settings as settings
+
+
+def get_api():
+    """
+    Returns an AmazonAPI instance.
+    :return: api instance
+    :rtype: amazon.api.AmazonAPI
+    """
+    return AmazonAPI(
+        settings.AWS_ACCESS_KEY_ID,
+        settings.AWS_SECRET_ACCESS_KEY,
+        settings.AMAZON_PRODUCT_API_ASSOC_TAG,
+        region=settings.AMAZON_PRODUCT_API_REGION,
+    )
 
 
 def send_mail(title, price_limit, currency, price, offer_url, send_to):
