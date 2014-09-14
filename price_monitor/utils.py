@@ -1,3 +1,5 @@
+import warnings
+
 from amazon.api import AmazonAPI
 
 from django.core.mail import send_mail as django_send_mail
@@ -12,6 +14,7 @@ def get_api():
     :return: api instance
     :rtype: amazon.api.AmazonAPI
     """
+    warnings.warn('get_api() is deprecated. Please use new structure!', DeprecationWarning, stacklevel=2)
     return AmazonAPI(
         settings.AWS_ACCESS_KEY_ID,
         settings.AWS_SECRET_ACCESS_KEY,

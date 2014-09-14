@@ -184,10 +184,16 @@ There is a management command to batch create a number of products by providing 
     python manage.py price_monitor_batch_create_products "<ASIN1>,<ASIN2>,<ASIN3>"
 
 
-## Logger
+## Loggers
 
-The app uses the logger "price_monitor" to log error and info messages.
+### price_monitor
+
+The app uses the logger "price_monitor" to log all error and info messages that are not included within a dedicated other logger.
 Please see the [Django logging documentation](https://docs.djangoproject.com/en/1.5/topics/logging/ "Django logging documentation") for how to setup loggers.
+
+### price_monitor.product_advertising_api
+
+Logger for everything related to the ProductAdvertisingAPI wrapper class that accesses the Amazon Product Advertising API through bottlenose.
 
 
 ## Models
