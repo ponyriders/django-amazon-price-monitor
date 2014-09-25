@@ -1,3 +1,4 @@
+from ..renderers.PriceChartPNGRenderer import PriceChartPNGRenderer
 from ..serializers.PriceSerializer import PriceSerializer
 from ...models.Price import Price
 
@@ -7,6 +8,7 @@ from rest_framework.generics import ListAPIView
 class PriceListView(ListAPIView):
     model = Price
     serializer_class = PriceSerializer
+    renderer_classes = ListAPIView.renderer_classes + [PriceChartPNGRenderer]
 
     def get_queryset(self):
         queryset = super(PriceListView, self).get_queryset()
