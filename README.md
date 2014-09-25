@@ -175,6 +175,18 @@ This is a list of all settings that can be overwritten:
     <td>'[A-Z0-9]+'</td>
     <td>no</td>
 </tr>
+<tr>
+    <td>PRICE_MONITOR_GRAPH_CACHE_NAME</td>
+    <td>The name of the cache to use for storing graph images into. If this value is not set, graph images are not cached.</td>
+    <td>None</td>
+    <td>no</td>
+</tr>
+<tr>
+    <td>PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX</td>
+    <td>Prefix for cache keys used for graph images</td>
+    <td>'graph_'</td>
+    <td>no</td>
+</tr>
 </table>
 
 

@@ -36,3 +36,11 @@ PRICE_MONITOR_ASIN_REGEX = getattr(settings, 'PRICE_MONITOR_ASIN_REGEX', r'[A-Z0
 PRICE_MONITOR_IMAGES_USE_SSL = getattr(settings, 'PRICE_MONITOR_IMAGES_USE_SSL', True)
 # HTTPS host to use for getting the images. Seems to be https://images-<REGION>.ssl-images-amazon.com.
 PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN = getattr(settings, 'PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN', 'https://images-eu.ssl-images-amazon.com')
+
+
+# cache settings
+
+# key of cache (according to project config) to use for graphs. Set to none to disable caching
+PRICE_MONITOR_GRAPH_CACHE_NAME = getattr(settings, 'PRICE_MONITOR_GRAPH_CACHE_NAME', None)
+# prefix for cache key used for graphs
+PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX = getattr(settings, 'PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX', 'graph_')
