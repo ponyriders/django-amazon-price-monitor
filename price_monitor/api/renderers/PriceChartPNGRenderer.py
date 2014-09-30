@@ -19,6 +19,12 @@ class PriceChartPNGRenderer(BaseRenderer):
     format = 'png'
     charset = None
     render_style = 'binary'
+    
+    # TODO: documentation
+    allowed_url_args = {
+        'height': lambda x: int(x),
+        'width': lambda x: int(x),
+    }
 
     def render(self, data, accepted_media_type=None, renderer_context=None):
         """
@@ -27,7 +33,10 @@ class PriceChartPNGRenderer(BaseRenderer):
         # first get the cache to use or None
         cache = get_cache(app_settings.PRICE_MONITOR_GRAPH_CACHE_NAME) if app_settings.PRICE_MONITOR_GRAPH_CACHE_NAME is not None else None
         # generate cache key
-        cache_key = self.create_cache_key(data)
+        cache_key = self.create_cache_key(
+            data, 
+            self.sanitize_allowed_args(renderer_context['request']) if 'request' in renderer_context else None
+        )
         # only read from cache if there is any
         content = cache.get(cache_key, None) if cache is not None else None
         if content is None:
@@ -50,12 +59,36 @@ class PriceChartPNGRenderer(BaseRenderer):
         else:
             # return the cache content
             return content
+        
+    def sanitize_allowed_args(self, request):
+        """
+        TODO: documentation
+        """
+        sanitized_args = {}
+        if request.method == 'POST':
+            args = request.POST
+        elif request.method == 'GET':
+            args = request.GET
+        else:
+            return sanitized_args
+        
+        for arg, sanitizer in self.allowed_url_args.iteritems():
+            if arg in args:
+                try:
+                    sanitized_args[arg] = sanitizer(args[arg])
+                except ValueError:
+                    # sanitation gone wrong, so pass
+                    pass
+        return sanitized_args
 
-    def create_cache_key(self, data):
+    def create_cache_key(self, data, args=None):
         """
         Creates a cache key based on rendering data
         """
-        return app_settings.PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX + hashlib.md5(unicode(data['results'])).hexdigest()
+        hash_data = unicode(data['results'])
+        if args is not None:
+            hash_data += unicode(args)
+        return app_settings.PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX + hashlib.md5(hash_data).hexdigest()
 
     def create_graph(self, data):
         """
