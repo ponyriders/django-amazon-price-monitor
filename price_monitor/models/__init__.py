@@ -24,8 +24,10 @@ def synchronize_product_after_creation(sender, instance, created, **kwargs):
     :param kwargs: additional keywords arguments, see https://docs.djangoproject.com/en/1.6/ref/signals/#django.db.models.signals.post_save
     :type kwargs: dict
     """
-    if created and os.environ.get('STAGE', 'Live') != 'TravisCI':
-        logger = logging.getLogger('price_monitor')
-        from price_monitor.tasks import ProductSynchronizeTask
-        logger.info('Synchronizing single product %(product_pk)s with ASIN %(asin)s' % {'product_pk': instance.pk, 'asin': instance.asin})
-        ProductSynchronizeTask.delay(instance)
+    pass
+    # FIXME recreate functionality
+    # if created and os.environ.get('STAGE', 'Live') != 'TravisCI':
+    #     logger = logging.getLogger('price_monitor')
+    #     from price_monitor.tasks import ProductSynchronizeTask
+    #     logger.info('Synchronizing single product %(product_pk)s with ASIN %(asin)s' % {'product_pk': instance.pk, 'asin': instance.asin})
+    #     ProductSynchronizeTask.delay(instance)
