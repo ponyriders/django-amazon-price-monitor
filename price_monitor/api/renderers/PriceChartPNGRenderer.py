@@ -1,14 +1,19 @@
 import hashlib
 import math
-import pygal
 
 from ... import app_settings
 
 from django.core.cache import get_cache
+
+from pygal import Line
+from pygal.style import RedBlueStyle
+
 from rest_framework.renderers import BaseRenderer
 
 from tempfile import TemporaryFile
 
+
+bool_helper = lambda x: x in [1, '1', 'true', 'True']
 
 class PriceChartPNGRenderer(BaseRenderer):
     """
@@ -24,6 +29,10 @@ class PriceChartPNGRenderer(BaseRenderer):
     allowed_url_args = {
         'height': lambda x: int(x),
         'width': lambda x: int(x),
+        'margin': lambda x: int(x),
+        'show_legend': bool_helper,
+        'show_y_labels': bool_helper,
+        'show_minor_y_labels': bool_helper,
     }
 
     def render(self, data, accepted_media_type=None, renderer_context=None):
@@ -32,16 +41,17 @@ class PriceChartPNGRenderer(BaseRenderer):
         """
         # first get the cache to use or None
         cache = get_cache(app_settings.PRICE_MONITOR_GRAPH_CACHE_NAME) if app_settings.PRICE_MONITOR_GRAPH_CACHE_NAME is not None else None
+        
+        # sanitize arguments
+        sanitized_args = self.sanitize_allowed_args(renderer_context['request']) if 'request' in renderer_context else {}
+        
         # generate cache key
-        cache_key = self.create_cache_key(
-            data, 
-            self.sanitize_allowed_args(renderer_context['request']) if 'request' in renderer_context else None
-        )
+        cache_key = self.create_cache_key(data, sanitized_args)
         # only read from cache if there is any
         content = cache.get(cache_key, None) if cache is not None else None
         if content is None:
             # create graph instance
-            graph = self.create_graph(data)
+            graph = self.create_graph(data, sanitized_args)
 
             # write graph to temporary file
             with TemporaryFile() as file_:
@@ -81,23 +91,24 @@ class PriceChartPNGRenderer(BaseRenderer):
                     pass
         return sanitized_args
 
-    def create_cache_key(self, data, args=None):
+    def create_cache_key(self, data, args):
         """
         Creates a cache key based on rendering data
         """
         hash_data = unicode(data['results'])
-        if args is not None:
-            hash_data += unicode(args)
+        hash_data += unicode(args)
         return app_settings.PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX + hashlib.md5(hash_data).hexdigest()
 
-    def create_graph(self, data):
+    def create_graph(self, data, args):
         """
         Creates the graph based on rendering data
         """
-        line_chart = pygal.Line(
-            show_minor_y_labels=False,
-            y_labels_major_count=5,
-        )
+        line_chart_arguments = {
+            'style': RedBlueStyle,
+        }
+        line_chart_arguments.update(args)
+        
+        line_chart = Line(**line_chart_arguments)
         values = []
         if 'results' in data and len(data['results']) > 0:
             values = [price['value'] for price in data['results']]
