@@ -8,3 +8,4 @@ local_settings.py
 .settings
 django_amazon_price_monitor.egg-info
 .coverage
+price_monitor/management/commands/price_monitor_dev.py
