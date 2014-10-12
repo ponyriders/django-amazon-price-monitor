@@ -3,13 +3,13 @@ import logging
 
 from bs4 import BeautifulSoup
 
-from price_monitor import app_settings
+from price_monitor import (
+    app_settings,
+    utils,
+)
 
 
 logger = logging.getLogger('price_monitor.product_advertising_api')
-
-
-# TODO reshape all models to the values we need, then do the parsing of ItemLookup
 
 
 class ProductAdvertisingAPI(object):
@@ -32,5 +32,29 @@ class ProductAdvertisingAPI(object):
         )
 
     def item_lookup(self, item_id):
-        item = self.__amazon.ItemLookup(ItemId=item_id, ResponseGroup=app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP)
-        # TODO get what we need and extract these generic functionality
+        item_response = self.__amazon.ItemLookup(ItemId=item_id, ResponseGroup=app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP)
+        if item_response.items.request.isvalid.string == 'True':
+            item_node = item_response.items.item
+            # FIXME remove noga after implementing
+            item_values = {  # noqa
+                'asin': item_node.asin.string,
+                'title': item_node.itemattributes.title.string,
+                # FIXME find path, use 3832796096
+                'isbn': None,
+                # FIXME find path, use 3832796096
+                'eisbn': None,
+                'binding': item_node.itemattributes.binding.string,
+                # FIXME find path, use ASIN B00JIR8U3U
+                'date_publication': None,
+                # FIXME this is YYYY-MM-DD
+                'date_release': item_node.itemattributes.releasedate.string,
+                # FIXME collect possible values and parse them? see #19
+                'audience_rating': item_node.itemattributes.audiencerating.string,
+                'large_image_url': item_node.largeimage.url.string,
+                'medium_image_url': item_node.mediumimage.url.string,
+                'small_image_url': item_node.smallimage.url.string,
+                'offer_url': utils.get_offer_url(item_node.asin.string),
+            }
+        else:
+            # FIXME handle the error
+            pass
