@@ -1,7 +1,5 @@
 import warnings
 
-from amazon.api import AmazonAPI
-
 from django.core.mail import send_mail as django_send_mail
 from django.utils.translation import ugettext as _
 
@@ -30,6 +28,7 @@ def get_api():
     :rtype: amazon.api.AmazonAPI
     """
     warnings.warn('get_api() is deprecated. Please use new structure!', DeprecationWarning, stacklevel=2)
+    from amazon.api import AmazonAPI
     return AmazonAPI(
         app_settings.PRICE_MONITOR_AWS_ACCESS_KEY_ID,
         app_settings.PRICE_MONITOR_AWS_SECRET_ACCESS_KEY,

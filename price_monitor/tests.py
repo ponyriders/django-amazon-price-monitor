@@ -1,5 +1,3 @@
-from amazon.api import AmazonProduct
-
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -578,8 +576,8 @@ class ProductTest(TestCase):
         p.set_failed_to_sync()
         self.assertEqual(2, p.status)
 
-    def __get_sample_amazon_product(self):
-        return AmazonProduct(objectify.fromstring(self.test_xml), None, None, None)
+    # def __get_sample_amazon_product(self):
+    #     return AmazonProduct(objectify.fromstring(self.test_xml), None, None, None)
 
 
 class SubscriptionTest(TestCase):
@@ -649,7 +647,7 @@ class UtilsTest(TestCase):
     Tests for the utils module.
     """
     def test_get_offer_url(self):
-        self.assertEqual(u'http://www.amazon.de/dp/X123456789/?tag=sample-assoc-tag', utils.get_offer_url('X1234567890'))
+        self.assertEqual(u'http://www.amazon.de/dp/X1234567890/?tag=sample-assoc-tag', utils.get_offer_url('X1234567890'))
 
 if __name__ == '__main__':
     unittest.main()
