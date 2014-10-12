@@ -2,6 +2,3 @@ lxml
 coverage
 flake8
 django-discover-runner
-beautifulsoup4>=4.3.2
-bottlenose>=0.6.2
-djangorestframework>=2.3.13

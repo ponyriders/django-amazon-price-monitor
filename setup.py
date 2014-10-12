@@ -14,11 +14,11 @@ setup(
     long_description=open('README.md').read(),
     install_requires=[
         'Django>=1.5,<1.7',
+        'djangorestframework>=2.3.13',
         'beautifulsoup4>=4.3.2',
         'bottlenose>=0.6.2',
         'celery>=3',
         'six',
-        'djangorestframework>=2.3.13',
     ],
     dependency_links=[
     ]
