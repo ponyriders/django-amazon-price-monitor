@@ -1,14 +1,11 @@
 from django.conf import settings
 
 
-## general settings
-PRICE_MONITOR_SITENAME = getattr(settings, 'PRICE_MONITOR_SITENAME', 'Price Monitor')
-
 ## global AWS access settings
-AWS_ACCESS_KEY_ID = getattr(settings, 'AWS_ACCESS_KEY_ID', '')
-AWS_SECRET_ACCESS_KEY = getattr(settings, 'AWS_SECRET_ACCESS_KEY', '')
-AMAZON_PRODUCT_API_REGION = getattr(settings, 'AMAZON_PRODUCT_API_REGION', '')
-AMAZON_PRODUCT_API_ASSOC_TAG = getattr(settings, 'AMAZON_PRODUCT_API_ASSOC_TAG', '')
+PRICE_MONITOR_AWS_ACCESS_KEY_ID = getattr(settings, 'PRICE_MONITOR_AWS_ACCESS_KEY_ID', '')
+PRICE_MONITOR_AWS_SECRET_ACCESS_KEY = getattr(settings, 'PRICE_MONITOR_AWS_SECRET_ACCESS_KEY', '')
+PRICE_MONITOR_AMAZON_PRODUCT_API_REGION = getattr(settings, 'PRICE_MONITOR_AMAZON_PRODUCT_API_REGION', '')
+PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG = getattr(settings, 'PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG', '')
 
 ## server infrastructural settings
 # serve the product images via HTTPS
@@ -34,11 +31,21 @@ PRICE_MONITOR_EMAIL_SENDER = getattr(settings, 'PRICE_MONITOR_EMAIL_SENDER', 'no
 PRICE_MONITOR_DEFAULT_CURRENCY = getattr(settings, 'PRICE_MONITOR_DEFAULT_CURRENCY', 'EUR')
 # i18n for email notifications
 gettext = lambda x: x
-PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT = gettext('Price limit for %(product)s reached')
-PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY = gettext(
-    'The price limit of %(price_limit)0.2f %(currency)s has been reached for the article "%(product_title)s" - the current price is %(price)0.2f %(currency)s.'
-    '\n\nPlease support our platform by using this link for buying: %(link)s\n\n\nRegards,\nThe Team'
+PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT = getattr(
+    settings,
+    'PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT',
+    gettext('Price limit for %(product)s reached')
 )
+PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY = getattr(
+    settings,
+    'PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY',
+    gettext(
+        'The price limit of %(price_limit)0.2f %(currency)s has been reached for the article "%(product_title)s" - '
+        'the current price is %(price)0.2f %(currency)s.'
+        '\n\nPlease support our platform by using this link for buying: %(link)s\n\n\nRegards,\nThe Team'
+    )
+)
+PRICE_MONITOR_SITENAME = getattr(settings, 'PRICE_MONITOR_SITENAME', 'Price Monitor')
 
 ## cache settings
 # key of cache (according to project config) to use for graphs. Set to none to disable caching
@@ -50,3 +57,5 @@ PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX = getattr(settings, 'PRICE_MONITOR_GRAPH_CA
 ## internal settings - not to be overwritten by user
 # Regex for ASIN validation
 PRICE_MONITOR_ASIN_REGEX = r'[A-Z0-9\-]+'
+# Product Advertising API relevant settings
+PRICE_MONITOR_PA_RESPONSE_GROUP = 'Medium'
