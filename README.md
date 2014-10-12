@@ -1,3 +1,31 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [django-amazon-price-monitor](#django-amazon-price-monitor)
+  - [What does it do?](#what-does-it-do)
+  - [Setup](#setup)
+    - [Prerequisites](#prerequisites)
+    - [Included angular libraries](#included-angular-libraries)
+    - [Basic setup](#basic-setup)
+    - [South](#south)
+    - [Settings](#settings)
+      - [Must have settings](#must-have-settings)
+        - [AWS and Product Advertising API credentials](#aws-and-product-advertising-api-credentials)
+        - [Images protocol and domain](#images-protocol-and-domain)
+      - [Nice to have settings](#nice-to-have-settings)
+        - [Product synchronization](#product-synchronization)
+        - [Notifications](#notifications)
+        - [Caching](#caching)
+    - [Celery settings](#celery-settings)
+  - [Management Commands](#management-commands)
+  - [Loggers](#loggers)
+    - [price_monitor](#price_monitor)
+    - [price_monitor.product_advertising_api](#price_monitorproduct_advertising_api)
+  - [Models](#models)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # django-amazon-price-monitor
 
 Monitors prices of Amazon products via Product Advertising API.
