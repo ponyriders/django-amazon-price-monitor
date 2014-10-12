@@ -26,13 +26,16 @@ class PriceChartPNGRenderer(BaseRenderer):
     render_style = 'binary'
     
     # TODO: documentation
-    allowed_url_args = {
+    allowed_chart_url_args = {
         'height': lambda x: int(x),
         'width': lambda x: int(x),
         'margin': lambda x: int(x),
+        'spacing': lambda x: int(x),
+        'show_dots': bool_helper,
         'show_legend': bool_helper,
         'show_y_labels': bool_helper,
         'show_minor_y_labels': bool_helper,
+        'y_labels_major_count': lambda x: int(x),
     }
 
     def render(self, data, accepted_media_type=None, renderer_context=None):
@@ -82,7 +85,7 @@ class PriceChartPNGRenderer(BaseRenderer):
         else:
             return sanitized_args
         
-        for arg, sanitizer in self.allowed_url_args.iteritems():
+        for arg, sanitizer in self.allowed_chart_url_args.iteritems():
             if arg in args:
                 try:
                     sanitized_args[arg] = sanitizer(args[arg])
@@ -106,14 +109,13 @@ class PriceChartPNGRenderer(BaseRenderer):
         line_chart_arguments = {
             'style': RedBlueStyle,
         }
-        line_chart_arguments.update(args)
+        for arg in self.allowed_chart_url_args.keys():
+            if arg in args:
+                line_chart_arguments.update({arg: args[arg]})
         
         line_chart = Line(**line_chart_arguments)
         values = []
         if 'results' in data and len(data['results']) > 0:
             values = [price['value'] for price in data['results']]
-            #line_chart.x_labels = [price['date_seen'] for price in data['results']]
-            #line_chart.y_labels = range(int(math.floor(min(values)))-1, int(math.ceil(max(values))) + 1)
-            #print line_chart.y_labels
         line_chart.add(data['results'][0]['currency'], values)
         return line_chart
