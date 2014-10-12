@@ -1,3 +1,4 @@
+# flake8: noqa
 from price_monitor.product_advertising_api.tasks import SynchronizeSingleProductTask
 
 # TODO remove after finishing new tasks for #27

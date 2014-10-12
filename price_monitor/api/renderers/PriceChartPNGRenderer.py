@@ -1,10 +1,11 @@
 import hashlib
-import math
 import pygal
-
-from ... import app_settings
+import sys
 
 from django.core.cache import get_cache
+
+from price_monitor import app_settings
+
 from rest_framework.renderers import BaseRenderer
 
 from tempfile import TemporaryFile
@@ -19,7 +20,7 @@ class PriceChartPNGRenderer(BaseRenderer):
     format = 'png'
     charset = None
     render_style = 'binary'
-    
+
     # TODO: documentation
     allowed_url_args = {
         'height': lambda x: int(x),
@@ -34,7 +35,7 @@ class PriceChartPNGRenderer(BaseRenderer):
         cache = get_cache(app_settings.PRICE_MONITOR_GRAPH_CACHE_NAME) if app_settings.PRICE_MONITOR_GRAPH_CACHE_NAME is not None else None
         # generate cache key
         cache_key = self.create_cache_key(
-            data, 
+            data,
             self.sanitize_allowed_args(renderer_context['request']) if 'request' in renderer_context else None
         )
         # only read from cache if there is any
@@ -59,7 +60,7 @@ class PriceChartPNGRenderer(BaseRenderer):
         else:
             # return the cache content
             return content
-        
+
     def sanitize_allowed_args(self, request):
         """
         TODO: documentation
@@ -71,7 +72,7 @@ class PriceChartPNGRenderer(BaseRenderer):
             args = request.GET
         else:
             return sanitized_args
-        
+
         for arg, sanitizer in self.allowed_url_args.iteritems():
             if arg in args:
                 try:
@@ -85,9 +86,11 @@ class PriceChartPNGRenderer(BaseRenderer):
         """
         Creates a cache key based on rendering data
         """
-        hash_data = unicode(data['results'])
+        # Python 2 unicode is default string in Python 3
+        unicodize = lambda x: unicode(x) if sys.version_info < (3, 0) else x  # noqa
+        hash_data = unicodize(data['results'])
         if args is not None:
-            hash_data += unicode(args)
+            hash_data += unicodize(args)
         return app_settings.PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX + hashlib.md5(hash_data).hexdigest()
 
     def create_graph(self, data):
@@ -101,8 +104,8 @@ class PriceChartPNGRenderer(BaseRenderer):
         values = []
         if 'results' in data and len(data['results']) > 0:
             values = [price['value'] for price in data['results']]
-            #line_chart.x_labels = [price['date_seen'] for price in data['results']]
-            #line_chart.y_labels = range(int(math.floor(min(values)))-1, int(math.ceil(max(values))) + 1)
-            #print line_chart.y_labels
+            # line_chart.x_labels = [price['date_seen'] for price in data['results']]
+            # line_chart.y_labels = range(int(math.floor(min(values)))-1, int(math.ceil(max(values))) + 1)
+            # print line_chart.y_labels
         line_chart.add(data['results'][0]['currency'], values)
         return line_chart

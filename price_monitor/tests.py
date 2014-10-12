@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.utils import unittest
 
-from lxml import objectify
+# from lxml import objectify
 
 from price_monitor import utils
 from price_monitor.models import (
