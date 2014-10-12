@@ -7,6 +7,7 @@ PriceMonitorApp.controller('ProductCtrl', function($scope, Product, Subscription
             
             angular.forEach(queryProducts, function(product) {
                 sortedProducts[product.asin] = product;
+                sortedProducts[product.asin].sparklineUrl = SETTINGS.uris.sparkline.replace(':asin', product.asin);
             });
             
             angular.forEach($scope.subscriptions, function(subscription) {
