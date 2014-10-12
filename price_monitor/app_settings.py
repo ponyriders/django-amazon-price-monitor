@@ -71,4 +71,4 @@ PRICE_MONITOR_AMAZON_REGION_DOMAINS = {
     'UK': 'co.uk',
     'US': 'com',
 }
-PRICE_MONITOR_OFFER_URL = u'http://www.amazon.{domain:s}/dp/{asin:s}/?tag={assoc_tag:s}'
+PRICE_MONITOR_OFFER_URL = 'http://www.amazon.{domain:s}/dp/{asin:s}/?tag={assoc_tag:s}'

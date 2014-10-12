@@ -647,7 +647,7 @@ class UtilsTest(TestCase):
     Tests for the utils module.
     """
     def test_get_offer_url(self):
-        self.assertEqual(u'http://www.amazon.de/dp/X1234567890/?tag=sample-assoc-tag', utils.get_offer_url('X1234567890'))
+        self.assertEqual('http://www.amazon.de/dp/X1234567890/?tag=sample-assoc-tag', utils.get_offer_url('X1234567890'))
 
 if __name__ == '__main__':
     unittest.main()
