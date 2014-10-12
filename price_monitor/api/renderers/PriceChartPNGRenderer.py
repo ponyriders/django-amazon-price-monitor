@@ -24,7 +24,7 @@ class PriceChartPNGRenderer(BaseRenderer):
     format = 'png'
     charset = None
     render_style = 'binary'
-    
+
     # TODO: documentation
     allowed_chart_url_args = {
         'height': lambda x: int(x),
@@ -44,10 +44,10 @@ class PriceChartPNGRenderer(BaseRenderer):
         """
         # first get the cache to use or None
         cache = get_cache(app_settings.PRICE_MONITOR_GRAPH_CACHE_NAME) if app_settings.PRICE_MONITOR_GRAPH_CACHE_NAME is not None else None
-        
+
         # sanitize arguments
         sanitized_args = self.sanitize_allowed_args(renderer_context['request']) if 'request' in renderer_context else {}
-        
+
         # generate cache key
         cache_key = self.create_cache_key(data, sanitized_args)
         # only read from cache if there is any
@@ -72,7 +72,7 @@ class PriceChartPNGRenderer(BaseRenderer):
         else:
             # return the cache content
             return content
-        
+
     def sanitize_allowed_args(self, request):
         """
         TODO: documentation
@@ -84,7 +84,7 @@ class PriceChartPNGRenderer(BaseRenderer):
             args = request.GET
         else:
             return sanitized_args
-        
+
         for arg, sanitizer in self.allowed_chart_url_args.iteritems():
             if arg in args:
                 try:
@@ -112,7 +112,7 @@ class PriceChartPNGRenderer(BaseRenderer):
         for arg in self.allowed_chart_url_args.keys():
             if arg in args:
                 line_chart_arguments.update({arg: args[arg]})
-        
+
         line_chart = Line(**line_chart_arguments)
         values = []
         if 'results' in data and len(data['results']) > 0:
