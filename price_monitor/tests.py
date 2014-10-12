@@ -1,8 +1,4 @@
-from price_monitor.models import (
-    EmailNotification,
-    Product,
-    Subscription,
-)
+from amazon.api import AmazonProduct
 
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -11,7 +7,12 @@ from django.utils import unittest
 
 from lxml import objectify
 
-from amazon.api import AmazonProduct
+from price_monitor import utils
+from price_monitor.models import (
+    EmailNotification,
+    Product,
+    Subscription,
+)
 
 
 class ProductTest(TestCase):
@@ -642,6 +643,13 @@ class SubscriptionTest(TestCase):
         # subscription shall be deleted now
         self.assertRaises(Subscription.DoesNotExist, lambda: Subscription.objects.get(public_id=s.public_id))
 
+
+class UtilsTest(TestCase):
+    """
+    Tests for the utils module.
+    """
+    def test_get_offer_url(self):
+        self.assertEqual(u'http://www.amazon.de/dp/X123456789/?tag=sample-assoc-tag', utils.get_offer_url('X1234567890'))
 
 if __name__ == '__main__':
     unittest.main()
