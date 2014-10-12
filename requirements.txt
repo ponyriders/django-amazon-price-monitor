@@ -4,3 +4,4 @@ beautifulsoup4>=4.3.2
 bottlenose>=0.6.2
 celery>=3
 six
+pygal>=1.5.1

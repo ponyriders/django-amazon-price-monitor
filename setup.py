@@ -19,6 +19,7 @@ setup(
         'bottlenose>=0.6.2',
         'celery>=3',
         'six',
+        'pygal>=1.5.1',
     ],
     dependency_links=[
     ]
