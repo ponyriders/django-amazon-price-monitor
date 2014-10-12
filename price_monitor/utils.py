@@ -16,10 +16,10 @@ def get_api():
     """
     warnings.warn('get_api() is deprecated. Please use new structure!', DeprecationWarning, stacklevel=2)
     return AmazonAPI(
-        settings.AWS_ACCESS_KEY_ID,
-        settings.AWS_SECRET_ACCESS_KEY,
-        settings.AMAZON_PRODUCT_API_ASSOC_TAG,
-        region=settings.AMAZON_PRODUCT_API_REGION,
+        settings.PRICE_MONITOR_AWS_ACCESS_KEY_ID,
+        settings.PRICE_MONITOR_AWS_SECRET_ACCESS_KEY,
+        settings.PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG,
+        region=settings.PRICE_MONITOR_AMAZON_PRODUCT_API_REGION,
     )
 
 
