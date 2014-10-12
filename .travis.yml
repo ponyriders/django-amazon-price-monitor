@@ -3,17 +3,20 @@ python:
   - "2.7"
   - "3.2"
   - "3.3"
+  - "3.4"
 before_install:
   - sudo apt-get update
   - sudo apt-get install libxml2-dev libxslt-dev
 install:
   - export CPPFLAGS="-O0"
   - pip install -e .
-  - pip install -r requirements_test.txt DJANGO==$DJANGO
+  - pip install -r requirements_test.txt Django==$DJANGO
 env:
-  - DJANGO=1.6.4 DB=postgres STAGE=TravisCI
+  - DJANGO=1.6.7 DB=postgres STAGE=TravisCI
 script:
-  - make test
+  - flake8 price_monitor --ignore=E501,E128 --exclude=migrations
+  - coverage run --branch --source=price_monitor `which django-admin.py` test --settings=price_monitor.test_settings price_monitor
+  - coverage report --omit=price_monitor/migrations/*
 notifications:
   email: false
 cache: apt
