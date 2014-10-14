@@ -1,5 +1,4 @@
 import hashlib
-import math
 
 from ... import app_settings
 
@@ -14,6 +13,7 @@ from tempfile import TemporaryFile
 
 
 bool_helper = lambda x: x in [1, '1', 'true', 'True']
+
 
 class PriceChartPNGRenderer(BaseRenderer):
     """
