@@ -3,3 +3,4 @@ djangorestframework>=2.3.13
 python-amazon-simple-product-api==1.4.0
 celery>=3
 six
+pygal>=1.5
