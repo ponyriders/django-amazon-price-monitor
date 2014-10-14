@@ -9,6 +9,8 @@ from pygal.style import RedBlueStyle
 
 from rest_framework.renderers import BaseRenderer
 
+from six import text_type
+
 from tempfile import TemporaryFile
 
 
@@ -98,8 +100,8 @@ class PriceChartPNGRenderer(BaseRenderer):
         """
         Creates a cache key based on rendering data
         """
-        hash_data = unicode(data['results'])
-        hash_data += unicode(args)
+        hash_data = text_type(data['results'])
+        hash_data += text_type(args)
         return app_settings.PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX + hashlib.md5(hash_data).hexdigest()
 
     def create_graph(self, data, args):
