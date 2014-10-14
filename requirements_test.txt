@@ -2,6 +2,3 @@ lxml
 coverage
 flake8
 django-discover-runner
-python-amazon-simple-product-api==1.4.0
-djangorestframework>=2.3.13
-pygal>=1.5
