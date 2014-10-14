@@ -18,6 +18,7 @@ setup(
         'celery>=3',
         'six',
         'djangorestframework>=2.3.13',
+        'pygal>=1.5',
     ],
     dependency_links=[
     ]
