@@ -46,7 +46,6 @@ class Product(models.Model):
     large_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to large product image'))
     medium_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to medium product image'))
     small_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to small product image'))
-    tiny_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to tiny product image'))
     offer_url = models.URLField(blank=True, null=True, verbose_name=_('URL to the offer'))
 
     def get_prices_for_chart(self):
