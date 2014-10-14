@@ -31,6 +31,18 @@ class ProductAdvertisingAPI(object):
             Parser=BeautifulSoup,
         )
 
+    @staticmethod
+    def __get_item_attribute(item, attribute):
+        """
+        Returns the attribute value from a bs4 parsed item.
+        :param item: bs4 item returned from PA API upon item lookup
+        :param attribute: the attribute to search for
+        :return: the value if found, else None
+        :rtype: basestring
+        """
+        value = item.itemattributes.find_all(attribute, recursive=False)
+        return value[0].string if len(value) == 1 else None
+
     def item_lookup(self, item_id):
         item_response = self.__amazon.ItemLookup(ItemId=item_id, ResponseGroup=app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP)
         if item_response.items.request.isvalid.string == 'True':
@@ -39,17 +51,15 @@ class ProductAdvertisingAPI(object):
             item_values = {  # noqa
                 'asin': item_node.asin.string,
                 'title': item_node.itemattributes.title.string,
-                # FIXME find path, use 3832796096
-                'isbn': None,
-                # FIXME find path, use 3832796096
-                'eisbn': None,
+                'isbn': self.__get_item_attribute(item_node, 'isbn'),
+                'eisbn': self.__get_item_attribute(item_node, 'eisbn'),
                 'binding': item_node.itemattributes.binding.string,
-                # FIXME find path, use ASIN B00JIR8U3U
-                'date_publication': None,
                 # FIXME this is YYYY-MM-DD
-                'date_release': item_node.itemattributes.releasedate.string,
-                # FIXME collect possible values and parse them? see #19
-                'audience_rating': item_node.itemattributes.audiencerating.string,
+                'date_publication': self.__get_item_attribute(item_node, 'publicationdate'),
+                # FIXME this is YYYY-MM-DD
+                'date_release': self.__get_item_attribute(item_node, 'releasedate'),
+                # TODO collect possible values and parse them? see #19
+                'audience_rating': self.__get_item_attribute(item_node, 'audiencerating'),
                 'large_image_url': item_node.largeimage.url.string,
                 'medium_image_url': item_node.mediumimage.url.string,
                 'small_image_url': item_node.smallimage.url.string,
