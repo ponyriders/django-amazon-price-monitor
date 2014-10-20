@@ -1,28 +1,28 @@
-<pagination total-items="subscriptionCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
-<div class="media" ng-repeat="subscription in subscriptions | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage">
-    <a class="pull-left" href="{{ subscription.fetchedProduct.offer_url }}"
-       ng-if="subscription.fetchedProduct.small_image_url">
-        <img class="media-object" ng-src="{{ subscription.fetchedProduct.small_image_url }}"
-             alt="{{ subscription.fetchedProduct.title }}">
+<pagination total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
+<div class="media" ng-repeat="product in products | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage">
+    <a class="pull-left" href="{{ product.offer_url }}"
+       ng-if="product.small_image_url">
+        <img class="media-object" ng-src="{{ product.small_image_url }}"
+             alt="{{ product.title }}">
     </a>
 
     <div class="media-body">
-        <h4 class="media-heading">{{ subscription.fetchedProduct.title }}</h4>
+        <h4 class="media-heading">{{ product.title }}</h4>
         <div class="row">
             <div class="col-xs-12 col-md-6">
                 <div class="row">
                     <div class="col-xs-2 col-md-1">Price:</div>
-                    <div class="col-xs-10 col-md-11">{{ subscription.fetchedProduct.current_price.currency }} {{ subscription.fetchedProduct.current_price.value | number: 2 }} (as of {{ subscription.fetchedProduct.current_price.date_seen | date: 'MMMM d, y hh:mm a Z' }})</div>
+                    <div class="col-xs-10 col-md-11">{{ product.current_price.currency }} {{ product.current_price.value | number: 2 }} (as of {{ product.current_price.date_seen | date: 'MMMM d, y hh:mm a Z' }})</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-2 col-md-1">Limit:</div>
-                    <div class="col-xs-10 col-md-11">{{ subscription.fetchedProduct.current_price.currency }} {{ subscription.price_limit | number: 2 }}</div>
+                    <div class="col-xs-10 col-md-11">{{ product.current_price.currency }} {{ product.subscription_set.0.price_limit | number: 2 }}</div>
                 </div>
             </div>
             <div class="col-xs-12 col-md-6">
-                <img ng-src="{{ subscription.fetchedProduct.sparklineUrl }}" />
+                <img ng-src="{{ product.get_sparkline_url() }}" />
             </div>
         </div>
     </div>
 </div>
-<pagination total-items="subscriptionCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
+<pagination total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
