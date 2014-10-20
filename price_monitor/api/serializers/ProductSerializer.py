@@ -1,3 +1,4 @@
+from .SubscriptionSerializer import SubscriptionSerializer
 from ...models import Product
 
 from rest_framework import serializers
@@ -10,6 +11,7 @@ class ProductSerializer(serializers.ModelSerializer):
     """
 
     current_price = serializers.SerializerMethodField('get_price_values')
+    subscription_set = SubscriptionSerializer(many=True)
 
     def get_price_values(self, obj):
         """
@@ -63,6 +65,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'tiny_image_url',
             'offer_url',
             'current_price',
+            'subscription_set',
         )
         # TODO: check if this is good
         read_only_fields = (
