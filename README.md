@@ -34,6 +34,7 @@ Relies on python-amazon-simple-product-api under the hood.
 | Branch          | Build status |
 | --------------- | ------------ |
 | master          | [![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=master)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) |
+| angular-frontend | [![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=angular-frontend)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) |
 | data-reduction  | [![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=data-reduction)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) |
 
 ## What does it do?
