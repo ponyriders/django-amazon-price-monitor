@@ -3,8 +3,8 @@
 }
 
 .media a.pull-left {
-    max-height: 75px;
-    max-width: 75px;
+    height: 75px;
+    width: 75px;
 }
 
 .media .media-body {
