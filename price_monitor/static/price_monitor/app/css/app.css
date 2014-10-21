@@ -2,10 +2,16 @@
     margin-top: 55px;
 }
 
-.media .media-object {
+.media a.pull-left {
+    max-height: 75px;
     max-width: 75px;
 }
 
 .media .media-body {
     margin-left: 85px;
+}
+
+.media .media-body img.sparkline {
+    height: 40px;
+    width: 400px;
 }
