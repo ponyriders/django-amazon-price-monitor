@@ -32,6 +32,7 @@ class PriceChartPNGRenderer(BaseRenderer):
         'height': lambda x: int(x),
         'width': lambda x: int(x),
         'margin': lambda x: int(x),
+        'no_data_font_size': lambda x: int(x),
         'spacing': lambda x: int(x),
         'show_dots': bool_helper,
         'show_legend': bool_helper,
@@ -119,5 +120,5 @@ class PriceChartPNGRenderer(BaseRenderer):
         values = []
         if 'results' in data and len(data['results']) > 0:
             values = [price['value'] for price in data['results']]
-        line_chart.add(data['results'][0]['currency'], values)
+            line_chart.add(data['results'][0]['currency'], values)
         return line_chart
