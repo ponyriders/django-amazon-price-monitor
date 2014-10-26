@@ -16,7 +16,7 @@ PriceMonitorApp.config(function ($routeProvider) {
     $routeProvider
         .when('/products', {
             controller: 'ProductListCtrl',
-            templateUrl: SETTINGS.uris.static + 'price_monitor/app/partials/products.html'
+            templateUrl: SETTINGS.uris.static + 'price_monitor/app/partials/product-list.html'
         })
         .otherwise({redirectTo: '/products'});
 });
