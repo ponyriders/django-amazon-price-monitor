@@ -64,7 +64,13 @@
                     'price': '/monitor/api/products/:asin/prices/{#{% url "api_product_retrieve" asin=":asin" %}#}',
                     'product': '/monitor/api/products/:asin/{#{% url "api_product_retrieve" asin=":asin" %}#}',
                     'subscription': '/monitor/api/subscriptions/:public_id/{#{% url "api_subscription_retrieve" public_id=":public_id" %}#}',
-                    'sparkline': '/monitor/api/products/:asin/prices/?show_legend=false&show_dots=false&margin=4&spacing=0&height=40&width=400&y_labels_major_count=2&show_minor_y_labels=false&no_data_font_size=10'
+                    'sparkline': '/monitor/api/products/:asin/prices/?show_legend=false&show_dots=false&margin=4&spacing=0&height=40&width=400&y_labels_major_count=2&show_minor_y_labels=false&no_data_font_size=10',
+                    'chart': {
+                        'default': '/monitor/api/products/B009NRTK1Q/prices/?show_legend=false&margin=4&spacing=0&y_labels_major_count=5&show_minor_y_labels=true&no_data_font_size=10&width=400',
+                        'small': '/monitor/api/products/B009NRTK1Q/prices/?show_legend=false&margin=4&spacing=0&y_labels_major_count=5&show_minor_y_labels=true&no_data_font_size=10&width=600',
+                        'medium': '/monitor/api/products/B009NRTK1Q/prices/?show_legend=false&margin=4&spacing=0&y_labels_major_count=5&show_minor_y_labels=true&no_data_font_size=10&width=1000',
+                        'large': '/monitor/api/products/B009NRTK1Q/prices/?show_legend=false&margin=4&spacing=0&y_labels_major_count=5&show_minor_y_labels=true&no_data_font_size=10&width=1140'
+                    }
                 },
                 'pagination': {
                     'maxPageCount': 7,
@@ -81,10 +87,12 @@
         <script src="{% get_static_prefix %}price_monitor/angular/angular-route.min.js"></script>
         <script src="{% get_static_prefix %}price_monitor/angular/ui-bootstrap-tpls-0.11.0.min.js"></script>
         <script src="{% get_static_prefix %}price_monitor/angular/angular-django-rest-resource.js"></script>
+        <script src="{% get_static_prefix %}price_monitor/angular/angular-responsive-images.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/server-connector.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/app.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/filters.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/controller/main-ctrl.js"></script>
+        <script src="{% get_static_prefix %}price_monitor/app/js/controller/product-detail-ctrl.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/controller/product-list-ctrl.js"></script>
     </body>
 </html>
