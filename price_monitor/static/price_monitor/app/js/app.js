@@ -8,6 +8,7 @@ var PriceMonitorApp = angular.module(
         'ngResource',
         'ui.bootstrap',
         'djangoRESTResources',
+        'ngResponsiveImages',
         'PriceMonitorServerConnector'
     ]
 );
@@ -17,6 +18,10 @@ PriceMonitorApp.config(function ($routeProvider) {
         .when('/products', {
             controller: 'ProductListCtrl',
             templateUrl: SETTINGS.uris.static + 'price_monitor/app/partials/product-list.html'
+        })
+        .when('/products/:asin', {
+            controller: 'ProductDetailCtrl',
+            templateUrl: SETTINGS.uris.static + 'price_monitor/app/partials/product-detail.html'
         })
         .otherwise({redirectTo: '/products'});
 });
