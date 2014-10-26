@@ -1,4 +1,4 @@
-PriceMonitorApp.controller('ProductCtrl', function($scope, Product) {
+PriceMonitorApp.controller('ProductListCtrl', function($scope, Product) {
     $scope.products = Product.query(function() {
         $scope.productCount = $scope.products.length;
         $scope.currentPage = 1;

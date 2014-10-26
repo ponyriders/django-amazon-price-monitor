@@ -15,7 +15,7 @@ var PriceMonitorApp = angular.module(
 PriceMonitorApp.config(function ($routeProvider) {
     $routeProvider
         .when('/products', {
-            controller: 'ProductCtrl',
+            controller: 'ProductListCtrl',
             templateUrl: SETTINGS.uris.static + 'price_monitor/app/partials/products.html'
         })
         .otherwise({redirectTo: '/products'});
