@@ -108,9 +108,7 @@ app.directive('ngSrcResponsive', ['presetMediaQueries', '$timeout', function(pre
 
       var updaterDereg;
       attrs.$observe('ngSrcResponsive', function(value) {
-          console.log(value);
         var querySets = scope.$eval(value);
-          console.log(querySets);
         
         if (querySets instanceof Array === false) {
           throw "Expected evaluate ng-src-responsive to evaluate to an Array, instead got: " + querySets;
