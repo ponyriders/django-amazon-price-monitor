@@ -1,3 +1,4 @@
+from .EmailNotificationSerializer import EmailNotificationSerializer
 from ...models import Subscription
 
 from rest_framework import serializers
@@ -7,8 +8,8 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     """
     Serializes subscription with product inline. Also renders id frm public_id
     """
-    product = serializers.SlugRelatedField(many=False, read_only=True, slug_field='asin')
     id = serializers.CharField(source='public_id')
+    email_notification = EmailNotificationSerializer()
 
     class Meta:
         model = Subscription
