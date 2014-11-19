@@ -19,6 +19,9 @@ setup(
         'six',
         'djangorestframework>=2.3.13',
         'pygal>=1.5',
+        'CairoSVG',  # pygal png output
+        'tinycss',  # pygal png output
+        'cssselect',  # pygal png output
     ],
     dependency_links=[
     ]
