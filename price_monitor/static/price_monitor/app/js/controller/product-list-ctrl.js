@@ -7,5 +7,10 @@ PriceMonitorApp.controller('ProductListCtrl', function($scope, Product) {
         $scope.paginationBoundaryLinks = SETTINGS.pagination.paginationBoundaryLinks; 
         $scope.paginationRotate = SETTINGS.pagination.paginationRotate;
         $scope.pagesTotal = 0;
+        $scope.newProducts = [{}];
+
+        $scope.addNewProduct = function() {
+            $scope.newProducts.push({});
+        }
     });
 });
