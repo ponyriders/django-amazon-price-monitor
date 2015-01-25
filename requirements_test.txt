@@ -2,3 +2,4 @@ lxml
 coverage
 flake8
 django-discover-runner
+django-discover-runner

@@ -1,14 +1,20 @@
 import hashlib
-import pygal
-import sys
+
+from ... import app_settings
 
 from django.core.cache import get_cache
 
-from price_monitor import app_settings
+from pygal import Line
+from pygal.style import RedBlueStyle
 
 from rest_framework.renderers import BaseRenderer
 
+from six import text_type
+
 from tempfile import TemporaryFile
+
+
+bool_helper = lambda x: x in [1, '1', 'true', 'True']
 
 
 class PriceChartPNGRenderer(BaseRenderer):
@@ -22,9 +28,17 @@ class PriceChartPNGRenderer(BaseRenderer):
     render_style = 'binary'
 
     # TODO: documentation
-    allowed_url_args = {
+    allowed_chart_url_args = {
         'height': lambda x: int(x),
         'width': lambda x: int(x),
+        'margin': lambda x: int(x),
+        'no_data_font_size': lambda x: int(x),
+        'spacing': lambda x: int(x),
+        'show_dots': bool_helper,
+        'show_legend': bool_helper,
+        'show_y_labels': bool_helper,
+        'show_minor_y_labels': bool_helper,
+        'y_labels_major_count': lambda x: int(x),
     }
 
     def render(self, data, accepted_media_type=None, renderer_context=None):
@@ -33,16 +47,17 @@ class PriceChartPNGRenderer(BaseRenderer):
         """
         # first get the cache to use or None
         cache = get_cache(app_settings.PRICE_MONITOR_GRAPH_CACHE_NAME) if app_settings.PRICE_MONITOR_GRAPH_CACHE_NAME is not None else None
+
+        # sanitize arguments
+        sanitized_args = self.sanitize_allowed_args(renderer_context['request']) if 'request' in renderer_context else {}
+
         # generate cache key
-        cache_key = self.create_cache_key(
-            data,
-            self.sanitize_allowed_args(renderer_context['request']) if 'request' in renderer_context else None
-        )
+        cache_key = self.create_cache_key(data, sanitized_args)
         # only read from cache if there is any
         content = cache.get(cache_key, None) if cache is not None else None
         if content is None:
             # create graph instance
-            graph = self.create_graph(data)
+            graph = self.create_graph(data, sanitized_args)
 
             # write graph to temporary file
             with TemporaryFile() as file_:
@@ -73,7 +88,7 @@ class PriceChartPNGRenderer(BaseRenderer):
         else:
             return sanitized_args
 
-        for arg, sanitizer in self.allowed_url_args.iteritems():
+        for arg, sanitizer in self.allowed_chart_url_args.iteritems():
             if arg in args:
                 try:
                     sanitized_args[arg] = sanitizer(args[arg])
@@ -82,30 +97,28 @@ class PriceChartPNGRenderer(BaseRenderer):
                     pass
         return sanitized_args
 
-    def create_cache_key(self, data, args=None):
+    def create_cache_key(self, data, args):
         """
         Creates a cache key based on rendering data
         """
-        # Python 2 unicode is default string in Python 3
-        unicodize = lambda x: unicode(x) if sys.version_info < (3, 0) else x  # noqa
-        hash_data = unicodize(data['results'])
-        if args is not None:
-            hash_data += unicodize(args)
+        hash_data = text_type(data['results'])
+        hash_data += text_type(args)
         return app_settings.PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX + hashlib.md5(hash_data).hexdigest()
 
-    def create_graph(self, data):
+    def create_graph(self, data, args):
         """
         Creates the graph based on rendering data
         """
-        line_chart = pygal.Line(
-            show_minor_y_labels=False,
-            y_labels_major_count=5,
-        )
+        line_chart_arguments = {
+            'style': RedBlueStyle,
+        }
+        for arg in self.allowed_chart_url_args.keys():
+            if arg in args:
+                line_chart_arguments.update({arg: args[arg]})
+
+        line_chart = Line(**line_chart_arguments)
         values = []
         if 'results' in data and len(data['results']) > 0:
             values = [price['value'] for price in data['results']]
-            # line_chart.x_labels = [price['date_seen'] for price in data['results']]
-            # line_chart.y_labels = range(int(math.floor(min(values)))-1, int(math.ceil(max(values))) + 1)
-            # print line_chart.y_labels
-        line_chart.add(data['results'][0]['currency'], values)
+            line_chart.add(data['results'][0]['currency'], values)
         return line_chart

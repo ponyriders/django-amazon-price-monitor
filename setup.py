@@ -19,7 +19,11 @@ setup(
         'bottlenose>=0.6.2',
         'celery>=3',
         'six',
+        'djangorestframework>=2.3.13,<3',
         'pygal>=1.5.1',
+        'CairoSVG',  # pygal png output
+        'tinycss',  # pygal png output
+        'cssselect',  # pygal png output
     ],
     dependency_links=[
     ]

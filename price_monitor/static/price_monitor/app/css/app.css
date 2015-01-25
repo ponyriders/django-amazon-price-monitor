@@ -2,10 +2,21 @@
     margin-top: 55px;
 }
 
-.media .media-object {
-    max-width: 75px;
+.media.list a, .media.list a:visited, .media.list a:hover, .media.list a:active {
+    text-decoration: none;
+    color: #000;
 }
 
-.media .media-body {
+.media.list a.pull-left {
+    height: 75px;
+    width: 75px;
+}
+
+.media.list .media-body {
     margin-left: 85px;
+}
+
+.media.list .media-body img.sparkline {
+    height: 40px;
+    width: 400px;
 }

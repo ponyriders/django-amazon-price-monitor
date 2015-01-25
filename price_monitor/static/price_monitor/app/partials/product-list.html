@@ -1,0 +1,40 @@
+<pagination total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
+<div class="media list" ng-repeat="product in products | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage">
+    <a class="pull-left" href="{{ product.offer_url }}"
+       ng-if="product.small_image_url">
+        <img class="media-object" ng-src="{{ product.small_image_url }}"
+             alt="{{ product.title }}">
+    </a>
+
+    <a href="#/products/{{ product.asin }}">
+        <div class="media-body">
+            <h4 class="media-heading">{{ product.title }}</h4>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <div class="row">
+                        <div class="col-xs-2 col-md-1">Price:</div>
+                        <div class="col-xs-10 col-md-11">{{ product.current_price.currency }} {{ product.current_price.value | number: 2 }} (as of {{ product.current_price.date_seen | date: 'MMMM d, y hh:mm a Z' }})</div>
+                    </div>
+                    <div ng-repeat="subscription in product.subscription_set" class="row">
+                        <div class="col-xs-2 col-md-1">Limit:</div>
+                        <div class="col-xs-10 col-md-11">{{ product.current_price.currency }} {{ subscription.price_limit | number: 2 }}</div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <img class="sparkline" ng-src="{{ product.get_sparkline_url() }}" />
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+<pagination total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
+
+<form novalidate name="form">
+    <div ng-repeat="product in newProducts" class="row">
+        <input type="text" name="asin" ng-model="product.asin" placeholder="ASIN" required ng-pattern="/[A-Z0-9]/" />
+        <input type="email" name="email" ng-model="product.subscription" placeholder="E-Mail" required />
+        <input type="number" name="price" ng-model="product.price" required />
+    </div>
+    <input type="button" ng-click="addNewProduct()" value="Add another" />
+</form>
+
