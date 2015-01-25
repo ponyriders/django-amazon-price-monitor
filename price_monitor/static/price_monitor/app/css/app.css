@@ -20,3 +20,7 @@
     height: 40px;
     width: 400px;
 }
+
+#product-form .col-xs-4 input {
+    width: 100%;
+}

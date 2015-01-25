@@ -29,12 +29,22 @@
 </div>
 <pagination total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
 
-<form novalidate name="form">
+<form novalidate name="product-form" id="product-form">
     <div ng-repeat="product in newProducts" class="row">
-        <input type="text" name="asin" ng-model="product.asin" placeholder="ASIN" required ng-pattern="/[A-Z0-9]/" />
-        <input type="email" name="email" ng-model="product.subscription" placeholder="E-Mail" required />
-        <input type="number" name="price" ng-model="product.price" required />
+        <div class="col-xs-4">
+            <input type="text" name="asin" ng-model="product.asin" placeholder="ASIN" required ng-pattern="/[A-Z0-9]/" />
+        </div>
+        <div class="col-xs-4">
+            <input type="email" name="email" ng-model="product.subscription" placeholder="E-Mail" required />
+        </div>
+        <div class="col-xs-4">
+            <input type="number" name="price" ng-model="product.price" required />
+        </div>
     </div>
-    <input type="button" ng-click="addNewProduct()" value="Add another" />
+    <div class="row">
+        <div class="col-xs-12">
+            <input class="pull-right" type="button" ng-click="addNewProduct()" value="Add another" />
+        </div>
+    </div>
 </form>
 
