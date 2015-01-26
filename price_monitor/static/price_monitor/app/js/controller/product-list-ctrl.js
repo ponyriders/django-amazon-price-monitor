@@ -12,5 +12,9 @@ PriceMonitorApp.controller('ProductListCtrl', function($scope, Product) {
         $scope.addNewProduct = function() {
             $scope.newProducts.push({});
         }
+
+        $scope.saveNewProducts = function() {
+            $scope.products.save($scope.newProducts);
+        }
     });
 });
