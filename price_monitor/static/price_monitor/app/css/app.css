@@ -24,3 +24,7 @@
 #product-form .col-xs-4 input {
     width: 100%;
 }
+
+#product-form input.ng-invalid.ng-touched {
+    background-color: #FA787E;
+}
