@@ -37,13 +37,18 @@
         <div class="col-xs-4">
             <input type="email" name="email" ng-model="product.subscription" placeholder="E-Mail" required />
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-3">
             <input type="number" name="price" ng-model="product.price" required />
+        </div>
+        <div class="col-xs-1">
+            <button class="close" ng-if="newProducts.length > 1" ng-click="removeFormLine(product)" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <input class="pull-right" type="button" ng-click="addNewProduct()" value="Add another" />
+            <button class="pull-right" ng-click="addNewProduct()">Add another</button>
         </div>
     </div>
 </form>

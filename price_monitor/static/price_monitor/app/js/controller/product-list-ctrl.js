@@ -13,6 +13,13 @@ PriceMonitorApp.controller('ProductListCtrl', function($scope, Product) {
             $scope.newProducts.push({});
         }
 
+        $scope.removeFormLine = function(product) {
+            var index = $scope.newProducts.indexOf(product);
+            if (index != -1) {
+                $scope.newProducts.splice(index, 1);
+            }
+        }
+
         $scope.saveNewProducts = function() {
             $scope.products.save($scope.newProducts);
         }
