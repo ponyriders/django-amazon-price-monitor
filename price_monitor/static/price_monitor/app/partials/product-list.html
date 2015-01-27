@@ -29,22 +29,24 @@
 </div>
 <pagination total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
 
-<form novalidate name="product-form" id="product-form">
+<form novalidate name="product-form" id="product-form" class="form-inline">
     <div ng-repeat="product in newProducts" class="row">
-        <div class="col-xs-4">
-            <input type="text" name="asin" ng-model="product.asin" placeholder="ASIN" required ng-pattern="/[A-Z0-9]/" />
-        </div>
-        <div class="col-xs-4">
-            <input type="email" name="email" ng-model="product.subscription" placeholder="E-Mail" required />
-        </div>
-        <div class="col-xs-3">
-            <input type="number" name="price" ng-model="product.price" required />
-        </div>
-        <div class="col-xs-1">
-            <button class="close" ng-if="newProducts.length > 1" ng-click="removeFormLine(product)" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+        <ng-form name="innerForm">
+        <div class="col-xs-4 form-group" ng-class="{ 'has-error' : innerForm.asin.$invalid && innerForm.asin.$dirty}">
+                <input class="form-control" type="text" name="asin" ng-model="product.asin" placeholder="ASIN" required ng-pattern="/[A-Z0-9]/" />
+            </div>
+            <div class="col-xs-4 form-group" ng-class="{ 'has-error' : innerForm.email.$invalid && innerForm.email.$dirty}">
+                <input class="form-control" type="email" name="email" ng-model="product.subscription" placeholder="E-Mail" required />
+            </div>
+            <div class="col-xs-3 form-group" ng-class="{ 'has-error' : innerForm.price.$invalid && innerForm.price.$dirty}">
+                <input class="form-control" type="number" name="price" ng-model="product.price" required />
+            </div>
+            <div class="col-xs-1">
+                <button class="close" ng-if="newProducts.length > 1" ng-click="removeFormLine(product)" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </ng-form>
     </div>
     <div class="row">
         <div class="col-xs-12">
