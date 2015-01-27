@@ -21,7 +21,9 @@ PriceMonitorApp.controller('ProductListCtrl', function($scope, Product) {
         }
 
         $scope.saveNewProducts = function() {
-            $scope.products.save($scope.newProducts);
+            angular.forEach($scope.newProducts, function(newProduct) {
+                Product.save(newProduct);
+            });
         }
     });
 });

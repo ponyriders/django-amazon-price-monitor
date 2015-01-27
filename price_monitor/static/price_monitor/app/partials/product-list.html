@@ -29,7 +29,7 @@
 </div>
 <pagination total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
 
-<form novalidate name="product-form" id="product-form" class="form-inline">
+<form novalidate name="product_form" id="product-form" class="form-inline">
     <div ng-repeat="product in newProducts" class="row">
         <ng-form name="innerForm">
         <div class="col-xs-4 form-group" ng-class="{ 'has-error' : innerForm.asin.$invalid && innerForm.asin.$dirty}">
@@ -50,7 +50,8 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <button class="pull-right" ng-click="addNewProduct()">Add another</button>
+            <button class="btn" ng-click="addNewProduct()">Add another</button>
+            <button class="btn btn-primary pull-right" ng-disabled="product_form.$invalid" ng-click="saveNewProducts()">Save</button>
         </div>
     </div>
 </form>
