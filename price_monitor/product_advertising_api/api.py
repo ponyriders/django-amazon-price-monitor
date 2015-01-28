@@ -24,13 +24,13 @@ class ProductAdvertisingAPI(object):
     def __init__(self):
         # FIXME needs some more code?
         # TODO use Caching https://github.com/lionheart/bottlenose#caching
-        # TODO use ErrorHandling https://github.com/lionheart/bottlenose#error-handling
         self.__amazon = bottlenose.Amazon(
             AWSAccessKeyId=app_settings.PRICE_MONITOR_AWS_ACCESS_KEY_ID,
             AWSSecretAccessKey=app_settings.PRICE_MONITOR_AWS_SECRET_ACCESS_KEY,
             AssociateTag=app_settings.PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG,
             Region=app_settings.PRICE_MONITOR_AMAZON_PRODUCT_API_REGION,
             Parser=BeautifulSoup,
+            ErrorHandler=ProductAdvertisingAPI.handle_error,
         )
 
     @staticmethod
@@ -44,6 +44,27 @@ class ProductAdvertisingAPI(object):
         """
         value = item.itemattributes.find_all(attribute, recursive=False)
         return value[0].string if len(value) == 1 else None
+
+    @staticmethod
+    def handle_error(error):
+        """
+        Generic error handler for bottlenose requests.
+        @see https://github.com/lionheart/bottlenose#error-handling
+        :param error: error information
+        :type error: dict
+        :return: if to retry the request
+        :rtype: bool
+        :
+        """
+        logger.error(
+            'Error was thrown upon requesting URL %(api_url)s (Cache-URL: %(cache_url)s: %(exception)r' % {
+                'api_url': error['api_url'],
+                'cache_url': error['cache_url'],
+                'exception': error['exception'],
+            }
+        )
+        # FIXME we do not retry failed requests for now
+        return False
 
     def item_lookup(self, item_id):
         """
