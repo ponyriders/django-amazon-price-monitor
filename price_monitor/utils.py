@@ -52,7 +52,7 @@ def parse_audience_rating(rating):
     """
     # FIXME implement me, see issue #19
     # FIXME this may fallback to default values if no value was returned by amazon?
-    logging.error('Unable to parse audience rating value "%(audience_rating)s"' % {'audience_rating': rating})
+    logger.error('Unable to parse audience rating value "%(audience_rating)s"' % {'audience_rating': rating})
     return rating
 
 
