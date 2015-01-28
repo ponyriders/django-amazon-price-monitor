@@ -58,7 +58,8 @@ PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX = getattr(settings, 'PRICE_MONITOR_GRAPH_CA
 # Regex for ASIN validation
 PRICE_MONITOR_ASIN_REGEX = r'[A-Z0-9\-]+'
 # Product Advertising API relevant settings
-PRICE_MONITOR_PA_RESPONSE_GROUP = 'Medium'
+# TODO is there a possibility to only get get attributes we need? I have the feeling that 75% of the data is irrelevant for us.
+PRICE_MONITOR_PA_RESPONSE_GROUP = 'Large'
 # mapping of PRICE_MONITOR_AMAZON_PRODUCT_API_REGION to the appropriate amazon domain ending
 PRICE_MONITOR_AMAZON_REGION_DOMAINS = {
     'CA': 'ca',

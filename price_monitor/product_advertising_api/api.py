@@ -91,6 +91,8 @@ class ProductAdvertisingAPI(object):
                     'medium_image_url': item_node.mediumimage.url.string,
                     'small_image_url': item_node.smallimage.url.string,
                     'offer_url': utils.get_offer_url(item_node.asin.string),
+                    'price': float(int(item_node.offers.offer.offerlisting.price.amount.string) / 100),
+                    'currency': item_node.offers.offer.offerlisting.price.currencycode.string,
                 }
             else:
                 logger.error('Lookup for item with ASIN %(item_id)s returned no product' % {'item_id': item_id})
