@@ -49,21 +49,26 @@ class ProductAdvertisingAPI(object):
         item_response = self.__amazon.ItemLookup(ItemId=item_id, ResponseGroup=app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP)
         if item_response.items.request.isvalid.string == 'True':
             item_node = item_response.items.item
-            item_values = {
-                'asin': item_node.asin.string,
-                'title': item_node.itemattributes.title.string,
-                'isbn': self.__get_item_attribute(item_node, 'isbn'),
-                'eisbn': self.__get_item_attribute(item_node, 'eisbn'),
-                'binding': item_node.itemattributes.binding.string,
-                'date_publication': datetime.strptime(self.__get_item_attribute(item_node, 'publicationdate'), '%Y-%m-%d'),
-                'date_release': datetime.strptime(self.__get_item_attribute(item_node, 'releasedate'), '%Y-%m-%d'),
-                # TODO collect possible values and parse them? see #19
-                'audience_rating': self.__get_item_attribute(item_node, 'audiencerating'),
-                'large_image_url': item_node.largeimage.url.string,
-                'medium_image_url': item_node.mediumimage.url.string,
-                'small_image_url': item_node.smallimage.url.string,
-                'offer_url': utils.get_offer_url(item_node.asin.string),
-            }
+            if item_node is not None:
+                item_values = {
+                    'asin': item_node.asin.string,
+                    'title': item_node.itemattributes.title.string,
+                    'isbn': self.__get_item_attribute(item_node, 'isbn'),
+                    'eisbn': self.__get_item_attribute(item_node, 'eisbn'),
+                    'binding': item_node.itemattributes.binding.string,
+                    'date_publication': datetime.strptime(self.__get_item_attribute(item_node, 'publicationdate'), '%Y-%m-%d'),
+                    'date_release': datetime.strptime(self.__get_item_attribute(item_node, 'releasedate'), '%Y-%m-%d'),
+                    # TODO collect possible values and parse them? see #19
+                    'audience_rating': self.__get_item_attribute(item_node, 'audiencerating'),
+                    'large_image_url': item_node.largeimage.url.string,
+                    'medium_image_url': item_node.mediumimage.url.string,
+                    'small_image_url': item_node.smallimage.url.string,
+                    'offer_url': utils.get_offer_url(item_node.asin.string),
+                }
+                print(item_values)
+            else:
+                # FIXME was unable to find item
+                return None
         else:
-            # FIXME handle the error
-            pass
+            # FIXME request was invalid
+            return None
