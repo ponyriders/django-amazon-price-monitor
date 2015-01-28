@@ -22,8 +22,6 @@ class ProductAdvertisingAPI(object):
     """
 
     def __init__(self):
-        # FIXME needs some more code?
-        # TODO use Caching https://github.com/lionheart/bottlenose#caching
         self.__amazon = bottlenose.Amazon(
             AWSAccessKeyId=app_settings.PRICE_MONITOR_AWS_ACCESS_KEY_ID,
             AWSSecretAccessKey=app_settings.PRICE_MONITOR_AWS_SECRET_ACCESS_KEY,
