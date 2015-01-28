@@ -3,6 +3,8 @@ import logging
 
 from bs4 import BeautifulSoup
 
+from datetime import datetime
+
 from price_monitor import (
     app_settings,
     utils,
@@ -47,17 +49,14 @@ class ProductAdvertisingAPI(object):
         item_response = self.__amazon.ItemLookup(ItemId=item_id, ResponseGroup=app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP)
         if item_response.items.request.isvalid.string == 'True':
             item_node = item_response.items.item
-            # FIXME remove noga after implementing
-            item_values = {  # noqa
+            item_values = {
                 'asin': item_node.asin.string,
                 'title': item_node.itemattributes.title.string,
                 'isbn': self.__get_item_attribute(item_node, 'isbn'),
                 'eisbn': self.__get_item_attribute(item_node, 'eisbn'),
                 'binding': item_node.itemattributes.binding.string,
-                # FIXME this is YYYY-MM-DD
-                'date_publication': self.__get_item_attribute(item_node, 'publicationdate'),
-                # FIXME this is YYYY-MM-DD
-                'date_release': self.__get_item_attribute(item_node, 'releasedate'),
+                'date_publication': datetime.strptime(self.__get_item_attribute(item_node, 'publicationdate'), '%Y-%m-%d'),
+                'date_release': datetime.strptime(self.__get_item_attribute(item_node, 'releasedate'), '%Y-%m-%d'),
                 # TODO collect possible values and parse them? see #19
                 'audience_rating': self.__get_item_attribute(item_node, 'audiencerating'),
                 'large_image_url': item_node.largeimage.url.string,
