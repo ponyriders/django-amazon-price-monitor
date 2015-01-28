@@ -1,9 +1,13 @@
+import logging
 import warnings
 
 from django.core.mail import send_mail as django_send_mail
 from django.utils.translation import ugettext as _
 
 from price_monitor import app_settings
+
+
+logger = logging.getLogger('price_monitor.utils')
 
 
 def get_offer_url(asin):
@@ -27,6 +31,7 @@ def get_api():
     :return: api instance
     :rtype: amazon.api.AmazonAPI
     """
+    # FIXME remove this after everything works for #27
     warnings.warn('get_api() is deprecated. Please use new structure!', DeprecationWarning, stacklevel=2)
     from amazon.api import AmazonAPI
     return AmazonAPI(
@@ -35,6 +40,20 @@ def get_api():
         app_settings.PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG,
         region=app_settings.PRICE_MONITOR_AMAZON_PRODUCT_API_REGION,
     )
+
+
+def parse_audience_rating(rating):
+    """
+    Parses the audience rating to a locale unaware value.
+    :param rating: the localized rating string
+    :type rating: basestring
+    :return: rating as unified age
+    :rtype: basestring
+    """
+    # FIXME implement me, see issue #19
+    # FIXME this may fallback to default values if no value was returned by amazon?
+    logging.error('Unable to parse audience rating value "%(audience_rating)s"' % {'audience_rating': rating})
+    return rating
 
 
 def send_mail(title, price_limit, currency, price, offer_url, send_to):

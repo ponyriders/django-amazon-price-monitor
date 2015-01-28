@@ -202,6 +202,10 @@ Please see the [Django logging documentation](https://docs.djangoproject.com/en/
 
 Logger for everything related to the ProductAdvertisingAPI wrapper class that accesses the Amazon Product Advertising API through bottlenose.
 
+### price_monitor.utils
+
+Logger for the utils module.
+
 
 ## Models
 

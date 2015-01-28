@@ -46,11 +46,20 @@ class ProductAdvertisingAPI(object):
         return value[0].string if len(value) == 1 else None
 
     def item_lookup(self, item_id):
+        """
+        Lookup of the item with the given id on Amazon. Returns it values or None if something went wrong.
+        :param item_id: the item id
+        :type item_id: basestring
+        :return: the values of the item
+        :rtype: dict
+        """
         item_response = self.__amazon.ItemLookup(ItemId=item_id, ResponseGroup=app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP)
         if item_response.items.request.isvalid.string == 'True':
             item_node = item_response.items.item
             if item_node is not None:
-                item_values = {
+                # TODO may cause value conversion errors, if so, encapsulate with specific exception handling
+                # FIXME maybe we could put that into an intermediate class that handles the value conversions itself
+                return {
                     'asin': item_node.asin.string,
                     'title': item_node.itemattributes.title.string,
                     'isbn': self.__get_item_attribute(item_node, 'isbn'),
@@ -58,17 +67,20 @@ class ProductAdvertisingAPI(object):
                     'binding': item_node.itemattributes.binding.string,
                     'date_publication': datetime.strptime(self.__get_item_attribute(item_node, 'publicationdate'), '%Y-%m-%d'),
                     'date_release': datetime.strptime(self.__get_item_attribute(item_node, 'releasedate'), '%Y-%m-%d'),
-                    # TODO collect possible values and parse them? see #19
-                    'audience_rating': self.__get_item_attribute(item_node, 'audiencerating'),
+                    'audience_rating': utils.parse_audience_rating(self.__get_item_attribute(item_node, 'audiencerating')),
                     'large_image_url': item_node.largeimage.url.string,
                     'medium_image_url': item_node.mediumimage.url.string,
                     'small_image_url': item_node.smallimage.url.string,
                     'offer_url': utils.get_offer_url(item_node.asin.string),
                 }
-                print(item_values)
             else:
-                # FIXME was unable to find item
+                logger.error('Lookup for item with ASIN %(item_id)s returned no product' % {'item_id': item_id})
                 return None
         else:
-            # FIXME request was invalid
+            logger.error(
+                'Request for item lookup (ResponseGroup: %(response_group)s, ASIN: %(item_id)s) was not vaild' % {
+                    'response_group': app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP,
+                    'item_id': item_id,
+                }
+            )
             return None
