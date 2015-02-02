@@ -4,9 +4,10 @@ from ...models.Product import Product
 from rest_framework import generics, permissions
 
 
-class ProductListView(generics.ListAPIView):
+class ProductListCreateView(generics.ListCreateAPIView):
     """
-    Returns list of Products, if user is authenticated
+    Returns list of Products and provides endpoint to create Products,
+    if user is authenticated
     """
     model = Product
     serializer_class = ProductSerializer
@@ -22,4 +23,4 @@ class ProductListView(generics.ListAPIView):
         :returns: filtered Product objects
         :rtype:   QuerySet
         """
-        return super(ProductListView, self).get_queryset().filter(subscription__owner=self.request.user)
+        return super(ProductListCreateView, self).get_queryset().filter(subscription__owner=self.request.user)
