@@ -32,6 +32,22 @@ class AngularIndexView(TemplateView):
     template_name = 'price_monitor/angular_index_view.html'
     form = SubscriptionCreationForm
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        """
+        Overwriting this method the make every instance of the view
+        login_required
+        :param args: positional arguments
+        :type args: List
+        :param kwargs: keyword arguments
+        :type kwargs: Dict
+        :return: Result of super method. As this dispatches the handling method
+        for the incoming request and calls it, the return is a HttpResponse
+        object
+        :rtype: HttpResponse
+        """
+        return super(AngularIndexView, self).dispatch(*args, **kwargs)
+
     def get_context_data(self, form=None, **kwargs):
         context = super(AngularIndexView, self).get_context_data(**kwargs)
         context.update(
