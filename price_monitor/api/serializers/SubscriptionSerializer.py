@@ -8,7 +8,7 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     """
     Serializes subscription with product inline. Also renders id frm public_id
     """
-    id = serializers.CharField(source='public_id')
+    id = serializers.CharField(source='public_id', read_only=True)
     email_notification = EmailNotificationSerializer()
 
     class Meta:
@@ -16,7 +16,6 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'price_limit',
-            'product',
             'date_last_notification',
             'email_notification',
         )
