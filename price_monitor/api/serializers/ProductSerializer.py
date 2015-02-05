@@ -1,5 +1,3 @@
-import re
-
 from .SubscriptionSerializer import SubscriptionSerializer
 from ...models import Product
 
