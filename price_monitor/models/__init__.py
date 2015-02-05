@@ -3,10 +3,10 @@ import os
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from price_monitor.models.EmailNotification import EmailNotification
-from price_monitor.models.Price import Price
-from price_monitor.models.Product import Product
-from price_monitor.models.Subscription import Subscription
+from price_monitor.models.EmailNotification import EmailNotification  # noqa
+from price_monitor.models.Price import Price  # noqa
+from price_monitor.models.Product import Product  # noqa
+from price_monitor.models.Subscription import Subscription  # noqa
 
 
 @receiver(post_save, sender=Product)

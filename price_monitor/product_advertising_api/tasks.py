@@ -10,9 +10,7 @@ from itertools import islice
 
 from price_monitor import app_settings
 from price_monitor.models import (
-    Price,
     Product,
-    Subscription,
 )
 from price_monitor.product_advertising_api.api import ProductAdvertisingAPI
 
