@@ -1,3 +1,5 @@
+import re
+
 from .SubscriptionSerializer import SubscriptionSerializer
 from ...models import Product
 
@@ -10,6 +12,7 @@ class ProductSerializer(serializers.ModelSerializer):
     Also sets all fields but asin to read only
     """
 
+    asin = serializers.CharField(max_length=100)
     current_price = serializers.SerializerMethodField('get_price_values')
     subscription_set = SubscriptionSerializer(many=True)
 
@@ -32,6 +35,18 @@ class ProductSerializer(serializers.ModelSerializer):
                 'date_seen': price.date_seen,
             }
 
+    def save_object(self, obj, **kwargs):
+        """
+        Overwriting default save_object function to ensure, that the already
+        existing instance of product is used, if asin is already in database
+        :param obj: current unsaved instance of Product
+        :type obj:  Product
+        """
+        try:
+            self.object = Product.objects.get(asin=obj.asin)
+        except Product.DoesNotExist:
+            super(ProductSerializer, self).save_object(obj, **kwargs)
+
     class Meta:
         model = Product
         fields = (
@@ -41,7 +56,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'status',
 
             # amazon specific fields
-            'asin',
+            #'asin', is specified explicitly
             'title',
             'isbn',
             'eisbn',
