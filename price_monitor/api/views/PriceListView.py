@@ -11,6 +11,5 @@ class PriceListView(ListAPIView):
     renderer_classes = ListAPIView.renderer_classes + [PriceChartPNGRenderer]
 
     def get_queryset(self):
-        queryset = super(PriceListView, self).get_queryset()
         # TODO: this is just for testing
-        return queryset.filter(product__asin=self.kwargs.get('asin')).order_by('-date_seen')[:50]
+        return self.model.objects.filter(product__asin=self.kwargs.get('asin')).order_by('-date_seen')[:50]

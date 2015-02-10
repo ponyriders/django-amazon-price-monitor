@@ -23,4 +23,4 @@ class ProductListCreateView(generics.ListCreateAPIView):
         :returns: filtered Product objects
         :rtype:   QuerySet
         """
-        return super(ProductListCreateView, self).get_queryset().filter(subscription__owner=self.request.user)
+        return self.model.objects.filter(subscription__owner=self.request.user)
