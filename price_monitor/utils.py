@@ -54,10 +54,14 @@ def parse_audience_rating(rating):
     # FIXME this may fallback to default values if no value was returned by amazon?
 
     # FIXME this regex only handles currently known german values, see #19
-    regex = re.compile('Freigegeben ab ([0-9]{2}) Jahren')
+    regex = re.compile('Freigegeben ab ([0-9]{1,2}) Jahren')
     result = regex.search(rating)
 
     if result is None:
+        # regex won't match that
+        if rating == 'Freigegeben ohne Altersbeschränkung':
+            return 0
+
         logger.error('Unable to parse audience rating value "%(audience_rating)s"' % {'audience_rating': rating})
         return rating
 
