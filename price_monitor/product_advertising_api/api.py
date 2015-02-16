@@ -77,7 +77,6 @@ class ProductAdvertisingAPI(object):
             item_node = item_response.items.item
             if item_node is not None:
                 # TODO may cause value conversion errors, if so, encapsulate with specific exception handling
-                # FIXME maybe we could put that into an intermediate class that handles the value conversions itself
                 return {
                     'asin': item_node.asin.string,
                     'title': item_node.itemattributes.title.string,
