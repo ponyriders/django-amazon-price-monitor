@@ -22,4 +22,4 @@ class ProductRetrieveView(generics.RetrieveAPIView):
         :returns: filtered Product objects
         :rtype:   QuerySet
         """
-        return super(ProductRetrieveView, self).get_queryset().filter(subscription__owner=self.request.user)
+        return Product.objects.filter(subscription__owner=self.request.user)

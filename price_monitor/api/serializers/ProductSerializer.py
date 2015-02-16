@@ -33,17 +33,20 @@ class ProductSerializer(serializers.ModelSerializer):
                 'date_seen': price.date_seen,
             }
 
-    def save_object(self, obj, **kwargs):
+    def create(self, validated_data):
         """
-        Overwriting default save_object function to ensure, that the already
+        Overwriting default create function to ensure, that the already
         existing instance of product is used, if asin is already in database
-        :param obj: current unsaved instance of Product
-        :type obj:  Product
+        :param validated_data: valid form data
+        :type validated_data:  dict
+        :return:               created or fetched product
+        :rtype:                Product
         """
         try:
-            self.object = Product.objects.get(asin=obj.asin)
+            product = Product.objects.get(asin=validated_data['asin'])
         except Product.DoesNotExist:
-            super(ProductSerializer, self).save_object(obj, **kwargs)
+            product = Product.objects.create(asin=validated_data['asin'])
+        return product
 
     class Meta:
         model = Product
@@ -54,7 +57,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'status',
 
             # amazon specific fields
-            #'asin', is specified explicitly
+            'asin',
             'title',
             'isbn',
             'eisbn',
