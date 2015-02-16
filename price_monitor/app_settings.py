@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.utils.translation import gettext
 
 
 # global AWS access settings
@@ -30,7 +31,6 @@ PRICE_MONITOR_EMAIL_SENDER = getattr(settings, 'PRICE_MONITOR_EMAIL_SENDER', 'no
 # default currency
 PRICE_MONITOR_DEFAULT_CURRENCY = getattr(settings, 'PRICE_MONITOR_DEFAULT_CURRENCY', 'EUR')
 # i18n for email notifications
-gettext = lambda x: x
 PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT = getattr(
     settings,
     'PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT',
