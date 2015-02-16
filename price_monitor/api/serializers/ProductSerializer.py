@@ -1,5 +1,5 @@
 from .SubscriptionSerializer import SubscriptionSerializer
-from ...models import Product
+from ...models import EmailNotification, Product
 
 from rest_framework import serializers
 
@@ -42,10 +42,21 @@ class ProductSerializer(serializers.ModelSerializer):
         :return:               created or fetched product
         :rtype:                Product
         """
-        try:
-            product = Product.objects.get(asin=validated_data['asin'])
-        except Product.DoesNotExist:
-            product = Product.objects.create(asin=validated_data['asin'])
+        product = Product.objects.get_or_create(asin=validated_data['asin'])[0]
+
+        for new_subscription in validated_data['subscription_set']:
+            # first fetch EmailNotification object
+            email_notification = EmailNotification.objects.get_or_create(
+                owner=self.context['request'].user,
+                email=new_subscription['email_notification']['email']
+            )[0]
+
+            # don't create double subscriptions with same price limit
+            product.subscription_set.get_or_create(
+                owner=self.context['request'].user,
+                price_limit=new_subscription['price_limit'],
+                email_notification=email_notification
+            )
         return product
 
     class Meta:
