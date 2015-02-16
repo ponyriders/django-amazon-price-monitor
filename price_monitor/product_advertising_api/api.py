@@ -44,6 +44,20 @@ class ProductAdvertisingAPI(object):
         return value[0].string if len(value) == 1 else None
 
     @staticmethod
+    def __format_datetime(value, the_format):
+        """
+        Formats the given value if it is not None in the given format.
+        :param value: the value to format
+        :type value: basestring
+        :param the_format: the format to use
+        :type the_format: basestring
+        :return: formatted datetime
+        :rtype: basestring
+        """
+        if value is not None:
+            return datetime.strptime(value, the_format)
+
+    @staticmethod
     def handle_error(error):
         """
         Generic error handler for bottlenose requests.
@@ -83,8 +97,8 @@ class ProductAdvertisingAPI(object):
                     'isbn': self.__get_item_attribute(item_node, 'isbn'),
                     'eisbn': self.__get_item_attribute(item_node, 'eisbn'),
                     'binding': item_node.itemattributes.binding.string,
-                    'date_publication': datetime.strptime(self.__get_item_attribute(item_node, 'publicationdate'), '%Y-%m-%d'),
-                    'date_release': datetime.strptime(self.__get_item_attribute(item_node, 'releasedate'), '%Y-%m-%d'),
+                    'date_publication': self.__format_datetime(self.__get_item_attribute(item_node, 'publicationdate'), '%Y-%m-%d'),
+                    'date_release': self.__format_datetime(self.__get_item_attribute(item_node, 'releasedate'), '%Y-%m-%d'),
                     'audience_rating': utils.parse_audience_rating(self.__get_item_attribute(item_node, 'audiencerating')),
                     'large_image_url': item_node.largeimage.url.string,
                     'medium_image_url': item_node.mediumimage.url.string,
