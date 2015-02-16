@@ -10,6 +10,7 @@ from itertools import islice
 
 from price_monitor import app_settings
 from price_monitor.models import (
+    Price,
     Product,
 )
 from price_monitor.product_advertising_api.api import ProductAdvertisingAPI
@@ -31,10 +32,19 @@ class SynchronizationMixin():
         """
         now = timezone.now()
 
+        # create the price
+        price = Price.objects.create(
+            value=amazon_data['price'],
+            currency=amazon_data['currency'],
+            date_seen=now,
+            product=product,
+        )
+
         # remove the elements that are not a field in Product model
         amazon_data.pop('price')
         amazon_data.pop('currency')
 
+        # update and save the product
         product.__dict__.update(amazon_data)
         product.status = 1
         product.date_last_synced = now
@@ -61,14 +71,6 @@ class SynchronizationMixin():
         #     ):
         #         # TODO: how to handle failed notifications?
         #         NotifySubscriberTask().delay(product, price[0], price[1], sub)
-        #
-        #     # create the price entry
-        #     Price.objects.create(
-        #         value=price[0],
-        #         currency=price[1],
-        #         date_seen=now,
-        #         product=product,
-        #     )
 
     def get_products_to_sync(self):
         """
