@@ -1,4 +1,5 @@
 import logging
+import re
 import warnings
 
 from django.core.mail import send_mail as django_send_mail
@@ -50,10 +51,17 @@ def parse_audience_rating(rating):
     :return: rating as unified age
     :rtype: basestring
     """
-    # FIXME implement me, see issue #19
     # FIXME this may fallback to default values if no value was returned by amazon?
-    logger.error('Unable to parse audience rating value "%(audience_rating)s"' % {'audience_rating': rating})
-    return rating
+
+    # FIXME this regex only handles currently known german values, see #19
+    regex = re.compile('Freigegeben ab ([0-9]{2}) Jahren')
+    result = regex.search(rating)
+
+    if result is None:
+        logger.error('Unable to parse audience rating value "%(audience_rating)s"' % {'audience_rating': rating})
+        return rating
+
+    return result.groups()[0]
 
 
 def send_mail(title, price_limit, currency, price, offer_url, send_to):
