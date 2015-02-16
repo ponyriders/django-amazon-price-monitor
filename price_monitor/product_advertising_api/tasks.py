@@ -50,6 +50,9 @@ class SynchronizationMixin():
         product.date_last_synced = now
         product.save()
 
+        # FIXME remove this
+        print(price)
+
         # FIXME adjust price handling
         # # tuple: (price, currency)
         # price = amazon_product.price_and_currency
