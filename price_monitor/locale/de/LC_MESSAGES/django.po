@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-09 17:54+0200\n"
-"PO-Revision-Date: 2014-10-09 17:57+0100\n"
+"POT-Creation-Date: 2015-02-16 18:46+0100\n"
+"PO-Revision-Date: 2015-02-16 18:58+0100\n"
 "Last-Translator: Alexander Herrmann <darignac@gmail.com>\n"
 "Language-Team: Deutsch <darignac@gmail.com>\n"
 "Language: Deutsch\n"
@@ -23,12 +23,12 @@ msgstr ""
 msgid "Reset to status \"Created\"."
 msgstr "Auf Status \"Erstellt\" zurücksetzen."
 
-#: app_settings.py:25
+#: app_settings.py:37
 #, python-format
 msgid "Price limit for %(product)s reached"
 msgstr "Preislimit für %(product)s erreicht"
 
-#: app_settings.py:27
+#: app_settings.py:43
 #, python-format
 msgid ""
 "The price limit of %(price_limit)0.2f %(currency)s has been reached for the "
@@ -95,7 +95,7 @@ msgstr "Währung"
 msgid "Date of price"
 msgstr "Datum des Preises"
 
-#: models/Price.py:15 models/Product.py:103 models/Subscription.py:15
+#: models/Price.py:15 models/Product.py:102 models/Subscription.py:15
 msgid "Product"
 msgstr "Produkt"
 
@@ -176,18 +176,14 @@ msgid "URL to small product image"
 msgstr "URL zum kleinen Produktbild"
 
 #: models/Product.py:49
-msgid "URL to tiny product image"
-msgstr "URL zum winzigen Produktbild"
-
-#: models/Product.py:50
 msgid "URL to the offer"
 msgstr "URL zum Angebot"
 
-#: models/Product.py:96
+#: models/Product.py:95
 msgid "Unsynchronized Product"
 msgstr "Nicht synchronisiertes Produkt"
 
-#: models/Product.py:104
+#: models/Product.py:103
 msgid "Products"
 msgstr "Produkte"
 
@@ -235,6 +231,10 @@ msgid ""
 "on %(site_name)s at the time of purchase will apply to the purchase of this "
 "product."
 msgstr ""
+"Produktpreise und -verfügbarkeit gelten zur angezeigten Zeit und können sich "
+"ändern. Jede Preis- und Verügbarkeitsinformation, die auf %(site_name)s zum "
+"Zeitpunkt der Bestellung angezeigt werden, treffen auch für den Kauf des "
+"Produktes zu."
 
 #: templates/price_monitor/product_list_and_create.html:37
 msgid "Details"
@@ -267,30 +267,3 @@ msgstr "Keine Preisdaten verfügbar."
 #: templates/price_monitor/templatetags/chart_line.html:25
 msgid "at"
 msgstr "um"
-
-#~ msgid "Author"
-#~ msgstr "Autor"
-
-#~ msgid "Publisher"
-#~ msgstr "Verlag"
-
-#~ msgid "Label"
-#~ msgstr "Label"
-
-#~ msgid "Manufacturer"
-#~ msgstr "Hersteller"
-
-#~ msgid "Brand"
-#~ msgstr "Marke"
-
-#~ msgid "Pages"
-#~ msgstr "Seitenanzahl"
-
-#~ msgid "Edition"
-#~ msgstr "Edition"
-
-#~ msgid "Model"
-#~ msgstr "Modell"
-
-#~ msgid "ASINs"
-#~ msgstr "ASINs"
