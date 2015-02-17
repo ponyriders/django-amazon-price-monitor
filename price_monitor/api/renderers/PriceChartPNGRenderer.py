@@ -14,7 +14,8 @@ from six import text_type
 from tempfile import TemporaryFile
 
 
-bool_helper = lambda x: x in [1, '1', 'true', 'True']
+def bool_helper(x):
+    return x in [1, '1', 'true', 'True']
 
 
 class PriceChartPNGRenderer(BaseRenderer):
