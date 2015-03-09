@@ -18,7 +18,7 @@ PriceMonitorApp.controller('ProductListCtrl', function($scope, Product) {
             }]
         };
 
-        $scope.newProducts = [emptyProduct];
+        $scope.newProducts = [angular.copy(emptyProduct)];
 
         $scope.addNewProduct = function() {
             $scope.newProducts.push(emptyProduct);
@@ -35,6 +35,7 @@ PriceMonitorApp.controller('ProductListCtrl', function($scope, Product) {
             angular.forEach($scope.newProducts, function(newProduct) {
                 Product.save(newProduct, function() {
                     $scope.products = Product.query();
+                    $scope.newProducts = [angular.copy(emptyProduct)];
                 });
             });
         }
