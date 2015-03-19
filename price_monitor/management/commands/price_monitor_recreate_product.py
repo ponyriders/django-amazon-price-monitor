@@ -5,10 +5,13 @@ from price_monitor.models import Product
 
 class Command(BaseCommand):
     args = '<asin>'
-    help = 'adds a product with the given asin'
+    help = 'recreates a product with the given asin. if product already exists, it is deleted'
 
     def handle(self, *args, **options):
         if len(args) != 1:
             raise CommandError('Please specify an asin')
 
-        Product.objects.create(asin=args[0])
+        product, created = Product.objects.get_or_create(asin=args[0])
+        if not created:
+            product.delete()
+            Product.objects.create(asin=args[0])
