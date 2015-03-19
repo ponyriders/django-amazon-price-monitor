@@ -90,7 +90,7 @@ class ProductAdvertisingAPI(object):
         item_response = self.__amazon.ItemLookup(ItemId=item_id, ResponseGroup=app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP)
 
         # fixme remove
-        # logger.info(item_response)
+        logger.info(item_response)
 
         if item_response.items.request.isvalid.string == 'True':
             item_node = item_response.items.item
@@ -106,12 +106,16 @@ class ProductAdvertisingAPI(object):
                     'binding': item_node.itemattributes.binding.string,
                     'date_publication': self.__format_datetime(self.__get_item_attribute(item_node, 'publicationdate')),
                     'date_release': self.__format_datetime(self.__get_item_attribute(item_node, 'releasedate')),
-                    'audience_rating': utils.parse_audience_rating(self.__get_item_attribute(item_node, 'audiencerating')),
                     'large_image_url': item_node.largeimage.url.string,
                     'medium_image_url': item_node.mediumimage.url.string,
                     'small_image_url': item_node.smallimage.url.string,
                     'offer_url': utils.get_offer_url(item_node.asin.string),
                 }
+
+                # check the audience rating
+                audience_rating = self.__get_item_attribute(item_node, 'audiencerating')
+                if audience_rating is not None:
+                    product_values['audience_rating'] = utils.parse_audience_rating(audience_rating)
 
                 # check if there are offers, if so add price
                 if int(item_node.offers.totaloffers.string) > 0:
