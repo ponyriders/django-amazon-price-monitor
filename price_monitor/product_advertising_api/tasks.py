@@ -33,16 +33,18 @@ class SynchronizationMixin():
         now = timezone.now()
 
         # create the price
-        price = Price.objects.create(
-            value=amazon_data['price'],
-            currency=amazon_data['currency'],
-            date_seen=now,
-            product=product,
-        )
+        price = None
+        if 'price' in amazon_data:
+            price = Price.objects.create(
+                value=amazon_data['price'],
+                currency=amazon_data['currency'],
+                date_seen=now,
+                product=product,
+            )
 
-        # remove the elements that are not a field in Product model
-        amazon_data.pop('price')
-        amazon_data.pop('currency')
+            # remove the elements that are not a field in Product model
+            amazon_data.pop('price')
+            amazon_data.pop('currency')
 
         # update and save the product
         product.__dict__.update(amazon_data)

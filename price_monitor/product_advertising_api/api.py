@@ -3,7 +3,7 @@ import logging
 
 from bs4 import BeautifulSoup
 
-from datetime import datetime
+from dateutil import parser
 
 from price_monitor import (
     app_settings,
@@ -44,18 +44,19 @@ class ProductAdvertisingAPI(object):
         return value[0].string if len(value) == 1 else None
 
     @staticmethod
-    def __format_datetime(value, the_format):
+    def __format_datetime(value):
         """
         Formats the given value if it is not None in the given format.
         :param value: the value to format
         :type value: basestring
-        :param the_format: the format to use
-        :type the_format: basestring
         :return: formatted datetime
         :rtype: basestring
         """
         if value is not None:
-            return datetime.strptime(value, the_format)
+            try:
+                return parser.parse(value)
+            except ValueError:
+                raise
 
     @staticmethod
     def handle_error(error):
@@ -87,26 +88,37 @@ class ProductAdvertisingAPI(object):
         :rtype: dict
         """
         item_response = self.__amazon.ItemLookup(ItemId=item_id, ResponseGroup=app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP)
+
+        # fixme remove
+        # logger.info(item_response)
+
         if item_response.items.request.isvalid.string == 'True':
             item_node = item_response.items.item
+
             if item_node is not None:
+
                 # TODO may cause value conversion errors, if so, encapsulate with specific exception handling
-                return {
+                product_values = {
                     'asin': item_node.asin.string,
                     'title': item_node.itemattributes.title.string,
                     'isbn': self.__get_item_attribute(item_node, 'isbn'),
                     'eisbn': self.__get_item_attribute(item_node, 'eisbn'),
                     'binding': item_node.itemattributes.binding.string,
-                    'date_publication': self.__format_datetime(self.__get_item_attribute(item_node, 'publicationdate'), '%Y-%m-%d'),
-                    'date_release': self.__format_datetime(self.__get_item_attribute(item_node, 'releasedate'), '%Y-%m-%d'),
+                    'date_publication': self.__format_datetime(self.__get_item_attribute(item_node, 'publicationdate')),
+                    'date_release': self.__format_datetime(self.__get_item_attribute(item_node, 'releasedate')),
                     'audience_rating': utils.parse_audience_rating(self.__get_item_attribute(item_node, 'audiencerating')),
                     'large_image_url': item_node.largeimage.url.string,
                     'medium_image_url': item_node.mediumimage.url.string,
                     'small_image_url': item_node.smallimage.url.string,
                     'offer_url': utils.get_offer_url(item_node.asin.string),
-                    'price': float(int(item_node.offers.offer.offerlisting.price.amount.string) / 100),
-                    'currency': item_node.offers.offer.offerlisting.price.currencycode.string,
                 }
+
+                # check if there are offers, if so add price
+                if int(item_node.offers.totaloffers.string) > 0:
+                    product_values['price'] = float(int(item_node.offers.offer.offerlisting.price.amount.string) / 100)
+                    product_values['currency'] = item_node.offers.offer.offerlisting.price.currencycode.string
+
+                return product_values
             else:
                 logger.error('Lookup for item with ASIN %(item_id)s returned no product' % {'item_id': item_id})
                 return None

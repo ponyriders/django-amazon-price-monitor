@@ -5,3 +5,4 @@ bottlenose>=0.6.2
 celery>=3
 six
 pygal>=1.5.1
+python-dateutil>=2.4.1
