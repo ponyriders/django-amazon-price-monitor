@@ -24,6 +24,7 @@ setup(
         'CairoSVG',  # pygal png output
         'tinycss',  # pygal png output
         'cssselect',  # pygal png output
+        'python-dateutil>=2.4.1',
     ],
     dependency_links=[
     ]
