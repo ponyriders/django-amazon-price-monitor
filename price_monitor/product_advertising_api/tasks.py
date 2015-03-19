@@ -51,7 +51,7 @@ class SynchronizationMixin():
         product.save()
 
         # FIXME remove this
-        print(price)
+        logger.info(price)
 
         # FIXME adjust price handling
         # # tuple: (price, currency)
