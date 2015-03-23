@@ -45,16 +45,8 @@ Relies on python-amazon-simple-product-api under the hood.
 
 ### Prerequisites
 
-- Python 2.7, 3.2, 3.3, 3.4
-
-```
-Django>=1.5,<1.7
-djangorestframework>=2.3.13
-beautifulsoup4>=4.3.2
-bottlenose>=0.6.2
-celery>=3
-six
-```
+- Python 3.3, 3.4
+- see requirements.txt
 
 ### Included angular libraries
 
