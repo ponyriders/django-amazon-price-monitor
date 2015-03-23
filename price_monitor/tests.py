@@ -10,8 +10,6 @@ from price_monitor.models import (
     Subscription,
 )
 
-from price_monitor.product_advertising_api.tests import ProductAdvertisingAPITest  # noqa
-
 
 class ProductTest(TestCase):
 
