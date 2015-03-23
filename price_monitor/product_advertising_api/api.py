@@ -79,6 +79,16 @@ class ProductAdvertisingAPI(object):
         # FIXME we do not retry failed requests for now
         return False
 
+    def lookup_at_amazon(self, item_id):
+        """
+        Outsourced this call to better mock in tests.
+        :param item_id: the item id
+        :type item_id: basestring
+        :return: parsed xml
+        :rtype: bs4.BeautifulSoup
+        """
+        return self.__amazon.ItemLookup(ItemId=item_id, ResponseGroup=app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP)
+
     def item_lookup(self, item_id):
         """
         Lookup of the item with the given id on Amazon. Returns it values or None if something went wrong.
@@ -87,7 +97,7 @@ class ProductAdvertisingAPI(object):
         :return: the values of the item
         :rtype: dict
         """
-        item_response = self.__amazon.ItemLookup(ItemId=item_id, ResponseGroup=app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP)
+        item_response = self.lookup_at_amazon(item_id)
 
         # fixme remove
         # logger.info(item_response)
