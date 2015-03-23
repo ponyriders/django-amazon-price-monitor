@@ -90,7 +90,7 @@ class ProductAdvertisingAPI(object):
         item_response = self.__amazon.ItemLookup(ItemId=item_id, ResponseGroup=app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP)
 
         # fixme remove
-        logger.info(item_response)
+        # logger.info(item_response)
 
         if item_response.items.request.isvalid.string == 'True':
             item_node = item_response.items.item
@@ -128,7 +128,7 @@ class ProductAdvertisingAPI(object):
                 return None
         else:
             logger.error(
-                'Request for item lookup (ResponseGroup: %(response_group)s, ASIN: %(item_id)s) was not vaild' % {
+                'Request for item lookup (ResponseGroup: %(response_group)s, ASIN: %(item_id)s) was not valid' % {
                     'response_group': app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP,
                     'item_id': item_id,
                 }
