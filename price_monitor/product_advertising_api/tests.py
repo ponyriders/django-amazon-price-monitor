@@ -1,6 +1,10 @@
 from django.test import TestCase
 
+from unittest.mock import patch
+
 from price_monitor.product_advertising_api.api import ProductAdvertisingAPI
+
+from testfixtures import log_capture
 
 
 class ProductAdvertisingAPITest(TestCase):
@@ -8,11 +12,22 @@ class ProductAdvertisingAPITest(TestCase):
     Test class for the ProductAdvertisingAPI.
     """
 
-    def setUp(self):
-        self.api = ProductAdvertisingAPI()
+    @patch('bottlenose.Amazon')
+    @log_capture()
+    def test_item_lookup_response_fail(self, amazon, log_capture):
+        """
+        Test for a product whose amazon query returns nothing
+        """
+        # mock the return value of amazon call
+        amazon.ItemLookup.return_value = ''
 
-    def tearDown(self):
-        pass
+        api = ProductAdvertisingAPI()
+        api.item_lookup('XXX')
+
+        # check log output
+        log_capture.check(
+            ('price_monitor.product_advertising_api', 'ERROR', 'Request for item lookup (ResponseGroup: Large, ASIN: XXX) was not valid')
+        )
 
     def test_item_lookup_normal(self):
         """

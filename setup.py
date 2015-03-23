@@ -22,5 +22,6 @@ setup(
     packages=['price_monitor'],
     long_description=open('README.md').read(),
     install_requires=get_requirements(),
+    tests_require=get_requirements('requirements_test.txt'),
     dependency_links=[]
 )
