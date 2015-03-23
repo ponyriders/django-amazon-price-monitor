@@ -14,19 +14,19 @@ class ProductAdvertisingAPITest(TestCase):
 
     @patch('bottlenose.Amazon')
     @log_capture()
-    def test_item_lookup_response_fail(self, amazon, log_capture):
+    def test_item_lookup_response_fail(self, amazon, lc):
         """
-        Test for a product whose amazon query returns nothing
+        Test for a product whose amazon query returns nothing.
         """
         # mock the return value of amazon call
         amazon.ItemLookup.return_value = ''
 
         api = ProductAdvertisingAPI()
-        api.item_lookup('XXX')
+        api.item_lookup('ASIN-DUMMY')
 
         # check log output
-        log_capture.check(
-            ('price_monitor.product_advertising_api', 'ERROR', 'Request for item lookup (ResponseGroup: Large, ASIN: XXX) was not valid')
+        lc.check(
+            ('price_monitor.product_advertising_api', 'ERROR', 'Request for item lookup (ResponseGroup: Large, ASIN: ASIN-DUMMY) was not valid')
         )
 
     def test_item_lookup_normal(self):
