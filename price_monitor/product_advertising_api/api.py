@@ -102,6 +102,15 @@ class ProductAdvertisingAPI(object):
         # fixme remove
         # logger.info(item_response)
 
+        if getattr(item_response, 'items') is None:
+            logger.error(
+                'Request for item lookup (ResponseGroup: %(response_group)s, ASIN: %(item_id)s) returned nothing' % {
+                    'response_group': app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP,
+                    'item_id': item_id,
+                }
+            )
+            return None
+
         if item_response.items.request.isvalid.string == 'True':
             item_node = item_response.items.item
 
