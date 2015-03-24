@@ -167,27 +167,31 @@ class ProductAdvertisingAPITest(TestCase):
         </itemlookupresponse>
     """
 
-    # TODO remove
-    # @patch('bottlenose.Amazon', create_autospec=True)
-    # @patch('price_monitor.product_advertising_api.api.ProductAdvertisingAPI', create_autospec=True)
+    @patch.object(ProductAdvertisingAPI, 'lookup_at_amazon')
+    @patch.object(ProductAdvertisingAPI, '__init__')
     @log_capture()
-    def test_item_lookup_normal(self, lc):
+    def test_item_lookup_normal(self, papi_init, papi_lookup, lc):
         """
         Test for a normal bluray.
+        :param papi_init: mockup for ProductAdvertisingAPI.__init__
+        :type papi_init: unittest.mock.MagicMock
+        :param papi_lookup: mockup for ProductAdvertisingAPI.lookup_at_amazon
+        :type papi_init: unittest.mock.MagicMock
         :param lc: log capture instance
+        :type lc: testfixtures.logcapture.LogCaptureForDecorator
         """
-        # FIXME are the mock possible with patch?
-        with patch.object(ProductAdvertisingAPI, '__init__', return_value=None) as mocked_init:
-            with patch.object(ProductAdvertisingAPI, 'lookup_at_amazon', return_value=self.__get_product_bs(self.product_sample_ok)) as mocked_lookup:
-                api = ProductAdvertisingAPI()
-                values = api.item_lookup('DEMOASIN03')
-                self.assertNotEqual(None, values)
-                self.assertEqual(len(values), 14)
+        papi_init.return_value = None
+        papi_lookup.return_value = self.__get_product_bs(self.product_sample_ok)
 
-        assert mocked_init.called
-        assert mocked_lookup.called
+        api = ProductAdvertisingAPI()
+        values = api.item_lookup('DEMOASIN03')
+        self.assertNotEqual(None, values)
+        self.assertEqual(len(values), 14)
 
-        # check log output
+        self.assertTrue(papi_init.called)
+        self.assertTrue(papi_lookup.called)
+
+        # check log output, should be empty
         lc.check()
 
     def test_item_lookup_no_price(self):
