@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from django.utils import unittest
 
 from price_monitor import utils
 from price_monitor.models import (
@@ -92,6 +91,3 @@ class UtilsTest(TestCase):
     """
     def test_get_offer_url(self):
         self.assertEqual('http://www.amazon.de/dp/X1234567890/?tag=sample-assoc-tag', utils.get_offer_url('X1234567890'))
-
-if __name__ == '__main__':
-    unittest.main()
