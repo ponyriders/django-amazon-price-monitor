@@ -65,7 +65,7 @@ def parse_audience_rating(rating):
         logger.error('Unable to parse audience rating value "%(audience_rating)s"' % {'audience_rating': rating})
         return rating
 
-    return result.groups()[0]
+    return int(result.groups()[0])
 
 
 def send_mail(title, price_limit, currency, price, offer_url, send_to):
