@@ -8,9 +8,9 @@ before_install:
 install:
   - export CPPFLAGS="-O0"
   - pip install -e .
-  - pip install -r requirements_test.txt Django==$DJANGO
+  - pip install -r requirements_test.txt
 env:
-  - DJANGO=1.6.11 DB=postgres STAGE=TravisCI
+  - DB=postgres STAGE=TravisCI
 script:
   - flake8 price_monitor --ignore=E501,E128 --exclude=migrations
   - coverage run --branch --source=price_monitor `which django-admin.py` test --settings=price_monitor.test_settings price_monitor
@@ -24,3 +24,5 @@ notifications:
     on_failure: always  # options: [always|never|change] default: always
     on_start: false
 cache: apt
+after_success:
+  coveralls
