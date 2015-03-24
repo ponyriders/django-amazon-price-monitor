@@ -104,10 +104,9 @@ class ProductAdvertisingAPI(object):
 
         if getattr(item_response, 'items') is None:
             logger.error(
-                'Request for item lookup (ResponseGroup: %(response_group)s, ASIN: %(item_id)s) returned nothing' % {
-                    'response_group': app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP,
-                    'item_id': item_id,
-                }
+                'Request for item lookup (ResponseGroup: %s, ASIN: %s) returned nothing',
+                app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP,
+                item_id,
             )
             return None
 
@@ -143,13 +142,12 @@ class ProductAdvertisingAPI(object):
 
                 return product_values
             else:
-                logger.error('Lookup for item with ASIN %(item_id)s returned no product' % {'item_id': item_id})
+                logger.error('Lookup for item with ASIN %s returned no product', item_id)
                 return None
         else:
             logger.error(
-                'Request for item lookup (ResponseGroup: %(response_group)s, ASIN: %(item_id)s) was not valid' % {
-                    'response_group': app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP,
-                    'item_id': item_id,
-                }
+                'Request for item lookup (ResponseGroup: %s, ASIN: %s) was not valid',
+                app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP,
+                item_id,
             )
             return None
