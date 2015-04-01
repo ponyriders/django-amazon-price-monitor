@@ -320,10 +320,119 @@ class ProductAdvertisingAPITest(TestCase):
         # check log output, should be empty
         lc.check()
 
-    def test_item_lookup_no_audience_rating(self):
+    product_sample_no_audience_rating = """
+        <?xml version="1.0" ?>
+        <itemlookupresponse xmlns="http://webservices.amazon.com/AWSECommerceService/2011-08-01">
+            <items>
+                <request>
+                    <isvalid>True</isvalid>
+                    <itemlookuprequest>
+                        <idtype>ASIN</idtype>
+                        <itemid>123456789X</itemid>
+                        <responsegroup>Large</responsegroup>
+                        <variationpage>All</variationpage>
+                    </itemlookuprequest>
+                </request>
+                <item>
+                    <asin>123456789X</asin>
+                    <itemattributes>
+                        <title>A Sample Book</title>
+                        <binding>Taschenbuch</binding>
+                        <publicationdate>2014-08-18</publicationdate>
+                        <releasedate>2014-08-18</releasedate>
+                        <ean>9876543219876</ean>
+                        <eanlist>
+                            <eanlistelement>9876543219876</eanlistelement>
+                        </eanlist>
+                        <isbn>123456789X</isbn>
+                    </itemattributes>
+                    <smallimage>
+                        <url>http://ecx.images-amazon.com/images/I/123456789XIMAGE._SL75_.jpg</url>
+                        <height units="pixels">75</height>
+                        <width units="pixels">59</width>
+                    </smallimage>
+                    <mediumimage>
+                        <url>http://ecx.images-amazon.com/images/I/123456789XIMAGE._SL160_.jpg</url>
+                        <height units="pixels">160</height>
+                        <width units="pixels">126</width>
+                    </mediumimage>
+                    <largeimage>
+                        <url>http://ecx.images-amazon.com/images/I/123456789XIMAGE.jpg</url>
+                        <height units="pixels">500</height>
+                        <width units="pixels">393</width>
+                    </largeimage>
+                    <offers>
+                        <totaloffers>1</totaloffers>
+                        <totalofferpages>1</totalofferpages>
+                        <offer>
+                            <offerattributes>
+                                <condition>New</condition>
+                            </offerattributes>
+                            <offerlisting>
+                                <offerlistingid>SAMPLEOFFERLISTINGID</offerlistingid>
+                                <price>
+                                    <amount>1000</amount>
+                                    <currencycode>EUR</currencycode>
+                                    <formattedprice>EUR 10,00</formattedprice>
+                                </price>
+                                <availability>Gewöhnlich versandfertig in 24 Stunden</availability>
+                                <availabilityattributes>
+                                    <availabilitytype>now</availabilitytype>
+                                    <minimumhours>0</minimumhours>
+                                    <maximumhours>0</maximumhours>
+                                </availabilityattributes>
+                                <iseligibleforsupersavershipping>1</iseligibleforsupersavershipping>
+                            </offerlisting>
+                        </offer>
+                    </offers>
+                </item>
+            </items>
+        </itemlookupresponse>
+    """
+
+    @patch.object(ProductAdvertisingAPI, 'lookup_at_amazon')
+    @patch.object(ProductAdvertisingAPI, '__init__')
+    @log_capture()
+    def test_item_lookup_no_audience_rating_isbn(self, product_api_init, product_api_lookup, lc):
         """
-        Test for a product without audience rating.
+        Test for a book without audience rating.
+        :param product_api_init: mockup for ProductAdvertisingAPI.__init__
+        :type product_api_init: unittest.mock.MagicMock
+        :param product_api_lookup: mockup for ProductAdvertisingAPI.lookup_at_amazon
+        :type product_api_lookup: unittest.mock.MagicMock
+        :param lc: log capture instance
+        :type lc: testfixtures.logcapture.LogCaptureForDecorator
         """
-        # TODO implement
+        product_api_init.return_value = None
+        product_api_lookup.return_value = self.__get_product_bs(self.product_sample_no_audience_rating)
+
+        api = ProductAdvertisingAPI()
+        values = api.item_lookup('123456789X')
+
+        # ensure the mocks were called
+        # ensure the mocks were called
+        self.assertTrue(product_api_init.called)
+        self.assertTrue(product_api_lookup.called)
+
+        self.assertNotEqual(None, values)
+        self.assertEqual(type(dict()), type(values))
+        self.assertEqual(len(values), 13)
+
+        self.assertEqual('123456789X', values['asin'])
+        self.assertEqual('A Sample Book', values['title'])
+        self.assertEqual('123456789X', values['isbn'])
+        self.assertEqual(None, values['eisbn'])
+        self.assertEqual('Taschenbuch', values['binding'])
+        self.assertEqual(datetime.datetime(2014, 8, 18), values['date_publication'])
+        self.assertEqual(datetime.datetime(2014, 8, 18), values['date_release'])
+        self.assertEqual('http://ecx.images-amazon.com/images/I/123456789XIMAGE.jpg', values['large_image_url'])
+        self.assertEqual('http://ecx.images-amazon.com/images/I/123456789XIMAGE._SL160_.jpg', values['medium_image_url'])
+        self.assertEqual('http://ecx.images-amazon.com/images/I/123456789XIMAGE._SL75_.jpg', values['small_image_url'])
+        self.assertEqual('http://www.amazon.de/dp/123456789X/?tag=sample-assoc-tag', values['offer_url'])
+        self.assertEqual(10.0, values['price'])
+        self.assertEqual('EUR', values['currency'])
+
+        # check log output, should be empty
+        lc.check()
 
     # FIXME audience rating tests
