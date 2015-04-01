@@ -104,7 +104,7 @@ class SynchronizationMixin():
                         }.items()
                     )
                 ),
-                # set recall to true if there are more unsynched products than already included
+                # set recall to true if there are more unsynchronized products than already included
                 Product.objects.select_related().filter(status=0).count() > app_settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products)
             )
         else:
