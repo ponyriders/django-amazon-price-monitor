@@ -230,14 +230,100 @@ class ProductAdvertisingAPITest(TestCase):
         # check log output, should be empty
         lc.check()
 
-    def test_item_lookup_no_price(self):
+    product_sample_no_price = """
+        <?xml version="1.0" ?>
+        <itemlookupresponse xmlns="http://webservices.amazon.com/AWSECommerceService/2011-08-01">
+            <items>
+                <request>
+                    <isvalid>True</isvalid>
+                    <itemlookuprequest>
+                        <idtype>ASIN</idtype>
+                        <itemid>DEMOASIN04</itemid>
+                        <responsegroup>Large</responsegroup>
+                        <variationpage>All</variationpage>
+                    </itemlookuprequest>
+                </request>
+                <item>
+                    <asin>DEMOASIN04</asin>
+                    <itemattributes>
+                        <title>Another Demo Series - Season 1 (8 DVDs)</title>
+                        <binding>DVD</binding>
+                        <publicationdate>2004-11</publicationdate>
+                        <releasedate>2004-10-27</releasedate>
+                        <audiencerating>Freigegeben ab 16 Jahren</audiencerating>
+                    </itemattributes>
+                    <smallimage>
+                        <url>http://ecx.images-amazon.com/images/I/DEMOASIN04IMAGE._SL75_.jpg</url>
+                        <height units="pixels">75</height>
+                        <width units="pixels">59</width>
+                    </smallimage>
+                    <mediumimage>
+                        <url>http://ecx.images-amazon.com/images/I/DEMOASIN04IMAGE._SL160_.jpg</url>
+                        <height units="pixels">160</height>
+                        <width units="pixels">126</width>
+                    </mediumimage>
+                    <largeimage>
+                        <url>http://ecx.images-amazon.com/images/I/DEMOASIN04IMAGE.jpg</url>
+                        <height units="pixels">500</height>
+                        <width units="pixels">393</width>
+                    </largeimage>
+                    <offers>
+                        <totaloffers>0</totaloffers>
+                        <totalofferpages>0</totalofferpages>
+                        <moreoffersurl>0</moreoffersurl>
+                    </offers>
+                </item>
+            </items>
+        </itemlookupresponse>
+    """
+
+    @patch.object(ProductAdvertisingAPI, 'lookup_at_amazon')
+    @patch.object(ProductAdvertisingAPI, '__init__')
+    @log_capture()
+    def test_item_lookup_no_price(self, product_api_init, product_api_lookup, lc):
         """
-        Test for a product without price.
+        Test for a dvd without a price. Happens mostly for box sets.
+        :param product_api_init: mockup for ProductAdvertisingAPI.__init__
+        :type product_api_init: unittest.mock.MagicMock
+        :param product_api_lookup: mockup for ProductAdvertisingAPI.lookup_at_amazon
+        :type product_api_lookup: unittest.mock.MagicMock
+        :param lc: log capture instance
+        :type lc: testfixtures.logcapture.LogCaptureForDecorator
         """
-        # TODO implement
+        product_api_init.return_value = None
+        product_api_lookup.return_value = self.__get_product_bs(self.product_sample_no_price)
+
+        api = ProductAdvertisingAPI()
+        values = api.item_lookup('DEMOASIN04')
+
+        # ensure the mocks were called
+        self.assertTrue(product_api_init.called)
+        self.assertTrue(product_api_lookup.called)
+
+        self.assertNotEqual(None, values)
+        self.assertEqual(type(dict()), type(values))
+        self.assertEqual(len(values), 12)
+
+        self.assertEqual('DEMOASIN04', values['asin'])
+        self.assertEqual('Another Demo Series - Season 1 (8 DVDs)', values['title'])
+        self.assertEqual(None, values['isbn'])
+        self.assertEqual(None, values['eisbn'])
+        self.assertEqual('DVD', values['binding'])
+        self.assertEqual(datetime.datetime(2004, 11, 1), values['date_publication'])
+        self.assertEqual(datetime.datetime(2004, 10, 27), values['date_release'])
+        self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN04IMAGE.jpg', values['large_image_url'])
+        self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN04IMAGE._SL160_.jpg', values['medium_image_url'])
+        self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN04IMAGE._SL75_.jpg', values['small_image_url'])
+        self.assertEqual('http://www.amazon.de/dp/DEMOASIN04/?tag=sample-assoc-tag', values['offer_url'])
+        self.assertEqual(16, values['audience_rating'])
+
+        # check log output, should be empty
+        lc.check()
 
     def test_item_lookup_no_audience_rating(self):
         """
         Test for a product without audience rating.
         """
         # TODO implement
+
+    # FIXME audience rating tests
