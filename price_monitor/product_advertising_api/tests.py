@@ -434,5 +434,3 @@ class ProductAdvertisingAPITest(TestCase):
 
         # check log output, should be empty
         lc.check()
-
-    # FIXME audience rating tests
