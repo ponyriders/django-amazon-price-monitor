@@ -4,6 +4,7 @@ from celery.task import Task
 
 from datetime import timedelta
 
+from django.db.models import Q
 from django.utils import timezone
 
 from itertools import islice
@@ -12,8 +13,12 @@ from price_monitor import app_settings
 from price_monitor.models import (
     Price,
     Product,
+    Subscription,
 )
 from price_monitor.product_advertising_api.api import ProductAdvertisingAPI
+from price_monitor.utils import send_mail
+
+from smtplib import SMTPServerDisconnected
 
 
 logger = logging.getLogger('price_monitor')
@@ -52,30 +57,23 @@ class SynchronizationMixin():
         product.date_last_synced = now
         product.save()
 
-        # FIXME remove this
-        logger.info(price)
-
-        # FIXME adjust price handling
-        # # tuple: (price, currency)
-        # price = amazon_product.price_and_currency
-        #
-        # if not price[0] is None:
-        #     # get all subscriptions of product that are subscribed to the current price or a higher one and
-        #     # whose owners have not been notified about that particular subscription price since before
-        #     # settings.PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES.
-        #     for sub in Subscription.objects.filter(
-        #         Q(
-        #             product=product,
-        #             price_limit__gte=price[0],
-        #             date_last_notification__lte=(timezone.now() - timedelta(minutes=settings.PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES))
-        #         ) | Q(
-        #             product=product,
-        #             price_limit__gte=price[0],
-        #             date_last_notification__isnull=True
-        #         )
-        #     ):
-        #         # TODO: how to handle failed notifications?
-        #         NotifySubscriberTask().delay(product, price[0], price[1], sub)
+        if price is not None:
+            # get all subscriptions of product that are subscribed to the current price or a higher one and
+            # whose owners have not been notified about that particular subscription price since before
+            # settings.PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES.
+            for sub in Subscription.objects.filter(
+                Q(
+                    product=product,
+                    price_limit__gte=price.value,
+                    date_last_notification__lte=(timezone.now() - timedelta(minutes=app_settings.PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES))
+                ) | Q(
+                    product=product,
+                    price_limit__gte=price.value,
+                    date_last_notification__isnull=True
+                )
+            ):
+                # TODO: how to handle failed notifications?
+                NotifySubscriberTask().apply_async((product, price, sub), countdown=1)
 
     def get_products_to_sync(self):
         """
@@ -144,3 +142,29 @@ class SynchronizeSingleProductTask(Task, SynchronizationMixin):
             logger.exception('Product with ASIN %(item_id)s does not exist - unable to synchronize with API.' % {'item_id': item_id})
 
         self.sync_product(product, ProductAdvertisingAPI().item_lookup(item_id=item_id))
+
+
+class NotifySubscriberTask(Task):
+    """
+    Task for notifying a single user about a product that has reached the desired price.
+    """
+
+    def run(self, product, price, subscription, **kwargs):
+        """
+        Sends an email to the subscriber.
+        :param product: the product to notify about
+        :type product: price_monitor.models.Product
+        :param price: the current price of the product
+        :type price: price_monitor.models.Price
+        :param subscription: the Subscription class connecting subscriber and product
+        :type subscription: price_monitor.models.Subscription
+        """
+        logger.info('Trying to send notification email to %(email)s...' % {'email': subscription.email_notification.email})
+        try:
+            send_mail(product, subscription, price)
+        except SMTPServerDisconnected:
+            logger.exception('SMTP server was disconnected.')
+        else:
+            logger.info('Notification email to %(email)s was sent!' % {'email': subscription.email_notification.email})
+            subscription.date_last_notification = timezone.now()
+            subscription.save()

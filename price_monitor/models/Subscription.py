@@ -4,8 +4,6 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _, ugettext_lazy
 
-from six import text_type
-
 
 class Subscription(PublicIDMixin, models.Model):
     """
@@ -25,18 +23,16 @@ class Subscription(PublicIDMixin, models.Model):
         return self.email_notification.email
     get_email_address.short_description = ugettext_lazy('Notification email')
 
-    def __unicode__(self):
+    def __str__(self):
         """
-        Returns the unicode representation of the Subscription.
+        Returns the string representation of the Subscription.
         :return: the unicode representation
         :rtype: unicode
         """
-        return text_type(
-            'Subscription of "%(product)s" for %(user)s' % {
-                'product': self.product.title,
-                'user': self.owner.username,
-            }
-        )
+        return 'Subscription of "%(product)s" for %(user)s' % {
+            'product': self.product.title,
+            'user': self.owner.username,
+        }
 
     class Meta:
         app_label = 'price_monitor'

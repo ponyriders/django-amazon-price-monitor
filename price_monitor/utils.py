@@ -68,32 +68,26 @@ def parse_audience_rating(rating):
     return int(result.groups()[0])
 
 
-def send_mail(title, price_limit, currency, price, offer_url, send_to):
+def send_mail(product, subscription, price):
     """
     Sends an email using the appropriate settings for formatting aso.
-    :param title: title of the product
-    :type title: str
-    :param price_limit: the price limit set by the user
-    :type price_limit: float
-    :param currency: the used currency
-    :type currency: string
-    :param price: the current product price
-    :type price: float
-    :param offer_url: the offer url for the user to click
-    :type offer_url: string
-    :param send_to: the email address to send the email to
-    :type send_to: str
+    :param product: the product
+    :type product: price_monitor.models.Product
+    :param subscription: the subscription
+    :type subscription: price_monitor.models.Subscription
+    :param price: the current price
+    :type price: price_monitor.models.Price
     """
     django_send_mail(
-        _(app_settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT) % {'product': title},
+        _(app_settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT) % {'product': product.title},
         _(app_settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY) % {
-            'price_limit': price_limit,
-            'currency': currency,
-            'price': price,
-            'product_title': title,
-            'link': offer_url,
+            'price_limit': subscription.price_limit,
+            'currency': price.currency,
+            'price': price.value,
+            'product_title': product.title,
+            'link': product.offer_url,
         },
         app_settings.PRICE_MONITOR_EMAIL_SENDER,
-        [send_to],
+        [subscription.email_notification.email],
         fail_silently=False,
     )
