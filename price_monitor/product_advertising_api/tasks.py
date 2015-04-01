@@ -140,6 +140,7 @@ class SynchronizeSingleProductTask(Task, SynchronizationMixin):
             product = Product.objects.get(asin=item_id)
         except Product.DoesNotExist:
             logger.exception('Product with ASIN %(item_id)s does not exist - unable to synchronize with API.' % {'item_id': item_id})
+            return
 
         self.sync_product(product, ProductAdvertisingAPI().item_lookup(item_id=item_id))
 
