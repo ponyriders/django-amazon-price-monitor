@@ -1,13 +1,14 @@
 import logging
 
-from celery.task import Task
+from celery.task import (
+    Task,
+    PeriodicTask,
+)
 
 from datetime import timedelta
 
 from django.db.models import Q
 from django.utils import timezone
-
-from itertools import islice
 
 from price_monitor import app_settings
 from price_monitor.models import (
@@ -83,44 +84,27 @@ class SynchronizationMixin():
         :rtype: tuple
         """
         # prefer already synced products over newly created
-        products = {
-            p.asin: p for p in Product.objects.select_related().filter(
+        products = list(
+            Product.objects.select_related().filter(
                 subscription__isnull=False,
                 date_last_synced__lte=(timezone.now() - timedelta(minutes=app_settings.PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES)),
                 # issue #21 don't sync products that are  not existent
                 status__in=[0, 1]
             )
-        }
+        )
 
         # there is still some space for products to sync, append newly created if available
         if len(products) < app_settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT:
+            # number of products that can be added
+            remaining_product_places = app_settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products)
+
             return (
-                dict(
-                    list(products.items()) + list(
-                        {
-                            p.asin: p for p in Product.objects.select_related().filter(status=0).order_by('date_creation')[
-                                :(app_settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products))
-                            ]
-                        }.items()
-                    )
-                ),
+                products + list(Product.objects.select_related().filter(status=0).order_by('date_creation')[:remaining_product_places]),
                 # set recall to true if there are more unsynchronized products than already included
-                Product.objects.select_related().filter(status=0).count() > app_settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products)
+                Product.objects.select_related().filter(status=0).count() > app_settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products),
             )
         else:
-            def take(n, iterable):
-                """
-                Takes n elements out of the given iterable.
-                :param n: number of elements to take
-                :type n: int
-                :param iterable; the iterable dict
-                :type iterable: dictionary-itemiterator
-                :returns: the resized dictionary
-                :rtype : dict
-                """
-                return dict(list(islice(iterable, n)))
-
-            return take(app_settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT, iter(products.items())), True
+            return products[:app_settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT], True
 
 
 class SynchronizeSingleProductTask(Task, SynchronizationMixin):
@@ -143,6 +127,37 @@ class SynchronizeSingleProductTask(Task, SynchronizationMixin):
             return
 
         self.sync_product(product, ProductAdvertisingAPI().item_lookup(item_id=item_id))
+
+
+class SynchronizeProductsPeriodicallyTask(PeriodicTask, SynchronizationMixin):
+    """
+    Task for periodically synchronizing of products.
+    """
+    run_every = timedelta(minutes=app_settings.PRICE_MONITOR_PRODUCTS_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES)
+
+    def run(self, **kwargs):
+        """
+        Runs the synchronization by fetching settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT number of products and requests their data from Amazon.
+        """
+        products, recall = self.get_products_to_sync()
+
+        # exit if there is no food
+        if len(products) == 0:
+            logger.info('No products to sync.')
+            return
+        else:
+            logger.info(
+                'Starting synchronization of %d products. %s',
+                len(products),
+                'Still more products available to sync.' if recall else 'No more products to sync there.'
+            )
+
+        for product in products:
+            self.sync_product(product, ProductAdvertisingAPI().item_lookup(item_id=product.asin))
+
+        # finally, if there are more products that can be synchronized, recall the task
+        if recall:
+            self.apply_async(countdown=5)
 
 
 class NotifySubscriberTask(Task):
