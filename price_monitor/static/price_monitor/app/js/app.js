@@ -3,7 +3,7 @@
 var PriceMonitorApp = angular.module(
     'PriceMonitorApp', 
     [
-//        'ngCookies',
+        'ngCookies',
         'ngRoute',
         'ngResource',
         'ui.bootstrap',
@@ -36,9 +36,9 @@ PriceMonitorApp.config(function ($routeProvider) {
 /**
  * Adding value of CSRF cookie to request headers
  */
-//PriceMonitorApp.run(function($http, $cookies) {
-//    $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
-//    // Add the following two lines
-//    $http.defaults.xsrfCookieName = 'csrftoken';
-//    $http.defaults.xsrfHeaderName = 'X-CSRFToken';
-//});
+PriceMonitorApp.run(function($http, $cookies) {
+    $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
+    // Add the following two lines
+    $http.defaults.xsrfCookieName = 'csrftoken';
+    $http.defaults.xsrfHeaderName = 'X-CSRFToken';
+});

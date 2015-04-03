@@ -20,3 +20,12 @@
     height: 40px;
     width: 400px;
 }
+
+#product-form .row {
+    margin-top: 5px;
+}
+
+#product-form input {
+    width: 100%;
+}
+

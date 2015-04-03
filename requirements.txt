@@ -7,7 +7,7 @@ bottlenose>=0.6.2
 celery>=3
 python-dateutil>=2.4.1
 # for pm api
-djangorestframework>=2.3.13,<3
+djangorestframework>=3.0.4
 # for graphs
 pygal>=1.5.1
 # pygal png output
