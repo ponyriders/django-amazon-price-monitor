@@ -9,8 +9,6 @@ from pygal.style import RedBlueStyle
 
 from rest_framework.renderers import BaseRenderer
 
-from six import text_type
-
 from tempfile import TemporaryFile
 
 
@@ -89,7 +87,7 @@ class PriceChartPNGRenderer(BaseRenderer):
         else:
             return sanitized_args
 
-        for arg, sanitizer in self.allowed_chart_url_args.iteritems():
+        for arg, sanitizer in self.allowed_chart_url_args.items():
             if arg in args:
                 try:
                     sanitized_args[arg] = sanitizer(args[arg])
@@ -102,8 +100,8 @@ class PriceChartPNGRenderer(BaseRenderer):
         """
         Creates a cache key based on rendering data
         """
-        hash_data = text_type(data['results'])
-        hash_data += text_type(args)
+        hash_data = str(data['results']).encode('utf-8')
+        hash_data += str(args).encode('utf-8')
         return app_settings.PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX + hashlib.md5(hash_data).hexdigest()
 
     def create_graph(self, data, args):
