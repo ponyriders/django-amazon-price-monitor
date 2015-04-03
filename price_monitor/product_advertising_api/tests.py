@@ -309,7 +309,8 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual(None, values['isbn'])
         self.assertEqual(None, values['eisbn'])
         self.assertEqual('DVD', values['binding'])
-        self.assertEqual(datetime.datetime(2004, 11, 1), values['date_publication'])
+        # dateutil.parser.parse will find out the year and month of "2004-11" but as there is no day, the day is set to the current day
+        self.assertEqual(datetime.datetime(2004, 11, datetime.datetime.now().day), values['date_publication'])
         self.assertEqual(datetime.datetime(2004, 10, 27), values['date_release'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN04IMAGE.jpg', values['large_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN04IMAGE._SL160_.jpg', values['medium_image_url'])
