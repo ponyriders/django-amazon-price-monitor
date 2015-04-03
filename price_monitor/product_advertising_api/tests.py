@@ -435,3 +435,87 @@ class ProductAdvertisingAPITest(TestCase):
 
         # check log output, should be empty
         lc.check()
+
+    product_sample_no_offers = """
+        <?xml version="1.0" ?>
+        <itemlookupresponse xmlns="http://webservices.amazon.com/AWSECommerceService/2011-08-01">
+            <items>
+                <request>
+                    <isvalid>True</isvalid>
+                    <itemlookuprequest>
+                        <idtype>ASIN</idtype>
+                        <itemid>DEMOASIN05</itemid>
+                        <responsegroup>Large</responsegroup>
+                        <variationpage>All</variationpage>
+                    </itemlookuprequest>
+                </request>
+                <item>
+                    <asin>DEMOASIN05</asin>
+                    <itemattributes>
+                        <title>Sønderzeichen</title>
+                        <binding>Kindle Edition</binding>
+                        <publicationdate>2009-10-14</publicationdate>
+                        <releasedate>2009-10-14</releasedate>
+                    </itemattributes>
+                    <smallimage>
+                        <url>http://ecx.images-amazon.com/images/I/DEMOASIN05IMAGE._SL75_.jpg</url>
+                        <height units="pixels">75</height>
+                        <width units="pixels">59</width>
+                    </smallimage>
+                    <mediumimage>
+                        <url>http://ecx.images-amazon.com/images/I/DEMOASIN05IMAGE._SL160_.jpg</url>
+                        <height units="pixels">160</height>
+                        <width units="pixels">126</width>
+                    </mediumimage>
+                    <largeimage>
+                        <url>http://ecx.images-amazon.com/images/I/DEMOASIN05IMAGE.jpg</url>
+                        <height units="pixels">500</height>
+                        <width units="pixels">393</width>
+                    </largeimage>
+                </item>
+            </items>
+        </itemlookupresponse>
+    """
+
+    @patch.object(ProductAdvertisingAPI, 'lookup_at_amazon')
+    @patch.object(ProductAdvertisingAPI, '__init__')
+    @log_capture()
+    def test_item_lookup_no_offers(self, product_api_init, product_api_lookup, lc):
+        """
+        Test for a book without offers.
+        :param product_api_init: mockup for ProductAdvertisingAPI.__init__
+        :type product_api_init: unittest.mock.MagicMock
+        :param product_api_lookup: mockup for ProductAdvertisingAPI.lookup_at_amazon
+        :type product_api_lookup: unittest.mock.MagicMock
+        :param lc: log capture instance
+        :type lc: testfixtures.logcapture.LogCaptureForDecorator
+        """
+        product_api_init.return_value = None
+        product_api_lookup.return_value = self.__get_product_bs(self.product_sample_no_offers)
+
+        api = ProductAdvertisingAPI()
+        values = api.item_lookup('DEMOASIN05')
+
+        # ensure the mocks were called
+        self.assertTrue(product_api_init.called)
+        self.assertTrue(product_api_lookup.called)
+
+        self.assertNotEqual(None, values)
+        self.assertEqual(type(dict()), type(values))
+        self.assertEqual(len(values), 11)
+
+        self.assertEqual('DEMOASIN05', values['asin'])
+        self.assertEqual('Sønderzeichen', values['title'])
+        self.assertEqual(None, values['isbn'])
+        self.assertEqual(None, values['eisbn'])
+        self.assertEqual('Kindle Edition', values['binding'])
+        self.assertEqual(datetime.datetime(2009, 10, 14), values['date_publication'])
+        self.assertEqual(datetime.datetime(2009, 10, 14), values['date_release'])
+        self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN05IMAGE.jpg', values['large_image_url'])
+        self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN05IMAGE._SL160_.jpg', values['medium_image_url'])
+        self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN05IMAGE._SL75_.jpg', values['small_image_url'])
+        self.assertEqual('http://www.amazon.de/dp/DEMOASIN05/?tag=sample-assoc-tag', values['offer_url'])
+        self.assertRaises(KeyError, lambda: values['audience_rating'])
+
+        # check log output, should be empty
+        lc.check()

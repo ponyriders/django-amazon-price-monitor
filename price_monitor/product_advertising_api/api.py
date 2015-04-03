@@ -136,9 +136,9 @@ class ProductAdvertisingAPI(object):
                     product_values['audience_rating'] = utils.parse_audience_rating(audience_rating)
 
                 # check if there are offers, if so add price
-                if int(item_node.offers.totaloffers.string) > 0:
-                    product_values['price'] = float(int(item_node.offers.offer.offerlisting.price.amount.string) / 100)
-                    product_values['currency'] = item_node.offers.offer.offerlisting.price.currencycode.string
+                if item_node.offers is not None and int(item_node.offers.totaloffers.string) > 0:
+                        product_values['price'] = float(int(item_node.offers.offer.offerlisting.price.amount.string) / 100)
+                        product_values['currency'] = item_node.offers.offer.offerlisting.price.currencycode.string
 
                 return product_values
             else:
