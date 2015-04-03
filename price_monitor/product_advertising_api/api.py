@@ -97,6 +97,7 @@ class ProductAdvertisingAPI(object):
         :return: the values of the item
         :rtype: dict
         """
+        logger.info('starting lookup for ASIN %s', item_id)
         item_response = self.lookup_at_amazon(item_id)
 
         # fixme remove
