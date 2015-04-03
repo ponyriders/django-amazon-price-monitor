@@ -188,7 +188,7 @@ There is a management command to batch create a number of products by providing 
 ### price_monitor
 
 The app uses the logger "price_monitor" to log all error and info messages that are not included within a dedicated other logger.
-Please see the [Django logging documentation](https://docs.djangoproject.com/en/1.5/topics/logging/ "Django logging documentation") for how to setup loggers.
+Please see the [Django logging documentation](https://docs.djangoproject.com/en/1.6/topics/logging/ "Django logging documentation") for how to setup loggers.
 
 ### price_monitor.product_advertising_api
 
