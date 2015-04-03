@@ -100,9 +100,6 @@ class ProductAdvertisingAPI(object):
         logger.info('starting lookup for ASIN %s', item_id)
         item_response = self.lookup_at_amazon(item_id)
 
-        # fixme remove
-        # logger.info(item_response)
-
         if getattr(item_response, 'items') is None:
             logger.error(
                 'Request for item lookup (ResponseGroup: %s, ASIN: %s) returned nothing',

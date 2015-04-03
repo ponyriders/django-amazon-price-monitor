@@ -46,6 +46,7 @@ class ProductAdvertisingAPITest(TestCase):
 
         # check log output
         lc.check(
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASIN ASIN-DUMMY'),
             ('price_monitor.product_advertising_api', 'ERROR', 'Request for item lookup (ResponseGroup: Large, ASIN: ASIN-DUMMY) returned nothing')
         )
 
@@ -87,6 +88,7 @@ class ProductAdvertisingAPITest(TestCase):
 
         # check log output
         lc.check(
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASIN DEMOASIN01'),
             ('price_monitor.product_advertising_api', 'ERROR', 'Request for item lookup (ResponseGroup: Large, ASIN: DEMOASIN01) was not valid')
         )
 
@@ -128,6 +130,7 @@ class ProductAdvertisingAPITest(TestCase):
 
         # check log output
         lc.check(
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASIN DEMOASIN02'),
             ('price_monitor.product_advertising_api', 'ERROR', 'Lookup for item with ASIN DEMOASIN02 returned no product')
         )
 
@@ -228,7 +231,9 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('EUR', values['currency'])
 
         # check log output, should be empty
-        lc.check()
+        lc.check(
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASIN DEMOASIN03')
+        )
 
     product_sample_no_price = """
         <?xml version="1.0" ?>
@@ -319,7 +324,9 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual(16, values['audience_rating'])
 
         # check log output, should be empty
-        lc.check()
+        lc.check(
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASIN DEMOASIN04')
+        )
 
     product_sample_no_audience_rating = """
         <?xml version="1.0" ?>
@@ -434,7 +441,9 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('EUR', values['currency'])
 
         # check log output, should be empty
-        lc.check()
+        lc.check(
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASIN 123456789X')
+        )
 
     product_sample_no_offers = """
         <?xml version="1.0" ?>
@@ -518,4 +527,6 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertRaises(KeyError, lambda: values['audience_rating'])
 
         # check log output, should be empty
-        lc.check()
+        lc.check(
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASIN DEMOASIN05')
+        )
