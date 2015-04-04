@@ -38,4 +38,4 @@ class Subscription(PublicIDMixin, models.Model):
         app_label = 'price_monitor'
         verbose_name = ugettext_lazy('Subscription')
         verbose_name_plural = ugettext_lazy('Subscriptions')
-        ordering = ('email_notification__email', 'product__title', )
+        ordering = ('product__title', 'price_limit', 'email_notification__email', )

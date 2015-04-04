@@ -17,9 +17,9 @@
                         <div class="col-xs-2 col-md-1">Price:</div>
                         <div class="col-xs-10 col-md-11">{{ product.current_price.currency }} {{ product.current_price.value | number: 2 }} (as of {{ product.current_price.date_seen | date: 'MMMM d, y hh:mm a Z' }})</div>
                     </div>
-                    <div ng-repeat="subscription in product.subscription_set" class="row">
+                    <div class="row">
                         <div class="col-xs-2 col-md-1">Limit:</div>
-                        <div class="col-xs-10 col-md-11">{{ product.current_price.currency }} {{ subscription.price_limit | number: 2 }}</div>
+                        <div class="col-xs-10 col-md-11">{{ product.current_price.currency }} <span ng-repeat="subscription in product.subscription_set">{{ subscription.price_limit | number: 2 }}{{ $last ? '' : ', ' }}</span></div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6">
