@@ -23,4 +23,4 @@ class SubscriptionListView(generics.ListAPIView):
         :returns: filtered Subscription objects
         :rtype:   QuerySet
         """
-        return super(SubscriptionListView, self).get_queryset().filter(owner=self.request.user)
+        return self.model.objects.filter(owner=self.request.user)
