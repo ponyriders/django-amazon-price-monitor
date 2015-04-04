@@ -22,4 +22,5 @@ class ProductRetrieveView(generics.RetrieveAPIView):
         :returns: filtered Product objects
         :rtype:   QuerySet
         """
-        return Product.objects.filter(subscription__owner=self.request.user)
+        # distinct is needed to prevent multiple instances of product in resultset if multiple subscriptions are present
+        return self.model.objects.filter(subscription__owner=self.request.user).distinct()
