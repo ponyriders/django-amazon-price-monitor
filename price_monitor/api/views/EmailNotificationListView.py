@@ -22,4 +22,4 @@ class EmailNotificationListView(generics.ListAPIView):
         :returns: filtered EmailNotification objects
         :rtype:   QuerySet
         """
-        return super(EmailNotificationListView, self).get_queryset().filter(owner=self.request.user)
+        return self.model.objects.filter(owner=self.request.user)
