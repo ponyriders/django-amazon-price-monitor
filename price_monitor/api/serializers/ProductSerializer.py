@@ -1,5 +1,5 @@
 from .SubscriptionSerializer import SubscriptionSerializer
-from ...models import EmailNotification, Product
+from ...models import EmailNotification, Product, Price
 
 from rest_framework import serializers
 
@@ -12,7 +12,23 @@ class ProductSerializer(serializers.ModelSerializer):
 
     asin = serializers.CharField(max_length=100)
     current_price = serializers.SerializerMethodField('get_price_values')
+    max_price = serializers.SerializerMethodField()
+    min_price = serializers.SerializerMethodField()
     subscription_set = SubscriptionSerializer(many=True)
+
+    def __render_price_dict(self, price):
+        """
+        Renders price instance as dict
+        :param price: price instance
+        :type price:  Price
+        :return:      price instance as dict
+        :rtype:       dict
+        """
+        return {
+            'value': price.value,
+            'currency': price.currency,
+            'date_seen': price.date_seen,
+        }
 
     def get_price_values(self, obj):
         """
@@ -27,11 +43,37 @@ class ProductSerializer(serializers.ModelSerializer):
         except IndexError:
             return None
         else:
-            return {
-                'value': price.value,
-                'currency': price.currency,
-                'date_seen': price.date_seen,
-            }
+            return self.__render_price_dict(price)
+
+    def get_max_price(self, obj):
+        """
+        Renders highest price dict as read only value into product representation
+        :param obj: product to get price for
+        :type obj:  Product
+        :returns:   Dict with price values
+        :rtype:     dict
+        """
+        try:
+            price = obj.price_set.latest('value')
+        except Price.DoesNotExist:
+            return None
+        else:
+            return self.__render_price_dict(price)
+
+    def get_min_price(self, obj):
+        """
+        Renders lowest price dict as read only value into product representation
+        :param obj: product to get price for
+        :type obj:  Product
+        :returns:   Dict with price values
+        :rtype:     dict
+        """
+        try:
+            price = obj.price_set.earliest('value')
+        except Price.DoesNotExist:
+            return None
+        else:
+            return self.__render_price_dict(price)
 
     def create(self, validated_data):
         """
@@ -82,6 +124,8 @@ class ProductSerializer(serializers.ModelSerializer):
             'small_image_url',
             'offer_url',
             'current_price',
+            'max_price',
+            'min_price',
             'subscription_set',
         )
         # TODO: check if this is good
