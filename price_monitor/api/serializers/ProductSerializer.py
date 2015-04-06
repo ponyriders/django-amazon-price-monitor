@@ -11,9 +11,12 @@ class ProductSerializer(serializers.ModelSerializer):
     """
 
     asin = serializers.CharField(max_length=100)
-    current_price = serializers.SerializerMethodField('get_price_values')
+
+    # for these three values get_{{ value name }} is the default, but DRF prohibits setting the default value ...
+    current_price = serializers.SerializerMethodField()
     max_price = serializers.SerializerMethodField()
     min_price = serializers.SerializerMethodField()
+
     subscription_set = SubscriptionSerializer(many=True)
 
     def __render_price_dict(self, price):
@@ -30,12 +33,12 @@ class ProductSerializer(serializers.ModelSerializer):
             'date_seen': price.date_seen,
         }
 
-    def get_price_values(self, obj):
+    def get_current_price(self, obj):
         """
-        Renderes price dict as read only value into product representation
+        Renderes current price dict as read only value into product representation
         :param obj: product to get price for
         :type obj:  Product
-        :returns:   Dict with price values
+        :returns:   Dict with current price values
         :rtype:     dict
         """
         try:
@@ -50,7 +53,7 @@ class ProductSerializer(serializers.ModelSerializer):
         Renders highest price dict as read only value into product representation
         :param obj: product to get price for
         :type obj:  Product
-        :returns:   Dict with price values
+        :returns:   Dict with highest price values
         :rtype:     dict
         """
         try:
@@ -65,7 +68,7 @@ class ProductSerializer(serializers.ModelSerializer):
         Renders lowest price dict as read only value into product representation
         :param obj: product to get price for
         :type obj:  Product
-        :returns:   Dict with price values
+        :returns:   Dict with lowest price values
         :rtype:     dict
         """
         try:
