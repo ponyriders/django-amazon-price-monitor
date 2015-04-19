@@ -3,7 +3,7 @@
 var PriceMonitorServerConnector = angular.module('PriceMonitorServerConnector', ['ngResource', 'djangoRESTResources']);
 
 PriceMonitorServerConnector.factory('Product', ['djResource', function(djResource) {
-    var Product = djResource(SETTINGS.uris.product, {'asin': '@id'});
+    var Product = djResource(SETTINGS.uris.product, {'asin': '@asin'});
     
     Product.prototype.get_sparkline_url = function() {
         return SETTINGS.uris.sparkline.replace(':asin', this.asin);
