@@ -1,5 +1,5 @@
 from .SubscriptionSerializer import SubscriptionSerializer
-from ...models import EmailNotification, Product, Price
+from ...models import EmailNotification, Product, Price, Subscription
 
 from rest_framework import serializers
 
@@ -103,6 +103,36 @@ class ProductSerializer(serializers.ModelSerializer):
                 email_notification=email_notification
             )
         return product
+
+    def update(self, instance, validated_data):
+        """
+        Overwrites parent function to enable update of products subscriptions
+        :param instance:        the product instance
+        :type instance:         Product
+        :param validated_data:  dict with validated data from request
+        :type validated_data:   dict
+        :returns:               Updated product instance (in fact there are only updates to subscriptions)
+        :rtype:                 Product
+        """
+        for value_dict in validated_data['subscription_set']:
+            # get public_id if there is any
+            public_id = value_dict.get('public_id', None)
+            if public_id:
+                subscription = Subscription.objects.get_or_create(public_id=public_id)[0]
+            else:
+                # this is a new line!
+                subscription = Subscription()
+                subscription.product = instance
+                subscription.owner = self.context['request'].user
+
+            subscription.price_limit = value_dict['price_limit']
+            # simply create email notifcation object if this is a new address
+            subscription.email_notification = EmailNotification.objects.get_or_create(
+                owner=self.context['request'].user,
+                email=value_dict['email_notification']['email']
+            )[0]
+            subscription.save()
+        return instance
 
     class Meta:
         model = Product

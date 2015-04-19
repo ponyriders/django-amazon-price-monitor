@@ -24,4 +24,4 @@ def synchronize_product_after_creation(sender, instance, created, **kwargs):
     """
     if created and os.environ.get('STAGE', 'Live') != 'TravisCI':
         from price_monitor.product_advertising_api.tasks import SynchronizeSingleProductTask
-        SynchronizeSingleProductTask.delay(instance.asin)
+#        SynchronizeSingleProductTask.delay(instance.asin)
