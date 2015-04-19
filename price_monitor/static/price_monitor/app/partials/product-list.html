@@ -43,7 +43,7 @@
                 <input class="form-control" type="email" name="email" ng-model="product.subscription_set[0].email_notification.email" placeholder="E-Mail" required />
             </div>
             <div class="col-xs-3 form-group" ng-class="{ 'has-error' : innerForm.subscription_set[0].price_limit.$invalid && innerForm.subscription_set[0].price_limit.$dirty}">
-                <input class="form-control" type="number" name="price" ng-model="product.subscription_set[0].price_limit" required />
+                <input class="form-control" type="number" name="price" ng-model="product.subscription_set[0].price_limit" required step="0.01" />
             </div>
             <div class="col-xs-1">
                 <button class="close" ng-if="newProducts.length > 1" ng-click="removeFormLine(product)" aria-label="Close">

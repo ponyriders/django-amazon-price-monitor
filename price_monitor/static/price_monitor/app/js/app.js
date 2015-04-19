@@ -9,6 +9,7 @@ var PriceMonitorApp = angular.module(
         'ui.bootstrap',
         'djangoRESTResources',
         'ngResponsiveImages',
+        'xeditable',
         'PriceMonitorServerConnector'
     ]
 );
@@ -36,9 +37,10 @@ PriceMonitorApp.config(function ($routeProvider) {
 /**
  * Adding value of CSRF cookie to request headers
  */
-PriceMonitorApp.run(function($http, $cookies) {
+PriceMonitorApp.run(function($http, $cookies, editableOptions) {
     $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
     // Add the following two lines
     $http.defaults.xsrfCookieName = 'csrftoken';
     $http.defaults.xsrfHeaderName = 'X-CSRFToken';
+    editableOptions.theme = 'bs3';
 });
