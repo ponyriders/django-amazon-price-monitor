@@ -3,7 +3,11 @@
 var PriceMonitorServerConnector = angular.module('PriceMonitorServerConnector', ['ngResource', 'djangoRESTResources']);
 
 PriceMonitorServerConnector.factory('Product', ['djResource', function(djResource) {
-    var Product = djResource(SETTINGS.uris.product, {'asin': '@asin'});
+    var Product = djResource(SETTINGS.uris.product, {'asin': '@asin'}, {
+        'update': {
+            method:'PUT'
+        }
+    });
     
     Product.prototype.get_sparkline_url = function() {
         return SETTINGS.uris.sparkline.replace(':asin', this.asin);
@@ -14,6 +18,10 @@ PriceMonitorServerConnector.factory('Product', ['djResource', function(djResourc
             return SETTINGS.uris.chart[size].replace(':asin', this.asin)
         }
         return '';
+    }
+
+    Product.prototype.remove_subscription = function(index) {
+        this.subscription_set.splice(index, 1);
     }
     
     return Product;
