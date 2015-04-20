@@ -24,3 +24,11 @@ class RetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
         """
         # distinct is needed to prevent multiple instances of product in resultset if multiple subscriptions are present
         return self.model.objects.filter(subscription__owner=self.request.user).distinct()
+
+    def perform_destroy(self, instance):
+        """
+        Overwrite base function to delete subscriptions, not the product itself
+        :param instance: the product to delete subscriptions from
+        :type instance:  Product
+        """
+        instance.subscription_set.filter(owner=self.request.user).delete()
