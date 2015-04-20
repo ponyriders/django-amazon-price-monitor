@@ -114,9 +114,11 @@ class ProductSerializer(serializers.ModelSerializer):
         :returns:               Updated product instance (in fact there are only updates to subscriptions)
         :rtype:                 Product
         """
+        new_public_ids = []
         for value_dict in validated_data['subscription_set']:
             # get public_id if there is any
             public_id = value_dict.get('public_id', None)
+            new_public_ids.append(public_id)
             if public_id:
                 subscription = Subscription.objects.get_or_create(public_id=public_id)[0]
             else:
@@ -132,6 +134,9 @@ class ProductSerializer(serializers.ModelSerializer):
                 email=value_dict['email_notification']['email']
             )[0]
             subscription.save()
+
+        # remove all subscriptions not in new set subscriptions
+        instance.subscription_set.filter(owner=self.context['request'].user).exclude(public_id__in=new_public_ids).delete()
         return instance
 
     class Meta:
