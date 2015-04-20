@@ -17,7 +17,13 @@
                 </div>
                 <div class="row" ng-repeat="subscription in product.subscription_set">
                     <div class="col-xs-2 col-md-1">Limit:</div>
-                    <div class="col-xs-10 col-md-11">{{ product.current_price.currency }} <span editable-number="subscription.price_limit" e-step="0.01" onaftersave="product.$update()">{{ subscription.price_limit | number: 2 }}</span>  (<span editable-email="subscription.email_notification.email" onaftersave="product.$update()">{{ subscription.email_notification.email }}</span>)</div>
+                    <div class="col-xs-9 col-md-10">{{ product.current_price.currency }} <span editable-number="subscription.price_limit" e-step="0.01" onaftersave="product.$update()">{{ subscription.price_limit | number: 2 }}</span>  (<span editable-email="subscription.email_notification.email" onaftersave="product.$update()">{{ subscription.email_notification.email }}</span>)</div>
+
+                    <div class="col-xs-1">
+                        <button class="close" ng-if="product.subscription_set.length > 1" ng-click="product.removeSubscription($index); product.$update()" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
