@@ -4,7 +4,7 @@ from ...models.Product import Product
 from rest_framework import generics, permissions
 
 
-class RetrieveUpdateDestroyAPIView(generics.RetrieveUpdateAPIView):
+class RetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     """
     Returns single instance of Product, if user is authenticated
     """
