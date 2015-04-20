@@ -9,18 +9,18 @@ PriceMonitorServerConnector.factory('Product', ['djResource', function(djResourc
         }
     });
     
-    Product.prototype.get_sparkline_url = function() {
+    Product.prototype.getSparklineUrl = function() {
         return SETTINGS.uris.sparkline.replace(':asin', this.asin);
     };
     
-    Product.prototype.get_chart_url = function(size) {
+    Product.prototype.getChartUurl = function(size) {
         if (SETTINGS.uris.chart[size]) {
             return SETTINGS.uris.chart[size].replace(':asin', this.asin)
         }
         return '';
     }
 
-    Product.prototype.remove_subscription = function(index) {
+    Product.prototype.removeSubscription = function(index) {
         this.subscription_set.splice(index, 1);
     }
     
