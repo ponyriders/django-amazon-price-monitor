@@ -13,7 +13,7 @@ PriceMonitorServerConnector.factory('Product', ['djResource', function(djResourc
         return SETTINGS.uris.sparkline.replace(':asin', this.asin);
     };
     
-    Product.prototype.getChartUurl = function(size) {
+    Product.prototype.getChartUrl = function(size) {
         if (SETTINGS.uris.chart[size]) {
             return SETTINGS.uris.chart[size].replace(':asin', this.asin)
         }
