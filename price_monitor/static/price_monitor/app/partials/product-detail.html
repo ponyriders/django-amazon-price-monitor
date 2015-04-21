@@ -6,7 +6,10 @@
     <div class="media-body">
         <div class="row">
             <div class="col-xs-12">
-                <h1>{{ product.title }}</h1>
+                <h1>
+                    <button class="btn btn-danger pull-right" ng-click="open()" type="button" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ product.title }}
+                </h1>
             </div>
         </div>
         <div class="row">
