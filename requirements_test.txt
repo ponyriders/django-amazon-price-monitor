@@ -2,4 +2,5 @@ lxml
 coverage
 flake8
 django-discover-runner
-python-amazon-simple-product-api==1.4.0
+testfixtures
+coveralls

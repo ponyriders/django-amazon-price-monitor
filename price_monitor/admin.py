@@ -15,7 +15,7 @@ class PriceAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('asin', 'title', 'author', 'status', 'date_updated', 'date_last_synced', )
+    list_display = ('asin', 'title', 'status', 'date_updated', 'date_last_synced', )
 
     actions = ['reset_to_created', ]
 
@@ -30,7 +30,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
 
 
 class EmailNotificationAdmin(admin.ModelAdmin):
-    list_display = ('email', 'owner',)
+    list_display = ('email', 'owner', 'public_id',)
 
 
 admin.site.register(Price, PriceAdmin)

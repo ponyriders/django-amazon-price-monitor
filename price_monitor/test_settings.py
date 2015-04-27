@@ -24,3 +24,6 @@ STATIC_ROOT = os.path.join(TEST_DIR, 'static')
 SECRET_KEY = 'F(fxm_9aKa9F_7e$!U1can%;%qc9A[.Jcx2lVCwWo3}*DL,y?H'
 
 ROOT_URLCONF = 'price_monitor.urls'
+
+PRICE_MONITOR_AMAZON_PRODUCT_API_REGION = 'DE'
+PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG = 'sample-assoc-tag'

@@ -1,4 +1,16 @@
+# main dependencies
 Django>=1.5,<1.7
-python-amazon-simple-product-api==1.4.0
-celery>=3
 six
+# for product advertising api
+beautifulsoup4>=4.3.2
+bottlenose>=0.6.2
+celery>=3
+python-dateutil>=2.4.1
+# for pm api
+djangorestframework>=3.0.4
+# for graphs
+pygal>=1.5.1
+# pygal png output
+CairoSVG
+tinycss
+cssselect

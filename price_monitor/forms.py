@@ -22,7 +22,7 @@ class SubscriptionCreationForm(forms.ModelForm):
         """
         asin = self.cleaned_data['product']
         try:
-            product = Product.objects.get(asin=asin)
+            product = Product.objects.get(asin__iexact=asin)
         except Product.DoesNotExist:
             product = Product.objects.create(asin=asin)
         asin = product

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-19 15:53+0100\n"
-"PO-Revision-Date: 2014-01-19 15:56+0100\n"
+"POT-Creation-Date: 2015-02-16 18:46+0100\n"
+"PO-Revision-Date: 2015-02-16 18:58+0100\n"
 "Last-Translator: Alexander Herrmann <darignac@gmail.com>\n"
 "Language-Team: Deutsch <darignac@gmail.com>\n"
 "Language: Deutsch\n"
@@ -23,12 +23,12 @@ msgstr ""
 msgid "Reset to status \"Created\"."
 msgstr "Auf Status \"Erstellt\" zurücksetzen."
 
-#: app_settings.py:22
+#: app_settings.py:37
 #, python-format
 msgid "Price limit for %(product)s reached"
 msgstr "Preislimit für %(product)s erreicht"
 
-#: app_settings.py:24
+#: app_settings.py:43
 #, python-format
 msgid ""
 "The price limit of %(price_limit)0.2f %(currency)s has been reached for the "
@@ -52,7 +52,7 @@ msgstr ""
 "Grüße,\n"
 "Das Team"
 
-#: forms.py:14 models/Product.py:33
+#: forms.py:14 models/Product.py:38
 msgid "ASIN"
 msgstr "ASIN"
 
@@ -61,182 +61,155 @@ msgid "Please specify a list of ASINs as only argument, separated by comma!"
 msgstr ""
 "Bitte gib eine Liste von kommaseparierten ASINs als einziges Argument an!"
 
-#: management/commands/price_monitor_search.py:31
+#: management/commands/price_monitor_search.py:32
 msgid "Please specify a single ASIN as only argument!"
 msgstr "Bitte gib eine einzige ASIN als einziges Argument an!"
 
-#: models/EmailNotification.py:10 models/Subscription.py:10
+#: models/EmailNotification.py:14 models/Subscription.py:14
 msgid "Owner"
 msgstr "Besitzer"
 
-#: models/EmailNotification.py:11
+#: models/EmailNotification.py:15
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
-#: models/EmailNotification.py:25 models/Subscription.py:14
+#: models/EmailNotification.py:31 models/Subscription.py:18
 msgid "Email Notification"
 msgstr "E-Mail-Benachrichtigung"
 
-#: models/EmailNotification.py:26
+#: models/EmailNotification.py:32
 msgid "Email Notifications"
 msgstr "E-Mail-Benachrichtigungen"
 
-#: models/Price.py:6 models/Price.py:26
+#: models/Price.py:12 models/Price.py:34
+#: templates/price_monitor/product_list_and_create.html:34
 #: templates/price_monitor/templatetags/chart_line.html:23
 msgid "Price"
 msgstr "Preis"
 
-#: models/Price.py:7
+#: models/Price.py:13
 msgid "Currency"
 msgstr "Währung"
 
-#: models/Price.py:8
+#: models/Price.py:14
 msgid "Date of price"
 msgstr "Datum des Preises"
 
-#: models/Price.py:9 models/Product.py:125 models/Subscription.py:11
+#: models/Price.py:15 models/Product.py:102 models/Subscription.py:15
 msgid "Product"
 msgstr "Produkt"
 
-#: models/Price.py:27
+#: models/Price.py:35
 msgid "Prices"
 msgstr "Preise"
 
-#: models/Product.py:16
+#: models/Product.py:21
 msgid "Created"
 msgstr "Erstellt"
 
-#: models/Product.py:17
+#: models/Product.py:22
 msgid "Synced over API"
 msgstr "über API synchronisiert"
 
-#: models/Product.py:18
+#: models/Product.py:23
 msgid "Unsynchable"
 msgstr "nicht synchronisierbar"
 
-#: models/Product.py:22
+#: models/Product.py:27
 msgid "Date of creation"
 msgstr "Erstellungsdatum"
 
-#: models/Product.py:23
+#: models/Product.py:28
 msgid "Date of last update"
 msgstr "Datum der letzten Aktualisierung"
 
-#: models/Product.py:24
+#: models/Product.py:29
 msgid "Date of last synchronization"
 msgstr "Datum der letzten Synchronisierung"
 
-#: models/Product.py:27
+#: models/Product.py:32
 msgid "Status"
 msgstr "Status"
 
-#: models/Product.py:30
+#: models/Product.py:35
 msgid "Subscribers"
 msgstr "Abonnenten"
 
-#: models/Product.py:34
+#: models/Product.py:39
 msgid "Title"
 msgstr "Titel"
 
-#: models/Product.py:35
+#: models/Product.py:40
 msgid "ISBN"
 msgstr "ISBN"
 
-#: models/Product.py:36
+#: models/Product.py:41
 msgid "E-ISBN"
 msgstr "E-ISBN"
 
-#: models/Product.py:37
-msgid "Author"
-msgstr "Autor"
-
-#: models/Product.py:38
-msgid "Publisher"
-msgstr "Verlag"
-
-#: models/Product.py:39
-msgid "Label"
-msgstr "Label"
-
-#: models/Product.py:40
-msgid "Manufacturer"
-msgstr "Hersteller"
-
-#: models/Product.py:41
-msgid "Brand"
-msgstr "Marke"
-
-#: models/Product.py:42 models/Product.py:48
+#: models/Product.py:42
 msgid "Binding"
 msgstr "Bindung"
 
 #: models/Product.py:43
-msgid "Pages"
-msgstr "Seitenanzahl"
-
-#: models/Product.py:44
 msgid "Publication date"
 msgstr "Erscheinungsdatum"
 
-#: models/Product.py:45
+#: models/Product.py:44
 msgid "Release date"
 msgstr "Freigabedatum"
 
+#: models/Product.py:45
+msgid "Audience rating"
+msgstr "Zielgruppe"
+
 #: models/Product.py:46
-msgid "Edition"
-msgstr "Edition"
-
-#: models/Product.py:47
-msgid "Model"
-msgstr "Modell"
-
-#: models/Product.py:51
 msgid "URL to large product image"
 msgstr "URL zum großen Produktbild"
 
-#: models/Product.py:52
+#: models/Product.py:47
 msgid "URL to medium product image"
 msgstr "URL zum mittleren Produktbild"
 
-#: models/Product.py:53
+#: models/Product.py:48
 msgid "URL to small product image"
 msgstr "URL zum kleinen Produktbild"
 
-#: models/Product.py:54
-msgid "URL to tiny product image"
-msgstr "URL zum winzigen Produktbild"
-
-#: models/Product.py:55
+#: models/Product.py:49
 msgid "URL to the offer"
 msgstr "URL zum Angebot"
 
-#: models/Product.py:119
+#: models/Product.py:95
 msgid "Unsynchronized Product"
 msgstr "Nicht synchronisiertes Produkt"
 
-#: models/Product.py:126
+#: models/Product.py:103
 msgid "Products"
 msgstr "Produkte"
 
-#: models/Subscription.py:12
+#: models/Subscription.py:16
 msgid "Price limit"
 msgstr "Preislimit"
 
-#: models/Subscription.py:13
+#: models/Subscription.py:17
 msgid "Date of last sent notification"
 msgstr "Datum der zuletzt gesendeten Benachrichtigung"
 
-#: models/Subscription.py:22
+#: models/Subscription.py:26
 msgid "Notification email"
 msgstr "Benachrichtigungs-E-Mail"
 
-#: models/Subscription.py:37
+#: models/Subscription.py:43
 msgid "Subscription"
 msgstr "Abonnement"
 
-#: models/Subscription.py:38
+#: models/Subscription.py:44
 msgid "Subscriptions"
 msgstr "Abonnements"
+
+#: models/mixins/PublicIDMixin.py:17
+msgid "Public-ID"
+msgstr "Public-ID"
 
 #: templates/price_monitor/email_notification_list_and_create.html:4
 msgid "Email notifications"
@@ -246,15 +219,44 @@ msgstr "E-Mail-Benachrichtigungen"
 msgid "Add new email notifications"
 msgstr "Neue E-Mail-Benachrichtigungen hinzufügen"
 
-#: templates/price_monitor/product_list_and_create.html:8
+#: templates/price_monitor/product_list_and_create.html:13
 msgid "Already monitored products"
 msgstr "Bereits überwachte Produkte"
 
 #: templates/price_monitor/product_list_and_create.html:37
+#, python-format
+msgid ""
+"Product prices and availability are accurate as of the date/time indicated "
+"and are subject to change. Any price and availability information displayed "
+"on %(site_name)s at the time of purchase will apply to the purchase of this "
+"product."
+msgstr ""
+"Produktpreise und -verfügbarkeit gelten zur angezeigten Zeit und können sich "
+"ändern. Jede Preis- und Verügbarkeitsinformation, die auf %(site_name)s zum "
+"Zeitpunkt der Bestellung angezeigt werden, treffen auch für den Kauf des "
+"Produktes zu."
+
+#: templates/price_monitor/product_list_and_create.html:37
+msgid "Details"
+msgstr "Details"
+
+#: templates/price_monitor/product_list_and_create.html:39
+msgid "No price information available."
+msgstr "Keine Preisinformationen verfügbar."
+
+#: templates/price_monitor/product_list_and_create.html:44
+msgid "Limit"
+msgstr "Limit"
+
+#: templates/price_monitor/product_list_and_create.html:53
+msgid "Remove"
+msgstr "Entfernen"
+
+#: templates/price_monitor/product_list_and_create.html:76
 msgid "Add new products"
 msgstr "Neue Produkte hinzufügen"
 
-#: templates/price_monitor/product_list_and_create.html:85
+#: templates/price_monitor/product_list_and_create.html:124
 msgid "Monitor ASINs"
 msgstr "ASINs überwachen"
 
@@ -265,6 +267,3 @@ msgstr "Keine Preisdaten verfügbar."
 #: templates/price_monitor/templatetags/chart_line.html:25
 msgid "at"
 msgstr "um"
-
-#~ msgid "ASINs"
-#~ msgstr "ASINs"

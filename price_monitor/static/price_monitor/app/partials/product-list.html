@@ -1,0 +1,62 @@
+<center>
+    <pagination total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
+</center>
+<div class="media list" ng-repeat="product in products | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage">
+    <a class="pull-left" href="{{ product.offer_url }}"
+       ng-if="product.small_image_url">
+        <img class="media-object" ng-src="{{ product.small_image_url }}"
+             alt="{{ product.title }}">
+    </a>
+
+    <a href="#/products/{{ product.asin }}">
+        <div class="media-body">
+            <h4 class="media-heading">{{ product.title }}</h4>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <div class="row">
+                        <div class="col-xs-2 col-md-1">Price:</div>
+                        <div class="col-xs-10 col-md-11">{{ product.current_price.currency }} {{ product.current_price.value | number: 2 }} (as of {{ product.current_price.date_seen | date: 'MMMM d, y hh:mm a Z' }})</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2 col-md-1">Limit:</div>
+                        <div class="col-xs-10 col-md-11">{{ product.current_price.currency }} <span ng-repeat="subscription in product.subscription_set">{{ subscription.price_limit | number: 2 }}{{ $last ? '' : ', ' }}</span></div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <img class="sparkline" ng-src="{{ product.getSparklineUrl() }}" />
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+<center>
+    <pagination total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
+</center>
+
+<form novalidate name="product_form" id="product-form" class="form-inline">
+    <div ng-repeat="product in newProducts" class="row">
+        <ng-form name="innerForm">
+        <div class="col-xs-4 form-group" ng-class="{ 'has-error' : innerForm.asin.$invalid && innerForm.asin.$dirty}">
+                <input class="form-control" type="text" name="asin" ng-model="product.asin" placeholder="ASIN" required ng-pattern="/[A-Z0-9]/" />
+            </div>
+            <div class="col-xs-4 form-group" ng-class="{ 'has-error' : innerForm.subscription_set[0].email_notification.email.$invalid && innerForm.subscription_set[0].email_notification.email.$dirty}">
+                <input class="form-control" type="email" name="email" ng-model="product.subscription_set[0].email_notification.email" placeholder="E-Mail" required />
+            </div>
+            <div class="col-xs-3 form-group" ng-class="{ 'has-error' : innerForm.subscription_set[0].price_limit.$invalid && innerForm.subscription_set[0].price_limit.$dirty}">
+                <input class="form-control" type="number" name="price" ng-model="product.subscription_set[0].price_limit" required step="0.01" />
+            </div>
+            <div class="col-xs-1">
+                <button class="close" ng-if="newProducts.length > 1" ng-click="removeFormLine(product)" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </ng-form>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <button class="btn" ng-click="addNewProduct()" type="button">Add another</button>
+            <button class="btn btn-primary pull-right" ng-disabled="product_form.$invalid" ng-click="saveNewProducts()" type="submit">Save</button>
+        </div>
+    </div>
+</form>
+

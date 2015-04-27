@@ -1,0 +1,40 @@
+<div class="media">
+    <a class="pull-left" href="{{ product.offer_url }}">
+        <img class="media-object" ng-src="{{ product.medium_image_url }}"
+        >
+    </a>
+    <div class="media-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>
+                    <button class="btn btn-danger pull-right" ng-click="open()" type="button" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ product.title }}
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-2 col-md-1">Price:</div>
+                    <div class="col-xs-10 col-md-11">{{ product.current_price.currency }} {{ product.current_price.value | number: 2 }} (as of {{ product.current_price.date_seen | date: 'MMMM d, y hh:mm a Z' }})</div>
+                </div>
+                <div class="row" ng-repeat="subscription in product.subscription_set">
+                    <div class="col-xs-2 col-md-1">Limit:</div>
+                    <div class="col-xs-9 col-md-10">{{ product.current_price.currency }} <span editable-number="subscription.price_limit" e-step="0.01" onaftersave="product.$update()">{{ subscription.price_limit | number: 2 }}</span>  (<span editable-email="subscription.email_notification.email" onaftersave="product.$update()">{{ subscription.email_notification.email }}</span>)</div>
+
+                    <div class="col-xs-1">
+                        <button class="close" ng-if="product.subscription_set.length > 1" ng-click="product.removeSubscription($index); product.$update()" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <img ng-src-responsive="[ [ 'default', '{{ product.getChartUrl('default') }}'], ['small', '{{ product.getChartUrl('small') }}' ], ['medium', '{{ product.getChartUrl('medium') }}' ], ['large', '{{ product.getChartUrl('large') }}' ] ]">
+    </div>
+</div>
