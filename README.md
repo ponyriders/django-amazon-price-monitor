@@ -34,8 +34,6 @@ Relies on python-amazon-simple-product-api under the hood.
 | Branch          | Build status | Coverage |
 | --------------- | ------------ | -------- |
 | master          | [![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=master)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) | [![Coverage Status](https://coveralls.io/repos/ponyriders/django-amazon-price-monitor/badge.svg?branch=master)](https://coveralls.io/r/ponyriders/django-amazon-price-monitor?branch=master) |
-| angular-frontend | [![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=angular-frontend)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) | [![Coverage Status](https://coveralls.io/repos/ponyriders/django-amazon-price-monitor/badge.svg?branch=angular-frontend)](https://coveralls.io/r/ponyriders/django-amazon-price-monitor?branch=angular-frontend) |
-| data-reduction  | [![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=data-reduction)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) | [![Coverage Status](https://coveralls.io/repos/ponyriders/django-amazon-price-monitor/badge.svg?branch=data-reduction)](https://coveralls.io/r/ponyriders/django-amazon-price-monitor?branch=data-reduction) |
 
 ## What does it do?
 
