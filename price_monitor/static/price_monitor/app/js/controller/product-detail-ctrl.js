@@ -1,6 +1,7 @@
 PriceMonitorApp.controller('ProductDetailCtrl', function ($scope, $routeParams, $location, $modal, Product) {
     $scope.product = Product.get(
         {asin: $routeParams.asin},
+        // called when product can be retrieved
         function () {
             $scope.open = function () {
                 var modalInstance = $modal.open({
@@ -19,7 +20,7 @@ PriceMonitorApp.controller('ProductDetailCtrl', function ($scope, $routeParams, 
                 });
             };
         },
-        // called after close, but not dismiss (cancel)
+        // called if asin is not found
         function () {
             $location.path('#products');
         }
