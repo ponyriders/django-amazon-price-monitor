@@ -19,6 +19,7 @@ PriceMonitorApp.controller('ProductDetailCtrl', function ($scope, $routeParams, 
                 });
             };
         },
+        // called after close, but not dismiss (cancel)
         function () {
             $location.path('#products');
         }
