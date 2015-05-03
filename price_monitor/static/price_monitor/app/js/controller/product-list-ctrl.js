@@ -44,7 +44,6 @@ PriceMonitorApp.controller('ProductListCtrl', function($scope, $modal, Product) 
             var modalInstance = $modal.open({
                 templateUrl: SETTINGS.uris.static + '/price_monitor/app/partials/product-delete.html',
                 controller: 'ProductDeleteCtrl',
-                size: 'sm',
                 resolve: {
                     product: function () {
                         return product;
