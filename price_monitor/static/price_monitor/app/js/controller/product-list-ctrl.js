@@ -1,4 +1,4 @@
-PriceMonitorApp.controller('ProductListCtrl', function($scope, Product) {
+PriceMonitorApp.controller('ProductListCtrl', function($scope, $modal, Product) {
     $scope.products = Product.query(function() {
         $scope.productCount = $scope.products.length;
         $scope.currentPage = 1;
@@ -22,14 +22,14 @@ PriceMonitorApp.controller('ProductListCtrl', function($scope, Product) {
 
         $scope.addNewProduct = function() {
             $scope.newProducts.push(emptyProduct);
-        }
+        };
 
         $scope.removeFormLine = function(product) {
             var index = $scope.newProducts.indexOf(product);
             if (index != -1) {
                 $scope.newProducts.splice(index, 1);
             }
-        }
+        };
 
         $scope.saveNewProducts = function() {
             angular.forEach($scope.newProducts, function(newProduct) {
@@ -38,6 +38,19 @@ PriceMonitorApp.controller('ProductListCtrl', function($scope, Product) {
                     $scope.newProducts = [angular.copy(emptyProduct)];
                 });
             });
-        }
+        };
+
+        $scope.open = function (product) {
+            var modalInstance = $modal.open({
+                templateUrl: SETTINGS.uris.static + '/price_monitor/app/partials/product-delete.html',
+                controller: 'ProductDeleteCtrl',
+                size: 'sm',
+                resolve: {
+                    product: function () {
+                        return product;
+                    }
+                }
+            });
+        };
     });
 });
