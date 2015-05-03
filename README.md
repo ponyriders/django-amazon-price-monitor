@@ -1,6 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [django-amazon-price-monitor](#django-amazon-price-monitor)
   - [What does it do?](#what-does-it-do)
@@ -22,6 +22,7 @@
   - [Loggers](#loggers)
     - [price_monitor](#price_monitor)
     - [price_monitor.product_advertising_api](#price_monitorproduct_advertising_api)
+    - [price_monitor.utils](#price_monitorutils)
   - [Models](#models)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
