@@ -18,11 +18,11 @@ PriceMonitorServerConnector.factory('Product', ['djResource', function(djResourc
             return SETTINGS.uris.chart[size].replace(':asin', this.asin)
         }
         return '';
-    }
+    };
 
     Product.prototype.removeSubscription = function(index) {
         this.subscription_set.splice(index, 1);
-    }
+    };
     
     return Product;
 }]);
