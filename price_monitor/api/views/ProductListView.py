@@ -4,13 +4,14 @@ from ...models.Product import Product
 from rest_framework import generics, permissions
 
 
-class ProductRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+class ProductListView(generics.ListAPIView):
     """
-    Returns single instance of Product, if user is authenticated
+    Returns list of Products and provides endpoint to create Products,
+    if user is authenticated
     """
     model = Product
     serializer_class = ProductSerializer
-    lookup_field = 'asin'
+    allow_empty = True
     permission_classes = [
         # only return the list if user is authenticated
         permissions.IsAuthenticated
@@ -24,11 +25,3 @@ class ProductRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView)
         """
         # distinct is needed to prevent multiple instances of product in resultset if multiple subscriptions are present
         return self.model.objects.filter(subscription__owner=self.request.user).distinct()
-
-    def perform_destroy(self, instance):
-        """
-        Overwrite base function to delete subscriptions, not the product itself
-        :param instance: the product to delete subscriptions from
-        :type instance:  Product
-        """
-        instance.subscription_set.filter(owner=self.request.user).delete()
