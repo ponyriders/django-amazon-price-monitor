@@ -10,6 +10,7 @@ python-dateutil>=2.4.1
 djangorestframework>=3.0.4
 # for graphs
 pygal>=1.5.1
+lxml
 # pygal png output
 CairoSVG
 tinycss

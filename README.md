@@ -58,7 +58,16 @@ Add the app "price_monitor" to *INSTALLED_APPS*:
     INSTALLED_APPS = (
         ...
         'price_monitor',
+        'rest_framework',
     )
+
+Add the following settings:
+
+    REST_FRAMEWORK = {
+        'PAGINATE_BY': 50,
+        'PAGINATE_BY_PARAM': 'page_size',
+        'MAX_PAGINATE_BY': 100,
+    }
 
 ### South
 
