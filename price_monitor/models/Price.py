@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext as _, ugettext_lazy
 
 
-class Price(PublicIDMixin, models.Model):
+class Price(models.Model):
     """
     Representing fetched price for a product
     """
