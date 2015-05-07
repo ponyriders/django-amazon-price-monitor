@@ -9,7 +9,7 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     Serializes subscription with product inline. Also renders id frm public_id
     """
     # this field needs to be writable to get it's value into update function of ProductSerializer
-    id = serializers.CharField(source='public_id', read_only=True)
+    id = serializers.CharField(source='public_id')
     email_notification = EmailNotificationSerializer()
 
     class Meta:
