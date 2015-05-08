@@ -153,7 +153,7 @@ class SynchronizeProductsPeriodicallyTask(PeriodicTask, SynchronizationMixin):
             )
 
         for product in products:
-            self.sync_product(product, ProductAdvertisingAPI().item_lookup(item_id=product.asin))
+            SynchronizeSingleProductTask.delay(product.asin)
 
         # finally, if there are more products that can be synchronized, recall the task
         if recall:
