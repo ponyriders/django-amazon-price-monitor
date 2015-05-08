@@ -58,9 +58,12 @@
                                     {% endwith %}
                                 </div>
                                 <div class="col-xs-6">
-                                    {% cache 86400 graph product.get_graph_cache_key %}
-                                        {% chart_line '500px' '80px' product.get_prices_for_chart 0 product.title '#62a9ff' %}
-                                    {% endcache %}
+                                    {% comment %}
+                                        {% cache 86400 graph product.get_graph_cache_key %}
+                                            {% chart_line '500px' '80px' product.get_prices_for_chart 0 product.title '#62a9ff' %}
+                                        {% endcache %}
+                                    {% endcomment %}
+                                    <div class="col-xs-6">Sorry, graphs are disabled for now.</div>
                                 </div>
                             </div>
                         </div>
