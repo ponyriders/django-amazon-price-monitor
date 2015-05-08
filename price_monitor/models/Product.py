@@ -65,17 +65,29 @@ class Product(models.Model):
         self.status = 2
         self.save()
 
-    @staticmethod
-    def __get_image_url(url):
+    def get_image_urls(self):
+        """
+        Returns all image urls as dictionary. The size is the key.
+        Respects HTTP/HTTPS configuration.
+        :return: image dict
+        :rtype: dict
+        """
+        return {
+            'small': self.__get_image_url(self.small_image_url),
+            'medium': self.__get_image_url(self.medium_image_url),
+            'large': self.__get_image_url(self.large_image_url),
+        }
+
+    def __get_image_url(self, url):
         """
         Returns the correct image url depending on the settings. Will either be a HTTP or HTTPS host.
         :param url: the original (HTTP) image url
         :return: the adjusted image url if SSL is enabled
         """
-        if url is None or not app_settings.PRICE_MONITOR_IMAGES_USE_SSL:
-            return url
-        else:
+        if app_settings.PRICE_MONITOR_IMAGES_USE_SSL:
             return urljoin(app_settings.PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN, urlparse(url).path)
+
+        return url
 
     def get_graph_cache_key(self):
         """

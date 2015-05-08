@@ -20,7 +20,7 @@
                 <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#{{ product.asin }}">
                     <div class="row">
                         <div class="col-xs-1">
-                            {%  if product.small_image_url %}<img src="{{ product.small_image_url }}" />{% else %}&nbsp;{% endif %}
+                            {%  if product.small_image_url %}<img src="{{ product.get_image_urls|get:'small' }}" />{% else %}&nbsp;{% endif %}
                         </div>
                         <div class="col-xs-11">
                             <div class="row">
