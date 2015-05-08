@@ -12,7 +12,7 @@ from price_monitor import (
     utils,
 )
 
-from urllib2 import HTTPError
+from urllib.error import HTTPError
 
 
 logger = logging.getLogger('price_monitor.product_advertising_api')
