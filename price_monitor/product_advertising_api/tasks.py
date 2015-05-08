@@ -157,7 +157,7 @@ class SynchronizeProductsPeriodicallyTask(PeriodicTask, SynchronizationMixin):
 
         # finally, if there are more products that can be synchronized, recall the task
         if recall:
-            self.apply_async(countdown=5)
+            self.apply_async(countdown=10)
 
 
 class NotifySubscriberTask(Task):
