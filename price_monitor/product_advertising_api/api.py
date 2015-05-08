@@ -1,5 +1,7 @@
 import bottlenose
 import logging
+import random
+import time
 
 from bs4 import BeautifulSoup
 
@@ -9,6 +11,8 @@ from price_monitor import (
     app_settings,
     utils,
 )
+
+from urllib2 import HTTPError
 
 
 logger = logging.getLogger('price_monitor.product_advertising_api')
@@ -69,14 +73,21 @@ class ProductAdvertisingAPI(object):
         :rtype: bool
         :
         """
+        ex = error['exception']
+
         logger.error(
             'Error was thrown upon requesting URL %(api_url)s (Cache-URL: %(cache_url)s: %(exception)r' % {
                 'api_url': error['api_url'],
                 'cache_url': error['cache_url'],
-                'exception': error['exception'],
+                'exception': ex,
             }
         )
-        # FIXME we do not retry failed requests for now
+
+        # try reconnect
+        if isinstance(ex, HTTPError) and ex.code == 503:
+            time.sleep(random.expovariate(0.1))
+            return True
+
         return False
 
     def lookup_at_amazon(self, item_id):
