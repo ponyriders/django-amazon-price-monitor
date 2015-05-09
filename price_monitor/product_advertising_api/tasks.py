@@ -2,7 +2,7 @@ import logging
 
 from celery.task import (
     Task,
-    PeriodicTask,
+    # PeriodicTask,
 )
 
 from datetime import timedelta
@@ -16,7 +16,7 @@ from price_monitor.models import (
     Product,
     Subscription,
 )
-from price_monitor.product_advertising_api.api import ProductAdvertisingAPI
+# from price_monitor.product_advertising_api.api import ProductAdvertisingAPI
 from price_monitor.utils import send_mail
 
 from smtplib import SMTPServerDisconnected
@@ -107,57 +107,57 @@ class SynchronizationMixin():
             return products[:app_settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT], True
 
 
-class SynchronizeSingleProductTask(Task, SynchronizationMixin):
-    """
-    Task for synchronizing a single product.
-    """
+# class SynchronizeSingleProductTask(Task, SynchronizationMixin):
+#     """
+#     Task for synchronizing a single product.
+#     """
+#
+#     def run(self, item_id):
+#         """
+#         Called by celery if task is being delayed.
+#         :param item_id: the ItemId that uniquely identifies a product
+#         :type  item_id: basestring
+#         """
+#         logger.info('Synchronizing Product with ItemId %(item_id)s' % {'item_id': item_id})
+#
+#         try:
+#             product = Product.objects.get(asin=item_id)
+#         except Product.DoesNotExist:
+#             logger.exception('Product with ASIN %(item_id)s does not exist - unable to synchronize with API.' % {'item_id': item_id})
+#             return
+#
+#         self.sync_product(product, ProductAdvertisingAPI().item_lookup(item_id=item_id))
 
-    def run(self, item_id):
-        """
-        Called by celery if task is being delayed.
-        :param item_id: the ItemId that uniquely identifies a product
-        :type  item_id: basestring
-        """
-        logger.info('Synchronizing Product with ItemId %(item_id)s' % {'item_id': item_id})
 
-        try:
-            product = Product.objects.get(asin=item_id)
-        except Product.DoesNotExist:
-            logger.exception('Product with ASIN %(item_id)s does not exist - unable to synchronize with API.' % {'item_id': item_id})
-            return
-
-        self.sync_product(product, ProductAdvertisingAPI().item_lookup(item_id=item_id))
-
-
-class SynchronizeProductsPeriodicallyTask(PeriodicTask, SynchronizationMixin):
-    """
-    Task for periodically synchronizing of products.
-    """
-    run_every = timedelta(minutes=app_settings.PRICE_MONITOR_PRODUCTS_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES)
-
-    def run(self, **kwargs):
-        """
-        Runs the synchronization by fetching settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT number of products and requests their data from Amazon.
-        """
-        products, recall = self.get_products_to_sync()
-
-        # exit if there is no food
-        if len(products) == 0:
-            logger.info('No products to sync.')
-            return
-        else:
-            logger.info(
-                'Starting synchronization of %d products. %s',
-                len(products),
-                'Still more products available to sync.' if recall else 'No more products to sync there.'
-            )
-
-        for product in products:
-            SynchronizeSingleProductTask.delay(product.asin)
-
-        # finally, if there are more products that can be synchronized, recall the task
-        if recall:
-            self.apply_async(countdown=10)
+# class SynchronizeProductsPeriodicallyTask(PeriodicTask, SynchronizationMixin):
+#     """
+#     Task for periodically synchronizing of products.
+#     """
+#     run_every = timedelta(minutes=app_settings.PRICE_MONITOR_PRODUCTS_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES)
+#
+#     def run(self, **kwargs):
+#         """
+#         Runs the synchronization by fetching settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT number of products and requests their data from Amazon.
+#         """
+#         products, recall = self.get_products_to_sync()
+#
+#         # exit if there is no food
+#         if len(products) == 0:
+#             logger.info('No products to sync.')
+#             return
+#         else:
+#             logger.info(
+#                 'Starting synchronization of %d products. %s',
+#                 len(products),
+#                 'Still more products available to sync.' if recall else 'No more products to sync there.'
+#             )
+#
+#         for product in products:
+#             SynchronizeSingleProductTask.delay(product.asin)
+#
+#         # finally, if there are more products that can be synchronized, recall the task
+#         if recall:
+#             self.apply_async(countdown=10)
 
 
 class NotifySubscriberTask(Task):
