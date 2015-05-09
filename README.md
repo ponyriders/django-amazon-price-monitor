@@ -1,4 +1,5 @@
-[![Stories in Ready](https://badge.waffle.io/ponyriders/django-amazon-price-monitor.png?label=ready&title=Ready)](https://waffle.io/ponyriders/django-amazon-price-monitor)
+[![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=master)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) [![Coverage Status](https://coveralls.io/repos/ponyriders/django-amazon-price-monitor/badge.svg?branch=master)](https://coveralls.io/r/ponyriders/django-amazon-price-monitor?branch=master) [![Stories in Ready](https://badge.waffle.io/ponyriders/django-amazon-price-monitor.png?label=ready&title=Ready)](https://waffle.io/ponyriders/django-amazon-price-monitor)
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
@@ -31,11 +32,6 @@
 # django-amazon-price-monitor
 
 Monitors prices of Amazon products via Product Advertising API.
-Relies on python-amazon-simple-product-api under the hood.
-
-| Branch          | Build status | Coverage |
-| --------------- | ------------ | -------- |
-| master          | [![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=master)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) | [![Coverage Status](https://coveralls.io/repos/ponyriders/django-amazon-price-monitor/badge.svg?branch=master)](https://coveralls.io/r/ponyriders/django-amazon-price-monitor?branch=master) |
 
 ## What does it do?
 
