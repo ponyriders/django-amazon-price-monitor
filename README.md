@@ -55,6 +55,7 @@ Add the app "price_monitor" to *INSTALLED_APPS*:
     INSTALLED_APPS = (
         ...
         'price_monitor',
+        'price_monitor.product_advertising_api',
         'rest_framework',
     )
 
