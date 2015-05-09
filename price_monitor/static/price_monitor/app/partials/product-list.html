@@ -1,5 +1,5 @@
 <center>
-    <pagination total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
+    <pagination ng-if="products.length > 0" total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
 </center>
 <div class="media list" ng-repeat="product in products | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage">
     <a class="pull-left" href="{{ product.offer_url }}"
@@ -33,7 +33,7 @@
         </div>
 </div>
 <center>
-    <pagination total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
+    <pagination ng-if="products.length > 0" total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
 </center>
 
 <form novalidate name="product_form" id="product-form" class="form-inline">
