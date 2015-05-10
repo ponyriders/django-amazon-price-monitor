@@ -16,6 +16,7 @@ class ProductSerializer(serializers.ModelSerializer):
     current_price = serializers.SerializerMethodField()
     max_price = serializers.SerializerMethodField()
     min_price = serializers.SerializerMethodField()
+    image_urls = serializers.SerializerMethodField()
 
     subscription_set = SubscriptionSerializer(many=True)
 
@@ -77,6 +78,16 @@ class ProductSerializer(serializers.ModelSerializer):
             return None
         else:
             return self.__render_price_dict(price)
+
+    def get_image_urls(self, obj):
+        """
+        Renders image urls as read only value into product representation
+        :param obj: object to get image urls for
+        :type obj:  Product
+        :returns:   dict with image urls
+        :rtype:     dict
+        """
+        return obj.get_image_urls()
 
     def create(self, validated_data):
         """
@@ -157,9 +168,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'date_release',
 
             # amazon urls
-            'large_image_url',
-            'medium_image_url',
-            'small_image_url',
+            'image_urls',
             'offer_url',
             'current_price',
             'max_price',
@@ -191,9 +200,6 @@ class ProductSerializer(serializers.ModelSerializer):
             'part_number',
 
             # amazon urls
-            'large_image_url',
-            'medium_image_url',
-            'small_image_url',
-            'tiny_image_url',
+            'image_urls',
             'offer_url',
         )

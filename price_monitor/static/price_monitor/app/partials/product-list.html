@@ -3,8 +3,8 @@
 </center>
 <div class="media list" ng-repeat="product in products | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage">
     <a class="pull-left" href="{{ product.offer_url }}"
-       ng-if="product.small_image_url">
-        <img class="media-object" ng-src="{{ product.small_image_url }}"
+       ng-if="product.image_urls.small">
+        <img class="media-object" ng-src="{{ product.image_urls.small }}"
              alt="{{ product.title }}">
     </a>
 
