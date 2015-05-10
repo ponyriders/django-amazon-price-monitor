@@ -12,4 +12,10 @@ class PriceListView(ListAPIView):
 
     def get_queryset(self):
         # TODO: this is just for testing
-        return self.model.objects.filter(product__asin=self.kwargs.get('asin')).order_by('-date_seen')[:50]
+        return self.model.objects \
+            .filter(product__asin=self.kwargs.get('asin')) \
+            .select_related(
+                'subscription_set__email_notification',
+                'price_set'
+            ) \
+            .order_by('-date_seen')[:50]
