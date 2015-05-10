@@ -1,5 +1,6 @@
 import logging
 
+from celery.signals import worker_ready
 from celery.task import (
     Task,
     # PeriodicTask,
@@ -23,6 +24,33 @@ from smtplib import SMTPServerDisconnected
 
 
 logger = logging.getLogger('price_monitor')
+
+
+@worker_ready.connect
+def celery_worker_ready(*args, **kwargs):
+    """
+    Called when the celery worker is ready.
+    Starts the ReQueueTask to get the whole synchronization started.
+    """
+    ReQueueTask().apply_async(countdown=5)
+
+
+class ReQueueTask(Task):
+    def run(self):
+        logger.info('ReQueueTask.run')
+
+
+class FindProductsToSynchronizeTask(Task):
+    def run(self):
+        pass
+
+
+class SynchronizeProductsTask(Task):
+    # limit to one task per second
+    rate_limit = '1/s'
+
+    def run(self):
+        pass
 
 
 class SynchronizationMixin():
