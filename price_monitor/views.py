@@ -52,7 +52,8 @@ class AngularIndexView(TemplateView):
         context = super(AngularIndexView, self).get_context_data(**kwargs)
         context.update(
             default_currency=app_settings.PRICE_MONITOR_DEFAULT_CURRENCY,
-            subscription_create_form=form
+            subscription_create_form=form,
+            site_name=app_settings.PRICE_MONITOR_SITENAME,
         )
         return context
 

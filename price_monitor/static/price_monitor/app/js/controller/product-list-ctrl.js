@@ -7,6 +7,7 @@ PriceMonitorApp.controller('ProductListCtrl', function($scope, $modal, Product) 
         $scope.paginationBoundaryLinks = SETTINGS.pagination.paginationBoundaryLinks; 
         $scope.paginationRotate = SETTINGS.pagination.paginationRotate;
         $scope.pagesTotal = 0;
+        $scope.siteName = SETTINGS.siteName;
 
         var emptyProduct = {
             asin: null,

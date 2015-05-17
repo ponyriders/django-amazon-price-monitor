@@ -1,4 +1,5 @@
 PriceMonitorApp.controller('ProductDetailCtrl', function ($scope, $routeParams, $location, $modal, Product) {
+    $scope.siteName = SETTINGS.siteName;
     $scope.product = Product.get(
         {asin: $routeParams.asin},
         // called when product can be retrieved
