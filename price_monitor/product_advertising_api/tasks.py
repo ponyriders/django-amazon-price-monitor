@@ -111,6 +111,7 @@ class SynchronizeSingleProductTask(Task, SynchronizationMixin):
     """
     Task for synchronizing a single product.
     """
+    rate_limit = '30/m'
 
     def run(self, item_id):
         """
