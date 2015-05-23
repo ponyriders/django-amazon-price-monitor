@@ -1,10 +1,8 @@
 import logging
 
+from celery import chord
 from celery.signals import worker_ready
-from celery.task import (
-    Task,
-    # PeriodicTask,
-)
+from celery.task import Task
 
 from datetime import timedelta
 
@@ -23,7 +21,7 @@ from price_monitor.utils import send_mail
 from smtplib import SMTPServerDisconnected
 
 
-logger = logging.getLogger('price_monitor')
+logger = logging.getLogger('price_monitor.product_advertising_api')
 
 
 @worker_ready.connect
@@ -38,22 +36,30 @@ def celery_worker_ready(*args, **kwargs):
 class ReQueueTask(Task):
     def run(self):
         logger.info('ReQueueTask.run')
+        FindProductsToSynchronizeTask().apply_async(countdown=5)
+        return True
 
 
 class FindProductsToSynchronizeTask(Task):
     def run(self):
-        pass
+        logger.info('FindProductsToSynchronizeTask.run')
+        products = [x for x in range(10)]
+        logger.info(products)
+        callback = ReQueueTask().si()
+        chord(SynchronizeProductsTask().s(product) for product in products)(callback)
+        return True
 
 
 class SynchronizeProductsTask(Task):
     # limit to one task per second
     rate_limit = '1/s'
 
-    def run(self):
-        pass
+    def run(self, product):
+        logger.info('SynchronizeProductsTask.run for product {}'.format(product))
+        return True
 
 
-class SynchronizationMixin():
+class SynchronizationMixin:
 
     @staticmethod
     def sync_product(product, amazon_data):
