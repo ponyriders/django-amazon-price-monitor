@@ -50,7 +50,7 @@ Monitors prices of Amazon products via Product Advertising API.
 
 ### Basic setup
 
-Add the app "price_monitor" to *INSTALLED_APPS*:
+Add the following apps to *INSTALLED_APPS*:
 
     INSTALLED_APPS = (
         ...
@@ -59,19 +59,6 @@ Add the app "price_monitor" to *INSTALLED_APPS*:
         'rest_framework',
     )
 
-Add the following settings:
-
-    REST_FRAMEWORK = {
-        'PAGINATE_BY': 50,
-        'PAGINATE_BY_PARAM': 'page_size',
-        'MAX_PAGINATE_BY': 100,
-    }
-
-### South
-
-The app also supports [South](http://south.readthedocs.org/en/latest/).
-
-
 ### Settings
 
 _The values of the following displayed settings are their default values. If the value is '...' then there is no default value._ 
@@ -79,6 +66,27 @@ _The values of the following displayed settings are their default values. If the
 #### Must have settings
 
 The following settings are absolutely necessary to the price monitor running, please set them:
+
+##### Celery
+
+You need to have a broker and a result backend set.
+
+    BROKER_URL = ...
+    CELERY_RESULT_BACKEND = ...
+      
+    # some additional settings
+    CELERY_ACCEPT_CONTENT = ['pickle', 'json']
+    CELERY_CHORD_PROPAGATES = True
+
+##### Rest-Framework
+
+We use Rest-Framework for Angular frontend:
+
+    REST_FRAMEWORK = {
+        'PAGINATE_BY': 50,
+        'PAGINATE_BY_PARAM': 'page_size',
+        'MAX_PAGINATE_BY': 100,
+    }
 
 ##### AWS and Product Advertising API credentials
 
@@ -114,7 +122,7 @@ PRICE_MONITOR_IMAGES_USE_SSL = True
 PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN = 'https://images-eu.ssl-images-amazon.com'
 ```
 
-#### Nice to have settings
+#### Optional settings
 
 The following settings can be adjusted but come with reasonable default values.
 
