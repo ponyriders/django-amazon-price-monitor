@@ -1,4 +1,4 @@
-<center>
+<center ng-hide="products.length == 0">
     <pagination total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
 </center>
 <div class="media list" ng-repeat="product in products | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage">
@@ -32,7 +32,7 @@
             </div>
         </div>
 </div>
-<center>
+<center ng-hide="products.length == 0">
     <pagination total-items="productCount" ng-model="currentPage" max-size="maxPageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="pagesTotal" items-per-page="itemsPerPage"></pagination>
 </center>
 
