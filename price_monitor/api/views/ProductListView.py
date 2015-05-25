@@ -24,4 +24,10 @@ class ProductListView(generics.ListAPIView):
         :rtype:   QuerySet
         """
         # distinct is needed to prevent multiple instances of product in resultset if multiple subscriptions are present
-        return self.model.objects.filter(subscription__owner=self.request.user).distinct()
+        return self.model.objects\
+            .filter(subscription__owner=self.request.user)\
+            .select_related(
+                'subscription_set__email_notification',
+                'price_set'
+            )\
+            .distinct()

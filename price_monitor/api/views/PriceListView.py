@@ -14,8 +14,4 @@ class PriceListView(ListAPIView):
         # TODO: this is just for testing
         return self.model.objects \
             .filter(product__asin=self.kwargs.get('asin')) \
-            .select_related(
-                'subscription_set__email_notification',
-                'price_set'
-            ) \
             .order_by('-date_seen')[:50]
