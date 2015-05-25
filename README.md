@@ -129,9 +129,6 @@ The following settings can be adjusted but come with reasonable default values.
 ##### Product synchronization
  
 ```
-# period of running the product synchronization task in minutes
-PRICE_MONITOR_PRODUCTS_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES = 5
-
 # time after which products shall be refreshed
 # Amazon only allows caching up to 24 hours, so the maximum value is 1440!
 PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES = 720  # 12 hours

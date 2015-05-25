@@ -154,37 +154,6 @@ class SynchronizeSingleProductTask(Task):
                 NotifySubscriberTask().apply_async((product, price, sub), countdown=1)
 
 
-# class SynchronizeProductsPeriodicallyTask(PeriodicTask, SynchronizationMixin):
-#     """
-#     Task for periodically synchronizing of products.
-#     """
-#     run_every = timedelta(minutes=app_settings.PRICE_MONITOR_PRODUCTS_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES)
-#
-#     def run(self, **kwargs):
-#         """
-#         Runs the synchronization by fetching settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT number of products and requests their data from Amazon.
-#         """
-#         products, recall = self.get_products_to_sync()
-#
-#         # exit if there is no food
-#         if len(products) == 0:
-#             logger.info('No products to sync.')
-#             return
-#         else:
-#             logger.info(
-#                 'Starting synchronization of %d products. %s',
-#                 len(products),
-#                 'Still more products available to sync.' if recall else 'No more products to sync there.'
-#             )
-#
-#         for product in products:
-#             SynchronizeSingleProductTask.delay(product.asin)
-#
-#         # finally, if there are more products that can be synchronized, recall the task
-#         if recall:
-#             self.apply_async(countdown=10)
-
-
 class NotifySubscriberTask(Task):
     """
     Task for notifying a single user about a product that has reached the desired price.
