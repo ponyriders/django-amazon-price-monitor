@@ -28,27 +28,64 @@ logger = logging.getLogger('price_monitor.product_advertising_api')
 def celery_worker_ready(*args, **kwargs):
     """
     Called when the celery worker is ready.
-    Starts the ReQueueTask to get the whole synchronization started.
+    Starts the StartupTask to get the whole synchronization started.
     """
-    ReQueueTask().apply_async(countdown=5)
+    StartupTask().apply_async(countdown=5)
 
 
-class ReQueueTask(Task):
+class StartupTask(Task):
+    """
+    The task for getting the machinery up and running. As we do not use celery beat, we have to start somewhere.
+    """
     def run(self):
-        logger.info('ReQueueTask.run')
+        logger.info('StartupTask was called')
+        # 5 seconds after startup we start the synchronization
         FindProductsToSynchronizeTask().apply_async(countdown=5)
         return True
 
 
 class FindProductsToSynchronizeTask(Task):
     def run(self):
-        # TODO if no products where found, find how much time the task has to sleep until next call of RequeueTask
-        logger.info('FindProductsToSynchronizeTask.run')
-        products = [x for x in range(10)]
-        logger.info(products)
-        callback = ReQueueTask().si()
-        chord(SynchronizeSingleProductTask().s(product) for product in products)(callback)
+        logger.info('FindProductsToSynchronizeTask was called')
+
+        # get all products that shall be updated
+        products = self.__get_products_to_sync()
+
+        if len(products) > 0:
+            logger.info('Starting chord for synchronization of %d products', len(products))
+            # after all single product synchronize tasks are done recall the FindProductsToSynchronizeTask. That is because we do not know how long it takes to
+            # synchronize the products and there can be new ones meanwhile. If the newly called task finds no products, it will handle the new callback to the
+            # correct time.
+            chord(
+                SynchronizeSingleProductTask().s(product) for product in products
+            )(
+                FindProductsToSynchronizeTask().si()
+            )
+        else:
+            logger.info('No products found to update now')
+            # FIXME if no products where found, find how much time the task has to sleep until next call of FindProductsToSynchronizeTask
+            # FIXME implement
+            # One might think this may interfere with newly created products and their synchronization if they are added before the
+            # FindProductsToSynchronizeTask is called again, but it doesn't. The new product is updated on creation and the next synchronization is always
+            # after the next task call.
+            pass
+
         return True
+
+    def __get_products_to_sync(self):
+        """
+        Returns the products to synchronize.
+        These are newly created products with status "0" or products that are older than settings.PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES.
+        :return: list of products
+        :rtype: django.db.models.query.QuerySet
+        """
+        # prefer already synced products over newly created
+        return Product.objects.select_related().filter(
+            subscription__isnull=False,
+            date_last_synced__lte=(timezone.now() - timedelta(minutes=app_settings.PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES)),
+            # issue #21 don't sync products that are  not existent
+            status__in=[0, 1]
+        )
 
 
 class SynchronizeSingleProductTask(Task):
@@ -58,21 +95,14 @@ class SynchronizeSingleProductTask(Task):
     # limit to one task per second, limited by Amazon API
     rate_limit = '1/s'
 
-    def run(self, item_id):
+    def run(self, product):
         """
         Called by celery if task is being delayed.
-        :param item_id: the ItemId that uniquely identifies a product
-        :type  item_id: basestring
+        :param product: the product to sycnhronize with amazon
+        :type  product: price_monitor.models.Product
         """
-        logger.info('Synchronizing Product with ItemId %(item_id)s' % {'item_id': item_id})
-
-        try:
-            product = Product.objects.get(asin=item_id)
-        except Product.DoesNotExist:
-            logger.exception('Product with ASIN %(item_id)s does not exist - unable to synchronize with API.' % {'item_id': item_id})
-            return True
-
-        self.__sync_product(product, ProductAdvertisingAPI().item_lookup(item_id=item_id))
+        logger.info('Synchronizing Product with ItemId %(item_id)s' % {'item_id': product.asin})
+        self.__sync_product(product, ProductAdvertisingAPI().item_lookup(item_id=product.asin))
         return True
 
     def __sync_product(self, product, amazon_data):
@@ -122,39 +152,6 @@ class SynchronizeSingleProductTask(Task):
             ):
                 # FIXME: how to handle failed notifications?
                 NotifySubscriberTask().apply_async((product, price, sub), countdown=1)
-
-
-class SynchronizationMixin:
-
-    def get_products_to_sync(self):
-        """
-        Returns the products to synchronize.
-        These are newly created products with status "0" or products that are older than settings.PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES.
-        :return: tuple with 0: dictionary with the Products and 1: if there are still products that need to be synced
-        :rtype: tuple
-        """
-        # prefer already synced products over newly created
-        products = list(
-            Product.objects.select_related().filter(
-                subscription__isnull=False,
-                date_last_synced__lte=(timezone.now() - timedelta(minutes=app_settings.PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES)),
-                # issue #21 don't sync products that are  not existent
-                status__in=[0, 1]
-            )
-        )
-
-        # there is still some space for products to sync, append newly created if available
-        if len(products) < app_settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT:
-            # number of products that can be added
-            remaining_product_places = app_settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products)
-
-            return (
-                products + list(Product.objects.select_related().filter(status=0).order_by('date_creation')[:remaining_product_places]),
-                # set recall to true if there are more unsynchronized products than already included
-                Product.objects.select_related().filter(status=0).count() > app_settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT - len(products),
-            )
-        else:
-            return products[:app_settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT], True
 
 
 # class SynchronizeProductsPeriodicallyTask(PeriodicTask, SynchronizationMixin):
