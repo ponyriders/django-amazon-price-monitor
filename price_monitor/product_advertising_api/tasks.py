@@ -15,7 +15,7 @@ from price_monitor.models import (
     Product,
     Subscription,
 )
-# from price_monitor.product_advertising_api.api import ProductAdvertisingAPI
+from price_monitor.product_advertising_api.api import ProductAdvertisingAPI
 from price_monitor.utils import send_mail
 
 from smtplib import SMTPServerDisconnected
@@ -42,27 +42,40 @@ class ReQueueTask(Task):
 
 class FindProductsToSynchronizeTask(Task):
     def run(self):
+        # TODO if no products where found, find how much time the task has to sleep until next call of RequeueTask
         logger.info('FindProductsToSynchronizeTask.run')
         products = [x for x in range(10)]
         logger.info(products)
         callback = ReQueueTask().si()
-        chord(SynchronizeProductsTask().s(product) for product in products)(callback)
+        chord(SynchronizeSingleProductTask().s(product) for product in products)(callback)
         return True
 
 
-class SynchronizeProductsTask(Task):
-    # limit to one task per second
+class SynchronizeSingleProductTask(Task):
+    """
+    Task for synchronizing a single product.
+    """
+    # limit to one task per second, limited by Amazon API
     rate_limit = '1/s'
 
-    def run(self, product):
-        logger.info('SynchronizeProductsTask.run for product {}'.format(product))
+    def run(self, item_id):
+        """
+        Called by celery if task is being delayed.
+        :param item_id: the ItemId that uniquely identifies a product
+        :type  item_id: basestring
+        """
+        logger.info('Synchronizing Product with ItemId %(item_id)s' % {'item_id': item_id})
+
+        try:
+            product = Product.objects.get(asin=item_id)
+        except Product.DoesNotExist:
+            logger.exception('Product with ASIN %(item_id)s does not exist - unable to synchronize with API.' % {'item_id': item_id})
+            return True
+
+        self.__sync_product(product, ProductAdvertisingAPI().item_lookup(item_id=item_id))
         return True
 
-
-class SynchronizationMixin:
-
-    @staticmethod
-    def sync_product(product, amazon_data):
+    def __sync_product(self, product, amazon_data):
         """
         Synchronizes the given price_monitor.model.Product with the Amazon data.
         :param product: the product to update
@@ -107,8 +120,11 @@ class SynchronizationMixin:
                     date_last_notification__isnull=True
                 )
             ):
-                # TODO: how to handle failed notifications?
+                # FIXME: how to handle failed notifications?
                 NotifySubscriberTask().apply_async((product, price, sub), countdown=1)
+
+
+class SynchronizationMixin:
 
     def get_products_to_sync(self):
         """
@@ -139,28 +155,6 @@ class SynchronizationMixin:
             )
         else:
             return products[:app_settings.PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT], True
-
-
-# class SynchronizeSingleProductTask(Task, SynchronizationMixin):
-#     """
-#     Task for synchronizing a single product.
-#     """
-#
-#     def run(self, item_id):
-#         """
-#         Called by celery if task is being delayed.
-#         :param item_id: the ItemId that uniquely identifies a product
-#         :type  item_id: basestring
-#         """
-#         logger.info('Synchronizing Product with ItemId %(item_id)s' % {'item_id': item_id})
-#
-#         try:
-#             product = Product.objects.get(asin=item_id)
-#         except Product.DoesNotExist:
-#             logger.exception('Product with ASIN %(item_id)s does not exist - unable to synchronize with API.' % {'item_id': item_id})
-#             return
-#
-#         self.sync_product(product, ProductAdvertisingAPI().item_lookup(item_id=item_id))
 
 
 # class SynchronizeProductsPeriodicallyTask(PeriodicTask, SynchronizationMixin):
