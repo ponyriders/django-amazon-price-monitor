@@ -6,7 +6,10 @@ from celery.task import Task
 
 from datetime import timedelta
 
-from django.db.models import Q
+from django.db.models import (
+    Min,
+    Q,
+)
 from django.utils import timezone
 
 from price_monitor import app_settings
@@ -45,7 +48,16 @@ class StartupTask(Task):
 
 
 class FindProductsToSynchronizeTask(Task):
+    """
+    The tasks that finds the products that shall be updated through the api.
+    """
     def run(self):
+        """
+        Fetches the products to update via api. Queues a single SynchronizeSingleProductTask for each product and calls a new instance of itself after all
+        tasks are done. If no products found for update, sleeps until the next update time is reached.
+        :return: the result is always true
+        :rtype: bool
+        """
         logger.info('FindProductsToSynchronizeTask was called')
 
         # get all products that shall be updated
@@ -63,12 +75,15 @@ class FindProductsToSynchronizeTask(Task):
             )
         else:
             logger.info('No products found to update now')
-            # FIXME if no products where found, find how much time the task has to sleep until next call of FindProductsToSynchronizeTask
-            # FIXME implement
             # One might think this may interfere with newly created products and their synchronization if they are added before the
             # FindProductsToSynchronizeTask is called again, but it doesn't. The new product is updated on creation and the next synchronization is always
             # after the next task call.
-            pass
+            oldest_synchronization = Product.objects.filter(subscription__isnull=False, status__in=[0, 1]).aggregate(
+                Min('date_last_synced')
+            )['date_last_synced__min']
+            next_synchronization = oldest_synchronization + timedelta(minutes=app_settings.PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES)
+            logger.info('Eta for next FindProductsToSynchronizeTask run is %s', next_synchronization)
+            FindProductsToSynchronizeTask().apply_async(eta=next_synchronization)
 
         return True
 
