@@ -48,6 +48,7 @@ class StartupTask(Task):
         FindProductsToSynchronizeTask().apply_async(countdown=5)
 
 
+# FIXME this task should only be enqueued ONCE. so if there is already a task queued, it shall not be queued additionally.
 class FindProductsToSynchronizeTask(Task):
     """
     The tasks that finds the products that shall be updated through the api.
