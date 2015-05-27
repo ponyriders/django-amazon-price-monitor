@@ -1,7 +1,7 @@
 import logging
 
 from celery import chord
-from celery.signals import worker_ready
+from celery.signals import celeryd_after_setup
 from celery.task import Task
 
 from datetime import timedelta
@@ -27,10 +27,10 @@ from smtplib import SMTPServerDisconnected
 logger = logging.getLogger('price_monitor.product_advertising_api')
 
 
-@worker_ready.connect
-def celery_worker_ready(*args, **kwargs):
+@celeryd_after_setup.connect
+def celeryd_after_setup(*args, **kwargs):
     """
-    Called when the celery worker is ready.
+    Called after the worker instances are set up.
     Starts the StartupTask to get the whole synchronization started.
     """
     StartupTask().apply_async(countdown=5)
@@ -40,11 +40,12 @@ class StartupTask(Task):
     """
     The task for getting the machinery up and running. As we do not use celery beat, we have to start somewhere.
     """
+    ignore_result = True
+
     def run(self):
         logger.info('StartupTask was called')
         # 5 seconds after startup we start the synchronization
         FindProductsToSynchronizeTask().apply_async(countdown=5)
-        return True
 
 
 class FindProductsToSynchronizeTask(Task):
