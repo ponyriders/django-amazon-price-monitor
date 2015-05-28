@@ -189,7 +189,7 @@ class SynchronizeSingleProductTask(Task):
                 )
             ):
                 # FIXME: how to handle failed notifications?
-                NotifySubscriberTask().apply_async((product, price, sub), countdown=1)
+                NotifySubscriberTask().apply_async((product.pk, price.pk, sub.pk), countdown=5)
 
 
 class NotifySubscriberTask(Task):
@@ -197,16 +197,34 @@ class NotifySubscriberTask(Task):
     Task for notifying a single user about a product that has reached the desired price.
     """
 
-    def run(self, product, price, subscription, **kwargs):
+    def run(self, product_pk, price_pk, subscription_pk, **kwargs):
         """
         Sends an email to the subscriber.
-        :param product: the product to notify about
-        :type product: price_monitor.models.Product
-        :param price: the current price of the product
-        :type price: price_monitor.models.Price
-        :param subscription: the Subscription class connecting subscriber and product
-        :type subscription: price_monitor.models.Subscription
+        :param product_pk: the id of product to notify about
+        :type product_pk: int
+        :param price_pk: the id of current price of the product
+        :type price_pk: int
+        :param subscription_pk: the id of Subscription class connecting subscriber and product
+        :type subscription_pk: int
         """
+        try:
+            product = Product.objects.get(pk=product_pk)
+        except Product.DoesNotExist:
+            logger.error('Product with PK %d could not be found.', product_pk)
+            return False
+
+        try:
+            price = Price.objects.get(pk=price_pk)
+        except Price.DoesNotExist:
+            logger.error('Price with PK %d could not be found.', price_pk)
+            return False
+
+        try:
+            subscription = Subscription.objects.get(pk=subscription_pk)
+        except Subscription.DoesNotExist:
+            logger.error('Subscription with PK %d could not be found.', subscription_pk)
+            return False
+
         logger.info('Trying to send notification email to %(email)s...' % {'email': subscription.email_notification.email})
         try:
             send_mail(product, subscription, price)
