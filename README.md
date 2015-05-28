@@ -10,12 +10,13 @@
     - [Prerequisites](#prerequisites)
     - [Included angular libraries](#included-angular-libraries)
     - [Basic setup](#basic-setup)
-    - [South](#south)
     - [Settings](#settings)
       - [Must have settings](#must-have-settings)
+        - [Celery](#celery)
+        - [Rest-Framework](#rest-framework)
         - [AWS and Product Advertising API credentials](#aws-and-product-advertising-api-credentials)
         - [Images protocol and domain](#images-protocol-and-domain)
-      - [Nice to have settings](#nice-to-have-settings)
+      - [Optional settings](#optional-settings)
         - [Product synchronization](#product-synchronization)
         - [Notifications](#notifications)
         - [Caching](#caching)
@@ -25,7 +26,10 @@
     - [price_monitor](#price_monitor)
     - [price_monitor.product_advertising_api](#price_monitorproduct_advertising_api)
     - [price_monitor.utils](#price_monitorutils)
-  - [Models](#models)
+  - [Internals](#internals)
+    - [Model graph](#model-graph)
+    - [Product advertising api synchronization](#product-advertising-api-synchronization)
+      - [Task workflow](#task-workflow)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -50,26 +54,14 @@ Monitors prices of Amazon products via Product Advertising API.
 
 ### Basic setup
 
-Add the app "price_monitor" to *INSTALLED_APPS*:
+Add the following apps to *INSTALLED_APPS*:
 
     INSTALLED_APPS = (
         ...
         'price_monitor',
+        'price_monitor.product_advertising_api',
         'rest_framework',
     )
-
-Add the following settings:
-
-    REST_FRAMEWORK = {
-        'PAGINATE_BY': 50,
-        'PAGINATE_BY_PARAM': 'page_size',
-        'MAX_PAGINATE_BY': 100,
-    }
-
-### South
-
-The app also supports [South](http://south.readthedocs.org/en/latest/).
-
 
 ### Settings
 
@@ -78,6 +70,27 @@ _The values of the following displayed settings are their default values. If the
 #### Must have settings
 
 The following settings are absolutely necessary to the price monitor running, please set them:
+
+##### Celery
+
+You need to have a broker and a result backend set.
+
+    BROKER_URL = ...
+    CELERY_RESULT_BACKEND = ...
+      
+    # some additional settings
+    CELERY_ACCEPT_CONTENT = ['pickle', 'json']
+    CELERY_CHORD_PROPAGATES = True
+
+##### Rest-Framework
+
+We use Rest-Framework for Angular frontend:
+
+    REST_FRAMEWORK = {
+        'PAGINATE_BY': 50,
+        'PAGINATE_BY_PARAM': 'page_size',
+        'MAX_PAGINATE_BY': 100,
+    }
 
 ##### AWS and Product Advertising API credentials
 
@@ -113,21 +126,13 @@ PRICE_MONITOR_IMAGES_USE_SSL = True
 PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN = 'https://images-eu.ssl-images-amazon.com'
 ```
 
-#### Nice to have settings
+#### Optional settings
 
 The following settings can be adjusted but come with reasonable default values.
 
 ##### Product synchronization
  
 ```
-# period of running the product synchronization task in minutes
-PRICE_MONITOR_PRODUCTS_SYNCHRONIZE_TASK_RUN_EVERY_MINUTES = 5
-
-# number of products to synchronize on each run of the synchronize task.
-# The maximum allowed value is 10 (as restriction when using the 
-#  Amazon Product Advertising API)
-PRICE_MONITOR_AMAZON_PRODUCT_SYNCHRONIZE_COUNT = 10
-
 # time after which products shall be refreshed
 # Amazon only allows caching up to 24 hours, so the maximum value is 1440!
 PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES = 720  # 12 hours
@@ -204,6 +209,14 @@ Logger for everything related to the ProductAdvertisingAPI wrapper class that ac
 Logger for the utils module.
 
 
-## Models
+## Internals
+
+### Model graph
 
 ![Model Graph](https://github.com/ponyriders/django-amazon-price-monitor/raw/master/models.png "Model Graph")
+
+### Product advertising api synchronization
+
+#### Task workflow
+
+![Image of Product advertising api synchronization workflow](docs/price_monitor.product_advertising_api.tasks.png)
