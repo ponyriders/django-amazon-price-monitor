@@ -134,7 +134,7 @@ class SynchronizeSingleProductTask(Task):
         """
         # fetch the product instance
         try:
-            product = Product.object.get(asin=asin)
+            product = Product.objects.get(asin=asin)
         except Product.DoesNotExist:
             logger.error('Product with ASIN %s could not be found.', asin)
             return False
