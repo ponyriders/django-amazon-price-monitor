@@ -1,3 +1,7 @@
+TBA
+---
+* rewrote task handling for communication with product advertising api (#27, #38)
+
 0.2.0
 -----
 * Python 3.2, 3.3 & 3.4 support
