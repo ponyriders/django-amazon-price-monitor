@@ -205,6 +205,14 @@ Logger for everything related to the ProductAdvertisingAPI wrapper class that ac
 Logger for the utils module.
 
 
-## Models
+## Internals
+
+### Model graph
 
 ![Model Graph](https://github.com/ponyriders/django-amazon-price-monitor/raw/master/models.png "Model Graph")
+
+### Product advertising api synchronization
+
+#### Task workflow
+
+![Image of Product advertising api synchronization workflow](docs/price_monitor.product_advertising_api.tasks.png)
