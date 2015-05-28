@@ -83,7 +83,7 @@ class FindProductsToSynchronizeTask(Task):
             # synchronize the products and there can be new ones meanwhile. If the newly called task finds no products, it will handle the new callback to the
             # correct time.
             chord(
-                SynchronizeSingleProductTask().s(product) for product in products
+                SynchronizeSingleProductTask().s(product.asin) for product in products
             )(
                 FindProductsToSynchronizeTask().si()
             )
@@ -124,12 +124,21 @@ class SynchronizeSingleProductTask(Task):
     # limit to one task per second, limited by Amazon API
     rate_limit = '1/s'
 
-    def run(self, product):
+    # if we use the product instance instead of asin we get an EncodeError(RuntimeError('maximum recursion depth exceeded',),) resulting in a
+    # billiard.exceptions.WorkerLostError:
+    def run(self, asin):
         """
         Called by celery if task is being delayed.
-        :param product: the product to sycnhronize with amazon
-        :type  product: price_monitor.models.Product
+        :param asin: the asin of the product to sycnhronize with amazon
+        :type  asin: basestring
         """
+        # fetch the product instance
+        try:
+            product = Product.object.get(asin=asin)
+        except Product.DoesNotExist:
+            logger.error('Product with ASIN %s could not be found.', asin)
+            return False
+
         logger.info('Synchronizing Product with ItemId %(item_id)s' % {'item_id': product.asin})
         self.__sync_product(product, ProductAdvertisingAPI().item_lookup(item_id=product.asin))
         return True
