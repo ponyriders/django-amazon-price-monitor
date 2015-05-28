@@ -3,6 +3,7 @@ import logging
 from celery import chord
 from celery.signals import celeryd_after_setup
 from celery.task import Task
+from celery.task.control import inspect
 
 from datetime import timedelta
 
@@ -44,11 +45,22 @@ class StartupTask(Task):
 
     def run(self):
         logger.info('StartupTask was called')
+
+        # fetch all scheduled tasks
+        scheduled_tasks = inspect().scheduled()
+
+        # iterate the scheduled task values, see http://docs.celeryproject.org/en/latest/userguide/workers.html?highlight=revoke#dump-of-scheduled-eta-tasks
+        for task_values in iter(scheduled_tasks.values()):
+            # task_values is a list of dicts
+            for task in task_values:
+                if task['request']['name'] == '{}.{}'.format(FindProductsToSynchronizeTask.__module__, FindProductsToSynchronizeTask.__name__):
+                    logger.info('FindProductsToSynchronizeTask is already scheduled, skipping additional run')
+                    return
+
         # 5 seconds after startup we start the synchronization
         FindProductsToSynchronizeTask().apply_async(countdown=5)
 
 
-# FIXME this task should only be enqueued ONCE. so if there is already a task queued, it shall not be queued additionally.
 class FindProductsToSynchronizeTask(Task):
     """
     The tasks that finds the products that shall be updated through the api.
