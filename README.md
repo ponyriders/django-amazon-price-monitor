@@ -10,12 +10,13 @@
     - [Prerequisites](#prerequisites)
     - [Included angular libraries](#included-angular-libraries)
     - [Basic setup](#basic-setup)
-    - [South](#south)
     - [Settings](#settings)
       - [Must have settings](#must-have-settings)
+        - [Celery](#celery)
+        - [Rest-Framework](#rest-framework)
         - [AWS and Product Advertising API credentials](#aws-and-product-advertising-api-credentials)
         - [Images protocol and domain](#images-protocol-and-domain)
-      - [Nice to have settings](#nice-to-have-settings)
+      - [Optional settings](#optional-settings)
         - [Product synchronization](#product-synchronization)
         - [Notifications](#notifications)
         - [Caching](#caching)
@@ -25,7 +26,10 @@
     - [price_monitor](#price_monitor)
     - [price_monitor.product_advertising_api](#price_monitorproduct_advertising_api)
     - [price_monitor.utils](#price_monitorutils)
-  - [Models](#models)
+  - [Internals](#internals)
+    - [Model graph](#model-graph)
+    - [Product advertising api synchronization](#product-advertising-api-synchronization)
+      - [Task workflow](#task-workflow)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
