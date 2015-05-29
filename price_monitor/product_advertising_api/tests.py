@@ -530,3 +530,14 @@ class ProductAdvertisingAPITest(TestCase):
         lc.check(
             ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASIN DEMOASIN05')
         )
+
+    def test_format_datetime(self):
+        """
+        Tests the datetime formatter.
+        """
+        api = ProductAdvertisingAPI()
+        self.assertEqual(api.format_datetime('2014-10-11'), datetime.datetime(2014, 10, 11))
+        self.assertEqual(api.format_datetime('2012-12'), datetime.datetime(2012, 12, datetime.datetime.now().day))
+        # dateutil will use today as day value, but if today is the 31st that would not fit for february, there is no 31st february
+        day = datetime.datetime.now().day if datetime.datetime.now().day <= 28 else 28
+        self.assertEqual(api.format_datetime('2015-02'), datetime.datetime(2015, 2, day))

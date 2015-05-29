@@ -48,7 +48,7 @@ class ProductAdvertisingAPI(object):
         return value[0].string if len(value) == 1 else None
 
     @staticmethod
-    def __format_datetime(value):
+    def format_datetime(value):
         """
         Formats the given value if it is not None in the given format.
         :param value: the value to format
@@ -60,7 +60,8 @@ class ProductAdvertisingAPI(object):
             try:
                 return parser.parse(value)
             except ValueError:
-                raise
+                logger.error('Unable to parse %s to a datetime', value)
+                return None
 
     @staticmethod
     def handle_error(error):
@@ -131,8 +132,8 @@ class ProductAdvertisingAPI(object):
                     'isbn': self.__get_item_attribute(item_node, 'isbn'),
                     'eisbn': self.__get_item_attribute(item_node, 'eisbn'),
                     'binding': item_node.itemattributes.binding.string,
-                    'date_publication': self.__format_datetime(self.__get_item_attribute(item_node, 'publicationdate')),
-                    'date_release': self.__format_datetime(self.__get_item_attribute(item_node, 'releasedate')),
+                    'date_publication': self.format_datetime(self.__get_item_attribute(item_node, 'publicationdate')),
+                    'date_release': self.format_datetime(self.__get_item_attribute(item_node, 'releasedate')),
                     'large_image_url': item_node.largeimage.url.string,
                     'medium_image_url': item_node.mediumimage.url.string,
                     'small_image_url': item_node.smallimage.url.string,
@@ -146,8 +147,8 @@ class ProductAdvertisingAPI(object):
 
                 # check if there are offers, if so add price
                 if item_node.offers is not None and int(item_node.offers.totaloffers.string) > 0:
-                        product_values['price'] = float(int(item_node.offers.offer.offerlisting.price.amount.string) / 100)
-                        product_values['currency'] = item_node.offers.offer.offerlisting.price.currencycode.string
+                    product_values['price'] = float(int(item_node.offers.offer.offerlisting.price.amount.string) / 100)
+                    product_values['currency'] = item_node.offers.offer.offerlisting.price.currencycode.string
 
                 return product_values
             else:
