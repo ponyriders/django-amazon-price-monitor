@@ -23,5 +23,7 @@ setup(
     long_description=open('README.md').read(),
     install_requires=get_requirements(),
     tests_require=get_requirements('requirements_test.txt'),
-    dependency_links=[]
+    dependency_links=[
+        'git+git://github.com/dateutil/dateutil#egg=python-dateutil',
+    ]
 )

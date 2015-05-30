@@ -5,7 +5,6 @@ six
 beautifulsoup4>=4.3.2
 bottlenose>=0.6.2
 celery>=3
-git+git://github.com/dateutil/dateutil
 # for pm api
 djangorestframework>=3.0.4
 # for graphs
