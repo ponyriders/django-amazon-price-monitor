@@ -234,3 +234,6 @@ class NotifySubscriberTask(Task):
             logger.info('Notification email to %(email)s was sent!' % {'email': subscription.email_notification.email})
             subscription.date_last_notification = timezone.now()
             subscription.save()
+            return True
+
+        return False
