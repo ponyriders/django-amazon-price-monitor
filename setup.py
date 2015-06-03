@@ -24,6 +24,6 @@ setup(
     install_requires=get_requirements(),
     tests_require=get_requirements('requirements_test.txt'),
     dependency_links=[
-        'git+git://github.com/dateutil/dateutil#egg=python-dateutil==2.4.3a1',
+        'git+git://github.com/dateutil/dateutil#egg=python-dateutil',
     ]
 )
