@@ -63,6 +63,12 @@ Add the following apps to *INSTALLED_APPS*:
         'rest_framework',
     )
 
+Then migrate:
+
+    python manage.py migrate
+    
+Adjust the settings appropiately, [see next chapter](#settings).
+
 ### Settings
 
 _The values of the following displayed settings are their default values. If the value is '...' then there is no default value._ 
