@@ -1,17 +1,6 @@
-import traceback
+from django.core.management.base import BaseCommand
 
-from price_monitor.utils import get_api
-
-from amazon.api import (
-    AsinNotFound,
-    LookupException,
-)
-
-from django.core.management.base import (
-    BaseCommand,
-    CommandError,
-)
-from django.utils.translation import ugettext as _
+from price_monitor.product_advertising_api.api import ProductAdvertisingAPI
 
 from pprint import pprint
 
@@ -20,39 +9,18 @@ class Command(BaseCommand):
     """
     Command for batch creating of products.
     """
-    args = '<ASIN>'
-    help = 'Searches for a product with the given ASIN and prints out its details.'
+    help = 'Searches for a product at Amazon (not the DB!) with the given ASIN and prints out its details.'
+
+    def add_arguments(self, parser):
+        """
+        Adds the positional argument for ASIN
+        """
+        parser.add_argument('asin', nargs=1, type=str)
 
     def handle(self, *args, **options):
         """
         Searches for a product with the given ASIN.
         """
-        # FIXME recreate functionality
-        if len(args) != 1:
-            raise CommandError(_('Please specify a single ASIN as only argument!'))
-
-        try:
-            product = get_api().lookup(ItemId=args[0])
-        except (LookupException, AsinNotFound, UnicodeEncodeError):
-            traceback.print_exc()
-        else:
-            pprint(
-                {
-                    'ASIN': product.asin,
-                    'ISBN': product.isbn,
-                    'EISBN': product.eisbn,
-                    'Title': product.title,
-                    'Binding': product.binding,
-                    'Publication date': product.publication_date,
-                    'Release date': product.release_date,
-                    'Offer-URL': product.offer_url,
-                    'Large image URL': product.large_image_url,
-                    'Medium image URL': product.medium_image_url,
-                    'Small image URL': product.small_image_url,
-                    'Tiny image URL': product.tiny_image_url,
-                    'Price & currency': product.price_and_currency,
-                    'List price': product.list_price,
-
-                },
-                indent=4,
-            )
+        asin = options['asin'][0]
+        api = ProductAdvertisingAPI()
+        pprint(api.item_lookup(asin), indent=4)
