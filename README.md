@@ -37,9 +37,52 @@
 
 Monitors prices of Amazon products via Product Advertising API.
 
-## What does it do?
+## Basic structure
 
-*TODO add a description and a workflow view*
+This is a reusable Django app that can be plugged into your project.
+It consists basically of this parts:
+
+  - Models
+  - Frontend components
+  - Angular Frontend API
+  - Amazon API component
+
+### Models
+
+  - Product
+    - representation of an Amazon product
+  - Price
+    - representation of a price of an Amazon product at a specific time
+  - Subscription
+    - subscribe to a product at a specific price with an email notification
+
+### Frontend components
+
+The frontend displays all subscribed products with additional information and some graphs for price history.
+
+We currently have 2 implementations, the (old) static one and the (new) one with AngularJS. After some issues have been resolved in the AngularJS implementation, we will remove the old static one.
+
+The components feature the followung
+
+  - static version
+     - list products
+     - add subscriptions
+     - delete subscriptions
+  - AngularJS version
+     - list products
+     - show product details
+     - show product price graphs
+     - add subscriptions
+     - adjust subscription price value
+     - delete subscriptions
+
+### Angular Frontend API
+
+Simply the API consumed by AngularJS, based on Django REST Framework.
+
+### Amazon API component
+
+Fetches product information from Amazon Product Advertising API through several tasks powered by Celery and weaves the data into the models.
 
 ## Setup
 
