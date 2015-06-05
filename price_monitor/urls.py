@@ -8,6 +8,5 @@ urlpatterns = patterns(
     url(r'^$', ProductListAndCreateView.as_view(), name='monitor_view'),
     url(r'^subscription/delete/(?P<public_id>[a-z0-9\-]{36})/$', 'delete_subscription_view', name='delete_subscription_view'),
     url(r'^api/', include('price_monitor.api.urls')),
-    url(r'^charts-demo/$', 'charts_demo_view', name='charts_demo_view'),
     url(r'^angular/$', AngularIndexView.as_view(), name='angular_view'),
 )

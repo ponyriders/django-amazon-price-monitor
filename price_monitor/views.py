@@ -9,10 +9,7 @@ from django.core.urlresolvers import (
 from django.db.models.query import QuerySet
 from django.forms.models import modelformset_factory
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import (
-    redirect,
-    render_to_response
-)
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, TemplateView
 
@@ -236,20 +233,3 @@ def delete_subscription_view(request, public_id):
         })
 
     return HttpResponseRedirect(reverse('monitor_view'))
-
-
-@login_required
-def charts_demo_view(request):
-    """
-    Demo view for displaying charts.
-    :param request: incoming request
-    :type request: django.http.HttpRequest
-    :return: the response
-    :rtype: django.http.HttpResponse
-    """
-    return render_to_response(
-        'price_monitor/charts_demo.html',
-        {
-            'products': Product.objects.all().order_by('?')[0:20],
-        }
-    )
