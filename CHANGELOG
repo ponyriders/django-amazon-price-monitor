@@ -1,7 +1,7 @@
 TBA
 ---
 * rewrote task handling for communication with product advertising api (#27, #38)
-* updated to Django 1.7
+* updated to Django 1.7 (#32)
 
 0.2.0
 -----
