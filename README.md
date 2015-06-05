@@ -5,7 +5,11 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [django-amazon-price-monitor](#django-amazon-price-monitor)
-  - [What does it do?](#what-does-it-do)
+  - [Basic structure](#basic-structure)
+    - [Models](#models)
+    - [Frontend components](#frontend-components)
+    - [Angular Frontend API](#angular-frontend-api)
+    - [Amazon API component](#amazon-api-component)
   - [Setup](#setup)
     - [Prerequisites](#prerequisites)
     - [Included angular libraries](#included-angular-libraries)
