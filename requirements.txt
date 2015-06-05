@@ -1,5 +1,5 @@
 # main dependencies
-Django<1.8
+Django<1.9
 six
 # for product advertising api
 beautifulsoup4>=4.3.2
