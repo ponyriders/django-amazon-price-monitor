@@ -20,7 +20,10 @@ from price_monitor.models import (
     Subscription,
 )
 from price_monitor.product_advertising_api.api import ProductAdvertisingAPI
-from price_monitor.utils import send_mail
+from price_monitor.utils import (
+    chunk_list,
+    send_mail,
+)
 
 from smtplib import SMTPServerDisconnected
 
@@ -74,18 +77,20 @@ class FindProductsToSynchronizeTask(Task):
         """
         logger.info('FindProductsToSynchronizeTask was called')
 
-        # FIXME should get products in 10 product slices
-
         # get all products that shall be updated
         products = self.__get_products_to_sync()
 
         if len(products) > 0:
-            logger.info('Starting chord for synchronization of %d products', len(products))
+            # chunk the products into 10 products each
+            products_chunked = list(chunk_list(list(products), 10))
+
+            logger.info('Starting chord for synchronization of %d products in %d chunks', len(products), len(products_chunked))
+
             # after all single product synchronize tasks are done recall the FindProductsToSynchronizeTask. That is because we do not know how long it takes to
             # synchronize the products and there can be new ones meanwhile. If the newly called task finds no products, it will handle the new callback to the
             # correct time.
             chord(
-                SynchronizeSingleProductTask().s(product.asin) for product in products
+                SynchronizeSingleProductTask().s([product.asin for product in product_list]) for product_list in products_chunked
             )(
                 FindProductsToSynchronizeTask().si()
             )
@@ -119,7 +124,6 @@ class FindProductsToSynchronizeTask(Task):
         )
 
 
-# FIXME this should sync up to 10 products, see #41
 class SynchronizeSingleProductTask(Task):
     """
     Task for synchronizing a single product.
@@ -127,23 +131,31 @@ class SynchronizeSingleProductTask(Task):
     # limit to one task per second, limited by Amazon API
     rate_limit = '1/s'
 
-    # if we use the product instance instead of asin we get an EncodeError(RuntimeError('maximum recursion depth exceeded',),) resulting in a
+    # if we use the product instances instead of asins we get an EncodeError(RuntimeError('maximum recursion depth exceeded',),) resulting in a
     # billiard.exceptions.WorkerLostError:
-    def run(self, asin):
+    def run(self, asin_list):
         """
         Called by celery if task is being delayed.
-        :param asin: the asin of the product to sycnhronize with amazon
-        :type  asin: basestring
+        :param asin_list: list of asins of the products to be sycnhronized with Amazon
+        :type  asin_list: list
         """
-        # fetch the product instance
-        try:
-            product = Product.objects.get(asin=asin)
-        except Product.DoesNotExist:
-            logger.error('Product with ASIN %s could not be found.', asin)
-            return False
+        products = dict()
+        # fetch the product instances
+        for asin in asin_list:
+            try:
+                product = Product.objects.get(asin=asin)
+            except Product.DoesNotExist:
+                logger.error('Product with ASIN %s could not be found.', asin)
+                continue
 
-        logger.info('Synchronizing Product with ItemId %(item_id)s' % {'item_id': product.asin})
-        self.__sync_product(product, ProductAdvertisingAPI().item_lookup(item_ids=[product.asin]))
+            products[asin] = product
+
+        logger.info('Synchronizing products with ItemIds %s', ', '.join(products.keys()))
+
+        # query Amazon and iterate over results to update values
+        for asin, amazon_data in ProductAdvertisingAPI().item_lookup(item_ids=list(products.keys())).items():
+            self.__sync_product(products[asin], amazon_data)
+
         return True
 
     def __sync_product(self, product, amazon_data):
