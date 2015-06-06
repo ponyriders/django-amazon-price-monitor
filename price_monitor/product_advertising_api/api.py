@@ -91,32 +91,32 @@ class ProductAdvertisingAPI(object):
 
         return False
 
-    def lookup_at_amazon(self, item_id):
+    def lookup_at_amazon(self, item_ids):
         """
         Outsourced this call to better mock in tests.
-        :param item_id: the item id
-        :type item_id: basestring
+        :param item_ids: the item ids
+        :type item_ids: list
         :return: parsed xml
         :rtype: bs4.BeautifulSoup
         """
-        return self.__amazon.ItemLookup(ItemId=item_id, ResponseGroup=app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP)
+        return self.__amazon.ItemLookup(ItemId=','.join(item_ids), ResponseGroup=app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP)
 
-    def item_lookup(self, item_id):
+    def item_lookup(self, item_ids):
         """
         Lookup of the item with the given id on Amazon. Returns it values or None if something went wrong.
-        :param item_id: the item id
-        :type item_id: basestring
+        :param item_ids: the item ids
+        :type item_ids: list
         :return: the values of the item
         :rtype: dict
         """
-        logger.info('starting lookup for ASIN %s', item_id)
-        item_response = self.lookup_at_amazon(item_id)
+        logger.info('starting lookup for ASINs %s', ','.join(item_ids))
+        item_response = self.lookup_at_amazon(item_ids)
 
         if getattr(item_response, 'items') is None:
             logger.error(
-                'Request for item lookup (ResponseGroup: %s, ASIN: %s) returned nothing',
+                'Request for item lookup (ResponseGroup: %s, ASINs: %s) returned nothing',
                 app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP,
-                item_id,
+                ','.join(item_ids),
             )
             return None
 
@@ -152,12 +152,12 @@ class ProductAdvertisingAPI(object):
 
                 return product_values
             else:
-                logger.error('Lookup for item with ASIN %s returned no product', item_id)
+                logger.error('Lookup for item with ASINs %s returned no product', ','.join(item_ids))
                 return None
         else:
             logger.error(
-                'Request for item lookup (ResponseGroup: %s, ASIN: %s) was not valid',
+                'Request for item lookup (ResponseGroup: %s, ASINs: %s) was not valid',
                 app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP,
-                item_id,
+                ','.join(item_ids),
             )
             return None

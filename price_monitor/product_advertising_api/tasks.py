@@ -74,6 +74,8 @@ class FindProductsToSynchronizeTask(Task):
         """
         logger.info('FindProductsToSynchronizeTask was called')
 
+        # FIXME should get products in 10 product slices
+
         # get all products that shall be updated
         products = self.__get_products_to_sync()
 
@@ -117,6 +119,7 @@ class FindProductsToSynchronizeTask(Task):
         )
 
 
+# FIXME this should sync up to 10 products, see #41
 class SynchronizeSingleProductTask(Task):
     """
     Task for synchronizing a single product.
@@ -140,7 +143,7 @@ class SynchronizeSingleProductTask(Task):
             return False
 
         logger.info('Synchronizing Product with ItemId %(item_id)s' % {'item_id': product.asin})
-        self.__sync_product(product, ProductAdvertisingAPI().item_lookup(item_id=product.asin))
+        self.__sync_product(product, ProductAdvertisingAPI().item_lookup(item_ids=[product.asin]))
         return True
 
     def __sync_product(self, product, amazon_data):

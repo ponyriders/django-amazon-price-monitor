@@ -42,12 +42,12 @@ class ProductAdvertisingAPITest(TestCase):
         papi_lookup.return_value = self.__get_product_bs('')
 
         api = ProductAdvertisingAPI()
-        self.assertEqual(None, api.item_lookup('ASIN-DUMMY'))
+        self.assertEqual(None, api.item_lookup(['ASIN-DUMMY']))
 
         # check log output
         lc.check(
-            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASIN ASIN-DUMMY'),
-            ('price_monitor.product_advertising_api', 'ERROR', 'Request for item lookup (ResponseGroup: Large, ASIN: ASIN-DUMMY) returned nothing')
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASINs ASIN-DUMMY'),
+            ('price_monitor.product_advertising_api', 'ERROR', 'Request for item lookup (ResponseGroup: Large, ASINs: ASIN-DUMMY) returned nothing')
         )
 
     product_sample_lookup_fail = """
@@ -84,12 +84,12 @@ class ProductAdvertisingAPITest(TestCase):
         papi_lookup.return_value = self.__get_product_bs(self.product_sample_lookup_fail)
 
         api = ProductAdvertisingAPI()
-        self.assertEqual(None, api.item_lookup('DEMOASIN01'))
+        self.assertEqual(None, api.item_lookup(['DEMOASIN01']))
 
         # check log output
         lc.check(
-            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASIN DEMOASIN01'),
-            ('price_monitor.product_advertising_api', 'ERROR', 'Request for item lookup (ResponseGroup: Large, ASIN: DEMOASIN01) was not valid')
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASINs DEMOASIN01'),
+            ('price_monitor.product_advertising_api', 'ERROR', 'Request for item lookup (ResponseGroup: Large, ASINs: DEMOASIN01) was not valid')
         )
 
     product_sample_no_item = """
@@ -126,12 +126,12 @@ class ProductAdvertisingAPITest(TestCase):
         papi_lookup.return_value = self.__get_product_bs(self.product_sample_no_item)
 
         api = ProductAdvertisingAPI()
-        self.assertEqual(None, api.item_lookup('DEMOASIN02'))
+        self.assertEqual(None, api.item_lookup(['DEMOASIN02']))
 
         # check log output
         lc.check(
-            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASIN DEMOASIN02'),
-            ('price_monitor.product_advertising_api', 'ERROR', 'Lookup for item with ASIN DEMOASIN02 returned no product')
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASINs DEMOASIN02'),
+            ('price_monitor.product_advertising_api', 'ERROR', 'Lookup for item with ASINs DEMOASIN02 returned no product')
         )
 
     product_sample_ok = """
@@ -205,7 +205,7 @@ class ProductAdvertisingAPITest(TestCase):
         product_api_lookup.return_value = self.__get_product_bs(self.product_sample_ok)
 
         api = ProductAdvertisingAPI()
-        values = api.item_lookup('DEMOASIN03')
+        values = api.item_lookup(['DEMOASIN03'])
 
         # ensure the mocks were called
         self.assertTrue(product_api_init.called)
@@ -232,7 +232,7 @@ class ProductAdvertisingAPITest(TestCase):
 
         # check log output, should be empty
         lc.check(
-            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASIN DEMOASIN03')
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASINs DEMOASIN03')
         )
 
     product_sample_no_price = """
@@ -299,7 +299,7 @@ class ProductAdvertisingAPITest(TestCase):
         product_api_lookup.return_value = self.__get_product_bs(self.product_sample_no_price)
 
         api = ProductAdvertisingAPI()
-        values = api.item_lookup('DEMOASIN04')
+        values = api.item_lookup(['DEMOASIN04'])
 
         # ensure the mocks were called
         self.assertTrue(product_api_init.called)
@@ -325,7 +325,7 @@ class ProductAdvertisingAPITest(TestCase):
 
         # check log output, should be empty
         lc.check(
-            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASIN DEMOASIN04')
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASINs DEMOASIN04')
         )
 
     product_sample_no_audience_rating = """
@@ -415,7 +415,7 @@ class ProductAdvertisingAPITest(TestCase):
         product_api_lookup.return_value = self.__get_product_bs(self.product_sample_no_audience_rating)
 
         api = ProductAdvertisingAPI()
-        values = api.item_lookup('123456789X')
+        values = api.item_lookup(['123456789X'])
 
         # ensure the mocks were called
         # ensure the mocks were called
@@ -442,7 +442,7 @@ class ProductAdvertisingAPITest(TestCase):
 
         # check log output, should be empty
         lc.check(
-            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASIN 123456789X')
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASINs 123456789X')
         )
 
     product_sample_no_offers = """
@@ -503,7 +503,7 @@ class ProductAdvertisingAPITest(TestCase):
         product_api_lookup.return_value = self.__get_product_bs(self.product_sample_no_offers)
 
         api = ProductAdvertisingAPI()
-        values = api.item_lookup('DEMOASIN05')
+        values = api.item_lookup(['DEMOASIN05'])
 
         # ensure the mocks were called
         self.assertTrue(product_api_init.called)
@@ -528,7 +528,7 @@ class ProductAdvertisingAPITest(TestCase):
 
         # check log output, should be empty
         lc.check(
-            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASIN DEMOASIN05')
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASINs DEMOASIN05')
         )
 
     def test_format_datetime(self):
