@@ -622,3 +622,133 @@ product_sample_10_products = """
     </body>
 </html>
 """
+
+
+product_sample_3_products = """
+<html>
+    <body>
+        <itemlookupresponse xmlns="http://webservices.amazon.com/AWSECommerceService/2011-08-01">
+            <items>
+                <request>
+                    <isvalid>True</isvalid>
+                    <itemlookuprequest>
+                        <idtype>ASIN</idtype>
+                        <itemid>DEMOASIN16</itemid>
+                        <itemid>DEMOASIN17</itemid>
+                        <itemid>DEMOASIN18</itemid>
+                        <responsegroup>Large</responsegroup>
+                        <variationpage>All</variationpage>
+                    </itemlookuprequest>
+                </request>
+                <item>
+                    <asin>DEMOASIN16</asin>
+                    <itemattributes>
+                        <title>Another Demo Series - Season 1 (8 DVDs)</title>
+                        <binding>DVD</binding>
+                        <publicationdate>2004-11</publicationdate>
+                        <releasedate>2004-10-27</releasedate>
+                        <audiencerating>Freigegeben ab 16 Jahren</audiencerating>
+                    </itemattributes>
+                    <smallimage>
+                        <url>http://ecx.images-amazon.com/images/I/DEMOASIN16._SL75_.jpg</url>
+                        <height units="pixels">75</height>
+                        <width units="pixels">59</width>
+                    </smallimage>
+                    <mediumimage>
+                        <url>http://ecx.images-amazon.com/images/I/DEMOASIN16._SL160_.jpg</url>
+                        <height units="pixels">160</height>
+                        <width units="pixels">126</width>
+                    </mediumimage>
+                    <largeimage>
+                        <url>http://ecx.images-amazon.com/images/I/DEMOASIN16.jpg</url>
+                        <height units="pixels">500</height>
+                        <width units="pixels">393</width>
+                    </largeimage>
+                    <offers>
+                        <totaloffers>0</totaloffers>
+                        <totalofferpages>0</totalofferpages>
+                        <moreoffersurl>0</moreoffersurl>
+                    </offers>
+                </item>
+                <item>
+                    <asin>DEMOASIN17</asin>
+                    <itemattributes>
+                        <title>A Sample Book</title>
+                        <binding>Taschenbuch</binding>
+                        <publicationdate>2014-08-18</publicationdate>
+                        <releasedate>2014-08-18</releasedate>
+                        <ean>9876543219876</ean>
+                        <eanlist>
+                            <eanlistelement>9876543219876</eanlistelement>
+                        </eanlist>
+                        <isbn>123456789X</isbn>
+                    </itemattributes>
+                    <smallimage>
+                        <url>http://ecx.images-amazon.com/images/I/DEMOASIN17._SL75_.jpg</url>
+                        <height units="pixels">75</height>
+                        <width units="pixels">59</width>
+                    </smallimage>
+                    <mediumimage>
+                        <url>http://ecx.images-amazon.com/images/I/DEMOASIN17._SL160_.jpg</url>
+                        <height units="pixels">160</height>
+                        <width units="pixels">126</width>
+                    </mediumimage>
+                    <largeimage>
+                        <url>http://ecx.images-amazon.com/images/I/DEMOASIN17.jpg</url>
+                        <height units="pixels">500</height>
+                        <width units="pixels">393</width>
+                    </largeimage>
+                    <offers>
+                        <totaloffers>1</totaloffers>
+                        <totalofferpages>1</totalofferpages>
+                        <offer>
+                            <offerattributes>
+                                <condition>New</condition>
+                            </offerattributes>
+                            <offerlisting>
+                                <offerlistingid>SAMPLEOFFERLISTINGID</offerlistingid>
+                                <price>
+                                    <amount>1000</amount>
+                                    <currencycode>EUR</currencycode>
+                                    <formattedprice>EUR 10,00</formattedprice>
+                                </price>
+                                <availability>Gewöhnlich versandfertig in 24 Stunden</availability>
+                                <availabilityattributes>
+                                    <availabilitytype>now</availabilitytype>
+                                    <minimumhours>0</minimumhours>
+                                    <maximumhours>0</maximumhours>
+                                </availabilityattributes>
+                                <iseligibleforsupersavershipping>1</iseligibleforsupersavershipping>
+                            </offerlisting>
+                        </offer>
+                    </offers>
+                </item>
+                <item>
+                    <asin>DEMOASIN18</asin>
+                    <itemattributes>
+                        <title>Sønderzeichen</title>
+                        <binding>Kindle Edition</binding>
+                        <publicationdate>2009-10-14</publicationdate>
+                        <releasedate>2009-10-14</releasedate>
+                    </itemattributes>
+                    <smallimage>
+                        <url>http://ecx.images-amazon.com/images/I/DEMOASIN18._SL75_.jpg</url>
+                        <height units="pixels">75</height>
+                        <width units="pixels">59</width>
+                    </smallimage>
+                    <mediumimage>
+                        <url>http://ecx.images-amazon.com/images/I/DEMOASIN18._SL160_.jpg</url>
+                        <height units="pixels">160</height>
+                        <width units="pixels">126</width>
+                    </mediumimage>
+                    <largeimage>
+                        <url>http://ecx.images-amazon.com/images/I/DEMOASIN18.jpg</url>
+                        <height units="pixels">500</height>
+                        <width units="pixels">393</width>
+                    </largeimage>
+                </item>
+            </items>
+        </itemlookupresponse>
+    </body>
+</html>
+"""
