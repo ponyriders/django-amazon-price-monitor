@@ -9,18 +9,18 @@ class Command(BaseCommand):
     """
     Command for batch creating of products.
     """
-    help = 'Searches for a product at Amazon (not the DB!) with the given ASIN and prints out its details.'
+    help = 'Searches for products at Amazon (not the DB!) with the given ASINs and prints out their details.'
 
     def add_arguments(self, parser):
         """
-        Adds the positional argument for ASIN
+        Adds the positional argument for ASINs.
         """
-        parser.add_argument('asin', nargs=1, type=str)
+        parser.add_argument('asins', nargs='+', type=str)
 
     def handle(self, *args, **options):
         """
         Searches for a product with the given ASIN.
         """
-        asin = options['asin'][0]
+        asins = options['asins']
         api = ProductAdvertisingAPI()
-        pprint(api.item_lookup(asin), indent=4)
+        pprint(api.item_lookup(asins), indent=4)

@@ -91,42 +91,44 @@ class ProductAdvertisingAPI(object):
 
         return False
 
-    def lookup_at_amazon(self, item_id):
+    def lookup_at_amazon(self, item_ids):
         """
         Outsourced this call to better mock in tests.
-        :param item_id: the item id
-        :type item_id: basestring
+        :param item_ids: the item ids
+        :type item_ids: list
         :return: parsed xml
         :rtype: bs4.BeautifulSoup
         """
-        return self.__amazon.ItemLookup(ItemId=item_id, ResponseGroup=app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP)
+        return self.__amazon.ItemLookup(ItemId=','.join(item_ids), ResponseGroup=app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP)
 
-    def item_lookup(self, item_id):
+    def item_lookup(self, item_ids):
         """
         Lookup of the item with the given id on Amazon. Returns it values or None if something went wrong.
-        :param item_id: the item id
-        :type item_id: basestring
+        :param item_ids: the item ids
+        :type item_ids: list
         :return: the values of the item
         :rtype: dict
         """
-        logger.info('starting lookup for ASIN %s', item_id)
-        item_response = self.lookup_at_amazon(item_id)
+        logger.info('starting lookup for ASINs %s', ', '.join(item_ids))
+        item_response = self.lookup_at_amazon(item_ids)
 
         if getattr(item_response, 'items') is None:
             logger.error(
-                'Request for item lookup (ResponseGroup: %s, ASIN: %s) returned nothing',
+                'Request for item lookup (ResponseGroup: %s, ASINs: %s) returned nothing',
                 app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP,
-                item_id,
+                ', '.join(item_ids),
             )
             return None
 
         if item_response.items.request.isvalid.string == 'True':
-            item_node = item_response.items.item
 
-            if item_node is not None:
+            # the dict that will contain a key for every ASIN and as value the parsed values
+            product_values = dict()
 
-                # TODO may cause value conversion errors, if so, encapsulate with specific exception handling
-                product_values = {
+            for item_node in item_response.find_all(['item']):
+
+                # parse the values
+                item_values = {
                     'asin': item_node.asin.string,
                     'title': item_node.itemattributes.title.string,
                     'isbn': self.__get_item_attribute(item_node, 'isbn'),
@@ -143,21 +145,32 @@ class ProductAdvertisingAPI(object):
                 # check the audience rating
                 audience_rating = self.__get_item_attribute(item_node, 'audiencerating')
                 if audience_rating is not None:
-                    product_values['audience_rating'] = utils.parse_audience_rating(audience_rating)
+                    item_values['audience_rating'] = utils.parse_audience_rating(audience_rating)
 
                 # check if there are offers, if so add price
                 if item_node.offers is not None and int(item_node.offers.totaloffers.string) > 0:
-                    product_values['price'] = float(int(item_node.offers.offer.offerlisting.price.amount.string) / 100)
-                    product_values['currency'] = item_node.offers.offer.offerlisting.price.currencycode.string
+                    item_values['price'] = float(int(item_node.offers.offer.offerlisting.price.amount.string) / 100)
+                    item_values['currency'] = item_node.offers.offer.offerlisting.price.currencycode.string
 
-                return product_values
-            else:
-                logger.error('Lookup for item with ASIN %s returned no product', item_id)
-                return None
+                # insert into main dict
+                product_values[item_values['asin']] = item_values
+
+            # check if all ASINs are included, if not write error message to log
+            failed_asins = []
+            for asin in item_ids:
+                if asin not in product_values.keys():
+                    failed_asins.append(asin)
+
+            if len(failed_asins) > 0:
+                logger.error('Lookup for the following ASINs failed: %s', ', '.join(failed_asins))
+
+            # if there is at least a single ASIN in the list, return the list, else None
+            return None if len(product_values) == 0 else product_values
+
         else:
             logger.error(
-                'Request for item lookup (ResponseGroup: %s, ASIN: %s) was not valid',
+                'Request for item lookup (ResponseGroup: %s, ASINs: %s) was not valid',
                 app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP,
-                item_id,
+                ', '.join(item_ids),
             )
             return None

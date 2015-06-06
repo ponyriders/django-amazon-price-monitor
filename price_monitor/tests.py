@@ -160,3 +160,20 @@ class UtilsTest(TestCase):
         lc.check(
             ('price_monitor.utils', 'ERROR', 'Unable to parse audience rating value "Unknown value"')
         )
+
+    def test_chunk_list(self):
+        """
+        Tests the chunk_list function
+        """
+        self.assertEqual(
+            [[10, 11, 12, 13], [14, 15, 16, 17], [18, 19]],
+            list(utils.chunk_list(list(range(10, 20)), 4))
+        )
+        self.assertEqual(
+            [[1]],
+            list(utils.chunk_list([1], 7))
+        )
+        self.assertEqual(
+            [['L', 'o', 'r'], ['e', 'm', ' '], ['I', 'p', 's'], ['u', 'm']],
+            list(utils.chunk_list(list('Lorem Ipsum'), 3))
+        )
