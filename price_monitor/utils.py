@@ -73,3 +73,17 @@ def send_mail(product, subscription, price):
         [subscription.email_notification.email],
         fail_silently=False,
     )
+
+
+def chunk_list(the_list, chunk_size):
+    """
+    Chunks a list.
+    :param the_list: list to chunk
+    :type the_list: list
+    :param chunk_size: number of elements to be contained in each created chunk list
+    :type chunk_size: int
+    :return: generator object with the chunked lists
+    :rtype: generator
+    """
+    for i in range(0, len(the_list), chunk_size):
+        yield the_list[i:i + chunk_size]
