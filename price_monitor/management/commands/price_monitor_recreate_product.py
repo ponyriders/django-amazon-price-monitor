@@ -4,7 +4,7 @@ from price_monitor.models import Product
 
 
 class Command(BaseCommand):
-    help = 'recreates a product with the given asin. if product already exists, it is deleted'
+    help = 'Recreates a product with the given asin. If product already exists, it is deleted.'
 
     def add_arguments(self, parser):
         """

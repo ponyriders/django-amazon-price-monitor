@@ -26,6 +26,9 @@
         - [Caching](#caching)
     - [Celery settings](#celery-settings)
   - [Management Commands](#management-commands)
+    - [price_monitor_batch_create_products](#price_monitor_batch_create_products)
+    - [price_monitor_recreate_product](#price_monitor_recreate_product)
+    - [price_monitor_search](#price_monitor_search)
   - [Loggers](#loggers)
     - [price_monitor](#price_monitor)
     - [price_monitor.product_advertising_api](#price_monitorproduct_advertising_api)
@@ -241,9 +244,24 @@ configured.
 
 
 ## Management Commands
-There is a management command to batch create a number of products by providing their ASIN:
 
-    python manage.py price_monitor_batch_create_products "<ASIN1>,<ASIN2>,<ASIN3>"
+### price_monitor_batch_create_products
+
+A management command to batch create a number of products by providing their ASIN:
+
+    python manage.py price_monitor_batch_create_products <ASIN1> <ASIN2> <ASIN3>
+
+### price_monitor_recreate_product
+
+Recreates a product with the given asin. If product already exists, it is deleted. *Only use in development!*
+
+    python manage.py price_monitor_recreate_product <ASIN>
+
+### price_monitor_search
+
+Searches for products at Amazon (not within the database) with the given ASINs and prints out their details.
+
+    python manage.py price_monitor_search <ASIN1> <ASIN2> ...
 
 
 ## Loggers

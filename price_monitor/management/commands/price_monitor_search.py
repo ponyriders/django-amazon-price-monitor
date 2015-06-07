@@ -9,7 +9,7 @@ class Command(BaseCommand):
     """
     Command for batch creating of products.
     """
-    help = 'Searches for products at Amazon (not the DB!) with the given ASINs and prints out their details.'
+    help = 'Searches for products at Amazon (not within the database!) with the given ASINs and prints out their details.'
 
     def add_arguments(self, parser):
         """
