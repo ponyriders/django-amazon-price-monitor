@@ -242,6 +242,25 @@ To be able to run the required Celery tasks, Celery itself has to be set up. Ple
 [Celery Documentation](http://docs.celeryproject.org/en/latest/index.html) about how to setup the whole thing. You'll need a broker and a result backend
 configured.
 
+## Releases & Changelog
+
+We don't do regular PyPI releases but maintain this changelog to keep track of the most significant changes.
+
+TBA
+---
+* rewrote task handling for communication with product advertising api (#27, #38)
+* updated to Django 1.8 (#32, PR #45)
+* performance for querying the Amazon Product Advertising API was increased (#41, PR #46)
+
+0.2.0
+-----
+* Python 3.2, 3.3 & 3.4 support
+
+
+0.1.0
+------
+* first release
+
 
 ## Management Commands
 
