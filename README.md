@@ -10,6 +10,7 @@
     - [Frontend components](#frontend-components)
     - [Angular Frontend API](#angular-frontend-api)
     - [Amazon API component](#amazon-api-component)
+  - [License](#license)
   - [Setup](#setup)
     - [Prerequisites](#prerequisites)
     - [Included angular libraries](#included-angular-libraries)
@@ -26,9 +27,9 @@
         - [Caching](#caching)
     - [Celery settings](#celery-settings)
   - [Releases & Changelog](#releases-&-changelog)
-  - [TBA](#tba)
-  - [0.2.0](#020)
-  - [0.1.0](#010)
+    - [TBA](#tba)
+    - [0.2.0](#020)
+    - [0.1.0](#010)
   - [Management Commands](#management-commands)
     - [price_monitor_batch_create_products](#price_monitor_batch_create_products)
     - [price_monitor_recreate_product](#price_monitor_recreate_product)
@@ -94,6 +95,10 @@ Simply the API consumed by AngularJS, based on Django REST Framework.
 ### Amazon API component
 
 Fetches product information from Amazon Product Advertising API through several tasks powered by Celery and weaves the data into the models.
+
+## License
+
+This software is licensed with the MIT license. So feel free to do with it whatever you like.
 
 ## Setup
 
