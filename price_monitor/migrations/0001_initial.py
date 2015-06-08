@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('public_id', models.CharField(db_index=True, unique=True, editable=False, verbose_name='Public-ID', max_length=36)),
-                ('email', models.EmailField(verbose_name='Email address', max_length=75)),
+                ('email', models.EmailField(verbose_name='Email address', max_length=254)),
                 ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL, verbose_name='Owner')),
             ],
             options={
