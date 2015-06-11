@@ -42,12 +42,8 @@ class ProductSerializer(serializers.ModelSerializer):
         :returns:   Dict with current price values
         :rtype:     dict
         """
-        try:
-            price = obj.price_set.order_by('-date_seen')[0]
-        except IndexError:
-            return None
-        else:
-            return self.__render_price_dict(price)
+        if obj.current_price:
+            return self.__render_price_dict(obj.current_price)
 
     def get_max_price(self, obj):
         """
@@ -57,12 +53,8 @@ class ProductSerializer(serializers.ModelSerializer):
         :returns:   Dict with highest price values
         :rtype:     dict
         """
-        try:
-            price = obj.price_set.latest('value')
-        except Price.DoesNotExist:
-            return None
-        else:
-            return self.__render_price_dict(price)
+        if obj.highest_price:
+            return self.__render_price_dict(obj.highest_price)
 
     def get_min_price(self, obj):
         """
@@ -72,12 +64,8 @@ class ProductSerializer(serializers.ModelSerializer):
         :returns:   Dict with lowest price values
         :rtype:     dict
         """
-        try:
-            price = obj.price_set.earliest('value')
-        except Price.DoesNotExist:
-            return None
-        else:
-            return self.__render_price_dict(price)
+        if obj.lowest_price:
+            return self.__render_price_dict(obj.lowest_price)
 
     def get_image_urls(self, obj):
         """
