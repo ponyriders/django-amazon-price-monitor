@@ -16,6 +16,7 @@ class PriceAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('asin', 'title', 'status', 'date_updated', 'date_last_synced', )
+    search_fields = ('asin', )
 
     actions = ['reset_to_created', ]
 
