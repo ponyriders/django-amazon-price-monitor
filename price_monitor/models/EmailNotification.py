@@ -14,7 +14,7 @@ class EmailNotification(PublicIDMixin, models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Owner'))
     email = models.EmailField(verbose_name=_('Email address'))
 
-    def __unicode__(self):
+    def __str__(self):
         """
         Returns the unicode representation of the EmailNotification.
         :return: the unicode representation
