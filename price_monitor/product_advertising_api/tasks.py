@@ -5,7 +5,10 @@ from celery.signals import celeryd_after_setup
 from celery.task import Task
 from celery.task.control import inspect
 
-from datetime import timedelta
+from datetime import (
+    datetime,
+    timedelta,
+)
 
 from django.db.models import (
     Min,
@@ -101,7 +104,7 @@ class FindProductsToSynchronizeTask(Task):
             # after the next task call.
             oldest_synchronization = Product.objects.filter(subscription__isnull=False, status__in=[0, 1]).aggregate(
                 Min('date_last_synced')
-            )['date_last_synced__min']
+            )['date_last_synced__min'] or datetime.now()
             next_synchronization = oldest_synchronization + timedelta(minutes=app_settings.PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES)
             logger.info('Eta for next FindProductsToSynchronizeTask run is %s', next_synchronization)
             FindProductsToSynchronizeTask().apply_async(eta=next_synchronization)
