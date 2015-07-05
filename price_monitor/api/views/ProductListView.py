@@ -1,5 +1,7 @@
+from django.db.models.query import Prefetch
 from ..serializers.ProductSerializer import ProductSerializer
 from ...models.Product import Product
+from ...models.Subscription import Subscription
 
 from rest_framework import generics, permissions
 
@@ -24,7 +26,7 @@ class ProductListView(generics.ListAPIView):
         :rtype:   QuerySet
         """
         # distinct is needed to prevent multiple instances of product in resultset if multiple subscriptions are present
-        # .prefetch_related('subscribers', 'subscription_set__email_notification')\
         return self.model.objects\
             .select_related('highest_price', 'lowest_price', 'current_price')\
+            .prefetch_related('subscription_set__email_notification')\
             .filter(subscription__owner=self.request.user).distinct()

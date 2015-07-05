@@ -1,6 +1,6 @@
 from .EmailNotificationSerializer import EmailNotificationSerializer
 from .OwnerFilteredListSerializer import OwnerFilteredListSerializer
-from ...models import Subscription
+from ...models import Subscription, EmailNotification
 
 from rest_framework import serializers
 
@@ -15,7 +15,6 @@ class SubscriptionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subscription
-        list_serializer_class = OwnerFilteredListSerializer
         fields = (
             'id',
             'price_limit',

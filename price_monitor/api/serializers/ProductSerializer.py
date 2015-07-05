@@ -18,7 +18,20 @@ class ProductSerializer(serializers.ModelSerializer):
     min_price = serializers.SerializerMethodField()
     image_urls = serializers.SerializerMethodField()
 
-    subscription_set = SubscriptionSerializer(many=True)
+    def __init__(self, *args, **kwargs):
+        """
+        Overwriting normal initialization to set dynamic subscription set
+        """
+        super(ProductSerializer, self).__init__(*args, **kwargs)
+        self.fields['subscription_set'] = SubscriptionSerializer(
+            Subscription.objects.filter(
+                product__in=[
+                    product for product in self.instance
+                ] if hasattr(self.instance, '__iter__') else [self.instance],
+                owner=self.context['request'].user
+            ).select_related('email_notification') if self.instance else [],
+            many=True
+        )
 
     def __render_price_dict(self, price):
         """
@@ -161,7 +174,6 @@ class ProductSerializer(serializers.ModelSerializer):
             'current_price',
             'max_price',
             'min_price',
-            'subscription_set',
         )
         # TODO: check if this is good
         read_only_fields = (
