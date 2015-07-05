@@ -1,5 +1,5 @@
 from .SubscriptionSerializer import SubscriptionSerializer
-from ...models import EmailNotification, Product, Price, Subscription
+from ...models import EmailNotification, Product, Subscription
 
 from rest_framework import serializers
 

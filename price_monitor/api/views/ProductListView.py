@@ -1,7 +1,5 @@
-from django.db.models.query import Prefetch
 from ..serializers.ProductSerializer import ProductSerializer
 from ...models.Product import Product
-from ...models.Subscription import Subscription
 
 from rest_framework import generics, permissions
 
