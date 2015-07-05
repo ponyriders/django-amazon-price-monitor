@@ -1,6 +1,5 @@
 from .EmailNotificationSerializer import EmailNotificationSerializer
-from .OwnerFilteredListSerializer import OwnerFilteredListSerializer
-from ...models import Subscription, EmailNotification
+from ...models import Subscription
 
 from rest_framework import serializers
 
