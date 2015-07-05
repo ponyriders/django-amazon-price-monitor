@@ -7,6 +7,7 @@ from django.utils.translation import (
 )
 
 from price_monitor import app_settings
+from price_monitor.models.Price import Price
 
 from urllib.parse import (
     urljoin,
@@ -48,6 +49,10 @@ class Product(models.Model):
     medium_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to medium product image'))
     small_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to small product image'))
     offer_url = models.URLField(blank=True, null=True, verbose_name=_('URL to the offer'))
+
+    current_price = models.ForeignKey(Price, blank=True, null=True, related_name='product_current', verbose_name=_('Current price'))
+    highest_price = models.ForeignKey(Price, blank=True, null=True, related_name='product_highest', verbose_name=_('Highest price ever'))
+    lowest_price = models.ForeignKey(Price, blank=True, null=True, related_name='product_lowest', verbose_name=_('Lowest price ever'))
 
     def get_prices_for_chart(self):
         """
