@@ -1,5 +1,5 @@
 from django import template
-
+from django.utils.html import conditional_escape
 
 register = template.Library()
 
@@ -18,4 +18,4 @@ def price_diff(price, limit):
     if price == '':
         return 'No price information available'
     difference = price - limit
-    return '%s%.2f' % ('+' if difference >= 0 else '', difference)
+    return conditional_escape('%s%.2f' % ('+' if difference >= 0 else '', difference))
