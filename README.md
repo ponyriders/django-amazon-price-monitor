@@ -259,6 +259,7 @@ We don't do regular PyPI releases but maintain this changelog to keep track of t
 * rewrote task handling for communication with product advertising api (#27, #38)
 * updated to Django 1.8 (#32, PR #45)
 * performance for querying the Amazon Product Advertising API was increased (#41, PR #46)
+* adjusted model relation for more performance #25
 
 ### 0.2.0
 * Python 3.2, 3.3 & 3.4 support
