@@ -11,8 +11,8 @@ def set_prices(apps, schema_editor):
     for product in apps.get_model('price_monitor', 'Product').objects.all():
         if product.price_set.count() > 0:
             product.current_price = product.price_set.latest('date_seen')
-            product.max_price = product.price_set.latest('value')
-            product.min_price = product.price_set.earliest('value')
+            product.highest_price = product.price_set.latest('value')
+            product.lowest_price = product.price_set.earliest('value')
             product.save()
 
 
