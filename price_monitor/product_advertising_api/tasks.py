@@ -146,7 +146,10 @@ class SynchronizeSingleProductTask(Task):
         # fetch the product instances
         for asin in asin_list:
             try:
-                product = Product.objects.get(asin=asin)
+                # do select_related for price values for reducing db queries
+                product = Product.objects\
+                    .get(asin=asin)\
+                    .select_related('highest_price', 'lowest_price', 'current_price')
             except Product.DoesNotExist:
                 logger.error('Product with ASIN %s could not be found.', asin)
                 continue
@@ -180,6 +183,14 @@ class SynchronizeSingleProductTask(Task):
                 date_seen=now,
                 product=product,
             )
+
+            product.current_price = price
+
+            if product.lowest_price is None or price.value <= product.lowest_price.value:
+                product.lowest_price = price
+
+            if product.highest_price is None or price.value >= product.highest_price.value:
+                product.highest_price = price
 
             # remove the elements that are not a field in Product model
             amazon_data.pop('price')
