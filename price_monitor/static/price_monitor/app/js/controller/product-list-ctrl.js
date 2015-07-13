@@ -51,6 +51,10 @@ PriceMonitorApp.controller('ProductListCtrl', function($scope, $modal, Product) 
                     }
                 }
             });
+
+            modalInstance.result.then(function () {
+                $scope.products = Product.query();
+            });
         };
     });
 });
