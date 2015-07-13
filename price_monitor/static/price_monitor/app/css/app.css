@@ -2,6 +2,11 @@
     margin-top: 55px;
 }
 
+.media:first-child {
+    /* This is the default */
+    margin-top: 15px;
+}
+
 .media.list a, .media.list a:visited, .media.list a:hover, .media.list a:active {
     text-decoration: none;
     color: #000;
@@ -29,3 +34,6 @@
     width: 100%;
 }
 
+.responsive-chart {
+    margin-top: 15px;
+}

@@ -15,8 +15,19 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="row">
-                    <div class="col-xs-2 col-md-1">Price:</div>
-                    <div class="col-xs-10 col-md-11">{{ product.current_price.currency }} {{ product.current_price.value | number: 2 }} (as of {{ product.current_price.date_seen | date: 'MMMM d, y hh:mm a Z' }} - <span data-toggle="tooltip" data-placement="top" title="Product prices and availability are accurate as of the date/time indicated and are subject to change. Any price and availability information displayed on {{ siteName }} at the time of purchase will apply to the purchase of this product.">Details</span>)</div>
+                    <div class="col-xs-3 col-md-2">Current price:</div>
+                    <div class="col-xs-9 col-md-10" ng-show="product.current_price">{{ product.current_price.currency }} {{ product.current_price.value | number: 2 }} (as of {{ product.current_price.date_seen | date: 'MMMM d, y hh:mm a Z' }} - <span data-toggle="tooltip" data-placement="top" title="Product prices and availability are accurate as of the date/time indicated and are subject to change. Any price and availability information displayed on {{ siteName }} at the time of purchase will apply to the purchase of this product.">Details</span>)</div>
+                    <div class="col-xs-9 col-md-10" ng-hide="product.current_price">No current price available.</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 col-md-2">Higehst price:</div>
+                    <div class="col-xs-9 col-md-10" ng-show="product.highest_price">>{{ product.highest_price.currency }} {{ product.highest_price.value | number: 2 }} (as of {{ product.highest_price.date_seen | date: 'MMMM d, y hh:mm a Z' }} - <span data-toggle="tooltip" data-placement="top" title="Product prices and availability are accurate as of the date/time indicated and are subject to change. Any price and availability information displayed on {{ siteName }} at the time of purchase will apply to the purchase of this product.">Details</span>)</div>
+                    <div class="col-xs-9 col-md-10" ng-hide="product.highest_price">No highest price available.</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 col-md-2">Lowest price:</div>
+                    <div class="col-xs-9 col-md-10" ng-show="product.lowest_price">{{ product.lowest_price.currency }} {{ product.lowest_price.value | number: 2 }} (as of {{ product.lowest_price.date_seen | date: 'MMMM d, y hh:mm a Z' }} - <span data-toggle="tooltip" data-placement="top" title="Product prices and availability are accurate as of the date/time indicated and are subject to change. Any price and availability information displayed on {{ siteName }} at the time of purchase will apply to the purchase of this product.">Details</span>)</div>
+                    <div class="col-xs-9 col-md-10" ng-hide="product.lowest_price">No lowest price available.</div>
                 </div>
                 <div class="row" ng-repeat="subscription in product.subscription_set">
                     <div class="col-xs-2 col-md-1">Limit:</div>
@@ -32,7 +43,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row responsive-chart">
     <div class="col-xs-12">
         <img ng-src-responsive="[ [ 'default', '{{ product.getChartUrl('default') }}'], ['small', '{{ product.getChartUrl('small') }}' ], ['medium', '{{ product.getChartUrl('medium') }}' ], ['large', '{{ product.getChartUrl('large') }}' ] ]">
     </div>
