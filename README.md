@@ -260,7 +260,7 @@ We don't do regular PyPI releases but maintain this changelog to keep track of t
 * updated to Django 1.8 (#32, PR #45)
 * performance for querying the Amazon Product Advertising API was increased (#41, PR #46)
 * adjusted model relation for more performance #25
-* highest and lowest price are now shown on products detail page (#25, PR #)
+* highest and lowest price are now shown on products detail page (#25, PR #54)
 
 ### 0.2.0
 * Python 3.2, 3.3 & 3.4 support
