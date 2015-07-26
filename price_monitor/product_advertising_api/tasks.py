@@ -156,9 +156,10 @@ class SynchronizeSingleProductTask(Task):
             products[asin] = product
 
         if len(products) == 0:
-            logger.info('For the given ASINs {} no products where found!'.format(','.join(asin_list)))
-        else:
-            logger.info('Synchronizing products with ItemIds %s', ', '.join(products.keys()))
+            logger.error('For the given ASINs {} no products where found!'.format(','.join(asin_list)))
+            return True
+
+        logger.info('Synchronizing products with ItemIds %s', ', '.join(products.keys()))
 
         # query Amazon and iterate over results to update values
         for asin, amazon_data in ProductAdvertisingAPI().item_lookup(item_ids=list(products.keys())).items():
