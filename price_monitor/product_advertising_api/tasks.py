@@ -147,9 +147,7 @@ class SynchronizeSingleProductTask(Task):
         for asin in asin_list:
             try:
                 # do select_related for price values for reducing db queries
-                product = Product.objects\
-                    .get(asin=asin)\
-                    .select_related('highest_price', 'lowest_price', 'current_price')
+                product = Product.objects.select_related('highest_price', 'lowest_price', 'current_price').get(asin=asin)
             except Product.DoesNotExist:
                 logger.error('Product with ASIN %s could not be found.', asin)
                 continue
