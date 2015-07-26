@@ -1,6 +1,8 @@
 from .SubscriptionSerializer import SubscriptionSerializer
 from ...models import EmailNotification, Product, Subscription
 
+from django.db import transaction
+
 from rest_framework import serializers
 
 
@@ -90,6 +92,7 @@ class ProductSerializer(serializers.ModelSerializer):
         """
         return obj.get_image_urls()
 
+    @transaction.atomic
     def create(self, validated_data):
         """
         Overwriting default create function to ensure, that the already
@@ -99,7 +102,11 @@ class ProductSerializer(serializers.ModelSerializer):
         :return:               created or fetched product
         :rtype:                Product
         """
-        product = Product.objects.get_or_create(asin=validated_data['asin'])[0]
+        # product = Product.objects.get_or_create(asin=validated_data['asin'])[0]
+        try:
+            product = Product.objects.get(asin__iexact=validated_data['asin'])
+        except Product.DoesNotExist:
+            product = Product.objects.create(asin=validated_data['asin'])
 
         for new_subscription in validated_data['subscription_set']:
             # first fetch EmailNotification object
