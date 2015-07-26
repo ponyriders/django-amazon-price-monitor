@@ -31,7 +31,7 @@ class ProductAdvertisingAPI(object):
             AWSSecretAccessKey=app_settings.PRICE_MONITOR_AWS_SECRET_ACCESS_KEY,
             AssociateTag=app_settings.PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG,
             Region=app_settings.PRICE_MONITOR_AMAZON_PRODUCT_API_REGION,
-            Parser=BeautifulSoup,
+            Parser=lambda response_text: BeautifulSoup(response_text, 'lxml'),
             ErrorHandler=ProductAdvertisingAPI.handle_error,
         )
 

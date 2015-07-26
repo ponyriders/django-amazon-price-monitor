@@ -32,7 +32,7 @@ class ProductAdvertisingAPITest(TestCase):
         :param xml: the xml to use
         :return: searchable bs object
         """
-        return BeautifulSoup(xml)
+        return BeautifulSoup(xml, 'lxml')
 
     @patch.object(ProductAdvertisingAPI, 'lookup_at_amazon')
     @patch.object(ProductAdvertisingAPI, '__init__')
