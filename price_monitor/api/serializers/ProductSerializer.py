@@ -14,8 +14,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     # for these three values get_{{ value name }} is the default, but DRF prohibits setting the default value ...
     current_price = serializers.SerializerMethodField()
-    max_price = serializers.SerializerMethodField()
-    min_price = serializers.SerializerMethodField()
+    highest_price = serializers.SerializerMethodField()
+    lowest_price = serializers.SerializerMethodField()
     image_urls = serializers.SerializerMethodField()
 
     def __init__(self, *args, **kwargs):
@@ -58,7 +58,7 @@ class ProductSerializer(serializers.ModelSerializer):
         if obj.current_price:
             return self.__render_price_dict(obj.current_price)
 
-    def get_max_price(self, obj):
+    def get_highest_price(self, obj):
         """
         Renders highest price dict as read only value into product representation
         :param obj: product to get price for
@@ -69,7 +69,7 @@ class ProductSerializer(serializers.ModelSerializer):
         if obj.highest_price:
             return self.__render_price_dict(obj.highest_price)
 
-    def get_min_price(self, obj):
+    def get_lowest_price(self, obj):
         """
         Renders lowest price dict as read only value into product representation
         :param obj: product to get price for
@@ -172,8 +172,8 @@ class ProductSerializer(serializers.ModelSerializer):
             'image_urls',
             'offer_url',
             'current_price',
-            'max_price',
-            'min_price',
+            'highest_price',
+            'lowest_price',
         )
         # TODO: check if this is good
         read_only_fields = (
