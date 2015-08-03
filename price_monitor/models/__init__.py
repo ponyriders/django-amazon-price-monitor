@@ -27,7 +27,8 @@ def synchronize_product_after_creation(sender, instance, created, **kwargs):
     """
     if created and os.environ.get('STAGE', 'Live') != 'TravisCI':
         from price_monitor.product_advertising_api.tasks import SynchronizeSingleProductTask
-        SynchronizeSingleProductTask.delay([instance.asin])
+        # have to delay the creation a when using angular via API somehow the product is not fully saved when the task is run thus it does not find the product
+        SynchronizeSingleProductTask.apply_async(([instance.asin],), countdown=1)
 
 
 @receiver(post_delete, sender=Subscription)
