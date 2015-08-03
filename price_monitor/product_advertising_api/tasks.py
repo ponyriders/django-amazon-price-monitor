@@ -127,6 +127,7 @@ class FindProductsToSynchronizeTask(Task):
         )
 
 
+# FIXME this does no longer synchronize a single product but a list of products
 class SynchronizeSingleProductTask(Task):
     """
     Task for synchronizing a single product.
@@ -153,6 +154,10 @@ class SynchronizeSingleProductTask(Task):
                 continue
 
             products[asin] = product
+
+        if len(products) == 0:
+            logger.error('For the given ASINs {} no products where found!'.format(','.join(asin_list)))
+            return True
 
         logger.info('Synchronizing products with ItemIds %s', ', '.join(products.keys()))
 
