@@ -24,7 +24,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-2 col-md-1">Limit:</div>
-                        <div class="col-xs-10 col-md-11">{{ product.current_price.currency }} <span ng-repeat="subscription in product.subscription_set"><span editable-number="subscription.price_limit" e-step="0.01" onaftersave="product.$update()">{{ subscription.price_limit | number: 2 }}</span>{{ $last ? '' : ', ' }}</div>
+                        <div class="col-xs-10 col-md-11">{{ product.current_price.currency || product.highest_price.currency || product.lowest_price.currency }} <span ng-repeat="subscription in product.subscription_set"><span editable-number="subscription.price_limit" e-step="0.01" onaftersave="product.$update()">{{ subscription.price_limit | number: 2 }}</span>{{ $last ? '' : ', ' }}</div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6">
