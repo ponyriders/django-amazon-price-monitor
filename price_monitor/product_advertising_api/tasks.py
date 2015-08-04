@@ -73,7 +73,7 @@ class FindProductsToSynchronizeTask(Task):
     """
     def run(self):
         """
-        Fetches the products to update via api. Queues a single SynchronizeSingleProductTask for each product and calls a new instance of itself after all
+        Fetches the products to update via api. Queues a SynchronizeProductsTask and calls a new instance of itself after all
         tasks are done. If no products found for update, sleeps until the next update time is reached.
         :return: the result is always true
         :rtype: bool
@@ -93,7 +93,7 @@ class FindProductsToSynchronizeTask(Task):
             # synchronize the products and there can be new ones meanwhile. If the newly called task finds no products, it will handle the new callback to the
             # correct time.
             chord(
-                SynchronizeSingleProductTask().s([product.asin for product in product_list]) for product_list in products_chunked
+                SynchronizeProductsTask().s([product.asin for product in product_list]) for product_list in products_chunked
             )(
                 FindProductsToSynchronizeTask().si()
             )
@@ -127,8 +127,7 @@ class FindProductsToSynchronizeTask(Task):
         )
 
 
-# FIXME this does no longer synchronize a single product but a list of products
-class SynchronizeSingleProductTask(Task):
+class SynchronizeProductsTask(Task):
     """
     Task for synchronizing a single product.
     """

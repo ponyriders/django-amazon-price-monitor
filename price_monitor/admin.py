@@ -31,9 +31,9 @@ class ProductAdmin(admin.ModelAdmin):
         :param request: sent request
         :param queryset: queryset containing the products
         """
-        from price_monitor.product_advertising_api.tasks import SynchronizeSingleProductTask
+        from price_monitor.product_advertising_api.tasks import SynchronizeProductsTask
         for product in queryset:
-            SynchronizeSingleProductTask.delay([product.asin])
+            SynchronizeProductsTask.delay([product.asin])
     resynchronize.short_description = ugettext_lazy('Resynchronize with API')
 
 
