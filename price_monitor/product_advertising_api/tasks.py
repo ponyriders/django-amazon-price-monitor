@@ -178,26 +178,24 @@ class SynchronizeSingleProductTask(Task):
         now = timezone.now()
 
         # create the price
-        price = None
-        if 'price' in amazon_data:
-            price = Price.objects.create(
-                value=amazon_data['price'],
-                currency=amazon_data['currency'],
-                date_seen=now,
-                product=product,
-            )
+        price = Price.objects.create(
+            value=amazon_data['price'] if 'price' in amazon_data else None,
+            currency=amazon_data['currency'] if 'currency' in amazon_data else None,
+            date_seen=now,
+            product=product,
+        )
 
-            product.current_price = price
+        product.current_price = price
 
-            if product.lowest_price is None or price.value <= product.lowest_price.value:
-                product.lowest_price = price
+        if product.lowest_price is None or price.value <= product.lowest_price.value:
+            product.lowest_price = price
 
-            if product.highest_price is None or price.value >= product.highest_price.value:
-                product.highest_price = price
+        if product.highest_price is None or price.value >= product.highest_price.value:
+            product.highest_price = price
 
-            # remove the elements that are not a field in Product model
-            amazon_data.pop('price')
-            amazon_data.pop('currency')
+        # remove the elements that are not a field in Product model
+        amazon_data.pop('price')
+        amazon_data.pop('currency')
 
         # update and save the product
         product.__dict__.update(amazon_data)
@@ -205,7 +203,7 @@ class SynchronizeSingleProductTask(Task):
         product.date_last_synced = now
         product.save()
 
-        if price is not None:
+        if price.value is not None:
             # get all subscriptions of product that are subscribed to the current price or a higher one and
             # whose owners have not been notified about that particular subscription price since before
             # settings.PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES.
