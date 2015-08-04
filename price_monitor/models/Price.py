@@ -17,7 +17,11 @@ class Price(models.Model):
         :return: the unicode representation
         :rtype: unicode
         """
-        return '%(value)0.2f %(currency)s on %(date_seen)s' % dict(value=self.value, currency=self.currency, date_seen=self.date_seen)
+        return '%(value)s %(currency)s on %(date_seen)s' % dict(
+            value='%0.2f' % self.value if self.value else 'No price',
+            currency=self.currency if self.currency else '',
+            date_seen=self.date_seen
+        )
 
     class Meta:
         app_label = 'price_monitor'
