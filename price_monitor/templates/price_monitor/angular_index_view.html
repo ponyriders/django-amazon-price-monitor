@@ -63,10 +63,10 @@
                     'subscription': '{% url "api_subscription_list" %}:public_id/{#{% url "api_subscription_retrieve" public_id=":public_id" %}#}',
                     'sparkline': '{% url "api_product_list" %}:asin/prices/?show_legend=false&show_dots=false&margin=4&spacing=0&height=40&width=400&y_labels_major_count=2&show_minor_y_labels=false&no_data_font_size=10',
                     'chart': {
-                        'default': '{% url "api_product_list" %}:asin/prices/?show_legend=false&margin=4&spacing=0&y_labels_major_count=5&show_minor_y_labels=true&no_data_font_size=10&width=400&height=200',
-                        'small': '{% url "api_product_list" %}:asin/prices/?show_legend=false&margin=4&spacing=0&y_labels_major_count=5&show_minor_y_labels=true&no_data_font_size=10&width=600&height=200',
-                        'medium': '{% url "api_product_list" %}:asin/prices/?show_legend=false&margin=4&spacing=0&y_labels_major_count=5&show_minor_y_labels=true&no_data_font_size=10&width=1000&height=200',
-                        'large': '{% url "api_product_list" %}:asin/prices/?show_legend=false&margin=4&spacing=0&y_labels_major_count=5&show_minor_y_labels=true&no_data_font_size=10&width=1140&height=200'
+                        'default': '{% url "api_product_list" %}:asin/prices/?show_legend=false&show_x_values=false&margin=4&spacing=0&y_labels_major_count=5&show_minor_y_labels=true&no_data_font_size=10&width=400&height=200',
+                        'small': '{% url "api_product_list" %}:asin/prices/?show_legend=false&margin=4&spacing=4&y_labels_major_count=5&show_minor_y_labels=true&no_data_font_size=10&width=600&height=200',
+                        'medium': '{% url "api_product_list" %}:asin/prices/?show_legend=false&margin=4&spacing=4&y_labels_major_count=5&show_minor_y_labels=true&no_data_font_size=10&width=1000&height=200',
+                        'large': '{% url "api_product_list" %}:asin/prices/?show_legend=false&margin=4&spacing=4&y_labels_major_count=5&show_minor_y_labels=true&no_data_font_size=10&width=1140&height=200'
                     }
                 },
                 'pagination': {
