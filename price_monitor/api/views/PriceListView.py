@@ -14,4 +14,4 @@ class PriceListView(ListAPIView):
         # TODO: this is just for testing
         return self.model.objects \
             .filter(product__asin=self.kwargs.get('asin')) \
-            .order_by('-date_seen')[:50]
+            .order_by('date_seen')[:50]
