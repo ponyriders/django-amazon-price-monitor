@@ -1,10 +1,11 @@
+import dateutil.parser
 import hashlib
 
 from ... import app_settings
 
 from django.core.cache import get_cache
 
-from pygal import Line
+from pygal import DateTimeLine
 from pygal.style import RedBlueStyle
 
 from rest_framework.renderers import BaseRenderer
@@ -35,6 +36,7 @@ class PriceChartPNGRenderer(BaseRenderer):
         'spacing': lambda x: int(x),
         'show_dots': bool_helper,
         'show_legend': bool_helper,
+        'show_x_labels': bool_helper,
         'show_y_labels': bool_helper,
         'show_minor_y_labels': bool_helper,
         'y_labels_major_count': lambda x: int(x),
@@ -110,14 +112,15 @@ class PriceChartPNGRenderer(BaseRenderer):
         """
         line_chart_arguments = {
             'style': RedBlueStyle,
+            'x_label_rotation': 25,
+            'x_value_formatter': lambda dt: dt.strftime('%d, %b %y %M:%M'),
         }
         for arg in self.allowed_chart_url_args.keys():
             if arg in args:
                 line_chart_arguments.update({arg: args[arg]})
 
-        line_chart = Line(**line_chart_arguments)
-        values = []
+        line_chart = DateTimeLine(**line_chart_arguments)
         if 'results' in data and len(data['results']) > 0:
-            values = [price['value'] for price in data['results']]
+            values = [(dateutil.parser.parse(price['date_seen']), price['value']) for price in data['results']]
             line_chart.add(data['results'][0]['currency'], values)
         return line_chart
