@@ -6,8 +6,8 @@ class Price(models.Model):
     """
     Representing fetched price for a product
     """
-    value = models.FloatField(verbose_name=_('Price'))
-    currency = models.CharField(max_length=3, verbose_name=_('Currency'))
+    value = models.FloatField(verbose_name=_('Price'), blank=True, null=True)
+    currency = models.CharField(max_length=3, verbose_name=_('Currency'), blank=True, null=True)
     date_seen = models.DateTimeField(verbose_name=_('Date of price'))
     product = models.ForeignKey('Product', verbose_name=_('Product'))
 
@@ -17,7 +17,11 @@ class Price(models.Model):
         :return: the unicode representation
         :rtype: unicode
         """
-        return '%(value)0.2f %(currency)s on %(date_seen)s' % dict(value=self.value, currency=self.currency, date_seen=self.date_seen)
+        return '%(value)s %(currency)s on %(date_seen)s' % dict(
+            value='%0.2f' % self.value if self.value else 'No price',
+            currency=self.currency if self.currency else '',
+            date_seen=self.date_seen
+        )
 
     class Meta:
         app_label = 'price_monitor'

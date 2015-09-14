@@ -177,25 +177,25 @@ class SynchronizeProductsTask(Task):
         now = timezone.now()
 
         # create the price
-        price = None
+        price = Price.objects.create(
+            value=amazon_data['price'] if 'price' in amazon_data else None,
+            currency=amazon_data['currency'] if 'currency' in amazon_data else None,
+            date_seen=now,
+            product=product,
+        )
+
+        product.current_price = price
+
+        if product.lowest_price is None or (price.value is not None and price.value <= product.lowest_price.value):
+            product.lowest_price = price
+
+        if product.highest_price is None or (price.value is not None and price.value >= product.highest_price.value):
+            product.highest_price = price
+
+        # remove the elements that are not a field in Product model
         if 'price' in amazon_data:
-            price = Price.objects.create(
-                value=amazon_data['price'],
-                currency=amazon_data['currency'],
-                date_seen=now,
-                product=product,
-            )
-
-            product.current_price = price
-
-            if product.lowest_price is None or price.value <= product.lowest_price.value:
-                product.lowest_price = price
-
-            if product.highest_price is None or price.value >= product.highest_price.value:
-                product.highest_price = price
-
-            # remove the elements that are not a field in Product model
             amazon_data.pop('price')
+        if 'currency' in amazon_data:
             amazon_data.pop('currency')
 
         # update and save the product
@@ -204,7 +204,7 @@ class SynchronizeProductsTask(Task):
         product.date_last_synced = now
         product.save()
 
-        if price is not None:
+        if price.value is not None:
             # get all subscriptions of product that are subscribed to the current price or a higher one and
             # whose owners have not been notified about that particular subscription price since before
             # settings.PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES.
