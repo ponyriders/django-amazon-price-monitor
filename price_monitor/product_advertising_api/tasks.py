@@ -187,15 +187,17 @@ class SynchronizeSingleProductTask(Task):
 
         product.current_price = price
 
-        if product.lowest_price is None or price.value <= product.lowest_price.value:
+        if product.lowest_price is None or (price.value is not None and price.value <= product.lowest_price.value):
             product.lowest_price = price
 
-        if product.highest_price is None or price.value >= product.highest_price.value:
+        if product.highest_price is None or (price.value is not None and price.value >= product.highest_price.value):
             product.highest_price = price
 
         # remove the elements that are not a field in Product model
-        amazon_data.pop('price')
-        amazon_data.pop('currency')
+        if 'price' in amazon_data:
+            amazon_data.pop('price')
+        if 'currency' in amazon_data:
+            amazon_data.pop('currency')
 
         # update and save the product
         product.__dict__.update(amazon_data)
