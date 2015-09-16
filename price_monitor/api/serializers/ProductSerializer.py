@@ -19,21 +19,7 @@ class ProductSerializer(serializers.ModelSerializer):
     highest_price = serializers.SerializerMethodField()
     lowest_price = serializers.SerializerMethodField()
     image_urls = serializers.SerializerMethodField()
-
-    def __init__(self, *args, **kwargs):
-        """
-        Overwriting normal initialization to set dynamic subscription set
-        """
-        super(ProductSerializer, self).__init__(*args, **kwargs)
-        self.fields['subscription_set'] = SubscriptionSerializer(
-            Subscription.objects.filter(
-                product__in=[
-                    product for product in self.instance
-                ] if hasattr(self.instance, '__iter__') else [self.instance],
-                owner=self.context['request'].user
-            ).select_related('email_notification') if self.instance else [],
-            many=True
-        )
+    subscription_set = SubscriptionSerializer(many=True)
 
     def __render_price_dict(self, price):
         """
@@ -156,7 +142,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
         # remove all subscriptions not in new set subscriptions
         instance.subscription_set.filter(owner=self.context['request'].user).exclude(public_id__in=new_public_ids).delete()
-        return instance
+        return self.context['view'].filter_queryset(self.context['view'].get_queryset()).get(pk=instance.pk)
 
     class Meta:
         model = Product
@@ -165,6 +151,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'date_updated',
             'date_last_synced',
             'status',
+            'subscription_set',
 
             # amazon specific fields
             'asin',
