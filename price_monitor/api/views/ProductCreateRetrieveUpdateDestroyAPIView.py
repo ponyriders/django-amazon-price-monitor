@@ -1,10 +1,11 @@
+from .mixins.ProductFilteringMixin import ProductFilteringMixin
 from ..serializers.ProductSerializer import ProductSerializer
 from ...models.Product import Product
 
 from rest_framework import generics, mixins, permissions
 
 
-class ProductCreateRetrieveUpdateDestroyAPIView(mixins.CreateModelMixin, generics.RetrieveUpdateDestroyAPIView):
+class ProductCreateRetrieveUpdateDestroyAPIView(ProductFilteringMixin, mixins.CreateModelMixin, generics.RetrieveUpdateDestroyAPIView):
     """
     Returns single instance of Product, if user is authenticated
     """
