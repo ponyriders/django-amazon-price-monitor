@@ -12,6 +12,7 @@ from price_monitor.product_advertising_api.test_data import (
     product_sample_10_products,
     product_sample_lookup_fail,
     product_sample_no_audience_rating,
+    product_sample_no_images,
     product_sample_no_item,
     product_sample_no_offers,
     product_sample_no_price,
@@ -603,6 +604,54 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertRaises(KeyError, lambda: values['DEMOASIN18']['audience_rating'])
         self.assertRaises(KeyError, lambda: values['DEMOASIN18']['price'])
         self.assertRaises(KeyError, lambda: values['DEMOASIN18']['currency'])
+
+    @patch.object(ProductAdvertisingAPI, 'lookup_at_amazon')
+    @patch.object(ProductAdvertisingAPI, '__init__')
+    @log_capture()
+    def test_item_lookup_no_images(self, product_api_init, product_api_lookup, lc):
+        """
+        Test for an item with empty image nodes.
+        :param product_api_init: mockup for ProductAdvertisingAPI.__init__
+        :type product_api_init: unittest.mock.MagicMock
+        :param product_api_lookup: mockup for ProductAdvertisingAPI.lookup_at_amazon
+        :type product_api_lookup: unittest.mock.MagicMock
+        :param lc: log capture instance
+        :type lc: testfixtures.logcapture.LogCaptureForDecorator
+        """
+        product_api_init.return_value = None
+        product_api_lookup.return_value = self.__get_product_bs(product_sample_no_images)
+
+        api = ProductAdvertisingAPI()
+        values = api.item_lookup(['DEMOASIN03'])
+
+        # ensure the mocks were called
+        self.assertTrue(product_api_init.called)
+        self.assertTrue(product_api_lookup.called)
+
+        self.assertNotEqual(None, values)
+        self.assertEqual(type(dict()), type(values))
+        self.assertEqual(len(values), 1)
+
+        self.assertTrue('DEMOASIN03' in values)
+        self.assertEqual('DEMOASIN03', values['DEMOASIN03']['asin'])
+        self.assertEqual('Demo Series - Season 2 [Blu-ray]', values['DEMOASIN03']['title'])
+        self.assertEqual(None, values['DEMOASIN03']['isbn'])
+        self.assertEqual(None, values['DEMOASIN03']['eisbn'])
+        self.assertEqual('Blu-ray', values['DEMOASIN03']['binding'])
+        self.assertEqual(datetime.datetime(2014, 12, 22), values['DEMOASIN03']['date_publication'])
+        self.assertEqual(datetime.datetime(2014, 12, 22), values['DEMOASIN03']['date_release'])
+        self.assertEqual(None, values['DEMOASIN03']['large_image_url'])
+        self.assertEqual(None, values['DEMOASIN03']['medium_image_url'])
+        self.assertEqual(None, values['DEMOASIN03']['small_image_url'])
+        self.assertEqual('http://www.amazon.de/dp/DEMOASIN03/?tag=sample-assoc-tag', values['DEMOASIN03']['offer_url'])
+        self.assertEqual(16, values['DEMOASIN03']['audience_rating'])
+        self.assertEqual(17.99, values['DEMOASIN03']['price'])
+        self.assertEqual('EUR', values['DEMOASIN03']['currency'])
+
+        # check log output
+        lc.check(
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASINs DEMOASIN03')
+        )
 
     def test_format_datetime(self):
         """

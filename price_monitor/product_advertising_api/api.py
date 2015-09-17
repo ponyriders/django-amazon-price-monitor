@@ -136,9 +136,9 @@ class ProductAdvertisingAPI(object):
                     'binding': item_node.itemattributes.binding.string,
                     'date_publication': self.format_datetime(self.__get_item_attribute(item_node, 'publicationdate')),
                     'date_release': self.format_datetime(self.__get_item_attribute(item_node, 'releasedate')),
-                    'large_image_url': item_node.largeimage.url.string,
-                    'medium_image_url': item_node.mediumimage.url.string,
-                    'small_image_url': item_node.smallimage.url.string,
+                    'large_image_url': item_node.largeimage.url.string if item_node.largeimage.url is not None else None,
+                    'medium_image_url': item_node.mediumimage.url.string if item_node.mediumimage.url is not None else None,
+                    'small_image_url': item_node.smallimage.url.string if item_node.smallimage.url is not None else None,
                     'offer_url': utils.get_offer_url(item_node.asin.string),
                 }
 
