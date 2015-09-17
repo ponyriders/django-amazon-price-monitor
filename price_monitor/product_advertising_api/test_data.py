@@ -86,6 +86,51 @@ product_sample_ok = """
 </itemlookupresponse>
 """
 
+product_sample_no_images = """
+<?xml version="1.0" ?>
+<itemlookupresponse xmlns="http://webservices.amazon.com/AWSECommerceService/2011-08-01">
+    <items>
+        <request>
+            <isvalid>True</isvalid>
+            <itemlookuprequest>
+                <idtype>ASIN</idtype>
+                <itemid>DEMOASIN03</itemid>
+                <responsegroup>Large</responsegroup>
+                <variationpage>All</variationpage>
+            </itemlookuprequest>
+        </request>
+        <item>
+            <asin>DEMOASIN03</asin>
+            <itemattributes>
+                <title>Demo Series - Season 2 [Blu-ray]</title>
+                <binding>Blu-ray</binding>
+                <publicationdate>2014-12-22</publicationdate>
+                <releasedate>2014-12-22</releasedate>
+                <audiencerating>Freigegeben ab 16 Jahren</audiencerating>
+            </itemattributes>
+            <smallimage>
+            </smallimage>
+            <mediumimage>
+            </mediumimage>
+            <largeimage>
+            </largeimage>
+            <offers>
+                <totaloffers>1</totaloffers>
+                <offer>
+                    <offerlisting>
+                        <price>
+                            <amount>1799</amount>
+                            <currencycode>EUR</currencycode>
+                            <formattedprice>EUR 17,99</formattedprice>
+                        </price>
+                    </offerlisting>
+                </offer>
+            </offers>
+        </item>
+    </items>
+</itemlookupresponse>
+"""
+
 product_sample_no_price = """
 <?xml version="1.0" ?>
 <itemlookupresponse xmlns="http://webservices.amazon.com/AWSECommerceService/2011-08-01">
