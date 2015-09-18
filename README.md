@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=master)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) [![Requirements Status](https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements.svg?branch=master)](https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements/?branch=master) [![Stories in Ready](https://badge.waffle.io/ponyriders/django-amazon-price-monitor.png?label=ready&title=Ready)](https://waffle.io/ponyriders/django-amazon-price-monitor)
+[![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=master)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) [![codecov.io](http://codecov.io/github/ponyriders/django-amazon-price-monitor/coverage.svg?branch=master)](http://codecov.io/github/ponyriders/django-amazon-price-monitor?branch=master) [![Requirements Status](https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements.svg?branch=master)](https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements/?branch=master) [![Stories in Ready](https://badge.waffle.io/ponyriders/django-amazon-price-monitor.png?label=ready&title=Ready)](https://waffle.io/ponyriders/django-amazon-price-monitor)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -38,6 +38,8 @@
     - [price_monitor](#price_monitor)
     - [price_monitor.product_advertising_api](#price_monitorproduct_advertising_api)
     - [price_monitor.utils](#price_monitorutils)
+  - [Tests](#tests)
+    - [Coverage](#coverage)
   - [Internals](#internals)
     - [Model graph](#model-graph)
     - [Product advertising api synchronization](#product-advertising-api-synchronization)
@@ -305,6 +307,12 @@ Logger for everything related to the ProductAdvertisingAPI wrapper class that ac
 ### price_monitor.utils
 
 Logger for the utils module.
+
+## Tests
+
+### Coverage
+
+![codecov.io](http://codecov.io/github/ponyriders/django-amazon-price-monitor/branch.svg?branch=master&vg=on)
 
 
 ## Internals
