@@ -1,0 +1,2 @@
+include README.md
+recursive-include price_monitor *.html *.png *.gif *js *.css *jpg *jpeg *svg *py

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=master)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) [![Coverage Status](https://coveralls.io/repos/ponyriders/django-amazon-price-monitor/badge.svg?branch=master)](https://coveralls.io/r/ponyriders/django-amazon-price-monitor?branch=master) [![Requirements Status](https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements.svg?branch=master)](https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements/?branch=master) [![Stories in Ready](https://badge.waffle.io/ponyriders/django-amazon-price-monitor.png?label=ready&title=Ready)](https://waffle.io/ponyriders/django-amazon-price-monitor)
+[![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=master)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) [![Requirements Status](https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements.svg?branch=master)](https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements/?branch=master) [![Stories in Ready](https://badge.waffle.io/ponyriders/django-amazon-price-monitor.png?label=ready&title=Ready)](https://waffle.io/ponyriders/django-amazon-price-monitor)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -105,7 +105,7 @@ This software is licensed with the MIT license. So feel free to do with it whate
 ### Prerequisites
 
 - Python 3.3, 3.4
-- see requirements.txt
+- see setup.py
 
 ### Included angular libraries
 
@@ -256,6 +256,7 @@ configured.
 We don't do regular PyPI releases but maintain this changelog to keep track of the most significant changes.
 
 ### TBA
+* changed tests to use py.test and tox (#2)
 * rewrote task handling for communication with product advertising api (#27, #38)
 * updated to Django 1.8 (#32, PR #45)
 * performance for querying the Amazon Product Advertising API was increased (#41, PR #46)

@@ -1,29 +1,41 @@
 #!/usr/bin/env python
-from setuptools import setup
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
-
-def get_requirements(requirements_file='requirements.txt'):
-    """
-    Returns a list of package requirements read from the given file.
-    :param requirements_file: the file to read
-    :return: list of package requirements
-    """
-    with open(requirements_file, 'r') as f:
-        return [line for line in f.read().splitlines() if not line.startswith('#')]
 
 setup(
     name='django-amazon-price-monitor',
-    description='Monitors prices of Amazon products via Product Advertising API',
     version=__import__('price_monitor').get_version().replace(' ', '-'),
+    description='Monitors prices of Amazon products via Product Advertising API',
+    long_description=open('README.md').read(),
     author='Alexander Herrmann & Martin Mrose',
     author_email='mrosemartin84@gmail.com',
-    license='MIT',
     url='https://github.com/ponyriders/django-amazon-price-monitor',
-    packages=['price_monitor'],
-    long_description=open('README.md').read(),
-    install_requires=get_requirements(),
-    tests_require=get_requirements('requirements_test.txt'),
-    dependency_links=[
-        'git+git://github.com/dateutil/dateutil#egg=python-dateutil',
-    ]
+    packages=[
+        'price_monitor'
+    ],
+    include_package_data=True,
+    install_requires=[
+        # main dependencies
+        'Django<1.9',
+        'six',  # TODO still relevant?
+        # for product advertising api
+        'beautifulsoup4',
+        'bottlenose>=0.6.2',
+        'celery>=3',
+        'python-dateutil',
+        # for pm api
+        'djangorestframework>=3.0.4',
+        # for graphs
+        'pygal>=1.5.1',
+        'lxml',
+        # pygal png output
+        'CairoSVG',
+        'tinycss',
+        'cssselect',
+    ],
+    license='MIT',
+    zip_safe=False,
 )

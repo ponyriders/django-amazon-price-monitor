@@ -1,13 +1,6 @@
 import datetime
 
-from bs4 import BeautifulSoup
-
-from django.test import TestCase
-
-from unittest.mock import patch
-
-from price_monitor.product_advertising_api.api import ProductAdvertisingAPI
-from price_monitor.product_advertising_api.test_data import (
+from .data import (
     product_sample_3_products,
     product_sample_10_products,
     product_sample_lookup_fail,
@@ -18,6 +11,14 @@ from price_monitor.product_advertising_api.test_data import (
     product_sample_no_price,
     product_sample_ok,
 )
+
+from bs4 import BeautifulSoup
+
+from django.test import TestCase
+
+from unittest.mock import patch
+
+from price_monitor.product_advertising_api.api import ProductAdvertisingAPI
 
 from testfixtures import log_capture
 
