@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.utils.translation import gettext
+from django.utils.translation import ugettext_lazy
 
 
 # global AWS access settings
@@ -29,12 +29,12 @@ PRICE_MONITOR_DEFAULT_CURRENCY = getattr(settings, 'PRICE_MONITOR_DEFAULT_CURREN
 PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT = getattr(
     settings,
     'PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT',
-    gettext('Price limit for %(product)s reached')
+    ugettext_lazy('Price limit for %(product)s reached')
 )
 PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY = getattr(
     settings,
     'PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY',
-    gettext(
+    ugettext_lazy(
         'The price limit of %(price_limit)0.2f %(currency)s has been reached for the article "%(product_title)s" - '
         'the current price is %(price)0.2f %(currency)s.'
         '\n\nPlease support our platform by using this link for buying: %(link)s\n\n\nRegards,\nThe Team'
