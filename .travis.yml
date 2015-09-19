@@ -30,6 +30,6 @@ deploy:
     on:
       tags: true
       repo: ponyriders/django-amazon-price-monitor
-      branch: master
+      all_branches: true
       condition: "$TOXENV = py34"
       skip_cleanup: true
