@@ -1,13 +1,24 @@
 language: python
 sudo: false
 env:
-  - TOXENV=py33
-  - TOXENV=py34
+- TOXENV=py33
+- TOXENV=py34
 install:
-  - pip install codecov tox
+- pip install codecov tox
 script:
-  - tox
+- tox
 after_success:
-  - codecov
+- codecov
 notifications:
   email: false
+deploy:
+  provider: pypi
+  user: darignac
+  password:
+    secure: Yzq2hIWpfmffOt/WeMwX3NwXjaZoyAweTq5LeozdSdK1JWUAxaXP00PgZimia4N6d3+5W5xysF2ZuSkB4GYJ6J2BnrP239vqyINpSMSNwxTDtVjMv83FQffjC3B8YzxBhp9Xu5c7ycPV7NEzqHFlrhRXLh2XmSxYHw5UZdsNsac=
+  on:
+    tags: true
+    repo: ponyriders/django-amazon-price-monitor
+    branch: master
+    distributions: "sdist bdist_wheel"
+    python: 3.4
