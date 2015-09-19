@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=master)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) [![codecov.io](http://codecov.io/github/ponyriders/django-amazon-price-monitor/coverage.svg?branch=master)](http://codecov.io/github/ponyriders/django-amazon-price-monitor?branch=master) [![Requirements Status](https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements.svg?branch=master)](https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements/?branch=master) [![Stories in Ready](https://badge.waffle.io/ponyriders/django-amazon-price-monitor.png?label=ready&title=Ready)](https://waffle.io/ponyriders/django-amazon-price-monitor)
+[![Build Status](https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=master)](https://travis-ci.org/ponyriders/django-amazon-price-monitor) 
+[![codecov.io](http://codecov.io/github/ponyriders/django-amazon-price-monitor/coverage.svg?branch=master)](http://codecov.io/github/ponyriders/django-amazon-price-monitor?branch=master)
+[![Requirements Status](https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements.svg?branch=master)](https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements/?branch=master)
+[![Stories in Ready](https://badge.waffle.io/ponyriders/django-amazon-price-monitor.png?label=ready&title=Ready)](https://waffle.io/ponyriders/django-amazon-price-monitor)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
