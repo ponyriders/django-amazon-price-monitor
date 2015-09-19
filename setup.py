@@ -10,8 +10,8 @@ setup(
     version=__import__('price_monitor').get_version().replace(' ', '-'),
     description='Monitors prices of Amazon products via Product Advertising API',
     long_description=open('README.md').read(),
-    author='Alexander Herrmann & Martin Mrose',
-    author_email='mrosemartin84@gmail.com',
+    author='Alexander Herrmann, Martin Mrose',
+    author_email='django-amazon-price-monitor@googlegroups.com',
     url='https://github.com/ponyriders/django-amazon-price-monitor',
     packages=[
         'price_monitor'
