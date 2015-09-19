@@ -13,9 +13,9 @@ notifications:
   email: false
 deploy:
   - provider: pypi
-    user: darignac
+    user: dArignac
     password:
-      secure: Yzq2hIWpfmffOt/WeMwX3NwXjaZoyAweTq5LeozdSdK1JWUAxaXP00PgZimia4N6d3+5W5xysF2ZuSkB4GYJ6J2BnrP239vqyINpSMSNwxTDtVjMv83FQffjC3B8YzxBhp9Xu5c7ycPV7NEzqHFlrhRXLh2XmSxYHw5UZdsNsac=
+      secure: ly8i+N1kQ6dRrRuDO5AKwVIqHIs/Ahz5CrsCt8Rbo4bPTS6kSCbqI2N1p6ndG9mQvQ0BcTIIRiXWYuCz2givDSs9Mv8P1u4S0epxVP4DWULg1OOpjqQj14Eo0iNq9erWOmSesXYPytEKq5OO2kRiAIapPBOKm8mWGZxcUtjZl2s=
     on:
       tags: true
       repo: ponyriders/django-amazon-price-monitor
