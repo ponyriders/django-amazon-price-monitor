@@ -3,7 +3,8 @@ import hashlib
 
 from ... import app_settings
 
-from django.core.cache import get_cache
+from django.core.cache import caches
+from django.core.cache.backends.base import InvalidCacheBackendError
 
 from pygal import DateTimeLine
 from pygal.style import RedBlueStyle
@@ -47,8 +48,10 @@ class PriceChartPNGRenderer(BaseRenderer):
         Renders `data` into serialized XML.
         """
         # first get the cache to use or None
-        cache = get_cache(app_settings.PRICE_MONITOR_GRAPH_CACHE_NAME) if app_settings.PRICE_MONITOR_GRAPH_CACHE_NAME is not None else None
-
+        try:
+            cache = caches[app_settings.PRICE_MONITOR_GRAPH_CACHE_NAME]
+        except InvalidCacheBackendError:
+            cache = None
         # sanitize arguments
         sanitized_args = self.sanitize_allowed_args(renderer_context['request']) if 'request' in renderer_context else {}
 
