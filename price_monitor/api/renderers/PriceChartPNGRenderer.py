@@ -55,7 +55,7 @@ class PriceChartPNGRenderer(BaseRenderer):
         # generate cache key
         cache_key = self.create_cache_key(data, sanitized_args)
         # only read from cache if there is any
-        content = cache.get(cache_key, None) if cache is not None else None
+        content = cache.get(cache_key) if cache is not None else None
         if content is None:
             # create graph instance
             graph = self.create_graph(data, sanitized_args)

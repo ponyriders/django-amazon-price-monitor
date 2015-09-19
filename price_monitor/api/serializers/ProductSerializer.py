@@ -122,7 +122,7 @@ class ProductSerializer(serializers.ModelSerializer):
         new_public_ids = []
         for value_dict in validated_data['subscription_set']:
             # get public_id if there is any
-            public_id = value_dict.get('public_id', None)
+            public_id = value_dict.get('public_id')
             new_public_ids.append(public_id)
             if public_id:
                 subscription = Subscription.objects.get_or_create(public_id=public_id)[0]
