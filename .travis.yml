@@ -12,13 +12,21 @@ after_success:
 notifications:
   email: false
 deploy:
-  provider: pypi
-  user: darignac
-  password:
-    secure: Yzq2hIWpfmffOt/WeMwX3NwXjaZoyAweTq5LeozdSdK1JWUAxaXP00PgZimia4N6d3+5W5xysF2ZuSkB4GYJ6J2BnrP239vqyINpSMSNwxTDtVjMv83FQffjC3B8YzxBhp9Xu5c7ycPV7NEzqHFlrhRXLh2XmSxYHw5UZdsNsac=
-  on:
-    tags: true
-    repo: ponyriders/django-amazon-price-monitor
-    branch: master
-    distributions: "sdist bdist_wheel"
-    python: 3.4
+  - provider: pypi
+    user: darignac
+    password:
+      secure: Yzq2hIWpfmffOt/WeMwX3NwXjaZoyAweTq5LeozdSdK1JWUAxaXP00PgZimia4N6d3+5W5xysF2ZuSkB4GYJ6J2BnrP239vqyINpSMSNwxTDtVjMv83FQffjC3B8YzxBhp9Xu5c7ycPV7NEzqHFlrhRXLh2XmSxYHw5UZdsNsac=
+    on:
+      tags: true
+      repo: ponyriders/django-amazon-price-monitor
+      branch: master
+      distributions: "sdist bdist_wheel"
+      python: 3.4
+  - provider: releases
+    api_key:
+      secure: PYMQWnjYcS+XwUwylzw0J3K3RxFme/0vdc+QpWmua32kC+NVw8/gvm4NszvNRqMIMJjQ5y5o6ehb7RMLp2lNb0fGMWFN9VQprNcX17YrUsE75f1maZoF21lIPFjrIgyOPqcDV932VcPLv594MOTTyba9NMNVwnfWdspkjOvGGcE=
+    file: "*.tar.gz"
+    on:
+      tags: true
+      repo: ponyriders/django-amazon-price-monitor
+      branch: master
