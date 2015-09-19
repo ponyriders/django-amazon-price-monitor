@@ -16,20 +16,21 @@ deploy:
     user: dArignac
     password:
       secure: ly8i+N1kQ6dRrRuDO5AKwVIqHIs/Ahz5CrsCt8Rbo4bPTS6kSCbqI2N1p6ndG9mQvQ0BcTIIRiXWYuCz2givDSs9Mv8P1u4S0epxVP4DWULg1OOpjqQj14Eo0iNq9erWOmSesXYPytEKq5OO2kRiAIapPBOKm8mWGZxcUtjZl2s=
+    skip_cleanup: true
     on:
       tags: true
       repo: ponyriders/django-amazon-price-monitor
-      branch: master
       distributions: "sdist bdist_wheel"
       condition: "$TOXENV = py34"
-      skip_cleanup: true
   - provider: releases
     api_key:
       secure: PYMQWnjYcS+XwUwylzw0J3K3RxFme/0vdc+QpWmua32kC+NVw8/gvm4NszvNRqMIMJjQ5y5o6ehb7RMLp2lNb0fGMWFN9VQprNcX17YrUsE75f1maZoF21lIPFjrIgyOPqcDV932VcPLv594MOTTyba9NMNVwnfWdspkjOvGGcE=
-    file: "dist/django-amazon-price-monitor-$TRAVIS_TAG.tar.gz"
+    file_glob: true
+    file: "$TRAVIS_BUILD_DIR/dist/django-amazon-price-monitor-*.tar.gz"
+    skip_cleanup: true
     on:
       tags: true
       repo: ponyriders/django-amazon-price-monitor
       all_branches: true
       condition: "$TOXENV = py34"
-      skip_cleanup: true
+
