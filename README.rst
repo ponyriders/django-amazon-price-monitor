@@ -1,5 +1,7 @@
 |Build Status| |codecov.io| |Requirements Status| |Stories in Ready|
 
+.. contents:: Table of Contents
+
 django-amazon-price-monitor
 ===========================
 
