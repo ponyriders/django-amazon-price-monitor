@@ -367,7 +367,7 @@ Product advertising api synchronization
 Task workflow
 ^^^^^^^^^^^^^
 
-.. figure:: docs/price_monitor.product_advertising_api.tasks.png
+.. figure:: https://github.com/ponyriders/django-amazon-price-monitor/raw/master/docs/price_monitor.product_advertising_api.tasks.png
    :alt: Image of Product advertising api synchronization workflow
 
    Image of Product advertising api synchronization workflow
