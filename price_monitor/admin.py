@@ -18,6 +18,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('asin', 'title', 'status', 'date_updated', 'date_last_synced', )
     list_filter = ('status', )
     search_fields = ('asin', )
+    exclude = ('current_price', 'highest_price', 'lowest_price',)
 
     actions = ['reset_to_created', 'resynchronize', ]
 
