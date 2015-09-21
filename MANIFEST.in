@@ -1,2 +1,3 @@
 include README.rst
+include HISTORY.rst
 recursive-include price_monitor *.html *.png *.gif *js *.css *jpg *jpeg *svg *py

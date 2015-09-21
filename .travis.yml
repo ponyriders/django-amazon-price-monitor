@@ -13,12 +13,11 @@ notifications:
   email: false
 deploy:
   provider: pypi
-  user: dArignac
+  user: ponyriders
   password:
-    secure: ly8i+N1kQ6dRrRuDO5AKwVIqHIs/Ahz5CrsCt8Rbo4bPTS6kSCbqI2N1p6ndG9mQvQ0BcTIIRiXWYuCz2givDSs9Mv8P1u4S0epxVP4DWULg1OOpjqQj14Eo0iNq9erWOmSesXYPytEKq5OO2kRiAIapPBOKm8mWGZxcUtjZl2s=
-  skip_cleanup: true
+    secure: K7eS0kogb2udlgPclBqqK4/Lw/QkYXl3g/+5LrLf9N5NjE/7Sd/LU42HulGOXOWHxHL8CtZXfvU+8CH3CUap7FNPDKb6e8NGSd85xHbB5q+y4xmUU9kwEdFnp5vfE77RtDYLEEcUi+olwi7nO2HN2LIXj2ytPZgNg/4EzfdOAao=
+  distributions: "sdist bdist_wheel"
   on:
     tags: true
     repo: ponyriders/django-amazon-price-monitor
-    distributions: "sdist bdist_wheel"
     condition: "$TOXENV = py34"

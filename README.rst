@@ -259,35 +259,6 @@ Documentation <http://docs.celeryproject.org/en/latest/index.html>`__
 about how to setup the whole thing. You'll need a broker and a result
 backend configured.
 
-Releases & Changelog
---------------------
-
-We don't do regular PyPI releases but maintain this changelog to keep
-track of the most significant changes.
-
-TBA
-~~~
-
--  changed tests to use py.test and tox (#2)
--  rewrote task handling for communication with product advertising api
-   (#27, #38)
--  updated to Django 1.8 (#32, PR #45)
--  performance for querying the Amazon Product Advertising API was
-   increased (#41, PR #46)
--  adjusted model relation for more performance #25
--  highest and lowest price are now shown on products detail page (#25,
-   PR #54)
-
-0.2.0
-~~~~~
-
--  Python 3.2, 3.3 & 3.4 support
-
-0.1.0
-~~~~~
-
--  first release
-
 Management Commands
 -------------------
 
@@ -367,7 +338,7 @@ Product advertising api synchronization
 Task workflow
 ^^^^^^^^^^^^^
 
-.. figure:: docs/price_monitor.product_advertising_api.tasks.png
+.. figure:: https://github.com/ponyriders/django-amazon-price-monitor/raw/master/docs/price_monitor.product_advertising_api.tasks.png
    :alt: Image of Product advertising api synchronization workflow
 
    Image of Product advertising api synchronization workflow
