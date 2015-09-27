@@ -1,11 +1,13 @@
 Change Log
 ==========
 
-`0.3b1 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.3b1>`__
+`0.3b2 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.3b2>`__
 ------------------------------------------------------------------------------------
 
 **Implemented enhancements:**
 
+-  Prepare for automatic releases
+   `#68 <https://github.com/ponyriders/django-amazon-price-monitor/issues/68>`__
 -  Increase performance of Amazon calls
    `#41 <https://github.com/ponyriders/django-amazon-price-monitor/issues/41>`__
 -  Django 1.8 compatibility
