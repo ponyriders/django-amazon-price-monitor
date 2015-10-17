@@ -1,4 +1,4 @@
-|Build Status| |codecov.io| |Requirements Status| |Stories in Ready|
+|Build Status| |codecov.io| |Code issues| |Requirements Status| |Stories in Ready|
 
 .. contents:: Table of Contents
 
@@ -339,16 +339,18 @@ Task workflow
 ^^^^^^^^^^^^^
 
 .. figure:: https://github.com/ponyriders/django-amazon-price-monitor/raw/master/docs/price_monitor.product_advertising_api.tasks.png
-   :alt: Image of Product advertising api synchronization workflow
+    :alt: Image of Product advertising api synchronization workflow
 
    Image of Product advertising api synchronization workflow
 
 .. |Build Status| image:: https://travis-ci.org/ponyriders/django-amazon-price-monitor.svg?branch=master
-   :target: https://travis-ci.org/ponyriders/django-amazon-price-monitor
+    :target: https://travis-ci.org/ponyriders/django-amazon-price-monitor
 .. |codecov.io| image:: http://codecov.io/github/ponyriders/django-amazon-price-monitor/coverage.svg?branch=master
-   :target: http://codecov.io/github/ponyriders/django-amazon-price-monitor?branch=master
+    :target: http://codecov.io/github/ponyriders/django-amazon-price-monitor?branch=master
 .. |codecov-graph| image:: http://codecov.io/github/ponyriders/django-amazon-price-monitor/branch.svg?branch=master
 .. |Requirements Status| image:: https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements.svg?branch=master
-   :target: https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements/?branch=master
+    :target: https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements/?branch=master
 .. |Stories in Ready| image:: https://badge.waffle.io/ponyriders/django-amazon-price-monitor.png?label=ready&title=Ready
-   :target: https://waffle.io/ponyriders/django-amazon-price-monitor
+    :target: https://waffle.io/ponyriders/django-amazon-price-monitor
+.. |Code issues| image:: https://www.quantifiedcode.com/api/v1/project/67cad011c255435388ef61f3b8e018a1/badge.svg
+    :target: https://www.quantifiedcode.com/app/project/67cad011c255435388ef61f3b8e018a1
