@@ -8,7 +8,7 @@
             <div class="col-xs-12">
                 <h1>
                     <button class="btn btn-danger pull-right" ng-click="open()" type="button" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    {{ product.title }}
+                    <span ng-if="product.artist">{{ product.artist }}: </span>{{ product.title }}
                 </h1>
             </div>
         </div>

@@ -23,7 +23,7 @@
                                     {% with price=price_list|get:product.asin %}
                                         {% with subscription=subscription_list|get:product.asin %}
                                             <div class="row">
-                                                <div class="col-xs-12"><strong>{{ product.title }}</strong></div>
+                                                <div class="col-xs-12"><strong>{% if product.artist %}{{ product.artist }}: {% endif %}{{ product.title }}</strong></div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-xs-1">{% trans "Price" %}:</div>

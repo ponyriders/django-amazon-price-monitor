@@ -156,6 +156,7 @@ class ProductSerializer(serializers.ModelSerializer):
             # amazon specific fields
             'asin',
             'title',
+            'artist',
             'isbn',
             'eisbn',
             'binding',
@@ -178,6 +179,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
             # amazon specific fields
             'title',
+            'artist',
             'isbn',
             'eisbn',
             'author',
