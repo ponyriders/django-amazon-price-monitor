@@ -29,7 +29,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(TEST_DIR, 'static')
 
-SECRET_KEY = 'F(fxm_9aKa9F_7e$!U1can%;%qc9A[.Jcx2lVCwWo3}*DL,y?H'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 ROOT_URLCONF = 'price_monitor.urls'
 
