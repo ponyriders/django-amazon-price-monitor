@@ -39,6 +39,7 @@ class Product(models.Model):
     # amazon specific fields
     asin = models.CharField(max_length=100, unique=True, verbose_name=_('ASIN'))
     title = models.CharField(blank=True, null=True, max_length=255, verbose_name=_('Title'))
+    artist = models.CharField(blank=True, null=True, max_length=255, verbose_name=_('Artist'))
     isbn = models.CharField(blank=True, null=True, max_length=10, verbose_name=_('ISBN'))
     eisbn = models.CharField(blank=True, null=True, max_length=13, verbose_name=_('E-ISBN'))
     binding = models.CharField(blank=True, null=True, max_length=255, verbose_name=_('Binding'))
@@ -102,16 +103,24 @@ class Product(models.Model):
         """
         return 'graph-%s-%s' % (self.asin, self.date_last_synced.isoformat() if self.date_last_synced is not None else '')
 
+    def get_title(self):
+        """
+        Returns the title of the product.
+        :return: the title
+        :rtype: str
+        """
+        return '{}{}'.format(
+            '{}: '.format(self.artist) if self.artist is not None and len(self.artist) > 0 else '',
+            self.title if self.title is not None and len(self.title) > 0 else _('Unsynchronized Product'),
+        )
+
     def __str__(self):
         """
         Returns the unicode representation of the Product.
         :return: the unicode representation
         :rtype: unicode
         """
-        return '%(name)s (ASIN: %(asin)s)' % {
-            'name': self.title if self.title is not None and len(self.title) > 0 else _('Unsynchronized Product'),
-            'asin': self.asin,
-        }
+        return '{} (ASIN: {})'.format(self.get_title(), self.asin)
 
     class Meta:
         app_label = 'price_monitor'

@@ -797,3 +797,131 @@ product_sample_3_products = """
     </body>
 </html>
 """
+
+product_sample_with_artist = """
+<itemlookupresponse xmlns="http://webservices.amazon.com/AWSECommerceService/2011-08-01">
+    <items>
+        <request>
+            <isvalid>True</isvalid>
+            <itemlookuprequest>
+                <idtype>ASIN</idtype>
+                <itemid>DEMOASIN19</itemid>
+                <responsegroup>Large</responsegroup>
+                <variationpage>All</variationpage>
+            </itemlookuprequest>
+        </request>
+        <item>
+            <asin>DEMOASIN19</asin>
+            <smallimage>
+                <url>http://ecx.images-amazon.com/images/I/DEMOASIN19._SL75_.jpg</url>
+                <height units="pixels">75</height>
+                <width units="pixels">75</width>
+            </smallimage>
+            <mediumimage>
+                <url>http://ecx.images-amazon.com/images/I/DEMOASIN19._SL160_.jpg</url>
+                <height units="pixels">160</height>
+                <width units="pixels">160</width>
+            </mediumimage>
+            <largeimage>
+                <url>http://ecx.images-amazon.com/images/I/DEMOASIN19.jpg</url>
+                <height units="pixels">500</height>
+                <width units="pixels">500</width>
+            </largeimage>
+            <itemattributes>
+                <artist>The Artist</artist>
+                <binding>Audio CD</binding>
+                <brand>SOME BRAND</brand>
+                <feature>CD Album</feature>
+                <feature>herausgegeben 2015 in Europa von SOME BRAND (SOMEBRAND123)</feature>
+                <feature>Musikstil: Rock / Alternative Rock</feature>
+                <format>CD</format>
+                <itemdimensions>
+                    <height units="hundredths-inches">50</height>
+                    <length units="hundredths-inches">500</length>
+                    <width units="hundredths-inches">550</width>
+                </itemdimensions>
+                <label>SOME BRAND (SOME COMPANY)</label>
+                <languages>
+                    <language>
+                        <name>Englisch</name>
+                        <type>Unbekannt</type>
+                    </language>
+                </languages>
+                <manufacturer>SOME BRAND (SOME COMPANY)</manufacturer>
+                <mpn>SBR1234567</mpn>
+                <numberofdiscs>1</numberofdiscs>
+                <numberofitems>1</numberofitems>
+                <packagedimensions>
+                    <height units="hundredths-inches">31</height>
+                    <length units="hundredths-inches">551</length>
+                    <weight units="hundredths-pounds">18</weight>
+                    <width units="hundredths-inches">512</width>
+                </packagedimensions>
+                <packagequantity>1</packagequantity>
+                <partnumber>SBR1234567</partnumber>
+                <productgroup>Music</productgroup>
+                <producttypename>SOME BRAND (SOME COMPANY)</producttypename>
+                <publicationdate>2015</publicationdate>
+                <publisher>SOME BRAND (SOME COMPANY)</publisher>
+                <releasedate>2015-02-27</releasedate>
+                <studio>SOME BRAND (SOME COMPANY)</studio>
+                <title>The CD Title</title>
+                <upc>1234567879012</upc>
+                <upclist>
+                    <upclistelement>1234567879012</upclistelement>
+                </upclist>
+            </itemattributes>
+            <offersummary>
+                <lowestnewprice>
+                    <amount>747</amount>
+                    <currencycode>EUR</currencycode>
+                    <formattedprice>EUR 7,47</formattedprice>
+                </lowestnewprice>
+                <lowestusedprice>
+                    <amount>901</amount>
+                    <currencycode>EUR</currencycode>
+                    <formattedprice>EUR 9,01</formattedprice>
+                </lowestusedprice>
+                <totalnew>94</totalnew>
+                <totalused>3</totalused>
+                <totalcollectible>0</totalcollectible>
+                <totalrefurbished>0</totalrefurbished>
+            </offersummary>
+            <offers>
+                <totaloffers>1</totaloffers>
+                <totalofferpages>1</totalofferpages>
+                <offer>
+                    <offerattributes>
+                        <condition>New</condition>
+                    </offerattributes>
+                    <offerlisting>
+                        <offerlistingid>SAMPELOFFERLISTINGID</offerlistingid>
+                        <price>
+                            <amount>1299</amount>
+                            <currencycode>EUR</currencycode>
+                            <formattedprice>EUR 12,99</formattedprice>
+                        </price>
+                        <availability>Gewöhnlich versandfertig in 24 Stunden</availability>
+                        <availabilityattributes>
+                            <availabilitytype>now</availabilitytype>
+                            <minimumhours>0</minimumhours>
+                            <maximumhours>0</maximumhours>
+                        </availabilityattributes>
+                        <iseligibleforsupersavershipping>1</iseligibleforsupersavershipping>
+                        <iseligibleforprime>1</iseligibleforprime>
+                    </offerlisting>
+                </offer>
+            </offers>
+            <tracks>
+                <disc number="1">
+                    <track number="1">Title 1</track>
+                    <track number="2">Title 2</track>
+                    <track number="3">Title 3</track>
+                    <track number="4">Title 4</track>
+                    <track number="5">Title 5</track>
+                </disc>
+            </tracks>
+        </item>
+    </items>
+</itemlookupresponse>
+"""
