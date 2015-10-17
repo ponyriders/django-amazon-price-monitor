@@ -10,6 +10,7 @@ from .data import (
     product_sample_no_offers,
     product_sample_no_price,
     product_sample_ok,
+    product_sample_with_artist,
 )
 
 from bs4 import BeautifulSoup
@@ -652,6 +653,55 @@ class ProductAdvertisingAPITest(TestCase):
         # check log output
         lc.check(
             ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASINs DEMOASIN03')
+        )
+
+    @patch.object(ProductAdvertisingAPI, 'lookup_at_amazon')
+    @patch.object(ProductAdvertisingAPI, '__init__')
+    @log_capture()
+    def test_item_lookup_artist(self, product_api_init, product_api_lookup, lc):
+        """
+        Test for a normal bluray.
+        :param product_api_init: mockup for ProductAdvertisingAPI.__init__
+        :type product_api_init: unittest.mock.MagicMock
+        :param product_api_lookup: mockup for ProductAdvertisingAPI.lookup_at_amazon
+        :type product_api_lookup: unittest.mock.MagicMock
+        :param lc: log capture instance
+        :type lc: testfixtures.logcapture.LogCaptureForDecorator
+        """
+        product_api_init.return_value = None
+        product_api_lookup.return_value = self.__get_product_bs(product_sample_with_artist)
+
+        api = ProductAdvertisingAPI()
+        values = api.item_lookup(['DEMOASIN19'])
+
+        # ensure the mocks were called
+        self.assertTrue(product_api_init.called)
+        self.assertTrue(product_api_lookup.called)
+
+        self.assertNotEqual(None, values)
+        self.assertEqual(type(dict()), type(values))
+        self.assertEqual(len(values), 1)
+
+        self.assertTrue('DEMOASIN19' in values)
+        self.assertEqual('DEMOASIN19', values['DEMOASIN19']['asin'])
+        self.assertEqual('The CD Title', values['DEMOASIN19']['title'])
+        self.assertEqual('The Artist', values['DEMOASIN19']['artist'])
+        self.assertEqual(None, values['DEMOASIN19']['isbn'])
+        self.assertEqual(None, values['DEMOASIN19']['eisbn'])
+        self.assertEqual('Audio CD', values['DEMOASIN19']['binding'])
+        self.assertEqual(datetime.datetime(2015, 10, 17), values['DEMOASIN19']['date_publication'])
+        self.assertEqual(datetime.datetime(2015, 2, 27), values['DEMOASIN19']['date_release'])
+        self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN19.jpg', values['DEMOASIN19']['large_image_url'])
+        self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN19._SL160_.jpg', values['DEMOASIN19']['medium_image_url'])
+        self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN19._SL75_.jpg', values['DEMOASIN19']['small_image_url'])
+        self.assertEqual('http://www.amazon.de/dp/DEMOASIN19/?tag=sample-assoc-tag', values['DEMOASIN19']['offer_url'])
+        self.assertTrue('audience_rating' not in values['DEMOASIN19'])
+        self.assertEqual(12.99, values['DEMOASIN19']['price'])
+        self.assertEqual('EUR', values['DEMOASIN19']['currency'])
+
+        # check log output
+        lc.check(
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASINs DEMOASIN19')
         )
 
     def test_format_datetime(self):
