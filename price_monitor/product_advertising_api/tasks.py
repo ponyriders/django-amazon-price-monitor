@@ -83,7 +83,7 @@ class FindProductsToSynchronizeTask(Task):
         # get all products that shall be updated
         products = self.__get_products_to_sync()
 
-        if len(products) > 0:
+        if products:
             # chunk the products into 10 products each
             products_chunked = list(chunk_list(list(products), 10))
 

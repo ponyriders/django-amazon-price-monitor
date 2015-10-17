@@ -162,7 +162,7 @@ class ProductAdvertisingAPI(object):
                 if asin not in product_values.keys():
                     failed_asins.append(asin)
 
-            if len(failed_asins) > 0:
+            if failed_asins:
                 logger.error('Lookup for the following ASINs failed: %s', ', '.join(failed_asins))
 
             # if there is at least a single ASIN in the list, return the list, else None
