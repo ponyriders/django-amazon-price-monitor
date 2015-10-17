@@ -131,7 +131,7 @@ class ProductAdvertisingAPI(object):
                 item_values = {
                     'asin': item_node.asin.string,
                     'title': item_node.itemattributes.title.string,
-                    'artist': item_node.itemattributes.artist.string,
+                    'artist': item_node.itemattributes.artist.string if item_node.itemattributes.artist is not None else None,
                     'isbn': self.__get_item_attribute(item_node, 'isbn'),
                     'eisbn': self.__get_item_attribute(item_node, 'eisbn'),
                     'binding': item_node.itemattributes.binding.string,
