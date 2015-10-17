@@ -66,7 +66,7 @@ def send_mail(product, subscription, price):
             'price_limit': subscription.price_limit,
             'currency': price.currency,
             'price': price.value,
-            'product_title': product.title,
+            'product_title': product.get_title(),
             'link': product.offer_url,
         },
         app_settings.PRICE_MONITOR_EMAIL_SENDER,
