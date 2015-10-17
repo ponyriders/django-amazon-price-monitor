@@ -110,8 +110,8 @@ class Product(models.Model):
         :rtype: str
         """
         return '{}{}'.format(
+            '{}: '.format(self.artist) if self.artist is not None and len(self.artist) > 0 else '',
             self.title if self.title is not None and len(self.title) > 0 else _('Unsynchronized Product'),
-            ' :{}'.format(self.artist) if self.artist is not None and len(self.artist) > 0 else '',
         )
 
     def __str__(self):
