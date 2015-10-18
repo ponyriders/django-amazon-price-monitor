@@ -689,7 +689,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual(None, values['DEMOASIN19']['isbn'])
         self.assertEqual(None, values['DEMOASIN19']['eisbn'])
         self.assertEqual('Audio CD', values['DEMOASIN19']['binding'])
-        self.assertEqual(datetime.datetime(2015, 10, 17), values['DEMOASIN19']['date_publication'])
+        self.assertEqual(datetime.datetime(2015, datetime.datetime.now().month, datetime.datetime.now().day), values['DEMOASIN19']['date_publication'])
         self.assertEqual(datetime.datetime(2015, 2, 27), values['DEMOASIN19']['date_release'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN19.jpg', values['DEMOASIN19']['large_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN19._SL160_.jpg', values['DEMOASIN19']['medium_image_url'])
