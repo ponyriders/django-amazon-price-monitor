@@ -32,7 +32,7 @@ setup(
         # for pm api
         'djangorestframework>=3.0.4',
         # for graphs
-        'pygal>=1.5.1',
+        'pygal>=2.0.7',
         'lxml',
         # pygal png output
         'CairoSVG',
