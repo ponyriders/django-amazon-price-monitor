@@ -1,6 +1,34 @@
 Change Log
 ==========
 
+`0.4 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.4>`__
+------------------------------------------------------------------------------------
+**Implemented enhancements:**
+
+-  Deprecate old frontend
+   `#73 <https://github.com/ponyriders/django-amazon-price-monitor/issues/73>`__
+-  Make angular the default frontend
+   `#70 <https://github.com/ponyriders/django-amazon-price-monitor/issues/70>`__
+
+**Fixed bugs:**
+
+-  Products with the same price over graph timespae have an empty graph
+   `#67 <https://github.com/ponyriders/django-amazon-price-monitor/issues/67>`__
+-  Notification of music albums
+   `#33 <https://github.com/ponyriders/django-amazon-price-monitor/issues/33>`__
+-  Add artist for audio products
+   `#71 <https://github.com/ponyriders/django-amazon-price-monitor/pull/71>`__
+   (`dArignac <https://github.com/dArignac>`__)
+
+**Merged pull requests:**
+
+-  Remove old frontend
+   `#74 <https://github.com/ponyriders/django-amazon-price-monitor/pull/74>`__
+   (`dArignac <https://github.com/dArignac>`__)
+-  Fix for empty graphs is packaged now #67
+   `#72 <https://github.com/ponyriders/django-amazon-price-monitor/pull/72>`__
+   (`mmrose <https://github.com/mmrose>`__)
+
 `0.3b2 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.3b2>`__
 ------------------------------------------------------------------------------------
 
