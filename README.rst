@@ -40,26 +40,14 @@ Frontend components
 The frontend displays all subscribed products with additional
 information and some graphs for price history.
 
-We currently have 2 implementations, the (old) static one and the (new)
-one with AngularJS. After some issues have been resolved in the
-AngularJS implementation, we will remove the old static one.
+The features are the following:
 
-The components feature the followung
-
--  static version
-
-   -  list products
-   -  add subscriptions
-   -  delete subscriptions
-
--  AngularJS version
-
-   -  list products
-   -  show product details
-   -  show product price graphs
-   -  add subscriptions
-   -  adjust subscription price value
-   -  delete subscriptions
+-  list products
+-  show product details
+-  show product price graphs
+-  add subscriptions
+-  adjust subscription price value
+-  delete subscriptions
 
 Angular Frontend API
 ~~~~~~~~~~~~~~~~~~~~
@@ -114,6 +102,8 @@ Then migrate:
     python manage.py migrate
 
 Adjust the settings appropiately, `see next chapter <#settings>`__.
+
+Include the url configuration.
 
 Settings
 ~~~~~~~~
