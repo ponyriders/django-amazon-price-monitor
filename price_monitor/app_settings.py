@@ -7,11 +7,32 @@ PRICE_MONITOR_AWS_ACCESS_KEY_ID = getattr(settings, 'PRICE_MONITOR_AWS_ACCESS_KE
 PRICE_MONITOR_AWS_SECRET_ACCESS_KEY = getattr(settings, 'PRICE_MONITOR_AWS_SECRET_ACCESS_KEY', '')
 PRICE_MONITOR_AMAZON_PRODUCT_API_REGION = getattr(settings, 'PRICE_MONITOR_AMAZON_PRODUCT_API_REGION', '')
 PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG = getattr(settings, 'PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG', '')
+PRICE_MONITOR_AMAZON_ASSOCIATE_NAME = getattr(settings, 'PRICE_MONITOR_AMAZON_ASSOCIATE_NAME', '<ADJUST settings.PRICE_MONITOR_AMAZON_ASSOCIATE_NAME>')
 
-# some Amazon disclaimers
+# Amazon Disclaimers
 # Disclaimer for Product Advertising API, see https://partnernet.amazon.de/gp/advertising/api/detail/agreement.html and #12
 PRICE_MONITOR_AMAZON_PRODUCT_ADVERTISING_API_DISCLAIMER = 'CERTAIN CONTENT THAT APPEARS ON THIS SITE COMES FROM AMAZON EU S.à r.l. THIS CONTENT IS ' \
     'PROVIDED \'AS IS\' AND IS SUBJECT TO CHANGE OR REMOVAL AT ANY TIME.'
+# Disclaimer for Amazon associates, see https://partnernet.amazon.de/gp/associates/agreement (10) and #77
+# available sites for disclaimer text, just as reference, unused in code
+PRICE_MONITOR_AMAZON_ASSOCIATE_SITES = [
+    'Amazon.co.uk',
+    'Local.Amazon.co.uk',
+    'Amazon.de',
+    'de.BuyVIP.com',
+    'Amazon.fr',
+    'Amazon.it',
+    'it.BuyVIP.com',
+    'Amazon.es',
+    'es.BuyVIP.com',
+]
+PRICE_MONITOR_AMAZON_ASSOCIATE_SITE = getattr(settings, 'PRICE_MONITOR_AMAZON_ASSOCIATE_SITE', '<ADJUST settings.PRICE_MONITOR_AMAZON_ASSOCIATE_SITE>')
+# Disclaimer for Amazon associates, see https://partnernet.amazon.de/gp/associates/agreement (10) and #77
+PRICE_MONITOR_ASSOCIATE_DISCLAIMER = '{name} is a participant in the Amazon EU Associates Programme, an affiliate advertising programme designed to provide' \
+    ' a means for sites to earn advertising fees by advertising and linking to {amazon_site_name}.'.format(
+        name=PRICE_MONITOR_AMAZON_ASSOCIATE_NAME,
+        amazon_site_name=PRICE_MONITOR_AMAZON_ASSOCIATE_SITE,
+    )
 
 # server infrastructural settings
 # serve the product images via HTTPS

@@ -163,6 +163,28 @@ AWS and Product Advertising API credentials
     # the assoc tag of the Amazon Product Advertising API
     PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG = '...'
 
+Amazon associates
+'''''''''''''''''
+As the links to Amazon will be affiliate links with your Amazon associate tag (see above), you have to set your name for the disclaimer
+(see `https://partnernet.amazon.de/gp/associates/agreement <https://partnernet.amazon.de/gp/associates/agreement>`__).
+
+::
+
+    # name of you/your site
+    PRICE_MONITOR_AMAZON_ASSOCIATE_NAME = 'name/sitename'
+    # Amazon site being used, choose from on of the following
+        'Amazon.co.uk'
+        'Local.Amazon.co.uk'
+        'Amazon.de'
+        'de.BuyVIP.com'
+        'Amazon.fr'
+        'Amazon.it'
+        'it.BuyVIP.com'
+        'Amazon.es'
+        'es.BuyVIP.com'
+    PRICE_MONITOR_AMAZON_ASSOCIATE_SITE = '<ONE FROM ABOVE>'
+
+
 Images protocol and domain
 ''''''''''''''''''''''''''
 
