@@ -144,6 +144,15 @@ We use Rest-Framework for Angular frontend:
         'MAX_PAGINATE_BY': 100,
     }
 
+Site URL
+''''''''
+Specify the base URL under which your site will be available. Defaults to: *http://localhost:8000*
+Necessary for creating links to the site within the notification emails.
+
+::
+    # base url to the site
+    PRICE_MONITOR_BASE_URL = 'https://....'
+
 AWS and Product Advertising API credentials
 '''''''''''''''''''''''''''''''''''''''''''
 

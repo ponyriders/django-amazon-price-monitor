@@ -7,6 +7,8 @@ Change Log
 
   - Font files not included in package
     `#75 <https://github.com/ponyriders/django-amazon-price-monitor/issues/75>`__
+  - Add link to PM frontend in notification email
+    `#76 <https://github.com/ponyriders/django-amazon-price-monitor/issues/76>`__
   - Identify as Amazon associate
     `#77 <https://github.com/ponyriders/django-amazon-price-monitor/issues/77>`__
 

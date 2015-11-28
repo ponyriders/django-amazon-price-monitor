@@ -9,6 +9,9 @@ PRICE_MONITOR_AMAZON_PRODUCT_API_REGION = getattr(settings, 'PRICE_MONITOR_AMAZO
 PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG = getattr(settings, 'PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG', '')
 PRICE_MONITOR_AMAZON_ASSOCIATE_NAME = getattr(settings, 'PRICE_MONITOR_AMAZON_ASSOCIATE_NAME', '<ADJUST settings.PRICE_MONITOR_AMAZON_ASSOCIATE_NAME>')
 
+# project settings
+PRICE_MONITOR_BASE_URL = getattr(settings, 'PRICE_MONITOR_BASE_URL', 'http://localhost:8000')
+
 # Amazon Disclaimers
 # Disclaimer for Product Advertising API, see https://partnernet.amazon.de/gp/advertising/api/detail/agreement.html and #12
 PRICE_MONITOR_AMAZON_PRODUCT_ADVERTISING_API_DISCLAIMER = 'CERTAIN CONTENT THAT APPEARS ON THIS SITE COMES FROM AMAZON EU S.à r.l. THIS CONTENT IS ' \
@@ -61,9 +64,17 @@ PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY = getattr(
     settings,
     'PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY',
     ugettext_lazy(
-        'The price limit of %(price_limit)0.2f %(currency)s has been reached for the article "%(product_title)s" - '
-        'the current price is %(price)0.2f %(currency)s.'
-        '\n\nPlease support our platform by using this link for buying: %(link)s\n\n\nRegards,\nThe Team'
+        'The price limit of {price_limit:0.2f} {currency:s} has been reached for the article "{product_title:s}" - '
+        'the current price is {price:0.2f} {currency:s}.'
+        '\n\n'
+        'Please support our platform by using this affiliate link for buying the product: {url_product_amazon:s}'
+        '\n'
+        'Adjust the price limits for the products here: {url_product_detail:s}'
+        '\n\n'
+        '\n'
+        'Regards,'
+        '\n'
+        'The Team'
     )
 )
 PRICE_MONITOR_SITENAME = getattr(settings, 'PRICE_MONITOR_SITENAME', 'Price Monitor')

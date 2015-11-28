@@ -25,6 +25,19 @@ def get_offer_url(asin):
     })
 
 
+def get_product_detail_url(asin):
+    """
+    Returns the url to a product detail view.
+    As the frontend is AngularJS, we cannot use any Django reverse functionality.
+    :param asin: the asin to use
+    :return: the link
+    """
+    return '{base_url:s}/#/products/{asin:s}'.format(
+        base_url=app_settings.PRICE_MONITOR_BASE_URL,
+        asin=asin,
+    )
+
+
 def parse_audience_rating(rating):
     """
     Parses the audience rating to a locale unaware value.
@@ -62,13 +75,14 @@ def send_mail(product, subscription, price):
     """
     django_send_mail(
         _(app_settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT) % {'product': product.title},
-        _(app_settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY) % {
-            'price_limit': subscription.price_limit,
-            'currency': price.currency,
-            'price': price.value,
-            'product_title': product.get_title(),
-            'link': product.offer_url,
-        },
+        _(app_settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY).format(
+            price_limit=subscription.price_limit,
+            currency=price.currency,
+            price=price.value,
+            product_title=product.get_title(),
+            url_product_amazon=product.offer_url,
+            url_product_detail=get_product_detail_url(product.asin),
+        ),
         app_settings.PRICE_MONITOR_EMAIL_SENDER,
         [subscription.email_notification.email],
         fail_silently=False,
