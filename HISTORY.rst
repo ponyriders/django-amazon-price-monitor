@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+`TO BE RELEASED: 0.5 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.5>`__
+------------------------------------------------------------------------------------
+**Fixed bugs:**
+
+  - Identify as Amazon associate
+    `#77 <https://github.com/ponyriders/django-amazon-price-monitor/issues/77>`__
+
 `0.4 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.4>`__
 ------------------------------------------------------------------------------------
 **Implemented enhancements:**
