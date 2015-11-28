@@ -5,6 +5,8 @@ Change Log
 ------------------------------------------------------------------------------------
 **Fixed bugs:**
 
+  - Font files not included in package
+    `#75 <https://github.com/ponyriders/django-amazon-price-monitor/issues/75>`__
   - Identify as Amazon associate
     `#77 <https://github.com/ponyriders/django-amazon-price-monitor/issues/77>`__
 
