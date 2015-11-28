@@ -38,6 +38,7 @@ class AngularIndexView(TemplateView):
             default_currency=app_settings.PRICE_MONITOR_DEFAULT_CURRENCY,
             subscription_create_form=form,
             site_name=app_settings.PRICE_MONITOR_SITENAME,
+            product_advertising_disclaimer=app_settings.PRICE_MONITOR_AMAZON_PRODUCT_ADVERTISING_API_DISCLAIMER,
         )
         return context
 

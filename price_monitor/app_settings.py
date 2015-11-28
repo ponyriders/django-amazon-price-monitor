@@ -8,6 +8,11 @@ PRICE_MONITOR_AWS_SECRET_ACCESS_KEY = getattr(settings, 'PRICE_MONITOR_AWS_SECRE
 PRICE_MONITOR_AMAZON_PRODUCT_API_REGION = getattr(settings, 'PRICE_MONITOR_AMAZON_PRODUCT_API_REGION', '')
 PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG = getattr(settings, 'PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG', '')
 
+# some Amazon disclaimers
+# Disclaimer for Product Advertising API, see https://partnernet.amazon.de/gp/advertising/api/detail/agreement.html and #12
+PRICE_MONITOR_AMAZON_PRODUCT_ADVERTISING_API_DISCLAIMER = 'CERTAIN CONTENT THAT APPEARS ON THIS SITE COMES FROM AMAZON EU S.à r.l. THIS CONTENT IS ' \
+    'PROVIDED \'AS IS\' AND IS SUBJECT TO CHANGE OR REMOVAL AT ANY TIME.'
+
 # server infrastructural settings
 # serve the product images via HTTPS
 PRICE_MONITOR_IMAGES_USE_SSL = getattr(settings, 'PRICE_MONITOR_IMAGES_USE_SSL', True)
