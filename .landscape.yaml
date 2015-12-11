@@ -1,0 +1,9 @@
+doc-warnings: yes
+max-line-length: 160
+uses:
+  - django
+  - celery
+ignore-paths:
+  - docs
+  - hooks
+  - price_monitor/migrations
