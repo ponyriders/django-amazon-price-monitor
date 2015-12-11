@@ -2,7 +2,7 @@ Change Log
 ==========
 
 `TO BE RELEASED: 0.5 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.5>`__
-------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
 **Fixed bugs:**
 
   - Font files not included in package
