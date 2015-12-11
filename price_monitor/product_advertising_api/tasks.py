@@ -2,7 +2,10 @@ import logging
 
 from celery import chord
 from celery.signals import celeryd_after_setup
-from celery.task import Task
+from celery.task import (
+    PeriodicTask,
+    Task,
+)
 from celery.task.control import inspect
 
 from datetime import (
@@ -65,6 +68,27 @@ class StartupTask(Task):
 
         # 5 seconds after startup we start the synchronization
         FindProductsToSynchronizeTask().apply_async(countdown=5)
+
+
+class JumpStartTask(PeriodicTask):
+
+    """
+    Task providing jump start to the FindProductsToSynchronizeTask.
+
+    It can happen that the FindProductsToSynchronizeTask does not reschedule itself. I don't know why. We do a workaround with this periodic tasks providing a
+    jumper cable to reschedule the task by queuing the StartupTask.
+    """
+
+    run_every = timedelta(minutes=60)
+
+    def run(self):
+        """
+        Does no more that to call the StartupTask in 5 seconds.
+        :return: always True
+        """
+        logger.info('JumpStartTask was called')
+        StartupTask().apply_async(countdown=5)
+        return True
 
 
 class FindProductsToSynchronizeTask(Task):
