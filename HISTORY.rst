@@ -14,6 +14,13 @@ Change Log
   - Identify as Amazon associate
     `#77 <https://github.com/ponyriders/django-amazon-price-monitor/issues/77>`__
 
+
+**Merged pull requests:**
+
+  - Ensured that FindProductsToSynchronizeTask will be scheduled
+    `#78 <https://github.com/ponyriders/django-amazon-price-monitor/pull/78>`__
+    (`dArignac <https://github.com/dArignac>`__)
+
 `0.4 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.4>`__
 ------------------------------------------------------------------------------------
 **Implemented enhancements:**
