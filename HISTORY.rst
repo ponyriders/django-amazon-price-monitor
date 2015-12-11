@@ -2,9 +2,11 @@ Change Log
 ==========
 
 `TO BE RELEASED: 0.5 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.5>`__
-------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
 **Fixed bugs:**
 
+  - FindProductsToSynchronizeTask is not always rescheduled
+    `#61 <https://github.com/ponyriders/django-amazon-price-monitor/issues/61>`__
   - Font files not included in package
     `#75 <https://github.com/ponyriders/django-amazon-price-monitor/issues/75>`__
   - Add link to PM frontend in notification email

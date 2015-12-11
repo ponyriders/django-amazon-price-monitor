@@ -105,6 +105,8 @@ Adjust the settings appropiately, `see next chapter <#settings>`__.
 
 Include the url configuration.
 
+Setup celery - you'll need the beat and a worker.
+
 Settings
 ~~~~~~~~
 
