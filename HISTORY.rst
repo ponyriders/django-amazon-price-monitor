@@ -5,6 +5,8 @@ Change Log
 --------------------------------------------------------------------------------------
 **Fixed bugs:**
 
+  - FindProductsToSynchronizeTask is not always rescheduled
+    `#61 <https://github.com/ponyriders/django-amazon-price-monitor/issues/61>`__
   - Font files not included in package
     `#75 <https://github.com/ponyriders/django-amazon-price-monitor/issues/75>`__
   - Add link to PM frontend in notification email
