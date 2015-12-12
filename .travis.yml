@@ -2,9 +2,9 @@ language: python
 sudo: false
 env:
 - TOXENV=py33-django18
-- TOXENV=py33-django19
 - TOXENV=py34-django18
 - TOXENV=py34-django19
+- TOXENV=py35-django19
 install:
 - pip install codecov tox
 script:

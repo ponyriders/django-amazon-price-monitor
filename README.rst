@@ -72,9 +72,13 @@ Setup
 Prerequisites
 ~~~~~~~~~~~~~
 
-- Python 3.3, 3.4
-- Django 1.8, 1.9
-- see setup.py
++--------+-----+------------+-----+
+| Python | 3.3 | 3.4        | 3.5 |
++========+=====+============+=====+
+| Django | 1.8 | 1.8 or 1.9 | 1.9 |
++--------+-----+------------+-----+
+
+For additional used packages see `setup.py <https://github.com/ponyriders/django-amazon-price-monitor/blob/master/setup.py#L23>`__.
 
 Included angular libraries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
