@@ -72,8 +72,9 @@ Setup
 Prerequisites
 ~~~~~~~~~~~~~
 
--  Python 3.3, 3.4
--  see setup.py
+- Python 3.3, 3.4
+- Django 1.8, 1.9
+- see setup.py
 
 Included angular libraries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
