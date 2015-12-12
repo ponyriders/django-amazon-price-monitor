@@ -22,8 +22,7 @@ setup(
     include_package_data=True,
     install_requires=[
         # main dependencies
-        'Django>=1.8,<1.9',
-        'six',  # TODO still relevant?
+        'Django>=1.8,<1.10',
         # for product advertising api
         'beautifulsoup4',
         'bottlenose>=0.6.2',
