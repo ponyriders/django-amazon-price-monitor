@@ -4,7 +4,11 @@ env:
 - TOXENV=py33-django18
 - TOXENV=py34-django18
 - TOXENV=py34-django19
-- TOXENV=py35-django19
+matrix:
+  include:
+    - python: 3.5
+      env:
+      - TOXENV=py35-django19
 install:
 - pip install codecov tox
 script:
@@ -13,11 +17,6 @@ after_success:
 - codecov
 notifications:
   email: false
-matrix:
-  include:
-    - python: 3.5
-      env:
-      - TOXENV=py35-django19
 deploy:
   provider: pypi
   user: ponyriders
