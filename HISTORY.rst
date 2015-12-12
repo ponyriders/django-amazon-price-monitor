@@ -20,6 +20,9 @@ Change Log
   - Ensured that FindProductsToSynchronizeTask will be scheduled
     `#78 <https://github.com/ponyriders/django-amazon-price-monitor/pull/78>`__
     (`dArignac <https://github.com/dArignac>`__)
+  - Django 1.9 support
+    `#80 <https://github.com/ponyriders/django-amazon-price-monitor/pull/80>`__
+    (`dArignac <https://github.com/dArignac>`__)
 
 `0.4 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.4>`__
 ------------------------------------------------------------------------------------
