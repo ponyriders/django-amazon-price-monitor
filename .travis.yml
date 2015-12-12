@@ -13,6 +13,11 @@ after_success:
 - codecov
 notifications:
   email: false
+matrix:
+  include:
+    - python: 3.5
+      env:
+      - TOXENV=py35-django19
 deploy:
   provider: pypi
   user: ponyriders
