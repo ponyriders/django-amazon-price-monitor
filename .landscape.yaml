@@ -7,3 +7,6 @@ ignore-paths:
   - docs
   - hooks
   - price_monitor/migrations
+pylint:
+  disable:
+    - invalid-encoded-data
