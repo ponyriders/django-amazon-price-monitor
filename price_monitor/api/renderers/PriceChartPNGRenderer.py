@@ -19,9 +19,8 @@ def bool_helper(x):
 
 
 class PriceChartPNGRenderer(BaseRenderer):
-    """
-    A renderer to render charts as PNG for prices
-    """
+
+    """A renderer to render charts as PNG for prices"""
 
     media_type = 'image/*'
     format = 'png'
@@ -43,10 +42,9 @@ class PriceChartPNGRenderer(BaseRenderer):
         'y_labels_major_count': lambda x: int(x),
     }
 
-    def render(self, data, accepted_media_type=None, renderer_context=None):
-        """
-        Renders `data` into serialized XML.
-        """
+    def render(self, data, accepted_media_type=None, renderer_context=None):  # pylint:disable=unused-argument
+        """Renders `data` into serialized XML."""
+
         # first get the cache to use or None
         try:
             cache = caches[app_settings.PRICE_MONITOR_GRAPH_CACHE_NAME]
@@ -81,9 +79,7 @@ class PriceChartPNGRenderer(BaseRenderer):
             return content
 
     def sanitize_allowed_args(self, request):
-        """
-        TODO: documentation
-        """
+        """TODO: documentation"""
         sanitized_args = {}
         if request.method == 'POST':
             args = request.POST
@@ -102,17 +98,13 @@ class PriceChartPNGRenderer(BaseRenderer):
         return sanitized_args
 
     def create_cache_key(self, data, args):
-        """
-        Creates a cache key based on rendering data
-        """
+        """Creates a cache key based on rendering data"""
         hash_data = str(data['results']).encode('utf-8')
         hash_data += str(args).encode('utf-8')
         return app_settings.PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX + hashlib.md5(hash_data).hexdigest()
 
     def create_graph(self, data, args):
-        """
-        Creates the graph based on rendering data
-        """
+        """Creates the graph based on rendering data"""
         line_chart_arguments = {
             'style': RedBlueStyle,
             'x_label_rotation': 25,

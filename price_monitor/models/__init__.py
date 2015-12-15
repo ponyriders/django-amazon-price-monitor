@@ -16,6 +16,7 @@ from price_monitor.models.Subscription import Subscription  # noqa
 def synchronize_product_after_creation(sender, instance, created, **kwargs):
     """
     Directly start synchronization of a Product after its creation.
+
     :param sender: class calling the signal
     :type sender: ModelBase
     :param instance: the Product instance
@@ -35,6 +36,7 @@ def synchronize_product_after_creation(sender, instance, created, **kwargs):
 def cleanup_products_after_subscription_removal(sender, instance, using, **kwargs):
     """
     Queues the execution of the ProductCleanupTask after a subscription was deleted.
+
     :param sender: class calling the signal
     :type sender: ModelBase
     :param instance: the Subscription instance

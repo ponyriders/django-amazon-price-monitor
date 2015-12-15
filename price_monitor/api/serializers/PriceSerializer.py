@@ -8,7 +8,7 @@ class PriceSerializer(serializers.ModelSerializer):
     Serializes prices by showing currency, value and date seen
     """
 
-    class Meta:
+    class Meta(object):
         model = Price
         fields = (
             'value',

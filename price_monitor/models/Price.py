@@ -1,11 +1,12 @@
+"""Definition of a model for prices"""
 from django.db import models
 from django.utils.translation import ugettext as _, ugettext_lazy
 
 
 class Price(models.Model):
-    """
-    Representing fetched price for a product
-    """
+
+    """Representing fetched price for a product"""
+
     value = models.FloatField(verbose_name=_('Price'), blank=True, null=True)
     currency = models.CharField(max_length=3, verbose_name=_('Currency'), blank=True, null=True)
     date_seen = models.DateTimeField(verbose_name=_('Date of price'))
@@ -14,6 +15,7 @@ class Price(models.Model):
     def __str__(self):
         """
         Returns the string representation of the Product.
+
         :return: the unicode representation
         :rtype: unicode
         """
