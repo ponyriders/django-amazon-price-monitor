@@ -57,7 +57,7 @@ def parse_audience_rating(rating):
         if rating == 'Freigegeben ohne Altersbeschränkung':
             return 0
 
-        logger.error('Unable to parse audience rating value "%(audience_rating)s"' % {'audience_rating': rating})
+        logger.error('Unable to parse audience rating value "{audience_rating!s}"'.format(**{'audience_rating': rating}))
         return rating
 
     return int(result.groups()[0])

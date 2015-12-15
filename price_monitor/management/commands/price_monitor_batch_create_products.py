@@ -29,4 +29,4 @@ class Command(BaseCommand):
         for asin in asins:
             Product.objects.create(asin=asin)
 
-        print('created %d products' % len(asins))
+        print('created {0:d} products'.format(len(asins)))

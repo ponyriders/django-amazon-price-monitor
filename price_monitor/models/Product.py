@@ -101,7 +101,7 @@ class Product(models.Model):
         :return: the cache key
         :rtype:  str
         """
-        return 'graph-%s-%s' % (self.asin, self.date_last_synced.isoformat() if self.date_last_synced is not None else '')
+        return 'graph-{0!s}-{1!s}'.format(self.asin, self.date_last_synced.isoformat() if self.date_last_synced is not None else '')
 
     def get_title(self):
         """
