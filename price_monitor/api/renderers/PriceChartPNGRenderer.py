@@ -1,3 +1,4 @@
+"""Module for rendering price charts as PNG"""
 import dateutil.parser
 import hashlib
 
@@ -15,6 +16,12 @@ from tempfile import TemporaryFile
 
 
 def bool_helper(x):
+    """
+    Returns True if the value is something that can be mapped to a boolean value.
+
+    :param x: the value to check
+    :return: the mapped boolean value or False if not mappable
+    """
     return x in [1, '1', 'true', 'True']
 
 
@@ -44,7 +51,6 @@ class PriceChartPNGRenderer(BaseRenderer):
 
     def render(self, data, accepted_media_type=None, renderer_context=None):  # pylint:disable=unused-argument
         """Renders `data` into serialized XML."""
-
         # first get the cache to use or None
         try:
             cache = caches[app_settings.PRICE_MONITOR_GRAPH_CACHE_NAME]

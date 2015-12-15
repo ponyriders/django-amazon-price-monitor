@@ -1,3 +1,4 @@
+"""Base module for models that are in module entities. Sets all signal handlers"""
 import os
 
 from django.db.models.signals import (
@@ -13,7 +14,7 @@ from price_monitor.models.Subscription import Subscription  # noqa
 
 
 @receiver(post_save, sender=Product)
-def synchronize_product_after_creation(sender, instance, created, **kwargs):
+def synchronize_product_after_creation(sender, instance, created, **kwargs):  # pylint:disable=unused-argument
     """
     Directly start synchronization of a Product after its creation.
 
@@ -33,7 +34,7 @@ def synchronize_product_after_creation(sender, instance, created, **kwargs):
 
 
 @receiver(post_delete, sender=Subscription)
-def cleanup_products_after_subscription_removal(sender, instance, using, **kwargs):
+def cleanup_products_after_subscription_removal(sender, instance, using, **kwargs):  # pylint:disable=unused-argument
     """
     Queues the execution of the ProductCleanupTask after a subscription was deleted.
 
