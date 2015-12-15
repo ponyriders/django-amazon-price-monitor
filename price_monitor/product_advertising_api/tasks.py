@@ -292,7 +292,7 @@ class NotifySubscriberTask(Task):
         except SMTPServerDisconnected:
             logger.exception('SMTP server was disconnected.')
         else:
-            logger.info('Notification email to &s was sent!', subscription.email_notification.email)
+            logger.info('Notification email to %s was sent!', subscription.email_notification.email)
             subscription.date_last_notification = timezone.now()
             subscription.save()
             return True
