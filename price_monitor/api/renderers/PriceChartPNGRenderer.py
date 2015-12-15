@@ -36,17 +36,17 @@ class PriceChartPNGRenderer(BaseRenderer):
 
     # TODO: documentation
     allowed_chart_url_args = {
-        'height': lambda x: int(x),
-        'width': lambda x: int(x),
-        'margin': lambda x: int(x),
-        'no_data_font_size': lambda x: int(x),
-        'spacing': lambda x: int(x),
+        'height': lambda x: int(x),  # pylint:disable=unnecessary-lambda
+        'width': lambda x: int(x),  # pylint:disable=unnecessary-lambda
+        'margin': lambda x: int(x),  # pylint:disable=unnecessary-lambda
+        'no_data_font_size': lambda x: int(x),  # pylint:disable=unnecessary-lambda
+        'spacing': lambda x: int(x),  # pylint:disable=unnecessary-lambda
         'show_dots': bool_helper,
         'show_legend': bool_helper,
         'show_x_labels': bool_helper,
         'show_y_labels': bool_helper,
         'show_minor_y_labels': bool_helper,
-        'y_labels_major_count': lambda x: int(x),
+        'y_labels_major_count': lambda x: int(x),  # pylint:disable=unnecessary-lambda
     }
 
     def render(self, data, accepted_media_type=None, renderer_context=None):  # pylint:disable=unused-argument
