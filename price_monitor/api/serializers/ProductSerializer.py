@@ -1,3 +1,4 @@
+"""Serializer for Product model"""
 from .SubscriptionSerializer import SubscriptionSerializer
 from ...models import EmailNotification, Product, Subscription
 
@@ -7,6 +8,7 @@ from rest_framework import serializers
 
 
 class ProductSerializer(serializers.ModelSerializer):
+
     """
     Product serializer. Serializes all fields needed for frontend and id from asin.
     Also sets all fields but asin to read only
@@ -24,6 +26,7 @@ class ProductSerializer(serializers.ModelSerializer):
     def __render_price_dict(self, price):
         """
         Renders price instance as dict
+
         :param price: price instance
         :type price:  Price
         :return:      price instance as dict
@@ -38,6 +41,7 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_current_price(self, obj):
         """
         Renderes current price dict as read only value into product representation
+
         :param obj: product to get price for
         :type obj:  Product
         :returns:   Dict with current price values
@@ -49,6 +53,7 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_highest_price(self, obj):
         """
         Renders highest price dict as read only value into product representation
+
         :param obj: product to get price for
         :type obj:  Product
         :returns:   Dict with highest price values
@@ -60,6 +65,7 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_lowest_price(self, obj):
         """
         Renders lowest price dict as read only value into product representation
+
         :param obj: product to get price for
         :type obj:  Product
         :returns:   Dict with lowest price values
@@ -71,6 +77,7 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_image_urls(self, obj):
         """
         Renders image urls as read only value into product representation
+
         :param obj: object to get image urls for
         :type obj:  Product
         :returns:   dict with image urls
@@ -81,8 +88,8 @@ class ProductSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         """
-        Overwriting default create function to ensure, that the already
-        existing instance of product is used, if asin is already in database
+        Overwriting default create function to ensure, that the already existing instance of product is used, if asin is already in database
+
         :param validated_data: valid form data
         :type validated_data:  dict
         :return:               created or fetched product
@@ -112,6 +119,7 @@ class ProductSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         """
         Overwrites parent function to enable update of products subscriptions
+
         :param instance:        the product instance
         :type instance:         Product
         :param validated_data:  dict with validated data from request
@@ -145,6 +153,9 @@ class ProductSerializer(serializers.ModelSerializer):
         return self.context['view'].filter_queryset(self.context['view'].get_queryset()).get(pk=instance.pk)
 
     class Meta:
+
+        """Some model meta"""
+
         model = Product
         fields = (
             'date_creation',

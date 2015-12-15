@@ -1,3 +1,4 @@
+"""General tasks"""
 import logging
 
 from celery.task import Task
@@ -13,13 +14,13 @@ logger = logging.getLogger('price_monitor.tasks')
 
 
 class ProductCleanupTask(Task):
-    """
-    Task for removing a product if it has no subscribers.
-    """
+
+    """Task for removing a product if it has no subscribers."""
 
     def run(self, asin):
         """
         Checks if there are subscribers for the product with the given asin. If not, the product and its prices are deleted.
+
         :param asin: the ASIN of the product
         :type asin: str
         :return: success or failure

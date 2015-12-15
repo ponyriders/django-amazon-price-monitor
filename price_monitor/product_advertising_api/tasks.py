@@ -1,3 +1,4 @@
+"""Celery tasks for the Amazon Product Advertising API"""
 import logging
 
 from celery import chord
@@ -41,15 +42,16 @@ logger = logging.getLogger('price_monitor.product_advertising_api')
 def celeryd_after_setup(*args, **kwargs):
     """
     Called after the worker instances are set up.
+
     Starts the StartupTask to get the whole synchronization started.
     """
     StartupTask().apply_async(countdown=5)
 
 
 class StartupTask(Task):
-    """
-    The task for getting the machinery up and running. As we do not use celery beat, we have to start somewhere.
-    """
+
+    """The task for getting the machinery up and running. As we do not use celery beat, we have to start somewhere."""
+
     ignore_result = True
 
     def run(self):
@@ -84,6 +86,7 @@ class JumpStartTask(PeriodicTask):
     def run(self):
         """
         Does no more that to call the StartupTask in 5 seconds.
+
         :return: always True
         """
         logger.info('JumpStartTask was called')
@@ -92,13 +95,14 @@ class JumpStartTask(PeriodicTask):
 
 
 class FindProductsToSynchronizeTask(Task):
-    """
-    The tasks that finds the products that shall be updated through the api.
-    """
+
+    """The tasks that finds the products that shall be updated through the api."""
+
     def run(self):
         """
         Fetches the products to update via api. Queues a SynchronizeProductsTask and calls a new instance of itself after all
         tasks are done. If no products found for update, sleeps until the next update time is reached.
+
         :return: the result is always true
         :rtype: bool
         """
@@ -138,6 +142,7 @@ class FindProductsToSynchronizeTask(Task):
     def __get_products_to_sync(self):
         """
         Returns the products to synchronize.
+
         These are newly created products with status "0" or products that are older than settings.PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES.
         :return: list of products
         :rtype: django.db.models.query.QuerySet
@@ -152,9 +157,9 @@ class FindProductsToSynchronizeTask(Task):
 
 
 class SynchronizeProductsTask(Task):
-    """
-    Task for synchronizing a single product.
-    """
+
+    """Task for synchronizing a single product."""
+
     # limit to one task per second, limited by Amazon API
     rate_limit = '1/s'
 
@@ -163,6 +168,7 @@ class SynchronizeProductsTask(Task):
     def run(self, asin_list):
         """
         Called by celery if task is being delayed.
+
         :param asin_list: list of asins of the products to be sycnhronized with Amazon
         :type  asin_list: list
         """
@@ -179,7 +185,7 @@ class SynchronizeProductsTask(Task):
             products[asin] = product
 
         if products:
-            logger.error('For the given ASINs {0} no products where found!'.format(','.join(asin_list)))
+            logger.error('For the given ASINs %s no products where found!', ','.join(asin_list))
             return True
 
         logger.info('Synchronizing products with ItemIds %s', ', '.join(products.keys()))
@@ -248,13 +254,13 @@ class SynchronizeProductsTask(Task):
 
 
 class NotifySubscriberTask(Task):
-    """
-    Task for notifying a single user about a product that has reached the desired price.
-    """
+
+    """Task for notifying a single user about a product that has reached the desired price."""
 
     def run(self, product_pk, price_pk, subscription_pk, **kwargs):
         """
         Sends an email to the subscriber.
+
         :param product_pk: the id of product to notify about
         :type product_pk: int
         :param price_pk: the id of current price of the product
@@ -280,13 +286,13 @@ class NotifySubscriberTask(Task):
             logger.error('Subscription with PK %d could not be found.', subscription_pk)
             return False
 
-        logger.info('Trying to send notification email to {email!s}...'.format(**{'email': subscription.email_notification.email}))
+        logger.info('Trying to send notification email to %s...', subscription.email_notification.email)
         try:
             send_mail(product, subscription, price)
         except SMTPServerDisconnected:
             logger.exception('SMTP server was disconnected.')
         else:
-            logger.info('Notification email to {email!s} was sent!'.format(**{'email': subscription.email_notification.email}))
+            logger.info('Notification email to &s was sent!', subscription.email_notification.email)
             subscription.date_last_notification = timezone.now()
             subscription.save()
             return True
