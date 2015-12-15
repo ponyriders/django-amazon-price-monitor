@@ -109,8 +109,8 @@ class Product(models.Model):
         :return: the title
         :rtype: str
         """
-        return '{}{}'.format(
-            '{}: '.format(self.artist) if self.artist is not None and len(self.artist) > 0 else '',
+        return '{0}{1}'.format(
+            '{0}: '.format(self.artist) if self.artist is not None and len(self.artist) > 0 else '',
             self.title if self.title is not None and len(self.title) > 0 else _('Unsynchronized Product'),
         )
 
@@ -120,7 +120,7 @@ class Product(models.Model):
         :return: the unicode representation
         :rtype: unicode
         """
-        return '{} (ASIN: {})'.format(self.get_title(), self.asin)
+        return '{0} (ASIN: {1})'.format(self.get_title(), self.asin)
 
     class Meta:
         app_label = 'price_monitor'
