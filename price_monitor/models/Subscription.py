@@ -29,10 +29,10 @@ class Subscription(PublicIDMixin, models.Model):
         :return: the unicode representation
         :rtype: unicode
         """
-        return 'Subscription of "%(product)s" for %(user)s' % {
+        return 'Subscription of "{product!s}" for {user!s}'.format(**{
             'product': self.product.title,
             'user': self.owner.username,
-        }
+        })
 
     class Meta:
         app_label = 'price_monitor'

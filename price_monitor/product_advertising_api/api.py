@@ -77,11 +77,11 @@ class ProductAdvertisingAPI(object):
         ex = error['exception']
 
         logger.error(
-            'Error was thrown upon requesting URL %(api_url)s (Cache-URL: %(cache_url)s: %(exception)r' % {
+            'Error was thrown upon requesting URL {api_url!s} (Cache-URL: {cache_url!s}: {exception!r}'.format(**{
                 'api_url': error['api_url'],
                 'cache_url': error['cache_url'],
                 'exception': ex,
-            }
+            })
         )
 
         # try reconnect

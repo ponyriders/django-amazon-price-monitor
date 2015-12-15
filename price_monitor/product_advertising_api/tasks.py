@@ -280,13 +280,13 @@ class NotifySubscriberTask(Task):
             logger.error('Subscription with PK %d could not be found.', subscription_pk)
             return False
 
-        logger.info('Trying to send notification email to %(email)s...' % {'email': subscription.email_notification.email})
+        logger.info('Trying to send notification email to {email!s}...'.format(**{'email': subscription.email_notification.email}))
         try:
             send_mail(product, subscription, price)
         except SMTPServerDisconnected:
             logger.exception('SMTP server was disconnected.')
         else:
-            logger.info('Notification email to %(email)s was sent!' % {'email': subscription.email_notification.email})
+            logger.info('Notification email to {email!s} was sent!'.format(**{'email': subscription.email_notification.email}))
             subscription.date_last_notification = timezone.now()
             subscription.save()
             return True

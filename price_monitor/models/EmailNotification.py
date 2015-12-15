@@ -21,9 +21,9 @@ class EmailNotification(PublicIDMixin, models.Model):
         :rtype: unicode
         """
         return text_type(
-            ' %(email)s' % {
+            ' {email!s}'.format(**{
                 'email': self.email,
-            }
+            })
         )
 
     class Meta:
