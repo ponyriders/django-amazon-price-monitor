@@ -122,7 +122,7 @@ class Product(models.Model):
         """
         return '{0} (ASIN: {1})'.format(self.get_title(), self.asin)
 
-    class Meta:
+    class Meta(object):
         app_label = 'price_monitor'
         verbose_name = ugettext_lazy('Product')
         verbose_name_plural = ugettext_lazy('Products')

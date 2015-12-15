@@ -34,7 +34,7 @@ class Subscription(PublicIDMixin, models.Model):
             'user': self.owner.username,
         })
 
-    class Meta:
+    class Meta(object):
         app_label = 'price_monitor'
         verbose_name = ugettext_lazy('Subscription')
         verbose_name_plural = ugettext_lazy('Subscriptions')

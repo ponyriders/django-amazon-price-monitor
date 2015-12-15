@@ -26,7 +26,7 @@ class EmailNotification(PublicIDMixin, models.Model):
             })
         )
 
-    class Meta:
+    class Meta(object):
         app_label = 'price_monitor'
         verbose_name = ugettext_lazy('Email Notification')
         verbose_name_plural = ugettext_lazy('Email Notifications')

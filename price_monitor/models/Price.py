@@ -25,7 +25,7 @@ class Price(models.Model):
             date_seen=self.date_seen
         ))
 
-    class Meta:
+    class Meta(object):
         app_label = 'price_monitor'
         get_latest_by = 'date_seen'
         verbose_name = ugettext_lazy('Price')
