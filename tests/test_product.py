@@ -47,14 +47,14 @@ class ProductTest(TestCase):
         self.assertTrue('medium' in p.get_image_urls())
         self.assertTrue('large' in p.get_image_urls())
         self.assertEqual(
-            '{}{}'.format(app_settings.PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN, '/ponyriders/django-amazon-price-monitor/small.png'),
+            '{0}{1}'.format(app_settings.PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN, '/ponyriders/django-amazon-price-monitor/small.png'),
             p.get_image_urls()['small']
         )
         self.assertEqual(
-            '{}{}'.format(app_settings.PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN, '/ponyriders/django-amazon-price-monitor/medium.png'),
+            '{0}{1}'.format(app_settings.PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN, '/ponyriders/django-amazon-price-monitor/medium.png'),
             p.get_image_urls()['medium']
         )
         self.assertEqual(
-            '{}{}'.format(app_settings.PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN, '/ponyriders/django-amazon-price-monitor/large.png'),
+            '{0}{1}'.format(app_settings.PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN, '/ponyriders/django-amazon-price-monitor/large.png'),
             p.get_image_urls()['large']
         )

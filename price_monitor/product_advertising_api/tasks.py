@@ -62,7 +62,7 @@ class StartupTask(Task):
         for task_values in iter(scheduled_tasks.values()):
             # task_values is a list of dicts
             for task in task_values:
-                if task['request']['name'] == '{}.{}'.format(FindProductsToSynchronizeTask.__module__, FindProductsToSynchronizeTask.__name__):
+                if task['request']['name'] == '{0}.{1}'.format(FindProductsToSynchronizeTask.__module__, FindProductsToSynchronizeTask.__name__):
                     logger.info('FindProductsToSynchronizeTask is already scheduled, skipping additional run')
                     return
 
@@ -179,7 +179,7 @@ class SynchronizeProductsTask(Task):
             products[asin] = product
 
         if len(products) == 0:
-            logger.error('For the given ASINs {} no products where found!'.format(','.join(asin_list)))
+            logger.error('For the given ASINs {0} no products where found!'.format(','.join(asin_list)))
             return True
 
         logger.info('Synchronizing products with ItemIds %s', ', '.join(products.keys()))

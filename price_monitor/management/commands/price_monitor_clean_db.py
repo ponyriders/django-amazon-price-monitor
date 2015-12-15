@@ -20,15 +20,15 @@ class Command(BaseCommand):
         prices_without_subscribers = Price.objects.filter(product__subscribers__isnull=True)
 
         print('=== PRE-CLEANUP ==================================')
-        print('Product count:                {:20d}'.format(Product.objects.count()))
-        print('Products with subscribers:    {:20d}'.format(Product.objects.filter(subscribers__isnull=False).count()))
-        print('Products without subscribers: {:20d}'.format(products_without_subscribers.count()))
-        print('Prices count:                 {:20d}'.format(Price.objects.count()))
+        print('Product count:                {0:20d}'.format(Product.objects.count()))
+        print('Products with subscribers:    {0:20d}'.format(Product.objects.filter(subscribers__isnull=False).count()))
+        print('Products without subscribers: {0:20d}'.format(products_without_subscribers.count()))
+        print('Prices count:                 {0:20d}'.format(Price.objects.count()))
         print('==================================================')
         print('')
 
         choice = input(
-            '{:d} products with {:d} prices will be deleted, continue? [y/N]'.format(
+            '{0:d} products with {1:d} prices will be deleted, continue? [y/N]'.format(
                 products_without_subscribers.count(),
                 prices_without_subscribers.count()
             )
