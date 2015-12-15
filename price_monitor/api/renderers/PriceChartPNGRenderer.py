@@ -100,7 +100,7 @@ class PriceChartPNGRenderer(BaseRenderer):
                     sanitized_args[arg] = sanitizer(args[arg])
                 except ValueError:
                     # sanitation gone wrong, so pass
-                    pass
+                    continue
         return sanitized_args
 
     def create_cache_key(self, data, args):
