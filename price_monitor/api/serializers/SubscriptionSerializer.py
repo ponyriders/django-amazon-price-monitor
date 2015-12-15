@@ -14,6 +14,9 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     email_notification = EmailNotificationSerializer()
 
     class Meta(object):
+
+        """Some model meta"""
+
         model = Subscription
         fields = (
             'id',

@@ -1,3 +1,4 @@
+"""Management command for removing invalid data from database"""
 from django.core.management.base import BaseCommand
 
 from price_monitor.models import (
@@ -7,15 +8,13 @@ from price_monitor.models import (
 
 
 class Command(BaseCommand):
-    """
-    Command for cleaning the database. Deletes all products without subscriptions.
-    """
+
+    """Command for cleaning the database. Deletes all products without subscriptions."""
+
     help = 'Deletes all products without subscriptions'
 
     def handle(self, *args, **options):
-        """
-        Deletes the products without subscriptions.
-        """
+        """Deletes the products without subscriptions."""
         products_without_subscribers = Product.objects.filter(subscribers__isnull=True)
         prices_without_subscribers = Price.objects.filter(product__subscribers__isnull=True)
 

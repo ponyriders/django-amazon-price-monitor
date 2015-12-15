@@ -1,3 +1,4 @@
+"""Management command for recreating a product"""
 from django.core.management.base import BaseCommand
 
 from price_monitor.models import Product
@@ -9,10 +10,13 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         """
         Adds the positional argument for ASIN
+
+        :param parser: the argument parser
         """
         parser.add_argument('asin', nargs=1, type=str)
 
     def handle(self, *args, **options):
+        """Recreates the product with given ASIN"""
         asin = options['asin'][0]
         product, created = Product.objects.get_or_create(asin=asin)
         if not created:

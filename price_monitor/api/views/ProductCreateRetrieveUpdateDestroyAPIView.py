@@ -1,3 +1,4 @@
+"""Mixed view for API"""
 from .mixins.ProductFilteringMixin import ProductFilteringMixin
 from ..serializers.ProductSerializer import ProductSerializer
 from ...models.Product import Product
@@ -6,9 +7,9 @@ from rest_framework import generics, mixins, permissions
 
 
 class ProductCreateRetrieveUpdateDestroyAPIView(ProductFilteringMixin, mixins.CreateModelMixin, generics.RetrieveUpdateDestroyAPIView):
-    """
-    Returns single instance of Product, if user is authenticated
-    """
+
+    """Returns single instance of Product, if user is authenticated"""
+
     model = Product
     serializer_class = ProductSerializer
     lookup_field = 'asin'
@@ -20,6 +21,7 @@ class ProductCreateRetrieveUpdateDestroyAPIView(ProductFilteringMixin, mixins.Cr
     def post(self, request, *args, **kwargs):
         """
         Add post method to create object
+
         :param request: the request
         :type request:  HttpRequest
         :return:        Result of creation
@@ -30,6 +32,7 @@ class ProductCreateRetrieveUpdateDestroyAPIView(ProductFilteringMixin, mixins.Cr
     def get_queryset(self):
         """
         Filters queryset by the authenticated user
+
         :returns: filtered Product objects
         :rtype:   QuerySet
         """
@@ -39,6 +42,7 @@ class ProductCreateRetrieveUpdateDestroyAPIView(ProductFilteringMixin, mixins.Cr
     def perform_destroy(self, instance):
         """
         Overwrite base function to delete subscriptions, not the product itself
+
         :param instance: the product to delete subscriptions from
         :type instance:  Product
         """

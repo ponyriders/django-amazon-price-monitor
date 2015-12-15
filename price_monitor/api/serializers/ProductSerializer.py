@@ -152,7 +152,7 @@ class ProductSerializer(serializers.ModelSerializer):
         instance.subscription_set.filter(owner=self.context['request'].user).exclude(public_id__in=new_public_ids).delete()
         return self.context['view'].filter_queryset(self.context['view'].get_queryset()).get(pk=instance.pk)
 
-    class Meta:
+    class Meta(object):
 
         """Some model meta"""
 

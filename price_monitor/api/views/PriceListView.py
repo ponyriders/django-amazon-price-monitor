@@ -1,3 +1,4 @@
+"""View for listing prices"""
 from ..renderers.PriceChartPNGRenderer import PriceChartPNGRenderer
 from ..serializers.PriceSerializer import PriceSerializer
 from ...models.Price import Price

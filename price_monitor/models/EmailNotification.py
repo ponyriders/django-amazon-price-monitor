@@ -1,3 +1,4 @@
+"""Model for an email based notification"""
 from .mixins.PublicIDMixin import PublicIDMixin
 
 from django.conf import settings
@@ -8,15 +9,16 @@ from six import text_type
 
 
 class EmailNotification(PublicIDMixin, models.Model):
-    """
-    An email notification.
-    """
+
+    """An email notification."""
+
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Owner'))
     email = models.EmailField(verbose_name=_('Email address'))
 
     def __str__(self):
         """
         Returns the unicode representation of the EmailNotification.
+
         :return: the unicode representation
         :rtype: unicode
         """
@@ -27,6 +29,9 @@ class EmailNotification(PublicIDMixin, models.Model):
         )
 
     class Meta(object):
+
+        """Meta Peter or how to configure your Django model"""
+
         app_label = 'price_monitor'
         verbose_name = ugettext_lazy('Email Notification')
         verbose_name_plural = ugettext_lazy('Email Notifications')

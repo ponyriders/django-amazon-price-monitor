@@ -1,3 +1,4 @@
+"""Form definitions for frontend"""
 from . import app_settings as settings
 from .models.EmailNotification import EmailNotification
 from .models.Product import Product
@@ -8,17 +9,17 @@ from django.utils.translation import ugettext as _
 
 
 class SubscriptionCreationForm(forms.ModelForm):
-    """
-    Form for creating an product Subscription
-    """
+
+    """Form for creating an product Subscription"""
+
     product = forms.RegexField(label=_('ASIN'), regex=settings.PRICE_MONITOR_ASIN_REGEX)
     email_notification = forms.ModelChoiceField(queryset=EmailNotification.objects.all(), empty_label=None)
 
     def clean_product(self):
         """
-        At creation, user gives an ASIN. But for saving the model, a product
-        instance is needed. So this product is looked up or created if not
-        present here.
+        At creation, user gives an ASIN. But for saving the model, a product instance is needed.
+
+        So this product is looked up or created if not present here.
         """
         asin = self.cleaned_data['product']
         try:
@@ -28,7 +29,10 @@ class SubscriptionCreationForm(forms.ModelForm):
         asin = product
         return asin
 
-    class Meta:
+    class Meta(object):
+
+        """Form meta stuff"""
+
         fields = ('product', 'email_notification', 'price_limit', 'owner')
         model = Subscription
         widgets = {
@@ -37,7 +41,13 @@ class SubscriptionCreationForm(forms.ModelForm):
 
 
 class SubscriptionUpdateForm(forms.ModelForm):
-    class Meta:
+
+    """Form for updating a subscription"""
+
+    class Meta(object):
+
+        """Form meta stuff"""
+
         fields = ('product', 'email_notification', 'price_limit', 'owner')
         model = Subscription
         widgets = {
@@ -47,7 +57,13 @@ class SubscriptionUpdateForm(forms.ModelForm):
 
 
 class EmailNotificationForm(forms.ModelForm):
-    class Meta:
+
+    """Form for giving an email notification"""
+
+    class Meta(object):
+
+        """Form meta stuff"""
+
         fields = ('email', 'owner')
         model = EmailNotification
         widgets = {

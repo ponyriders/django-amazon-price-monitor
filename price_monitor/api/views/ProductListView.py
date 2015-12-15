@@ -1,3 +1,4 @@
+"""View for listing subscriptions"""
 from rest_framework import generics, permissions
 
 from .mixins.ProductFilteringMixin import ProductFilteringMixin
@@ -6,10 +7,9 @@ from ...models.Product import Product
 
 
 class ProductListView(ProductFilteringMixin, generics.ListAPIView):
-    """
-    Returns list of Products and provides endpoint to create Products,
-    if user is authenticated
-    """
+
+    """Returns list of Products and provides endpoint to create Products, if user is authenticated."""
+
     model = Product
     serializer_class = ProductSerializer
     allow_empty = True

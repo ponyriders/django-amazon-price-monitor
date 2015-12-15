@@ -1,3 +1,4 @@
+"""View for listing subscriptions"""
 from ..serializers.SubscriptionSerializer import SubscriptionSerializer
 from ...models.Subscription import Subscription
 
@@ -5,9 +6,9 @@ from rest_framework import generics, permissions
 
 
 class SubscriptionListView(generics.ListAPIView):
-    """
-    Returns list of subscriptions, if user is authenticated
-    """
+
+    """Returns list of subscriptions, if user is authenticated"""
+
     model = Subscription
     serializer_class = SubscriptionSerializer
     allow_empty = True
@@ -20,6 +21,7 @@ class SubscriptionListView(generics.ListAPIView):
     def get_queryset(self):
         """
         Filters queryset by the authenticated user
+
         :returns: filtered Subscription objects
         :rtype:   QuerySet
         """
