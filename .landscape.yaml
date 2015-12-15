@@ -10,3 +10,4 @@ ignore-paths:
 pylint:
   disable:
     - invalid-encoded-data
+    - model-missing-unicode
