@@ -184,7 +184,7 @@ class SynchronizeProductsTask(Task):
 
             products[asin] = product
 
-        if products:
+        if not products:
             logger.error('For the given ASINs %s no products where found!', ','.join(asin_list))
             return True
 
