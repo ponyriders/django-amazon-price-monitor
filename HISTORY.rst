@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Next release
+------------
+**Fixed bugs:**
+    - lots of codestyle
+    - minor bugfixes
+
 `0.5 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.5>`__
 ----------------------------------------------------------------------
 **Implemented enhancements:**
