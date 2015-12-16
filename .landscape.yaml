@@ -11,3 +11,5 @@ pylint:
   disable:
     - invalid-encoded-data
     - model-missing-unicode
+python-targets:
+  - 3
