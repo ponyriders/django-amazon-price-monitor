@@ -118,7 +118,7 @@ class ProductAdvertisingAPI(object):
                 app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP,
                 ', '.join(item_ids),
             )
-            return None
+            return dict()
 
         if item_response.items.request.isvalid.string == 'True':
 
@@ -166,7 +166,7 @@ class ProductAdvertisingAPI(object):
                 logger.error('Lookup for the following ASINs failed: %s', ', '.join(failed_asins))
 
             # if there is at least a single ASIN in the list, return the list, else None
-            return None if len(product_values) == 0 else product_values
+            return dict() if len(product_values) == 0 else product_values
 
         else:
             logger.error(
@@ -174,4 +174,4 @@ class ProductAdvertisingAPI(object):
                 app_settings.PRICE_MONITOR_PA_RESPONSE_GROUP,
                 ', '.join(item_ids),
             )
-            return None
+            return dict()
