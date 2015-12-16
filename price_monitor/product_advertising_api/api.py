@@ -141,12 +141,8 @@ class ProductAdvertisingAPI(object):
                     'medium_image_url': item_node.mediumimage.url.string if item_node.mediumimage.url is not None else None,
                     'small_image_url': item_node.smallimage.url.string if item_node.smallimage.url is not None else None,
                     'offer_url': utils.get_offer_url(item_node.asin.string),
+                    'audience_rating': self.__get_item_attribute(item_node, 'audiencerating'),
                 }
-
-                # check the audience rating
-                audience_rating = self.__get_item_attribute(item_node, 'audiencerating')
-                if audience_rating is not None:
-                    item_values['audience_rating'] = utils.parse_audience_rating(audience_rating)
 
                 # check if there are offers, if so add price
                 if item_node.offers is not None and int(item_node.offers.totaloffers.string) > 0:
