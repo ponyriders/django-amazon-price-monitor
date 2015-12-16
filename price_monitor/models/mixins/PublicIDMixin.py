@@ -1,3 +1,4 @@
+"""Mixin for having a public id."""
 from django.db import models
 from django.utils.translation import ugettext as _
 
@@ -5,9 +6,9 @@ from uuid import uuid4
 
 
 class PublicIDMixin(models.Model):
-    """
-    Mixin for addind a public id to models to prevent revealing database ids via API
-    """
+
+    """Mixin for adding a public id to models to prevent revealing database ids via API"""
+
     public_id = models.CharField(
         max_length=36,
         unique=True,
@@ -20,6 +21,7 @@ class PublicIDMixin(models.Model):
     def save(self, *args, **kwargs):
         """
         Sets public id on new instances
+
         :param args: positional arguments
         :type args: list
         :param kwargs: keyword arguments
@@ -31,6 +33,9 @@ class PublicIDMixin(models.Model):
             self.public_id = str(uuid4())
         return super(PublicIDMixin, self).save(*args, **kwargs)
 
-    class Meta:
+    class Meta(object):
+
+        """Meta stuff"""
+
         abstract = True
         app_label = 'price_monitor'

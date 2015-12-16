@@ -1,3 +1,4 @@
+"""Model for an Amazon product"""
 from django.conf import settings
 from django.db import models
 from django.utils import formats
@@ -16,9 +17,9 @@ from urllib.parse import (
 
 
 class Product(models.Model):
-    """
-    Product to be monitored
-    """
+
+    """Product to be monitored."""
+
     STATUS_CHOICES = (
         (0, _('Created'),),
         (1, _('Synced over API'),),
@@ -58,6 +59,7 @@ class Product(models.Model):
     def get_prices_for_chart(self):
         """
         Returns all prices of the product.
+
         :return: list
         """
         # TODO: be able to specify a range, like last 100 days
@@ -65,15 +67,14 @@ class Product(models.Model):
         return [{'x': str(formats.date_format(p.date_seen, 'SHORT_DATETIME_FORMAT')), 'y': p.value} for p in self.price_set.all().order_by('date_seen')]
 
     def set_failed_to_sync(self):
-        """
-        Marks the product as failed to sync. This happens if the Amazon API request for this product fails.
-        """
+        """Marks the product as failed to sync. This happens if the Amazon API request for this product fails."""
         self.status = 2
         self.save()
 
     def get_image_urls(self):
         """
         Returns all image urls as dictionary. The size is the key.
+
         Respects HTTP/HTTPS configuration.
         :return: image dict
         :rtype: dict
@@ -87,6 +88,7 @@ class Product(models.Model):
     def __get_image_url(self, url):
         """
         Returns the correct image url depending on the settings. Will either be a HTTP or HTTPS host.
+
         :param url: the original (HTTP) image url
         :return: the adjusted image url if SSL is enabled
         """
@@ -98,6 +100,7 @@ class Product(models.Model):
     def get_graph_cache_key(self):
         """
         Returns cache key used for caching the price graph
+
         :return: the cache key
         :rtype:  str
         """
@@ -106,6 +109,7 @@ class Product(models.Model):
     def get_title(self):
         """
         Returns the title of the product.
+
         :return: the title
         :rtype: str
         """
@@ -116,6 +120,7 @@ class Product(models.Model):
 
     def __str__(self):
         """
+
         Returns the unicode representation of the Product.
         :return: the unicode representation
         :rtype: unicode
@@ -123,6 +128,9 @@ class Product(models.Model):
         return '{0} (ASIN: {1})'.format(self.get_title(), self.asin)
 
     class Meta(object):
+
+        """Django meta config"""
+
         app_label = 'price_monitor'
         verbose_name = ugettext_lazy('Product')
         verbose_name_plural = ugettext_lazy('Products')

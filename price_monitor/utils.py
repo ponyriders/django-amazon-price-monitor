@@ -1,3 +1,4 @@
+"""Several util functions"""
 import logging
 import re
 
@@ -13,6 +14,7 @@ logger = logging.getLogger('price_monitor.utils')
 def get_offer_url(asin):
     """
     Returns the offer url for an ASIN.
+
     :param asin: the asin
     :type asin: basestring
     :return: the url to the offer
@@ -28,6 +30,7 @@ def get_offer_url(asin):
 def get_product_detail_url(asin):
     """
     Returns the url to a product detail view.
+
     As the frontend is AngularJS, we cannot use any Django reverse functionality.
     :param asin: the asin to use
     :return: the link
@@ -41,6 +44,7 @@ def get_product_detail_url(asin):
 def parse_audience_rating(rating):
     """
     Parses the audience rating to a locale unaware value.
+
     :param rating: the localized rating string
     :type rating: basestring
     :return: rating as unified age
@@ -57,7 +61,7 @@ def parse_audience_rating(rating):
         if rating == 'Freigegeben ohne Altersbeschränkung':
             return 0
 
-        logger.error('Unable to parse audience rating value "{audience_rating!s}"'.format(**{'audience_rating': rating}))
+        logger.error('Unable to parse audience rating value "%s"', rating)
         return rating
 
     return int(result.groups()[0])
@@ -66,6 +70,7 @@ def parse_audience_rating(rating):
 def send_mail(product, subscription, price):
     """
     Sends an email using the appropriate settings for formatting aso.
+
     :param product: the product
     :type product: price_monitor.models.Product
     :param subscription: the subscription
@@ -92,6 +97,7 @@ def send_mail(product, subscription, price):
 def chunk_list(the_list, chunk_size):
     """
     Chunks a list.
+
     :param the_list: list to chunk
     :type the_list: list
     :param chunk_size: number of elements to be contained in each created chunk list

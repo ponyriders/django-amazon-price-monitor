@@ -1,3 +1,4 @@
+"""Mixin for product filtering"""
 from django.db.models.query import Prefetch
 
 from ....models.Subscription import Subscription
@@ -5,9 +6,12 @@ from ....models.Subscription import Subscription
 
 class ProductFilteringMixin(object):
 
+    """Mixin for filtering products of the current user and have the lowest, highest and current price included."""
+
     def filter_queryset(self, queryset):
         """
         Filters queryset by the authenticated user
+
         :returns: filtered Product objects
         :rtype:   QuerySet
         """
