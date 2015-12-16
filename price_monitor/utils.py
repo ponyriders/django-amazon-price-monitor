@@ -1,6 +1,5 @@
 """Several util functions"""
 import logging
-import re
 
 from django.core.mail import send_mail as django_send_mail
 from django.utils.translation import ugettext as _
@@ -39,32 +38,6 @@ def get_product_detail_url(asin):
         base_url=app_settings.PRICE_MONITOR_BASE_URL,
         asin=asin,
     )
-
-
-def parse_audience_rating(rating):
-    """
-    Parses the audience rating to a locale unaware value.
-
-    :param rating: the localized rating string
-    :type rating: basestring
-    :return: rating as unified age
-    :rtype: basestring
-    """
-    # FIXME this may fallback to default values if no value was returned by amazon?
-
-    # FIXME this regex only handles currently known german values, see #19
-    regex = re.compile('Freigegeben ab ([0-9]{1,2}) Jahren')
-    result = regex.search(rating)
-
-    if result is None:
-        # regex won't match that
-        if rating == 'Freigegeben ohne Altersbeschränkung':
-            return 0
-
-        logger.error('Unable to parse audience rating value "%s"', rating)
-        return rating
-
-    return int(result.groups()[0])
 
 
 def send_mail(product, subscription, price):
