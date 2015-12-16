@@ -55,7 +55,7 @@ class ProductAdvertisingAPITest(TestCase):
         papi_lookup.return_value = self.__get_product_bs('')
 
         api = ProductAdvertisingAPI()
-        self.assertEqual(None, api.item_lookup(['ASIN-DUMMY']))
+        self.assertEqual({}, api.item_lookup(['ASIN-DUMMY']))
 
         # check log output
         lc.check(
@@ -80,7 +80,7 @@ class ProductAdvertisingAPITest(TestCase):
         papi_lookup.return_value = self.__get_product_bs(product_sample_lookup_fail)
 
         api = ProductAdvertisingAPI()
-        self.assertEqual(None, api.item_lookup(['DEMOASIN01']))
+        self.assertEqual({}, api.item_lookup(['DEMOASIN01']))
 
         # check log output
         lc.check(
@@ -105,7 +105,7 @@ class ProductAdvertisingAPITest(TestCase):
         papi_lookup.return_value = self.__get_product_bs(product_sample_no_item)
 
         api = ProductAdvertisingAPI()
-        self.assertEqual(None, api.item_lookup(['DEMOASIN02']))
+        self.assertEqual({}, api.item_lookup(['DEMOASIN02']))
 
         # check log output
         lc.check(
