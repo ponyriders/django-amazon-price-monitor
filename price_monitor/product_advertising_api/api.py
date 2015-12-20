@@ -76,13 +76,7 @@ class ProductAdvertisingAPI(object):
         """
         ex = error['exception']
 
-        logger.error(
-            'Error was thrown upon requesting URL {api_url!s} (Cache-URL: {cache_url!s}: {exception!r}'.format(**{
-                'api_url': error['api_url'],
-                'cache_url': error['cache_url'],
-                'exception': ex,
-            })
-        )
+        logger.error('Error upon requesting Amazon URL %s (Code: %s, Cache-URL: %s): %r', error['api_url'], error['cache_url'], ex, ex.code)
 
         # try reconnect
         if isinstance(ex, HTTPError) and ex.code == 503:
