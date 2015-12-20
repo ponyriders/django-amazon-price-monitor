@@ -29,7 +29,7 @@ setup(
         'celery>=3',
         'python-dateutil',
         # for pm api
-        'djangorestframework>=3.0.4',
+        'djangorestframework>=3.0.4,<3.2',
         # for graphs
         'pygal>=2.0.7',
         'lxml',
