@@ -152,7 +152,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN03IMAGE._SL160_.jpg', values['DEMOASIN03']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN03IMAGE._SL75_.jpg', values['DEMOASIN03']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN03/?tag=sample-assoc-tag', values['DEMOASIN03']['offer_url'])
-        self.assertEqual(16, values['DEMOASIN03']['audience_rating'])
+        self.assertEqual('Freigegeben ab 16 Jahren', values['DEMOASIN03']['audience_rating'])
         self.assertEqual(17.99, values['DEMOASIN03']['price'])
         self.assertEqual('EUR', values['DEMOASIN03']['currency'])
 
@@ -201,7 +201,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN04IMAGE._SL160_.jpg', values['DEMOASIN04']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN04IMAGE._SL75_.jpg', values['DEMOASIN04']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN04/?tag=sample-assoc-tag', values['DEMOASIN04']['offer_url'])
-        self.assertEqual(16, values['DEMOASIN04']['audience_rating'])
+        self.assertEqual('Freigegeben ab 16 Jahren', values['DEMOASIN04']['audience_rating'])
         self.assertRaises(KeyError, lambda: values['DEMOASIN04']['price'])
         self.assertRaises(KeyError, lambda: values['DEMOASIN04']['currency'])
 
@@ -252,7 +252,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://www.amazon.de/dp/123456789X/?tag=sample-assoc-tag', values['123456789X']['offer_url'])
         self.assertEqual(10.0, values['123456789X']['price'])
         self.assertEqual('EUR', values['123456789X']['currency'])
-        self.assertRaises(KeyError, lambda: values['123456789X']['audience_rating'])
+        self.assertIsNone(values['123456789X']['audience_rating'])
 
         # check log output
         lc.check(
@@ -300,7 +300,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN05/?tag=sample-assoc-tag', values['DEMOASIN05']['offer_url'])
         self.assertRaises(KeyError, lambda: values['DEMOASIN05']['price'])
         self.assertRaises(KeyError, lambda: values['DEMOASIN05']['currency'])
-        self.assertRaises(KeyError, lambda: values['DEMOASIN05']['audience_rating'])
+        self.assertIsNone(values['DEMOASIN05']['audience_rating'])
 
         # check log output
         lc.check(
@@ -358,7 +358,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN06._SL160_.jpg', values['DEMOASIN06']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN06._SL75_.jpg', values['DEMOASIN06']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN06/?tag=sample-assoc-tag', values['DEMOASIN06']['offer_url'])
-        self.assertEqual(12, values['DEMOASIN06']['audience_rating'])
+        self.assertEqual('Freigegeben ab 12 Jahren', values['DEMOASIN06']['audience_rating'])
         self.assertEqual(7.99, values['DEMOASIN06']['price'])
         self.assertEqual('EUR', values['DEMOASIN06']['currency'])
 
@@ -375,7 +375,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN07._SL160_.jpg', values['DEMOASIN07']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN07._SL75_.jpg', values['DEMOASIN07']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN07/?tag=sample-assoc-tag', values['DEMOASIN07']['offer_url'])
-        self.assertRaises(KeyError, lambda: values['DEMOASIN07']['audience_rating'])
+        self.assertIsNone(values['DEMOASIN07']['audience_rating'])
         self.assertEqual(7.40, values['DEMOASIN07']['price'])
         self.assertEqual('EUR', values['DEMOASIN07']['currency'])
 
@@ -392,7 +392,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN08._SL160_.jpg', values['DEMOASIN08']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN08._SL75_.jpg', values['DEMOASIN08']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN08/?tag=sample-assoc-tag', values['DEMOASIN08']['offer_url'])
-        self.assertRaises(KeyError, lambda: values['DEMOASIN08']['audience_rating'])
+        self.assertIsNone(values['DEMOASIN08']['audience_rating'])
         self.assertEqual(6.99, values['DEMOASIN08']['price'])
         self.assertEqual('EUR', values['DEMOASIN08']['currency'])
 
@@ -409,7 +409,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN09._SL160_.jpg', values['DEMOASIN09']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN09._SL75_.jpg', values['DEMOASIN09']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN09/?tag=sample-assoc-tag', values['DEMOASIN09']['offer_url'])
-        self.assertEqual(6, values['DEMOASIN09']['audience_rating'])
+        self.assertEqual('Freigegeben ab 6 Jahren', values['DEMOASIN09']['audience_rating'])
         self.assertEqual(22.97, values['DEMOASIN09']['price'])
         self.assertEqual('EUR', values['DEMOASIN09']['currency'])
 
@@ -426,7 +426,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN10._SL160_.jpg', values['DEMOASIN10']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN10._SL75_.jpg', values['DEMOASIN10']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN10/?tag=sample-assoc-tag', values['DEMOASIN10']['offer_url'])
-        self.assertEqual(16, values['DEMOASIN10']['audience_rating'])
+        self.assertEqual('Freigegeben ab 16 Jahren', values['DEMOASIN10']['audience_rating'])
         self.assertEqual(15.49, values['DEMOASIN10']['price'])
         self.assertEqual('EUR', values['DEMOASIN10']['currency'])
 
@@ -443,7 +443,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN11._SL160_.jpg', values['DEMOASIN11']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN11._SL75_.jpg', values['DEMOASIN11']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN11/?tag=sample-assoc-tag', values['DEMOASIN11']['offer_url'])
-        self.assertRaises(KeyError, lambda: values['DEMOASIN11']['audience_rating'])
+        self.assertIsNone(values['DEMOASIN11']['audience_rating'])
         self.assertEqual(21.99, values['DEMOASIN11']['price'])
         self.assertEqual('EUR', values['DEMOASIN11']['currency'])
 
@@ -460,7 +460,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN12._SL160_.jpg', values['DEMOASIN12']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN12._SL75_.jpg', values['DEMOASIN12']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN12/?tag=sample-assoc-tag', values['DEMOASIN12']['offer_url'])
-        self.assertEqual(16, values['DEMOASIN12']['audience_rating'])
+        self.assertEqual('Freigegeben ab 16 Jahren', values['DEMOASIN12']['audience_rating'])
         self.assertEqual(59.99, values['DEMOASIN12']['price'])
         self.assertEqual('EUR', values['DEMOASIN12']['currency'])
 
@@ -477,7 +477,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN13._SL160_.jpg', values['DEMOASIN13']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN13._SL75_.jpg', values['DEMOASIN13']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN13/?tag=sample-assoc-tag', values['DEMOASIN13']['offer_url'])
-        self.assertEqual(0, values['DEMOASIN13']['audience_rating'])
+        self.assertEqual('Freigegeben ohne Altersbeschränkung', values['DEMOASIN13']['audience_rating'])
         self.assertEqual(4.99, values['DEMOASIN13']['price'])
         self.assertEqual('EUR', values['DEMOASIN13']['currency'])
 
@@ -494,7 +494,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN14._SL160_.jpg', values['DEMOASIN14']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN14._SL75_.jpg', values['DEMOASIN14']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN14/?tag=sample-assoc-tag', values['DEMOASIN14']['offer_url'])
-        self.assertRaises(KeyError, lambda: values['DEMOASIN14']['audience_rating'])
+        self.assertIsNone(values['DEMOASIN14']['audience_rating'])
         self.assertEqual(11.86, values['DEMOASIN14']['price'])
         self.assertEqual('EUR', values['DEMOASIN14']['currency'])
 
@@ -511,7 +511,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN15._SL160_.jpg', values['DEMOASIN15']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN15._SL75_.jpg', values['DEMOASIN15']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN15/?tag=sample-assoc-tag', values['DEMOASIN15']['offer_url'])
-        self.assertRaises(KeyError, lambda: values['DEMOASIN15']['audience_rating'])
+        self.assertIsNone(values['DEMOASIN15']['audience_rating'])
         self.assertEqual(8.99, values['DEMOASIN15']['price'])
         self.assertEqual('EUR', values['DEMOASIN15']['currency'])
 
@@ -569,7 +569,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN16._SL160_.jpg', values['DEMOASIN16']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN16._SL75_.jpg', values['DEMOASIN16']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN16/?tag=sample-assoc-tag', values['DEMOASIN16']['offer_url'])
-        self.assertEqual(16, values['DEMOASIN16']['audience_rating'])
+        self.assertEqual('Freigegeben ab 16 Jahren', values['DEMOASIN16']['audience_rating'])
         self.assertRaises(KeyError, lambda: values['DEMOASIN16']['price'])
         self.assertRaises(KeyError, lambda: values['DEMOASIN16']['currency'])
 
@@ -586,7 +586,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN17._SL160_.jpg', values['DEMOASIN17']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN17._SL75_.jpg', values['DEMOASIN17']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN17/?tag=sample-assoc-tag', values['DEMOASIN17']['offer_url'])
-        self.assertRaises(KeyError, lambda: values['DEMOASIN17']['audience_rating'])
+        self.assertIsNone(values['DEMOASIN17']['audience_rating'])
         self.assertEqual(10.00, values['DEMOASIN17']['price'])
         self.assertEqual('EUR', values['DEMOASIN17']['currency'])
 
@@ -603,7 +603,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN18._SL160_.jpg', values['DEMOASIN18']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN18._SL75_.jpg', values['DEMOASIN18']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN18/?tag=sample-assoc-tag', values['DEMOASIN18']['offer_url'])
-        self.assertRaises(KeyError, lambda: values['DEMOASIN18']['audience_rating'])
+        self.assertIsNone(values['DEMOASIN18']['audience_rating'])
         self.assertRaises(KeyError, lambda: values['DEMOASIN18']['price'])
         self.assertRaises(KeyError, lambda: values['DEMOASIN18']['currency'])
 
@@ -646,7 +646,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual(None, values['DEMOASIN03']['medium_image_url'])
         self.assertEqual(None, values['DEMOASIN03']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN03/?tag=sample-assoc-tag', values['DEMOASIN03']['offer_url'])
-        self.assertEqual(16, values['DEMOASIN03']['audience_rating'])
+        self.assertEqual('Freigegeben ab 16 Jahren', values['DEMOASIN03']['audience_rating'])
         self.assertEqual(17.99, values['DEMOASIN03']['price'])
         self.assertEqual('EUR', values['DEMOASIN03']['currency'])
 
@@ -695,7 +695,7 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN19._SL160_.jpg', values['DEMOASIN19']['medium_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN19._SL75_.jpg', values['DEMOASIN19']['small_image_url'])
         self.assertEqual('http://www.amazon.de/dp/DEMOASIN19/?tag=sample-assoc-tag', values['DEMOASIN19']['offer_url'])
-        self.assertTrue('audience_rating' not in values['DEMOASIN19'])
+        self.assertIsNone(values['DEMOASIN19']['audience_rating'])
         self.assertEqual(12.99, values['DEMOASIN19']['price'])
         self.assertEqual('EUR', values['DEMOASIN19']['currency'])
 
