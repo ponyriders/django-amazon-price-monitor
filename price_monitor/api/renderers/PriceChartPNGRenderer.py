@@ -29,7 +29,7 @@ class PriceChartPNGRenderer(BaseRenderer):
 
     """A renderer to render charts as PNG for prices"""
 
-    media_type = 'image/*'
+    media_type = 'image/png'
     format = 'png'
     charset = None
     render_style = 'binary'
