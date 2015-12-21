@@ -39,7 +39,6 @@ class PriceChartPNGRenderer(BaseRenderer):
         'height': lambda x: int(x),  # pylint:disable=unnecessary-lambda
         'width': lambda x: int(x),  # pylint:disable=unnecessary-lambda
         'margin': lambda x: int(x),  # pylint:disable=unnecessary-lambda
-        'no_data_font_size': lambda x: int(x),  # pylint:disable=unnecessary-lambda
         'spacing': lambda x: int(x),  # pylint:disable=unnecessary-lambda
         'show_dots': bool_helper,
         'show_legend': bool_helper,
@@ -47,6 +46,10 @@ class PriceChartPNGRenderer(BaseRenderer):
         'show_y_labels': bool_helper,
         'show_minor_y_labels': bool_helper,
         'y_labels_major_count': lambda x: int(x),  # pylint:disable=unnecessary-lambda
+    }
+
+    allowed_style_url_args = {
+        'no_data_font_size': lambda x: int(x),  # pylint:disable=unnecessary-lambda
     }
 
     def render(self, data, accepted_media_type=None, renderer_context=None):  # pylint:disable=unused-argument
@@ -94,7 +97,7 @@ class PriceChartPNGRenderer(BaseRenderer):
         else:
             return sanitized_args
 
-        for arg, sanitizer in self.allowed_chart_url_args.items():
+        for arg, sanitizer in self.allowed_chart_url_args.items() ^ self.allowed_style_url_args.items():
             if arg in args:
                 try:
                     sanitized_args[arg] = sanitizer(args[arg])
@@ -111,8 +114,14 @@ class PriceChartPNGRenderer(BaseRenderer):
 
     def create_graph(self, data, args):
         """Creates the graph based on rendering data"""
+        style_arguments = {}
+        for arg in self.allowed_style_url_args.keys():
+            print(args)
+            if arg in args:
+                style_arguments.update({arg: args[arg]})
+
         line_chart_arguments = {
-            'style': RedBlueStyle,
+            'style': RedBlueStyle(**style_arguments),
             'x_label_rotation': 25,
             'x_value_formatter': lambda dt: dt.strftime('%y-%m-%d %H:%M'),
         }
