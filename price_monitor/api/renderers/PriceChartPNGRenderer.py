@@ -105,7 +105,7 @@ class PriceChartPNGRenderer(BaseRenderer):
 
     def create_cache_key(self, data, args):
         """Creates a cache key based on rendering data"""
-        hash_data = str(data['results']).encode('utf-8')
+        hash_data = str(data).encode('utf-8')
         hash_data += str(args).encode('utf-8')
         return app_settings.PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX + hashlib.md5(hash_data).hexdigest()
 
@@ -121,7 +121,7 @@ class PriceChartPNGRenderer(BaseRenderer):
                 line_chart_arguments.update({arg: args[arg]})
 
         line_chart = DateTimeLine(**line_chart_arguments)
-        if 'results' in data and len(data['results']) > 0:
-            values = [(dateutil.parser.parse(price['date_seen']), price['value']) for price in data['results']]
-            line_chart.add(data['results'][0]['currency'], values)
+        if len(data) > 0:
+            values = [(dateutil.parser.parse(price['date_seen']), price['value']) for price in data]
+            line_chart.add(data[0]['currency'], values)
         return line_chart
