@@ -29,7 +29,7 @@ class PriceChartPNGRenderer(BaseRenderer):
 
     """A renderer to render charts as PNG for prices"""
 
-    media_type = 'image/*'
+    media_type = 'image/png'
     format = 'png'
     charset = None
     render_style = 'binary'
@@ -39,7 +39,6 @@ class PriceChartPNGRenderer(BaseRenderer):
         'height': lambda x: int(x),  # pylint:disable=unnecessary-lambda
         'width': lambda x: int(x),  # pylint:disable=unnecessary-lambda
         'margin': lambda x: int(x),  # pylint:disable=unnecessary-lambda
-        'no_data_font_size': lambda x: int(x),  # pylint:disable=unnecessary-lambda
         'spacing': lambda x: int(x),  # pylint:disable=unnecessary-lambda
         'show_dots': bool_helper,
         'show_legend': bool_helper,
@@ -47,6 +46,10 @@ class PriceChartPNGRenderer(BaseRenderer):
         'show_y_labels': bool_helper,
         'show_minor_y_labels': bool_helper,
         'y_labels_major_count': lambda x: int(x),  # pylint:disable=unnecessary-lambda
+    }
+
+    allowed_style_url_args = {
+        'no_data_font_size': lambda x: int(x),  # pylint:disable=unnecessary-lambda
     }
 
     def render(self, data, accepted_media_type=None, renderer_context=None):  # pylint:disable=unused-argument
@@ -85,7 +88,7 @@ class PriceChartPNGRenderer(BaseRenderer):
             return content
 
     def sanitize_allowed_args(self, request):
-        """TODO: documentation"""
+        """Checks url arguments by using the sanitation methods given in self.allowed_*_url_args"""
         sanitized_args = {}
         if request.method == 'POST':
             args = request.POST
@@ -94,7 +97,7 @@ class PriceChartPNGRenderer(BaseRenderer):
         else:
             return sanitized_args
 
-        for arg, sanitizer in self.allowed_chart_url_args.items():
+        for arg, sanitizer in self.allowed_chart_url_args.items() ^ self.allowed_style_url_args.items():
             if arg in args:
                 try:
                     sanitized_args[arg] = sanitizer(args[arg])
@@ -105,14 +108,19 @@ class PriceChartPNGRenderer(BaseRenderer):
 
     def create_cache_key(self, data, args):
         """Creates a cache key based on rendering data"""
-        hash_data = str(data['results']).encode('utf-8')
+        hash_data = str(data).encode('utf-8')
         hash_data += str(args).encode('utf-8')
         return app_settings.PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX + hashlib.md5(hash_data).hexdigest()
 
     def create_graph(self, data, args):
         """Creates the graph based on rendering data"""
+        style_arguments = {}
+        for arg in self.allowed_style_url_args.keys():
+            if arg in args:
+                style_arguments.update({arg: args[arg]})
+
         line_chart_arguments = {
-            'style': RedBlueStyle,
+            'style': RedBlueStyle(**style_arguments),
             'x_label_rotation': 25,
             'x_value_formatter': lambda dt: dt.strftime('%y-%m-%d %H:%M'),
         }
@@ -121,7 +129,7 @@ class PriceChartPNGRenderer(BaseRenderer):
                 line_chart_arguments.update({arg: args[arg]})
 
         line_chart = DateTimeLine(**line_chart_arguments)
-        if 'results' in data and len(data['results']) > 0:
-            values = [(dateutil.parser.parse(price['date_seen']), price['value']) for price in data['results']]
-            line_chart.add(data['results'][0]['currency'], values)
+        if data:
+            values = [(dateutil.parser.parse(price['date_seen']), price['value']) for price in data]
+            line_chart.add(data[0]['currency'], values)
         return line_chart
