@@ -88,7 +88,7 @@ class PriceChartPNGRenderer(BaseRenderer):
             return content
 
     def sanitize_allowed_args(self, request):
-        """TODO: documentation"""
+        """Checks url arguments by using the sanitation methods given in self.allowed_*_url_args"""
         sanitized_args = {}
         if request.method == 'POST':
             args = request.POST
@@ -116,7 +116,6 @@ class PriceChartPNGRenderer(BaseRenderer):
         """Creates the graph based on rendering data"""
         style_arguments = {}
         for arg in self.allowed_style_url_args.keys():
-            print(args)
             if arg in args:
                 style_arguments.update({arg: args[arg]})
 
@@ -130,7 +129,7 @@ class PriceChartPNGRenderer(BaseRenderer):
                 line_chart_arguments.update({arg: args[arg]})
 
         line_chart = DateTimeLine(**line_chart_arguments)
-        if len(data) > 0:
+        if data:
             values = [(dateutil.parser.parse(price['date_seen']), price['value']) for price in data]
             line_chart.add(data[0]['currency'], values)
         return line_chart
