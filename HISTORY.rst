@@ -3,9 +3,19 @@ Change Log
 
 Next release
 ------------
+**Implemented enhancements:**
+  - djangorestframework 3.2 compatibility
+    `#86 <https://github.com/ponyriders/django-amazon-price-monitor/issues/86>`__
+
 **Fixed bugs:**
     - lots of codestyle
     - minor bugfixes
+
+**Merged pull requests:**
+
+-  DRF 3.3 compatibility
+   `#88 <https://github.com/ponyriders/django-amazon-price-monitor/pull/88>`__
+   (`mmrose <https://github.com/mmrose>`__)
 
 `0.5 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.5>`__
 ----------------------------------------------------------------------
