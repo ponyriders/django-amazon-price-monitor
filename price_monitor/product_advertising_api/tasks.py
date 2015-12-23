@@ -7,7 +7,15 @@ from celery.task import (
     PeriodicTask,
     Task,
 )
-from celery.task.control import inspect
+from celery.task.control import (
+    inspect,
+    revoke,
+)
+
+from collections import (
+    Counter,
+    namedtuple,
+)
 
 from datetime import (
     datetime,
@@ -57,19 +65,34 @@ class StartupTask(Task):
     def run(self):
         logger.info('StartupTask was called')
 
-        # fetch all scheduled tasks
-        scheduled_tasks = inspect().scheduled()
+        # that's better than an simple tuple
+        task_repr = namedtuple('TaskRepresentation', 'id, name')
 
-        # iterate the scheduled task values, see http://docs.celeryproject.org/en/latest/userguide/workers.html?highlight=revoke#dump-of-scheduled-eta-tasks
-        for task_values in iter(scheduled_tasks.values()):
-            # task_values is a list of dicts
-            for task in task_values:
-                if task['request']['name'] == '{0}.{1}'.format(FindProductsToSynchronizeTask.__module__, FindProductsToSynchronizeTask.__name__):
-                    logger.info('FindProductsToSynchronizeTask is already scheduled, skipping additional run')
-                    return
+        # fetch all currently queued task, map them to the TaskRepresentation tuple
+        scheduled_tasks = [task_repr(x['request']['id'], x['request']['name']) for x in list(inspect().scheduled().values())[0]]
 
-        # 5 seconds after startup we start the synchronization
-        FindProductsToSynchronizeTask().apply_async(countdown=5)
+        # count how many FindProductsToSynchronizeTask are scheduled
+        c = dict(Counter([x.name for x in scheduled_tasks]).most_common())[FindProductsToSynchronizeTask.name]
+
+        # if the task is not scheduled, do so
+        if c == 0:
+            logger.info('no FindProductsToSynchronizeTask is scheduled, now scheduling it')
+            FindProductsToSynchronizeTask().apply_async(countdown=5)
+
+        # put out logging info if the task is already scheduled
+        if c == 1:
+            logger.info('FindProductsToSynchronizeTask is already scheduled, skipping additional run')
+
+        # if the task is there more than once, remove it
+        # this has the potential to remove ALL scheduled FindProductsToSynchronizeTasks if the timing is "bad"
+        # however, the JumpStartTask will re-schedule the task if this happens (a workaround for a workaround - bad design by me btw.)
+        if c > 1:
+            logger.info('FindProductsToSynchronizeTask is already scheduled %d times, revoking %d', c, c - 1)
+
+            # revoke c-1 tasks - that means the task still stays in schedule but is removed and not executed when execution time is reached
+            for t in scheduled_tasks[1:]:
+                logger.info('revoking FindProductsToSynchronizeTask with id %s', t.id)
+                revoke(t.id)
 
 
 class JumpStartTask(PeriodicTask):
