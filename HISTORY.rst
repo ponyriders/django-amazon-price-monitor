@@ -8,6 +8,8 @@ Next release
     `#86 <https://github.com/ponyriders/django-amazon-price-monitor/issues/86>`__
 
 **Fixed bugs:**
+    - FindProductsToSynchronizeTask is rescheduled twice or more
+    `#89 <https://github.com/ponyriders/django-amazon-price-monitor/issues/89>`__
     - lots of codestyle
     - minor bugfixes
 
