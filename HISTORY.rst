@@ -7,7 +7,7 @@ Change Log
 
 - djangorestframework 3.2 compatibility `#86 <https://github.com/ponyriders/django-amazon-price-monitor/issues/86>`__ (`PR#88 <https://github.com/ponyriders/django-amazon-price-monitor/pull/88>`__)
 
-**Bugs:**
+**Bugfixes:**
 
 - FindProductsToSynchronizeTask is rescheduled twice or more `#89 <https://github.com/ponyriders/django-amazon-price-monitor/issues/89>`__ (`PR#91 <https://github.com/ponyriders/django-amazon-price-monitor/pull/91>`__)
 - Unable to parse 2015-02 to a datetime `#57 <https://github.com/ponyriders/django-amazon-price-monitor/issues/57>`__
@@ -21,7 +21,7 @@ Change Log
 - Add link to PM frontend in notification email `#76 <https://github.com/ponyriders/django-amazon-price-monitor/issues/76>`__
 - Django 1.9 support (see `pull request #80 <https://github.com/ponyriders/django-amazon-price-monitor/pull/80>`__)
 
-**Bugs:**
+**Bugfixes:**
 
 - FindProductsToSynchronizeTask is not always rescheduled `#61 <https://github.com/ponyriders/django-amazon-price-monitor/issues/61>`__
 - Font files not included in package `#75 <https://github.com/ponyriders/django-amazon-price-monitor/issues/75>`__
@@ -39,7 +39,7 @@ Change Log
 - Deprecate old frontend `#73 <https://github.com/ponyriders/django-amazon-price-monitor/issues/73>`__
 - Make angular the default frontend `#70 <https://github.com/ponyriders/django-amazon-price-monitor/issues/70>`__
 
-**Bugs:**
+**Bugfixes:**
 
 - Products with the same price over graph timespae have an empty graph `#67 <https://github.com/ponyriders/django-amazon-price-monitor/issues/67>`__
 - Notification of music albums `#33 <https://github.com/ponyriders/django-amazon-price-monitor/issues/33>`__
@@ -63,7 +63,7 @@ Change Log
 - Implement a full-usable frontend`#8 <https://github.com/ponyriders/django-amazon-price-monitor/issues/8>`__
 - Add more tests `#2 <https://github.com/ponyriders/django-amazon-price-monitor/issues/2>`__
 
-**Bugs:**
+**Bugfixes:**
 
 - Graphs empty for some products `#65 <https://github.com/ponyriders/django-amazon-price-monitor/issues/65>`__
 - Don't show other peoples price limits `#63 <https://github.com/ponyriders/django-amazon-price-monitor/issues/63>`__
