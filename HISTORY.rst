@@ -5,18 +5,13 @@ Next release
 ------------
 **Features:**
 
-- djangorestframework 3.2 compatibility `#86 <https://github.com/ponyriders/django-amazon-price-monitor/issues/86>`__
+- djangorestframework 3.2 compatibility `#86 <https://github.com/ponyriders/django-amazon-price-monitor/issues/86>`__ (`PR#88 <https://github.com/ponyriders/django-amazon-price-monitor/pull/88>`__)
 
 **Bugs:**
 
-- FindProductsToSynchronizeTask is rescheduled twice or more `#89 <https://github.com/ponyriders/django-amazon-price-monitor/issues/89>`__
+- FindProductsToSynchronizeTask is rescheduled twice or more `#89 <https://github.com/ponyriders/django-amazon-price-monitor/issues/89>`__ (`PR#91 <https://github.com/ponyriders/django-amazon-price-monitor/pull/91>`__)
 - lots of codestyle
 - minor bugfixes
-
-**Pull requests:**
-
-- DRF 3.3 compatibility `#88 <https://github.com/ponyriders/django-amazon-price-monitor/pull/88>`__ (`mmrose <https://github.com/mmrose>`__)
-- Find products to synchronize task is rescheduled twice or more `#91 <https://github.com/ponyriders/django-amazon-price-monitor/pull/91>`__ (`dArignac <https://github.com/dArignac>`__)
 
 `0.5 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.5>`__
 ----------------------------------------------------------------------
