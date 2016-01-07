@@ -1,8 +1,8 @@
 Change Log
 ==========
 
-Next release
-------------
+`0.6 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.6>`__
+----------------------------------------------------------------------
 **Features:**
 
 - djangorestframework 3.2 compatibility `#86 <https://github.com/ponyriders/django-amazon-price-monitor/issues/86>`__ (`PR#88 <https://github.com/ponyriders/django-amazon-price-monitor/pull/88>`__)
