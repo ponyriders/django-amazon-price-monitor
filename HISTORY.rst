@@ -10,6 +10,7 @@ Next release
 **Bugs:**
 
 - FindProductsToSynchronizeTask is rescheduled twice or more `#89 <https://github.com/ponyriders/django-amazon-price-monitor/issues/89>`__ (`PR#91 <https://github.com/ponyriders/django-amazon-price-monitor/pull/91>`__)
+- Unable to parse 2015-02 to a datetime `#57 <https://github.com/ponyriders/django-amazon-price-monitor/issues/57>`__
 - lots of codestyle
 - minor bugfixes
 

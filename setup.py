@@ -27,7 +27,7 @@ setup(
         'beautifulsoup4',
         'bottlenose>=0.6.2',
         'celery>=3',
-        'python-dateutil',
+        'python-dateutil>=2.4.2',
         # for pm api
         'djangorestframework>=3.3',
         # for graphs
