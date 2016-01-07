@@ -21,7 +21,7 @@ deploy:
   provider: pypi
   user: ponyriders
   password:
-    secure: C5my1XZnSk859EXUhsKBCGIP361KioMr+NbsFczLJz+a7gHNCRdAUT3sPMH5crjr9I+3S+i0AxVYBDF+5eN70d2+zOviYoXWSJ+YvVveITODAg5feOgFmwZeP+29NP8I7D42A/hwp6LwFp6EhkhZc1kUAu5ceucDpSzw/4FC6ik=
+    secure: n04DQkYdiwg+XLVfJd/O3Jil7kUV1GeLK/gqTgAjOlpXmChhI3+2Xzg8hKoWYmtxXLqZu0zpvepHVi/y5Xz2R1va+eNjnQ9XKzZBt6t40+YaMKpUTZsP0fGocJr0imxuqmOOV8YJ7cZ3r4eX+4aUMMq2tE2j6b37MczTfBw1YmM=
   distributions: sdist bdist_wheel
   on:
     tags: true
