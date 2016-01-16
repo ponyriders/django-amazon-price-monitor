@@ -17,9 +17,7 @@ class ProductTest(TestCase):
         self.assertEqual(2, p.status)
 
     def test_get_image_urls(self):
-        """
-        Tests the Product.get_image_urls method.
-        """
+        """Tests the Product.get_image_urls method."""
 
         # FIXME usually you would test a HTTP and a HTTPS setup but override_settings does not work with our app_settings (the setting does not get overwritten)
 
@@ -58,3 +56,10 @@ class ProductTest(TestCase):
             '{0}{1}'.format(app_settings.PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN, '/ponyriders/django-amazon-price-monitor/large.png'),
             p.get_image_urls()['large']
         )
+
+    def test_get_detail_url(self):
+        """Tests the get_detail_url method"""
+        p = Product.objects.create(
+            asin='ASIN0054321',
+        )
+        assert p.get_detail_url() == str(app_settings.PRICE_MONITOR_BASE_URL + '/#/products/ASIN0054321')
