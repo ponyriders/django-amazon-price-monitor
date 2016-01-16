@@ -337,12 +337,13 @@ class NotifySubscriberTask(Task):
         :return: an additional mail text or empty string if product and installation do not match prerequisites.
         :rtype: str
         """
-        if app_settings.PRICE_MONITOR_AMAZON_PRODUCT_API_REGION == 'DE' and product.audience_rating == 'Freigegeben ab 18 Jahren':
+        age_identifiers = ['Freigegeben ab 18 Jahren', 'Ages 18 and over']
+        if app_settings.PRICE_MONITOR_AMAZON_PRODUCT_API_REGION == 'DE' and product.audience_rating in age_identifiers:
             # mail text
             mail_text = ''
 
             # fetch all other products with FSK 18
-            for p in Product.objects.filter(audience_rating='Freigegeben ab 18 Jahren').exclude(pk=product.pk).order_by('current_price'):
+            for p in Product.objects.filter(audience_rating__in=age_identifiers).exclude(pk=product.pk).order_by('current_price'):
                 mail_text += '{title:s}\n'.format(title=p.get_title())
                 mail_text += '{price:0.2f} {currency:s} ({price_date:s})\n'.format(
                     price=p.current_price.value,
