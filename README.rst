@@ -157,6 +157,7 @@ Specify the base URL under which your site will be available. Defaults to: *http
 Necessary for creating links to the site within the notification emails.
 
 ::
+
     # base url to the site
     PRICE_MONITOR_BASE_URL = 'https://....'
 
