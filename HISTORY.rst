@@ -5,7 +5,7 @@ TO_BE_ANNOUNCED
 ---------------
 **Features:**
 
-- list FSK 18 products in notification mail if region is Germany `#92 <https://github.com/ponyriders/django-amazon-price-monitor/issues/92>`__
+- list products with audience rating 18+ in notification mail if region is Germany and product is also 18+ `#92 <https://github.com/ponyriders/django-amazon-price-monitor/issues/92>`__ (`PR#93 <https://github.com/ponyriders/django-amazon-price-monitor/pull/93>`__)
 
 `0.6 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.6>`__
 ----------------------------------------------------------------------
