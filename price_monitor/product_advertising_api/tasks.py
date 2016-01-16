@@ -330,6 +330,8 @@ class NotifySubscriberTask(Task):
 
         If the region is DE and the product is a FSK 18 one, additionally get all other FSK 18 products and put them into a mailable list.
         see https://github.com/ponyriders/django-amazon-price-monitor/issues/92
+
+        As we do not currently have any use cases that could be generalized to something using the audience rating this is a country specific implementation.
         :param product: the product to check
         :type product:  price_monitor.models.Product
         :return: an additional mail text or empty string if product and installation do not match prerequisites.
