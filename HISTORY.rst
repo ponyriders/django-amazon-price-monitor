@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+TO_BE_ANNOUNCED
+---------------
+**Features:**
+
+- list FSK 18 products in notification mail if region is Germany `#92 <https://github.com/ponyriders/django-amazon-price-monitor/issues/92>`__
+
 `0.6 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.6>`__
 ----------------------------------------------------------------------
 **Features:**

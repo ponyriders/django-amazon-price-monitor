@@ -64,13 +64,14 @@ PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY = getattr(
     settings,
     'PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY',
     ugettext_lazy(
-        'The price limit of {price_limit:0.2f} {currency:s} has been reached for the article "{product_title:s}" - '
-        'the current price is {price:0.2f} {currency:s}.'
+        'The price limit of {price_limit:0.2f} {currency:s} has been reached for the article "{product_title:s}"\n'
+        'Current price is {price:0.2f} {currency:s} ({price_date:s}).'
         '\n\n'
         'Please support our platform by using this affiliate link for buying the product: {url_product_amazon:s}'
         '\n'
         'Adjust the price limits for the products here: {url_product_detail:s}'
         '\n\n'
+        '{additional_text:s}'
         '\n'
         'Regards,'
         '\n'
