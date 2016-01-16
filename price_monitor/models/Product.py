@@ -118,6 +118,18 @@ class Product(models.Model):
             self.title if self.title is not None and len(self.title) > 0 else _('Unsynchronized Product'),
         )
 
+    def get_detail_url(self):
+        """
+        Returns the url to a product detail view.
+
+        As the frontend is AngularJS, we cannot use any Django reverse functionality.
+        :return: the link
+        """
+        return '{base_url:s}/#/products/{asin:s}'.format(
+            base_url=app_settings.PRICE_MONITOR_BASE_URL,
+            asin=self.asin,
+        )
+
     def __str__(self):
         """
 

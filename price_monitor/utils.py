@@ -40,7 +40,7 @@ def get_product_detail_url(asin):
     )
 
 
-def send_mail(product, subscription, price):
+def send_mail(product, subscription, price, additional_text=''):
     """
     Sends an email using the appropriate settings for formatting aso.
 
@@ -50,6 +50,8 @@ def send_mail(product, subscription, price):
     :type subscription: price_monitor.models.Subscription
     :param price: the current price
     :type price: price_monitor.models.Price
+    :param additional_text: additional text to include in mail
+    :type additional_text: str
     """
     django_send_mail(
         _(app_settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT) % {'product': product.title},
@@ -57,9 +59,11 @@ def send_mail(product, subscription, price):
             price_limit=subscription.price_limit,
             currency=price.currency,
             price=price.value,
+            price_date=price.date_seen.strftime('%b %d, %Y %H:%M %p %Z'),
             product_title=product.get_title(),
             url_product_amazon=product.offer_url,
-            url_product_detail=get_product_detail_url(product.asin),
+            url_product_detail=product.get_detail_url(),
+            additional_text=additional_text,
         ),
         app_settings.PRICE_MONITOR_EMAIL_SENDER,
         [subscription.email_notification.email],

@@ -22,8 +22,8 @@ class ProductAdmin(admin.ModelAdmin):
 
     """Admin for the model Product"""
 
-    list_display = ('asin', 'title', 'artist', 'status', 'date_updated', 'date_last_synced', )
-    list_filter = ('status', )
+    list_display = ('asin', 'title', 'artist', 'audience_rating', 'status', 'date_updated', 'date_last_synced', )
+    list_filter = ('status', 'audience_rating', )
     search_fields = ('asin', )
     readonly_fields = ('current_price', 'highest_price', 'lowest_price',)
 
