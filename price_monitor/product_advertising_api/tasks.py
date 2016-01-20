@@ -28,7 +28,7 @@ from django.db.models import (
 )
 from django.utils import timezone
 
-from django.utils.translation import ugettext
+# from django.utils.translation import ugettext
 
 from price_monitor import app_settings
 from price_monitor.models import (
@@ -324,6 +324,7 @@ class NotifySubscriberTask(Task):
 
         return False
 
+    # TODO move to Product
     def get_audience_rating_info(self, product):
         """
         Checks, if the product matches specific audience rating and includes additional information.
@@ -337,28 +338,28 @@ class NotifySubscriberTask(Task):
         :return: an additional mail text or empty string if product and installation do not match prerequisites.
         :rtype: str
         """
-        age_identifiers = ['Freigegeben ab 18 Jahren', 'Ages 18 and over']
-        if app_settings.PRICE_MONITOR_AMAZON_PRODUCT_API_REGION == 'DE' and product.audience_rating in age_identifiers:
-            # mail text
-            mail_text = ''
-
-            # fetch all other products with FSK 18
-            for p in Product.objects.filter(audience_rating__in=age_identifiers).exclude(pk=product.pk).order_by('current_price'):
-                mail_text += '{title:s}\n'.format(title=p.get_title())
-                mail_text += '{price:0.2f} {currency:s} ({price_date:s})\n'.format(
-                    price=p.current_price.value,
-                    currency=p.current_price.currency,
-                    price_date=p.current_price.date_seen.strftime('%b %d, %Y %H:%M %p %Z'),
-                )
-                mail_text += '{offer_url:s}\n'.format(offer_url=p.offer_url)
-                mail_text += '{product_detail_url:s}\n\n'.format(product_detail_url=product.get_detail_url())
-
-            # prepend introduction if there were results
-            if mail_text:
-                mail_text = '\n{intro:s}\n\n'.format(
-                    intro=ugettext('As this is a FSK 18 article, here are your other subscribed FSK 18 articles:')
-                ) + mail_text
-
-            # return
-            return mail_text
+        # age_identifiers = ['Freigegeben ab 18 Jahren', 'Ages 18 and over']
+        # if app_settings.PRICE_MONITOR_AMAZON_PRODUCT_API_REGION == 'DE' and product.audience_rating in age_identifiers:
+        #     # mail text
+        #     mail_text = ''
+        #
+        #     # fetch all other products with FSK 18
+        #     for p in Product.objects.filter(audience_rating__in=age_identifiers).exclude(pk=product.pk).order_by('current_price'):
+        #         mail_text += '{title:s}\n'.format(title=p.get_title())
+        #         mail_text += '{price:0.2f} {currency:s} ({price_date:s})\n'.format(
+        #             price=p.current_price.value,
+        #             currency=p.current_price.currency,
+        #             price_date=p.current_price.date_seen.strftime('%b %d, %Y %H:%M %p %Z'),
+        #         )
+        #         mail_text += '{offer_url:s}\n'.format(offer_url=p.offer_url)
+        #         mail_text += '{product_detail_url:s}\n\n'.format(product_detail_url=product.get_detail_url())
+        #
+        #     # prepend introduction if there were results
+        #     if mail_text:
+        #         mail_text = '\n{intro:s}\n\n'.format(
+        #             intro=ugettext('As this is a FSK 18 article, here are your other subscribed FSK 18 articles:')
+        #         ) + mail_text
+        #
+        #     # return
+        #     return mail_text
         return ''
