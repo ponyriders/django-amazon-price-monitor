@@ -72,7 +72,13 @@ class StartupTask(Task):
         scheduled_tasks = [task_repr(x['request']['id'], x['request']['name']) for x in list(inspect().scheduled().values())[0]]
 
         # count how many FindProductsToSynchronizeTask are scheduled
-        c = dict(Counter([x.name for x in scheduled_tasks]).most_common())[FindProductsToSynchronizeTask.name]
+        count = dict(Counter([x.name for x in scheduled_tasks]).most_common())
+
+        # check if the FindProductsToSynchronizeTask is in and how often
+        if count:
+            c = count[FindProductsToSynchronizeTask.name]
+        else:
+            c = 0
 
         # if the task is not scheduled, do so
         if c == 0:
