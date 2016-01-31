@@ -57,6 +57,16 @@ class ProductAdvertisingAPI(object):
         :rtype: basestring
         """
         if value is not None:
+
+            # date without day, e.g. 2004-11
+            # hotfix until https://github.com/dateutil/dateutil/issues/173 is fixed
+            if len(value) == 7:
+                # february
+                if value[5:] == '02':
+                    value += '-28'
+                elif value[5:] == '11':
+                    value += '-30'
+
             try:
                 return parser.parse(value)
             except ValueError:

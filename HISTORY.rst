@@ -6,6 +6,7 @@ Change Log
 **Bugfixes:**
 
 - StartupTask fails with exception `#94 <https://github.com/ponyriders/django-amazon-price-monitor/issues/94>`__
+- Tests fail if today is the last day of November `#95 <https://github.com/ponyriders/django-amazon-price-monitor/issues/95>`__
 
 `0.6 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.6>`__
 ----------------------------------------------------------------------

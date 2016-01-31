@@ -195,7 +195,10 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual(None, values['DEMOASIN04']['eisbn'])
         self.assertEqual('DVD', values['DEMOASIN04']['binding'])
         # dateutil.parser.parse will find out the year and month of "2004-11" but as there is no day, the day is set to the current day
-        self.assertEqual(datetime.datetime(2004, 11, datetime.datetime.now().day), values['DEMOASIN04']['date_publication'])
+        self.assertEqual(
+            datetime.datetime(2004, 11, datetime.datetime.now().day if datetime.datetime.now().day < 31 else 30),
+            values['DEMOASIN04']['date_publication']
+        )
         self.assertEqual(datetime.datetime(2004, 10, 27), values['DEMOASIN04']['date_release'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN04IMAGE.jpg', values['DEMOASIN04']['large_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN04IMAGE._SL160_.jpg', values['DEMOASIN04']['medium_image_url'])
@@ -454,7 +457,10 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual(None, values['DEMOASIN12']['isbn'])
         self.assertEqual(None, values['DEMOASIN12']['eisbn'])
         self.assertEqual('DVD', values['DEMOASIN12']['binding'])
-        self.assertEqual(datetime.datetime(2004, 11, datetime.datetime.now().day), values['DEMOASIN12']['date_publication'])
+        self.assertEqual(
+            datetime.datetime(2004, 11, datetime.datetime.now().day if datetime.datetime.now().day < 31 else 30),
+            values['DEMOASIN12']['date_publication']
+        )
         self.assertEqual(datetime.datetime(2004, 10, 27), values['DEMOASIN12']['date_release'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN12.jpg', values['DEMOASIN12']['large_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN12._SL160_.jpg', values['DEMOASIN12']['medium_image_url'])
@@ -563,7 +569,10 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual(None, values['DEMOASIN16']['isbn'])
         self.assertEqual(None, values['DEMOASIN16']['eisbn'])
         self.assertEqual('DVD', values['DEMOASIN16']['binding'])
-        self.assertEqual(datetime.datetime(2004, 11, datetime.datetime.now().day), values['DEMOASIN16']['date_publication'])
+        self.assertEqual(
+            datetime.datetime(2004, 11, datetime.datetime.now().day if datetime.datetime.now().day < 31 else 30),
+            values['DEMOASIN16']['date_publication']
+        )
         self.assertEqual(datetime.datetime(2004, 10, 27), values['DEMOASIN16']['date_release'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN16.jpg', values['DEMOASIN16']['large_image_url'])
         self.assertEqual('http://ecx.images-amazon.com/images/I/DEMOASIN16._SL160_.jpg', values['DEMOASIN16']['medium_image_url'])
@@ -712,5 +721,4 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual(api.format_datetime('2014-10-11'), datetime.datetime(2014, 10, 11))
         self.assertEqual(api.format_datetime('2012-12'), datetime.datetime(2012, 12, datetime.datetime.now().day))
         # dateutil will use today as day value, but if today is the 31st that would not fit for february, there is no 31st february
-        day = datetime.datetime.now().day if datetime.datetime.now().day <= 28 else 28
-        self.assertEqual(api.format_datetime('2015-02'), datetime.datetime(2015, 2, day))
+        self.assertEqual(api.format_datetime('2015-02'), datetime.datetime(2015, 2, 28))
