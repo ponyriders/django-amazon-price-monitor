@@ -6,6 +6,9 @@ services:
     env_file: compose.env
     volumes_from:
       - data
+  # redis for celery
+  redis:
+    image: redis:3
   # web container with Django project
   web:
     build: ./web
@@ -19,6 +22,13 @@ services:
     command: bash -c "sleep 5 && python3 manage.py runserver 0.0.0.0:8000"
     volumes_from:
       - data
+  # celery container
+  celery:
+    build: ./web
+    image: pricemonitor/web
+    depends_on:
+      - redis
+    env_file: compose.env
   # data container, shall contain all volume mounts
   data:
     image: cogniteev/echo

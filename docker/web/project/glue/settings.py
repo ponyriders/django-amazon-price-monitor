@@ -16,9 +16,6 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-def ugettext(s):
-    return s
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -27,21 +24,24 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = os.environ.get('DEBUG', False)
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-)
+    'glue_auth',
+    'rest_framework',
+    'price_monitor',
+    'price_monitor.product_advertising_api',
+]
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -50,7 +50,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-)
+]
 
 ROOT_URLCONF = 'glue.urls'
 
@@ -106,6 +106,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/srv/static/'
 
 # Logging
 LOGGING = {
@@ -120,10 +121,34 @@ LOGGING = {
         },
     },
     'handlers': {
-        'generic_error': {
+        'file_error': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, '..', 'logs', 'error.log'),
+            'formatter': 'verbose',
+        },
+        'price_monitor': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, '..', 'logs', 'price_monitor.log'),
+            'formatter': 'verbose',
+        },
+        'price_monitor.product_advertising_api': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, '..', 'logs', 'price_monitor.product_advertising_api.log'),
+            'formatter': 'verbose',
+        },
+        'price_monitor.tasks': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, '..', 'logs', 'price_monitor.tasks.log'),
+            'formatter': 'verbose',
+        },
+        'price_monitor.utils': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, '..', 'logs', 'price_monitor.utils.log'),
             'formatter': 'verbose',
         },
         'mail_admins': {
@@ -131,33 +156,97 @@ LOGGING = {
             'class': 'django.utils.log.AdminEmailHandler',
             'include_html': True,
         },
-        'treasury.api.product_advertising_api': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, '..', 'logs', 'treasury.api.product_advertising_api.log'),
-            'formatter': 'verbose',
-        },
     },
     'loggers': {
         'django.request': {
-            'handlers': ['generic_error', 'mail_admins'],
+            'handlers': ['file_error', 'mail_admins'],
             'level': 'ERROR',
             'propagate': True,
         },
-        'treasury.api.product_advertising_api': {
-            'handlers': ['treasury.api.product_advertising_api'],
+        'price_monitor': {
+            'handlers': ['price_monitor'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'price_monitor.product_advertising_api': {
+            'handlers': ['price_monitor.product_advertising_api'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'price_monitor.tasks': {
+            'handlers': ['price_monitor.tasks'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'price_monitor.utils': {
+            'handlers': ['price_monitor.utils'],
             'level': 'INFO',
             'propagate': True,
         },
     },
 }
 
-# TREASURY
-# TODO put into documentation on how to setup a project manually
-CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
-CONSTANCE_CONFIG = {
-    'AWS_ACCESS_KEY_ID': ('', ugettext('AWS access key id')),
-    'AWS_SECRET_ACCESS_KEY': ('', ugettext('AWS secret access key')),
-    'PRODUCT_ADVERTISING_API_ASSOCIATE_TAG': ('', ugettext('Associate tag name of Amazon Product Advertising API')),
-    'PRODUCT_ADVERTISING_API_REGION': ('DE', ugettext('Region of Amazon Product Advertising API')),
+# caching
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': 'redis',
+        'OPTIONS': {
+            'DB': 0,
+            'PARSER_CLASS': 'redis.connection.HiredisParser',
+            'CONNECTION_POOL_CLASS': 'redis.BlockingConnectionPool',
+            'CONNECTION_POOL_CLASS_KWARGS': {
+                'max_connections': 50,
+                'timeout': 20,
+            }
+        },
+    },
+}
+CACHE_MIDDLEWARE_KEY_PREFIX = 'pm_glue'
+
+# glue login
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
+
+# E-Mail
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')  # smtp is the Django default
+if EMAIL_BACKEND == 'django.core.mail.backends.smtp.EmailBackend':
+    EMAIL_HOST = os.environ.get('EMAIL_HOST')
+    EMAIL_PORT = os.environ.get('EMAIL_PORT')
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+    EMAIL_USE_TSL = os.environ.get('EMAIL_USE_TSL', True) == 'True'
+elif EMAIL_BACKEND == 'django.core.mail.backends.filebased.EmailBackend':
+    EMAIL_FILE_PATH = os.path.join(BASE_DIR, '..', 'logs', 'emails.out')
+
+# Celery
+CELERY_ACCEPT_CONTENT = ['pickle', 'json']
+BROKER_URL = os.environ.get('BROKER_URL')
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', '')
+CELERY_CHORD_PROPAGATES = True
+# redis specific, see http://celery.readthedocs.org/en/latest/getting-started/brokers/redis.html#caveats
+BROKER_TRANSPORT_OPTIONS = {
+    'fanout_prefix': True,
+    'fanout_patterns': True,
+}
+
+# price_monitor
+PRICE_MONITOR_BASE_URL = os.environ.get('PRICE_MONITOR_BASE_URL', 'http://0.0.0.0:8000')
+PRICE_MONITOR_AWS_ACCESS_KEY_ID = os.environ.get('PRICE_MONITOR_AWS_ACCESS_KEY_ID', '')
+PRICE_MONITOR_AWS_SECRET_ACCESS_KEY = os.environ.get('PRICE_MONITOR_AWS_SECRET_ACCESS_KEY', '')
+PRICE_MONITOR_AMAZON_PRODUCT_API_REGION = 'DE'
+PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG = os.environ.get('PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG', '')
+PRICE_MONITOR_AMAZON_ASSOCIATE_NAME = 'John Doe'
+PRICE_MONITOR_AMAZON_ASSOCIATE_SITE = 'Amazon.de'
+PRICE_MONITOR_EMAIL_SENDER = 'Amazon Pricemonitor <pm@localhost>'
+PRICE_MONITOR_SITENAME = 'Pricemonitor Site'
+# refresh product after 1 hours
+PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES = os.environ.get('PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES', 60)
+# time after when to notify about a subscription again
+PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES = os.environ.get('PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES', 24 * 3 * 60)
+
+REST_FRAMEWORK = {
+    'PAGINATE_BY': 50,
+    'PAGINATE_BY_PARAM': 'page_size',  # Allow client to override, using `?page_size=xxx`.
+    'MAX_PAGINATE_BY': 100  # Maximum limit allowed when using `?page_size=xxx`.
 }
