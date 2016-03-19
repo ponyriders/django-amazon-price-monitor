@@ -16,6 +16,7 @@ VOLUME ["/srv/media", "/srv/logs", "/srv/pricemonitor", "/srv/project"]
 
 # copy the django project files
 COPY project /srv/project
+COPY web_run.sh /srv/web_run.sh
 
 # install python dependencies for the django project
 RUN pip3 install -r /srv/project/requirements.pip

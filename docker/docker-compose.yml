@@ -18,8 +18,7 @@ services:
     ports:
       - "8000:8000"
     env_file: compose.env
-    # wait for postgresql (quite optimistic) and the start the runserver
-    command: bash -c "sleep 5 && python3 manage.py runserver 0.0.0.0:8000"
+    command: /srv/web_run.sh
     volumes_from:
       - data
   # celery container
@@ -29,6 +28,8 @@ services:
     depends_on:
       - redis
     env_file: compose.env
+    volumes_from:
+      - data
   # data container, shall contain all volume mounts
   data:
     image: cogniteev/echo
