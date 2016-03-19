@@ -28,6 +28,7 @@ services:
     depends_on:
       - redis
     env_file: compose.env
+    command: /srv/celery_run.sh
     volumes_from:
       - data
   # data container, shall contain all volume mounts
