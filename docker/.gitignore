@@ -1,3 +1,4 @@
 logs
 media
 postgres
+web/project/celerybeat-schedule.db
