@@ -7,6 +7,10 @@ TO_BE_ANNOUNCED
 
 - list products with audience rating 18+ in notification mail if region is Germany and product is also 18+ `#92 <https://github.com/ponyriders/django-amazon-price-monitor/issues/92>`__ (`PR#93 <https://github.com/ponyriders/django-amazon-price-monitor/pull/93>`__)
 
+**Bugfixes:**
+
+- updated to latest ``python-dateutil`` version, somehow refs `#95 <https://github.com/ponyriders/django-amazon-price-monitor/issues/95>`__
+
 `0.6.1 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.6.1>`__
 --------------------------------------------------------------------------
 **Bugfixes:**
