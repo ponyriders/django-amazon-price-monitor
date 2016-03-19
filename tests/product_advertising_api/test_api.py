@@ -720,5 +720,4 @@ class ProductAdvertisingAPITest(TestCase):
         api = ProductAdvertisingAPI()
         self.assertEqual(api.format_datetime('2014-10-11'), datetime.datetime(2014, 10, 11))
         self.assertEqual(api.format_datetime('2012-12'), datetime.datetime(2012, 12, datetime.datetime.now().day))
-        # dateutil will use today as day value, but if today is the 31st that would not fit for february, there is no 31st february
-        self.assertEqual(api.format_datetime('2015-02'), datetime.datetime(2015, 2, 28))
+        self.assertEqual(api.format_datetime('2015-02'), datetime.datetime(2015, 2, datetime.datetime.now().day))
