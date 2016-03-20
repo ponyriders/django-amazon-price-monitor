@@ -1,0 +1,17 @@
+<!DOCTYPE html>{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>{% block pagetitle %}Pricemonitor Site{% endblock %}</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        {% block css_links %}{% endblock %}
+        {% block css_inline %}{% endblock %}
+        {% block js_links %}{% endblock %}
+        {% block js_inline %}{% endblock %}
+    </head>
+    <body>
+        {% block content %}Intentionally blank page.{% endblock %}
+    </body>
+</html>

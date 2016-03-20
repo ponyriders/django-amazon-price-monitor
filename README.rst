@@ -288,6 +288,171 @@ Documentation <http://docs.celeryproject.org/en/latest/index.html>`__
 about how to setup the whole thing. You'll need a broker and a result
 backend configured.
 
+Development setup with Docker
+-----------------------------
+The package comes with an easy to use Docker setup - you just need ``docker`` and ``docker-compose``.
+The setup is nearly similar to the one of `treasury <https://github.com/dArignac/treasury>`__ ( a project by `darignac <https://github.com/dArignac>`__), you
+can read the `documentation <http://treasury.readthedocs.org/en/latest/installation/docker.html>`__ there to get a better insight.
+
+Structure
+~~~~~~~~~
+There are 5 containers:
+
+====== =======================================================================
+db     Postgres database
+------ -----------------------------------------------------------------------
+redis  Celery broker
+------ -----------------------------------------------------------------------
+web    a django project containing the ``django-amazon-price-monitor`` package
+------ -----------------------------------------------------------------------
+celery the celery for the django project
+------ -----------------------------------------------------------------------
+data   container for mounted volumes
+====== =======================================================================
+
+The ``web`` and ``celery`` containers are using a docker image being set up under ``docker/web``.
+
+Image: web
+^^^^^^^^^^
+It comes with a Django project with login/logout view, that can be found under ``docker/web/project``.
+The image derives from `treasury/base <https://hub.docker.com/r/treasury/base/>`__.
+
+The directory structure within the container is the following (base dir: ``/srv/``):
+::
+
+	root:/srv tree
+	├── logs		[log files]
+	├── media		[media files]
+	├── project		[the django project]
+	├── static		[static files]
+	└── pricemonitor	[the pricemonitor package]
+
+Starts via the start script ``docker/web/web_run.sh`` that does migrations and the starts the ``runserver``.
+
+Image: celery
+^^^^^^^^^^^^^
+Basically the same as ``web``, but starts the Celery worker with beat.
+
+If you want to develop anything involving tasks, see the `Usage <_docker-usage-override-settings>`__ section below.
+
+Image: data
+^^^^^^^^^^^
+The ``data`` container mounts several paths:
+
++--------------------------+----------------------------------+----------------------------------------------------+
+| Folder in container      | Folder on host                   | Information                                        |
++==========================+==================================+====================================================+
+| /var/lib/postgresql/data | <PROJECTROOT>/docker/postgres    | * Postgres data directory                          |
+|                          |                                  | * Keeps the DB data even if container is removed   |
++--------------------------+----------------------------------+----------------------------------------------------+
+| /srv/logs                | <PROJECTROOT>/docker/logs        | Django logs (see project settings)                 |
++--------------------------+----------------------------------+----------------------------------------------------+
+| /srv/media               | <PROJECTROOT>/docker/media       | Django media files                                 |
++--------------------------+----------------------------------+----------------------------------------------------+
+| /srv/project             | <PROJECTROOT>/docker/web/project | * the Django project                               |
+|                          |                                  | * is copied on Dockerfile to get it up and running |
+|                          |                                  | * then mounted over (the copy is overwritten)      |
++--------------------------+----------------------------------+----------------------------------------------------+
+| /srv/pricemonitor        | <PROJECTROOT>                    | * the ``django-amazon-price-monitor`` lib          |
+|                          |                                  | * is copied on Dockerfile to get it up and running |
+|                          |                                  | * then mounted over (the copy is overwritten)      |
++--------------------------+----------------------------------+----------------------------------------------------+
+
+Usage
+~~~~~
+
+.. _docker-usage-override-settings:
+
+Override settings
+^^^^^^^^^^^^^^^^^
+To override some settings as well as to set up the **required AWS settings** you can create a ``docker-compose.override.yml`` and fill with the specific values
+(also see `docker-compose documentation <https://docs.docker.com/compose/extends/>`__).
+
+Please see or adjust the ``docker\web\project\settings.py`` for all settings that are read from the environment. They can be overwritten.
+
+A sample ``docker-compose.override.yml`` file could look like this:
+::
+
+	version: '2'
+	services:
+	  celery:
+		command: /bin/true
+		environment:
+		  PRICE_MONITOR_AWS_ACCESS_KEY_ID: XXX
+		  PRICE_MONITOR_AWS_SECRET_ACCESS_KEY: XXX
+		  PRICE_MONITOR_AMAZON_PRODUCT_API_REGION: DE
+		  PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG: XXX
+		  PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES: 5
+		  PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES: 60
+
+It will avoid the automatic startup of celery (``command: /bin/true``) and set the required settings for AWS (in fact they are only needed in the celery
+container). You can then manually start the container and execute celery which is quite useful if you develop anything that includes changes in the tasks and
+thus requires the celery to be restarted (execute from the ``docker`` folder!):
+::
+
+	alex@tyrion:~/projects/github/django-amazon-price-monitor/docker$ docker-compose run celery bash
+	Starting docker_data_1
+
+
+	# check environment variables
+
+	root@9d64bbd23e98:/srv/project# env
+	HOSTNAME=9d64bbd23e98
+	EMAIL_BACKEND=django.core.mail.backends.filebased.EmailBackend
+	POSTGRES_DB=pm_db
+	TERM=xterm
+	PYTHONUNBUFFERED=1
+	PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES=60
+	POSTGRES_PASSWORD=6i2vmzq5C6BuSf5k33A6tmMSHwKKv0Pu
+	PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+	SECRET_KEY=Vceev7yWMtEQzHaTZX52
+	PWD=/srv/project
+	BROKER_URL=redis://redis/1
+	C_FORCE_ROOT='True'
+	PRICE_MONITOR_AWS_SECRET_ACCESS_KEY=XXX
+	POSTGRES_USER=pm_user
+	SHLVL=1
+	HOME=/root
+	PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES=5
+	PRICE_MONITOR_AMAZON_PRODUCT_API_REGION=DE
+	PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG=XXX
+	DEBUG='True'
+	PRICE_MONITOR_AWS_ACCESS_KEY_ID=XXX
+	_=/usr/bin/env
+
+
+	# start celery (worker and beat) (can also execute /srv/celery_run.sh)
+
+	root@9d64bbd23e98:/srv/project# celery --beat -A glue worker
+
+	 -------------- celery@9d64bbd23e98 v3.1.23 (Cipater)
+	---- **** -----
+	--- * ***  * -- Linux-3.16.0-4-amd64-x86_64-with-debian-8.0
+	-- * - **** ---
+	- ** ---------- [config]
+	- ** ---------- .> app:         glue:0x7fc6b5269e10
+	- ** ---------- .> transport:   redis://redis:6379/1
+	- ** ---------- .> results:     disabled://
+	- *** --- * --- .> concurrency: 8 (prefork)
+	-- ******* ----
+	--- ***** ----- [queues]
+	 -------------- .> celery           exchange=celery(direct) key=celery
+
+	[2016-03-20 10:02:26,776: WARNING/MainProcess] celery@9d64bbd23e98 ready.
+
+
+Start/Stop/Build
+^^^^^^^^^^^^^^^^
+Use the make file to execute the most common tasks:
+::
+
+	docker-build-web:  - builds the web docker image
+	docker-up:         - uses docker-compose to bring the containers up
+	docker-stop:       - uses docker-compose to stop the containers
+	docker-ps:         - runs docker-compose ps
+
+A fixture with a Django user ``admin`` and the password ``password`` is loaded automatically.
+
 Management Commands
 -------------------
 

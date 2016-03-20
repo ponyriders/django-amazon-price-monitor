@@ -1,0 +1,47 @@
+version: '2'
+services:
+  # database container
+  db:
+    image: postgres:9
+    env_file: compose.env
+    volumes_from:
+      - data
+  # redis for celery
+  redis:
+    image: redis:3
+  # web container with Django project
+  web:
+    build: ./web
+    image: pricemonitor/web
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    env_file: compose.env
+    command: /srv/web_run.sh
+    volumes_from:
+      - data
+  # celery container
+  celery:
+    build: ./web
+    image: pricemonitor/web
+    depends_on:
+      - redis
+    env_file: compose.env
+    command: /srv/celery_run.sh
+    volumes_from:
+      - data
+  # data container, shall contain all volume mounts
+  data:
+    image: cogniteev/echo
+    volumes:
+      # postgres data dir
+      - ./postgres:/var/lib/postgresql/data
+      # django logs dir
+      - ./logs:/srv/logs
+      # django media dir
+      - ./media:/srv/media
+      # the django project
+      - ./web/project:/srv/project
+      # the pricemonitor package
+      - ../:/srv/pricemonitor

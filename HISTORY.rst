@@ -5,6 +5,7 @@ TO_BE_ANNOUNCED
 ---------------
 **Features:**
 
+- added docker setup for development (`PR#101 <https://github.com/ponyriders/django-amazon-price-monitor/pull/101>`__)
 - list products with audience rating 18+ in notification mail if region is Germany and product is also 18+ `#92 <https://github.com/ponyriders/django-amazon-price-monitor/issues/92>`__ (`PR#93 <https://github.com/ponyriders/django-amazon-price-monitor/pull/93>`__)
 
 **Bugfixes:**

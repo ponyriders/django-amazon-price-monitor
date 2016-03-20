@@ -6,8 +6,8 @@ except ImportError:
     from distutils.core import setup
 
 
-readme = open('README.rst').read()
-history = open('HISTORY.rst').read()
+readme = ""
+history = ""
 
 setup(
     name='django-amazon-price-monitor',
