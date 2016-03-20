@@ -288,6 +288,78 @@ Documentation <http://docs.celeryproject.org/en/latest/index.html>`__
 about how to setup the whole thing. You'll need a broker and a result
 backend configured.
 
+Development setup with Docker
+-----------------------------
+The package comes with an easy to use Docker setup - you just need ``docker`` and ``docker-compose``.
+The setup is nearly similar to the one of `treasury <https://github.com/dArignac/treasury>`__ ( a project by `darignac <https://github.com/dArignac>`__), you
+can read the `documentation <http://treasury.readthedocs.org/en/latest/installation/docker.html>`__ there to get a better insight.
+
+Structure
+~~~~~~~~~
+There are 5 containers:
+
+====== =======================================================================
+db     Postgres database
+------ -----------------------------------------------------------------------
+redis  Celery broker
+------ -----------------------------------------------------------------------
+web    a django project containing the ``django-amazon-price-monitor`` package
+------ -----------------------------------------------------------------------
+celery the celery for the django project
+------ -----------------------------------------------------------------------
+data   container for mounted volumes
+====== =======================================================================
+
+The ``web`` and ``celery`` containers are using a docker image being set up under ``docker/web``.
+
+Image: web
+^^^^^^^^^^
+It comes with a Django project with login/logout view, that can be found under ``docker/web/project``.
+The image derives from `treasury/base <https://hub.docker.com/r/treasury/base/>`__.
+
+The directory structure within the container is the following (base dir: ``/srv/``):
+::
+
+	root:/srv tree
+	├── logs		[log files]
+	├── media		[media files]
+	├── project		[the django project]
+	├── static		[static files]
+	└── pricemonitor	[the pricemonitor package]
+
+Starts via the start script ``docker/web/web_run.sh`` that does migrations and the starts the ``runserver``.
+
+Image: celery
+^^^^^^^^^^^^^
+Basically the same as ``web``, but starts the Celery worker with beat.
+
+**If you want to develop anything involving tasks, the best workflow is to disable the startup script in ``docker/docker-compose.yml`` and start the container
+via ``docker-compose run celery bash`` and the execute the celery command manually to be able to restart it on code changes (see ``docker/web/celery_run.sh``
+for the commands).**
+
+Image: data
+^^^^^^^^^^^
+The ``data`` container mounts several paths:
+
++--------------------------+----------------------------------+----------------------------------------------------+
+| Folder in container      | Folder on host                   | Information                                        |
++==========================+==================================+====================================================+
+| /var/lib/postgresql/data | <PROJECTROOT>/docker/postgres    | * Postgres data directory                          |
+|                          |                                  | * Keeps the DB data even if container is removed   |
++--------------------------+----------------------------------+----------------------------------------------------+
+| /srv/logs                | <PROJECTROOT>/docker/logs        | Django logs (see project settings)                 |
++--------------------------+----------------------------------+----------------------------------------------------+
+| /srv/media               | <PROJECTROOT>/docker/media       | Django media files                                 |
++--------------------------+----------------------------------+----------------------------------------------------+
+| /srv/project             | <PROJECTROOT>/docker/web/project | * the Django project                               |
+|                          |                                  | * is copied on Dockerfile to get it up and running |
+|                          |                                  | * then mounted over (the copy is overwritten)      |
++--------------------------+----------------------------------+----------------------------------------------------+
+| /srv/pricemonitor        | <PROJECTROOT>                    | * the ``django-amazon-price-monitor`` lib          |
+|                          |                                  | * is copied on Dockerfile to get it up and running |
+|                          |                                  | * then mounted over (the copy is overwritten)      |
++--------------------------+----------------------------------+----------------------------------------------------+
+
 Management Commands
 -------------------
 
