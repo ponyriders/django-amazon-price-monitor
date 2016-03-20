@@ -11,6 +11,7 @@ TO_BE_ANNOUNCED
 
 **Bugfixes:**
 
+- fixed display of price graph `#97 <https://github.com/ponyriders/django-amazon-price-monitor/issues/97>`__
 - updated to latest ``python-dateutil`` version, somehow refs `#95 <https://github.com/ponyriders/django-amazon-price-monitor/issues/95>`__
 
 `0.6.1 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.6.1>`__
