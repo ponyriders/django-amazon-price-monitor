@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from .views.EmailNotificationListView import EmailNotificationListView
 from .views.PriceListView import PriceListView
@@ -8,8 +8,7 @@ from .views.SubscriptionRetrieveView import SubscriptionRetrieveView
 from .views.SubscriptionListView import SubscriptionListView
 
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^email-notifications/$', EmailNotificationListView.as_view(), name='api_email_notification_list'),
     url(r'^products/(?P<asin>[0-9a-zA-Z_-]+)/prices/$', PriceListView.as_view(), name='api_product_price_list'),
     url(r'^products/(?P<asin>[0-9a-zA-Z_-]+)/$', ProductCreateRetrieveUpdateDestroyAPIView.as_view(), name='api_product_retrieve'),
@@ -20,4 +19,4 @@ urlpatterns = patterns(
         name='api_subscription_retrieve'
     ),
     url(r'^subscriptions/$', SubscriptionListView.as_view(), name='api_subscription_list'),
-)
+]
