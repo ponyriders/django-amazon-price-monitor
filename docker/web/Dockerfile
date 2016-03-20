@@ -2,13 +2,6 @@
 FROM treasury/base:latest
 MAINTAINER Alexander Herrmann <darignac@gmail.com>
 
-# system package dependencies
-RUN apt-get update && apt-get install -y \
-    libffi-dev \
-&& rm -rf /tmp/* /var/tmp/* \
-&& apt-get clean \
-&& rm -rf /var/lib/apt/lists/*
-
 # django setup, create default folder and volumes
 WORKDIR /srv/
 RUN mkdir static
