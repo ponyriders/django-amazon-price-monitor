@@ -451,6 +451,7 @@ Use the make file to execute the most common tasks:
 	docker-stop:       - uses docker-compose to stop the containers
 	docker-ps:         - runs docker-compose ps
 
+A fixture with a Django user ``admin`` and the password ``password`` is loaded automatically.
 
 Management Commands
 -------------------
