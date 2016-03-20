@@ -187,22 +187,22 @@ LOGGING = {
 }
 
 # caching
-CACHES = {
-    'default': {
-        'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': 'redis',
-        'OPTIONS': {
-            'DB': 0,
-            'PARSER_CLASS': 'redis.connection.HiredisParser',
-            'CONNECTION_POOL_CLASS': 'redis.BlockingConnectionPool',
-            'CONNECTION_POOL_CLASS_KWARGS': {
-                'max_connections': 50,
-                'timeout': 20,
-            }
-        },
-    },
-}
-CACHE_MIDDLEWARE_KEY_PREFIX = 'pm_glue'
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'redis_cache.RedisCache',
+#         'LOCATION': 'redis',
+#         'OPTIONS': {
+#             'DB': 0,
+#             'PARSER_CLASS': 'redis.connection.HiredisParser',
+#             'CONNECTION_POOL_CLASS': 'redis.BlockingConnectionPool',
+#             'CONNECTION_POOL_CLASS_KWARGS': {
+#                 'max_connections': 50,
+#                 'timeout': 20,
+#             }
+#         },
+#     },
+# }
+# CACHE_MIDDLEWARE_KEY_PREFIX = 'pm_glue'
 
 # glue login
 LOGIN_REDIRECT_URL = '/'
