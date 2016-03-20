@@ -1,3 +1,4 @@
+"""Celery setup for the glue project."""
 from __future__ import absolute_import
 
 import os

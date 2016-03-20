@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""Setup file for the django-amazon-price-monitor package."""
 try:
     from setuptools import setup
 except ImportError:

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""Main Django entry point."""
 import os
 import sys
 

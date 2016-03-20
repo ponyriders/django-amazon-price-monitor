@@ -1,3 +1,4 @@
+"""URL definitions for the glue_auth module."""
 from django.conf.urls import patterns, url
 
 
