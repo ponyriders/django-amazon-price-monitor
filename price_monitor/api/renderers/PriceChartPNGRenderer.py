@@ -123,6 +123,7 @@ class PriceChartPNGRenderer(BaseRenderer):
             'style': RedBlueStyle(**style_arguments),
             'x_label_rotation': 25,
             'x_value_formatter': lambda dt: dt.strftime('%y-%m-%d %H:%M'),
+            'fill': True
         }
         for arg in self.allowed_chart_url_args.keys():
             if arg in args:
