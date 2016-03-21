@@ -122,26 +122,29 @@ class ProductAdvertisingAPI(object):
             for item_node in item_response.find_all(['item']):
 
                 # parse the values
-                item_values = {
-                    'asin': item_node.asin.string,
-                    'title': item_node.itemattributes.title.string,
-                    'artist': item_node.itemattributes.artist.string if item_node.itemattributes.artist is not None else None,
-                    'isbn': self.__get_item_attribute(item_node, 'isbn'),
-                    'eisbn': self.__get_item_attribute(item_node, 'eisbn'),
-                    'binding': item_node.itemattributes.binding.string,
-                    'date_publication': self.format_datetime(self.__get_item_attribute(item_node, 'publicationdate')),
-                    'date_release': self.format_datetime(self.__get_item_attribute(item_node, 'releasedate')),
-                    'large_image_url': item_node.largeimage.url.string if item_node.largeimage.url is not None else None,
-                    'medium_image_url': item_node.mediumimage.url.string if item_node.mediumimage.url is not None else None,
-                    'small_image_url': item_node.smallimage.url.string if item_node.smallimage.url is not None else None,
-                    'offer_url': utils.get_offer_url(item_node.asin.string),
-                    'audience_rating': self.__get_item_attribute(item_node, 'audiencerating'),
-                }
+                try:
+                    item_values = {
+                        'asin': item_node.asin.string,
+                        'title': item_node.itemattributes.title.string,
+                        'artist': item_node.itemattributes.artist.string if item_node.itemattributes.artist is not None else None,
+                        'isbn': self.__get_item_attribute(item_node, 'isbn'),
+                        'eisbn': self.__get_item_attribute(item_node, 'eisbn'),
+                        'binding': item_node.itemattributes.binding.string,
+                        'date_publication': self.format_datetime(self.__get_item_attribute(item_node, 'publicationdate')),
+                        'date_release': self.format_datetime(self.__get_item_attribute(item_node, 'releasedate')),
+                        'large_image_url': item_node.largeimage.url.string if item_node.largeimage.url is not None else None,
+                        'medium_image_url': item_node.mediumimage.url.string if item_node.mediumimage.url is not None else None,
+                        'small_image_url': item_node.smallimage.url.string if item_node.smallimage.url is not None else None,
+                        'offer_url': utils.get_offer_url(item_node.asin.string),
+                        'audience_rating': self.__get_item_attribute(item_node, 'audiencerating'),
+                    }
 
-                # check if there are offers, if so add price
-                if item_node.offers is not None and int(item_node.offers.totaloffers.string) > 0:
-                    item_values['price'] = float(int(item_node.offers.offer.offerlisting.price.amount.string) / 100)
-                    item_values['currency'] = item_node.offers.offer.offerlisting.price.currencycode.string
+                    # check if there are offers, if so add price
+                    if item_node.offers is not None and int(item_node.offers.totaloffers.string) > 0:
+                        item_values['price'] = float(int(item_node.offers.offer.offerlisting.price.amount.string) / 100)
+                        item_values['currency'] = item_node.offers.offer.offerlisting.price.currencycode.string
+                except AttributeError:
+                    logger.error('fetching item values from returned XML for ASIN %s failed', item_node.asin)
 
                 # insert into main dict
                 product_values[item_values['asin']] = item_values

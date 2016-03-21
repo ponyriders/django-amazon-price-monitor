@@ -11,6 +11,7 @@ TO_BE_ANNOUNCED
 
 **Bugfixes:**
 
+- now catching parsing errors of returned XML from Amazon API `#96 <https://github.com/ponyriders/django-amazon-price-monitor/issues/96>`__
 - fixed date range of displayed prices in price graph `#90 <https://github.com/ponyriders/django-amazon-price-monitor/issues/90>`__
 - fixed display of old prices of price graph `#97 <https://github.com/ponyriders/django-amazon-price-monitor/issues/97>`__
 - updated to latest ``python-dateutil`` version, somehow refs `#95 <https://github.com/ponyriders/django-amazon-price-monitor/issues/95>`__
