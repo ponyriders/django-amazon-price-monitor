@@ -86,6 +86,9 @@ PRICE_MONITOR_GRAPH_CACHE_NAME = getattr(settings, 'PRICE_MONITOR_GRAPH_CACHE_NA
 # prefix for cache key used for graphs
 PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX = getattr(settings, 'PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX', 'graph_')
 
+# graph settings
+# the last X days to show in the graphs
+PRICE_MONITOR_GRAPH_LAST_DAYS = getattr(settings, 'PRICE_MONITOR_GRAPH_LAST_DAYS', 30)
 
 # internal settings - not to be overwritten by user
 # Regex for ASIN validation

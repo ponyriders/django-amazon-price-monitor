@@ -279,6 +279,13 @@ Caching
     # prefix for cache key used for graphs
     PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX = 'graph_'
 
+Graphs in frontend
+''''''''''''''''''
+::
+
+	# the last X days to show in the graphs
+	PRICE_MONITOR_GRAPH_LAST_DAYS = 30
+
 Celery settings
 ~~~~~~~~~~~~~~~
 
