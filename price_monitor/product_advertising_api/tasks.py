@@ -77,7 +77,7 @@ class StartupTask(Task):
         count = dict(Counter([x.name for x in scheduled_tasks]).most_common())
 
         # check if the FindProductsToSynchronizeTask is in and how often
-        if count:
+        if count and FindProductsToSynchronizeTask.name in count:
             c = count[FindProductsToSynchronizeTask.name]
         else:
             c = 0
