@@ -18,7 +18,7 @@ class PriceListView(ListAPIView):
     def get_queryset(self):
         """
         Returns the elements matching the product's ASIN within the last 7 days.
-        
+
         :return: QuerySet
         """
         # FIXME this has room fro improvement, we could only show the values that changes within a wider time range - but currently I don't know how to do that
