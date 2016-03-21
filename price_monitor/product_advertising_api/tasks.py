@@ -1,3 +1,4 @@
+# pylint: disable=unused-argument, arguments-differ
 """Celery tasks for the Amazon Product Advertising API"""
 import logging
 
