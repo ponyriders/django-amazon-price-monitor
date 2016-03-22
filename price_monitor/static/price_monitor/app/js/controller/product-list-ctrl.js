@@ -42,7 +42,7 @@ PriceMonitorApp.controller('ProductListCtrl', function($scope, $modal, Product, 
                 });
             };
 
-            $scope.open = function (product) {
+            $scope.openProductDelete = function (product) {
                 var modalInstance = $modal.open({
                     templateUrl: SETTINGS.uris.static + '/price_monitor/app/partials/product-delete.html',
                     controller: 'ProductDeleteCtrl',

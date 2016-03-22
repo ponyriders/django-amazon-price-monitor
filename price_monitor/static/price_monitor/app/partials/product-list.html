@@ -10,7 +10,7 @@
 
         <div class="media-body">
             <h4 class="media-heading">
-                <button class="btn btn-xs btn-danger pull-right" ng-click="open(product)" type="button" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button class="btn btn-xs btn-danger pull-right" ng-click="openProductDelete(product)" type="button" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <a href="#/products/{{ product.asin }}">
                     <span ng-if="product.artist">{{ product.artist }}: </span>{{ product.title }}
                 </a>
