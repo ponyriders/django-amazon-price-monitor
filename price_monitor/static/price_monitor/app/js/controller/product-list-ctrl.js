@@ -57,6 +57,17 @@ PriceMonitorApp.controller('ProductListCtrl', function($scope, $modal, Product, 
                     $scope.products = Product.query();
                 });
             };
+
+            $scope.openEmailNotificationCreate = function() {
+                var modalInstance = $modal.open({
+                    templateUrl: SETTINGS.uris.static + '/price_monitor/app/partials/emailnotification-create.html',
+                    controller: 'EmailNotificationCreateCtrl'
+                });
+
+                modalInstance.result.then(function () {
+                    $scope.emailNotifications = EmailNotification.query();
+                });
+            };
         });
     });
 });
