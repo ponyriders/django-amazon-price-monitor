@@ -2,10 +2,10 @@
 from ..serializers.EmailNotificationSerializer import EmailNotificationSerializer
 from ...models.EmailNotification import EmailNotification
 
-from rest_framework import generics, permissions
+from rest_framework import generics, mixins, permissions
 
 
-class EmailNotificationListView(generics.ListAPIView):
+class EmailNotificationListView(mixins.CreateModelMixin, generics.ListAPIView):
 
     """View for rendering list of EmailNotification objects"""
 
@@ -15,6 +15,17 @@ class EmailNotificationListView(generics.ListAPIView):
         # only return the list if user is authenticated
         permissions.IsAuthenticated
     ]
+
+    def post(self, request, *args, **kwargs):
+        """
+        Add post method to create object
+
+        :param request: the request
+        :type request:  HttpRequest
+        :return:        Result of creation
+        :rtype:         HttpResponse
+        """
+        return self.create(request, *args, **kwargs)
 
     def get_queryset(self):
         """

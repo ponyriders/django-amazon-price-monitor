@@ -34,3 +34,7 @@ PriceMonitorServerConnector.factory('Subscription', ['djResource', 'Product', fu
 PriceMonitorServerConnector.factory('Price', ['djResource', function(djResource) {
     return djResource(SETTINGS.uris.price, {'asin': '@asin'}, {});
 }]);
+
+PriceMonitorServerConnector.factory('EmailNotification', ['djResource', function(djResource) {
+    return djResource(SETTINGS.uris.emailNotification, {}, {});
+}]);

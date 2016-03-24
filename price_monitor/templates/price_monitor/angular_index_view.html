@@ -62,6 +62,7 @@
                     'price': '{% url "api_product_list" %}:asin/prices/',
                     'product': '{% url "api_product_list" %}:asin/',
                     'subscription': '{% url "api_subscription_list" %}:public_id/{#{% url "api_subscription_retrieve" public_id=":public_id" %}#}',
+                    'emailNotification': '{% url "api_email_notification_list" %}',
                     'sparkline': '{% url "api_product_list" %}:asin/prices/?show_legend=false&show_dots=false&margin=4&spacing=0&height=40&width=400&show_x_labels=false&y_labels_major_count=2&show_minor_y_labels=false&no_data_font_size=10',
                     'chart': {
                         'default': '{% url "api_product_list" %}:asin/prices/?show_legend=false&show_x_values=false&margin=4&spacing=0&y_labels_major_count=5&show_minor_y_labels=true&no_data_font_size=10&width=400&height=200',
@@ -92,6 +93,7 @@
         <script src="{% get_static_prefix %}price_monitor/app/js/app.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/filters.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/controller/main-ctrl.js"></script>
+        <script src="{% get_static_prefix %}price_monitor/app/js/controller/emailnotification-create-ctrl.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/controller/product-delete-ctrl.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/controller/product-detail-ctrl.js"></script>
         <script src="{% get_static_prefix %}price_monitor/app/js/controller/product-list-ctrl.js"></script>
