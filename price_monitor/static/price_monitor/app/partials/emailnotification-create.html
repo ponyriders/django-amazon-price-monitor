@@ -1,10 +1,14 @@
-<form novalidate name="emailnotification_form" class="form-inline">
+<form novalidate id="emailnotification-form" name="emailnotification_form" class="form-inline">
     <div class="modal-header">
         <h3 class="modal-title">Add email address</h3>
     </div>
     <div class="modal-body">
-        <div class="form-group" ng-class="{ 'has-error' : email_notification.email.$invalid && email_notification.email.$dirty}">
-            <input class="form-control" type="email" ng-model="email_notification.email" placeholder="E-Mail" required />
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group" ng-class="{ 'has-error' : email_notification.email.$invalid && email_notification.email.$dirty}">
+                    <input class="form-control" type="email" ng-model="email_notification.email" placeholder="E-Mail" required />
+                </div>
+            </div>
         </div>
     </div>
     <div class="modal-footer">

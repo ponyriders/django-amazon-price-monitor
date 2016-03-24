@@ -30,7 +30,9 @@
     margin-top: 5px;
 }
 
-#product-form input {
+#product-form input,
+#emailnotification-form .form-group,
+#emailnotification-form .form-group input[type="email"] {
     width: 100%;
 }
 
