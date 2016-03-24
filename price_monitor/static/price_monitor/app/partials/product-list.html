@@ -48,12 +48,11 @@
                 <input class="form-control" type="text" name="asin" ng-model="product.asin" placeholder="ASIN" required ng-pattern="/[A-Z0-9]/" />
             </div>
             <div class="col-xs-4 form-group" ng-class="{ 'has-error' : innerForm.subscription_set[0].email_notification.email.$invalid && innerForm.subscription_set[0].email_notification.email.$dirty}">
-                <select ng-if="emailNotifications.length > 0" class="form-control" name="email" ng-model="product.subscription_set[0].email_notification.email" style="width: 100%;">
+                <select ng-if="emailNotifications.length > 0" class="form-control" name="email" ng-model="product.subscription_set[0].email_notification.email">
                     <option ng-repeat="emailNotification in emailNotifications" ng-selected="$first">{{ emailNotification.email }}</option>
                 </select>
-                <span ng-if="emailNotifications.length > 0" ng-click="openEmailNotificationCreate()" aria-hidden="true" class="glyphicon glyphicon-plus"></span>
-
                 <input ng-if="emailNotifications.length == 0" class="form-control" type="email" name="email" ng-model="product.subscription_set[0].email_notification.email" placeholder="E-Mail" required />
+                <span ng-if="emailNotifications.length > 0" ng-click="openEmailNotificationCreate()" aria-hidden="true" class="glyphicon glyphicon-plus"></span>
             </div>
             <div class="col-xs-3 form-group" ng-class="{ 'has-error' : innerForm.subscription_set[0].price_limit.$invalid && innerForm.subscription_set[0].price_limit.$dirty}">
                 <input class="form-control" type="number" name="price" ng-model="product.subscription_set[0].price_limit" required step="0.01" />

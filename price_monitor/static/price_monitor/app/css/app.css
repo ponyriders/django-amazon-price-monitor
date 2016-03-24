@@ -34,6 +34,15 @@
     width: 100%;
 }
 
+#product-form select {
+    display: inline-block;
+    width: 84%;
+}
+
+#product-form span.glyphicon {
+    cursor: pointer;
+}
+
 .responsive-chart {
     margin-top: 15px;
 }
