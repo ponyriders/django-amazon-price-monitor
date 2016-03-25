@@ -312,10 +312,15 @@ data   container for mounted volumes
 
 The ``web`` and ``celery`` containers are using a docker image being set up under ``docker/web``.
 
+Image: base
+^^^^^^^^^^^
+Basic image with all necessary system packages and pre-installed ``lxml`` and ``psycopg2``.
+The image can be found on `Docker Hub <https://hub.docker.com/r/pricemonitor/base/>`__.
+
 Image: web
 ^^^^^^^^^^
 It comes with a Django project with login/logout view, that can be found under ``docker/web/project``.
-The image derives from `treasury/base <https://hub.docker.com/r/treasury/base/>`__.
+The image derives from ``pricemonitor/base`` from above.
 
 The directory structure within the container is the following (base dir: ``/srv/``):
 ::
@@ -446,6 +451,7 @@ Start/Stop/Build
 Use the make file to execute the most common tasks:
 ::
 
+	docker-build-base: - builds the base docker image
 	docker-build-web:  - builds the web docker image
 	docker-up:         - uses docker-compose to bring the containers up
 	docker-stop:       - uses docker-compose to stop the containers
