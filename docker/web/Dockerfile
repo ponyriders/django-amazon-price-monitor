@@ -1,5 +1,5 @@
 # basic setup, use base image of treasury project
-FROM treasury/base:latest
+FROM pricemonitor/base:latest
 MAINTAINER Alexander Herrmann <darignac@gmail.com>
 
 # django setup, create default folder and volumes
