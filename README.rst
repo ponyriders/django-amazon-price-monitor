@@ -448,7 +448,8 @@ thus requires the celery to be restarted (execute from the ``docker`` folder!):
 
 Start/Stop/Build
 ^^^^^^^^^^^^^^^^
-Use the make file to execute the most common tasks:
+Use the make file to execute the most common tasks. It will execute ``docker-compose`` with the project name ``pm`` resulting in the container's name pattern
+``pm_*``.
 ::
 
 	docker-build-base: - builds the base docker image

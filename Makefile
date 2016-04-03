@@ -15,12 +15,12 @@ docker-build-web:
 	docker build -t pricemonitor/web docker/web/
 
 docker-up:
-	cd docker && docker-compose up -d
+	cd docker && docker-compose -p "pm" up -d
 
 docker-stop:
-	cd docker && docker-compose stop
+	cd docker && docker-compose -p "pm" stop
 
 docker-ps:
-	cd docker && docker-compose ps
+	cd docker && docker-compose -p "pm" ps
 
 docker-reload: docker-build-web docker-up
