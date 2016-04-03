@@ -5,6 +5,7 @@ TO_BE_ANNOUNCED
 ---------------
 **Features:**
 
+- footer can now be extended through template block *footer*
 - product addition in frontend improved `#79 <https://github.com/ponyriders/django-amazon-price-monitor/issues/79>`__ (`PR#104 <https://github.com/ponyriders/django-amazon-price-monitor/pull/104>`__)
 - removed ``urlpatterns`` to please Django 1.10 deprecation
 - added docker setup for development (`PR#101 <https://github.com/ponyriders/django-amazon-price-monitor/pull/101>`__)
