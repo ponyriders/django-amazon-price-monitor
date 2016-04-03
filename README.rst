@@ -459,6 +459,22 @@ Use the make file to execute the most common tasks:
 
 A fixture with a Django user ``admin`` and the password ``password`` is loaded automatically.
 
+Templates
+---------
+As the fronted is done by Angular, there is only a single template with very limited possibilities to adjust, ``price_monitor/angular_index_view.html``. You
+can extends the template and adjust the following blocks.
+
+footer
+~~~~~~
+Is rendered on the very bottom of the page. You have to use Bootstrap compatible markup, e.g.:
+::
+
+	{% block footer %}
+		<div class="row">
+			<div class="col-md-12">Additonal footer</div>
+		</div>
+	{% endblock %}
+
 Management Commands
 -------------------
 
