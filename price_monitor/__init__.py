@@ -3,8 +3,8 @@ django-amazon-price-monitor monitors prices of Amazon products.
 """
 __version_info__ = {
     'major': 0,
-    'minor': 6,
-    'micro': 1,
+    'minor': 7,
+    'micro': 0,
     'releaselevel': 'final',
     'serial': 0,
 }

@@ -1,8 +1,8 @@
 Change Log
 ==========
 
-TO_BE_ANNOUNCED
----------------
+`0.7 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.7>`__
+----------------------------------------------------------------------
 **Features:**
 
 - footer can now be extended through template block *footer*
