@@ -163,7 +163,6 @@ Necessary for creating links to the site within the notification emails.
 
 AWS and Product Advertising API credentials
 '''''''''''''''''''''''''''''''''''''''''''
-
 ::
 
     # your Amazon Web Services access key id
@@ -184,7 +183,6 @@ Amazon associates
 '''''''''''''''''
 As the links to Amazon will be affiliate links with your Amazon associate tag (see above), you have to set your name for the disclaimer
 (see `https://partnernet.amazon.de/gp/associates/agreement <https://partnernet.amazon.de/gp/associates/agreement>`__).
-
 ::
 
     # name of you/your site
@@ -204,7 +202,6 @@ As the links to Amazon will be affiliate links with your Amazon associate tag (s
 
 Images protocol and domain
 ''''''''''''''''''''''''''
-
 ::
 
     # if to use the HTTPS URLs for Amazon images.
@@ -227,7 +224,6 @@ values.
 
 Product synchronization
 '''''''''''''''''''''''
-
 ::
 
     # time after which products shall be refreshed
@@ -240,7 +236,6 @@ Notifications
 To be able to send out the notification emails, set up a proper email
 backend (see `Django
 documentation <https://docs.djangoproject.com/en/1.5/topics/email/#topic-email-backends>`__).
-
 ::
 
     # time after which to notify the user again about a price limit hit (in minutes)
@@ -269,7 +264,6 @@ documentation <https://docs.djangoproject.com/en/1.5/topics/email/#topic-email-b
 
 Caching
 '''''''
-
 ::
 
     # key of cache (according to project config) to use for graphs
