@@ -30,8 +30,19 @@
     margin-top: 5px;
 }
 
-#product-form input {
+#product-form input,
+#emailnotification-form .form-group,
+#emailnotification-form .form-group input[type="email"] {
     width: 100%;
+}
+
+#product-form select {
+    display: inline-block;
+    width: 84%;
+}
+
+#product-form span.glyphicon {
+    cursor: pointer;
 }
 
 .responsive-chart {
