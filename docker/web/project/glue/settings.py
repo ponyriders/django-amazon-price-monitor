@@ -224,7 +224,7 @@ CELERY_ACCEPT_CONTENT = ['pickle', 'json']
 BROKER_URL = os.environ.get('BROKER_URL')
 CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', '')
 CELERY_CHORD_PROPAGATES = True
-# redis specific, see http://celery.readthedocs.org/en/latest/getting-started/brokers/redis.html#caveats
+# redis specific, see http://celery.readthedocs.io/en/latest/getting-started/brokers/redis.html#caveats
 BROKER_TRANSPORT_OPTIONS = {
     'fanout_prefix': True,
     'fanout_patterns': True,
