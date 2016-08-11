@@ -1,5 +1,5 @@
 help:
-	@echo "docker-build-base: - builds the base docker image"
+	@echo "docker-build-base: - builds the base docker image (not necessary normally as image is on docker hub)"
 	@echo "docker-build-web:  - builds the web docker image"
 	@echo "docker-up:         - uses docker-compose to bring the containers up"
 	@echo "docker-stop:       - uses docker-compose to stop the containers"

@@ -452,13 +452,28 @@ Use the make file to execute the most common tasks. It will execute ``docker-com
 ``pm_*``.
 ::
 
-	docker-build-base: - builds the base docker image
+	docker-build-base: - builds the base docker image (not necessary normally as image is on docker hub)
 	docker-build-web:  - builds the web docker image
 	docker-up:         - uses docker-compose to bring the containers up
 	docker-stop:       - uses docker-compose to stop the containers
 	docker-ps:         - runs docker-compose ps
 
 A fixture with a Django user ``admin`` and the password ``password`` is loaded automatically.
+
+So to start the pricemonitor on a system do the following:
+::
+
+	make docker-build-web && make docker-up
+
+To stop it:
+::
+
+	make docker-stop
+
+To inspect the logs (assuming the ``pricemonitor/web`` container has the name ``pm_web_1`` (check with ``make docker-ps`` or ``docker ps -a``)):
+::
+
+	docker logs -f pm_web_1
 
 Templates
 ---------
