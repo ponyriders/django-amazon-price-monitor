@@ -1,4 +1,4 @@
-|Build Status| |codecov.io| |Code issues| |Requirements Status| |Stories in Ready| |Landscape|
+|Build Status| |codecov.io| |Requirements Status| |Stories in Ready| |Landscape|
 
 .. contents:: Table of Contents
 
@@ -584,8 +584,6 @@ Image of Product advertising api synchronization workflow
     :target: https://requires.io/github/ponyriders/django-amazon-price-monitor/requirements/?branch=master
 .. |Stories in Ready| image:: https://badge.waffle.io/ponyriders/django-amazon-price-monitor.png?label=ready&title=Ready
     :target: https://waffle.io/ponyriders/django-amazon-price-monitor
-.. |Code issues| image:: https://www.quantifiedcode.com/api/v1/project/67cad011c255435388ef61f3b8e018a1/badge.svg
-    :target: https://www.quantifiedcode.com/app/project/67cad011c255435388ef61f3b8e018a1
 .. |Landscape| image:: https://landscape.io/github/ponyriders/django-amazon-price-monitor/master/landscape.svg?style=flat
     :target: https://landscape.io/github/ponyriders/django-amazon-price-monitor/master
     :alt: Code Health
