@@ -1,4 +1,4 @@
-Django<1.10
+Django<1.11
 dj-database-url
 psycopg2
 celery>=4,<5
