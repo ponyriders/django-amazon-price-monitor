@@ -35,7 +35,7 @@ setup(
         'pygal>=2.0.7',
         'lxml',
         # pygal png output
-        'CairoSVG',
+        'CairoSVG<2',
         'tinycss',
         'cssselect',
     ],
