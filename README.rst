@@ -106,7 +106,7 @@ Then migrate:
 
     python manage.py migrate
 
-Adjust the settings appropiately, `see next chapter <#settings>`__.
+Adjust the settings appropriately, `see next chapter <#settings>`__.
 
 Include the url configuration.
 
