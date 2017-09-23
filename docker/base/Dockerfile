@@ -20,4 +20,4 @@ RUN apt-get update && apt-get install -y \
 && rm -rf /var/lib/apt/lists/*
 
 # install lxml and psycopg2 - they take the most amount of time compiling
-RUN pip3 install lxml psycopg2
+RUN pip3 install lxml psycopg2 setuptools
