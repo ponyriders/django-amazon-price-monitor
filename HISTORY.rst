@@ -1,5 +1,11 @@
 Change Log
 ==========
+TBA
+---
+**Maintenance**
+
+- updated the following packages
+	- ``Celery`` from ``3`` to ``4``, **the setting** ``BROKER_URL`` **is now named** ``CELERY_BROKER_URL``
 
 `0.7 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.7>`__
 ----------------------------------------------------------------------

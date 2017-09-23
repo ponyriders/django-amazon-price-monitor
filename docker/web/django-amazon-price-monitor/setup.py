@@ -27,7 +27,7 @@ setup(
         # for product advertising api
         'beautifulsoup4',
         'bottlenose>=0.6.2',
-        'celery>=3',
+        'celery>=4,<5',
         'python-dateutil>=2.5.1',
         # for pm api
         'djangorestframework>=3.3',
