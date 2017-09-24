@@ -1,6 +1,6 @@
-Django<1.11
+Django<2
 dj-database-url
-psycopg2
+psycopg2>=2.5.4
 celery>=4,<5
 django-redis-cache>=1.5.4
 hiredis
