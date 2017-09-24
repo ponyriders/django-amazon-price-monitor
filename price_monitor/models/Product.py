@@ -17,6 +17,7 @@ from urllib.parse import (
 
 
 class Product(models.Model):
+
     """Product to be monitored."""
 
     STATUS_CHOICES = (
@@ -140,6 +141,7 @@ class Product(models.Model):
         return '{0} (ASIN: {1})'.format(self.get_title(), self.asin)
 
     class Meta(object):
+
         """Django meta config"""
 
         app_label = 'price_monitor'

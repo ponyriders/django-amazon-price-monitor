@@ -4,6 +4,7 @@ from django.utils.translation import ugettext as _, ugettext_lazy
 
 
 class Price(models.Model):
+
     """Representing fetched price for a product"""
 
     value = models.FloatField(verbose_name=_('Price'), blank=True, null=True)

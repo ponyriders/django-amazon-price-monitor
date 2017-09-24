@@ -7,6 +7,7 @@ from django.utils.translation import ugettext as _, ugettext_lazy
 
 
 class Subscription(PublicIDMixin, models.Model):
+
     """Model for a user being able to subscribe to a product and be notified if the price_limit is reached."""
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_('Owner'))
@@ -38,6 +39,7 @@ class Subscription(PublicIDMixin, models.Model):
         })
 
     class Meta(object):
+
         """Meta stuff - you know what..."""
 
         app_label = 'price_monitor'
