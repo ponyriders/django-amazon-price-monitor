@@ -10,11 +10,11 @@ class Subscription(PublicIDMixin, models.Model):
 
     """Model for a user being able to subscribe to a product and be notified if the price_limit is reached."""
 
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Owner'))
-    product = models.ForeignKey('Product', verbose_name=_('Product'))
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_('Owner'))
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name=_('Product'))
     price_limit = models.FloatField(verbose_name=_('Price limit'))
     date_last_notification = models.DateTimeField(null=True, blank=True, verbose_name=_('Date of last sent notification'))
-    email_notification = models.ForeignKey('EmailNotification', verbose_name=_('Email Notification'))
+    email_notification = models.ForeignKey('EmailNotification', on_delete=models.CASCADE, verbose_name=_('Email Notification'))
 
     def get_email_address(self):
         """

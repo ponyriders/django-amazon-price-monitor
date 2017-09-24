@@ -10,7 +10,7 @@ class Price(models.Model):
     value = models.FloatField(verbose_name=_('Price'), blank=True, null=True)
     currency = models.CharField(max_length=3, verbose_name=_('Currency'), blank=True, null=True)
     date_seen = models.DateTimeField(verbose_name=_('Date of price'))
-    product = models.ForeignKey('Product', verbose_name=_('Product'))
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name=_('Product'))
 
     def __str__(self):
         """

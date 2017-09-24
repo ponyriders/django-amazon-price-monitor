@@ -12,7 +12,7 @@ class EmailNotification(PublicIDMixin, models.Model):
 
     """An email notification."""
 
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Owner'))
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_('Owner'))
     email = models.EmailField(verbose_name=_('Email address'))
 
     def __str__(self):
