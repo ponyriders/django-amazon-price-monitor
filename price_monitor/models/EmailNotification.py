@@ -9,7 +9,6 @@ from six import text_type
 
 
 class EmailNotification(PublicIDMixin, models.Model):
-
     """An email notification."""
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_('Owner'))
@@ -29,10 +28,9 @@ class EmailNotification(PublicIDMixin, models.Model):
         )
 
     class Meta(object):
-
         """Meta Peter or how to configure your Django model"""
 
         app_label = 'price_monitor'
         verbose_name = ugettext_lazy('Email Notification')
         verbose_name_plural = ugettext_lazy('Email Notifications')
-        ordering = ('email', )
+        ordering = ('email',)
