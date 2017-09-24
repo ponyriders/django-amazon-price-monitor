@@ -6,6 +6,9 @@ TBA
 
 - updated the following packages
 	- ``Celery`` from ``3`` to ``4``, **the setting** ``BROKER_URL`` **is now named** ``CELERY_BROKER_URL``
+	- ``Django`` up to ``1.11``
+	- ``CairoSVG`` is not pinned to version below ``2`` any more, with this we drop support for Python ``3.3`` as it is not compatible
+- dropped support for ``Python 3.3``
 
 `0.7 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.7>`__
 ----------------------------------------------------------------------
