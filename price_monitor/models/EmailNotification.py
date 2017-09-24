@@ -12,7 +12,7 @@ class EmailNotification(PublicIDMixin, models.Model):
 
     """An email notification."""
 
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Owner'))
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_('Owner'))
     email = models.EmailField(verbose_name=_('Email address'))
 
     def __str__(self):
@@ -35,4 +35,4 @@ class EmailNotification(PublicIDMixin, models.Model):
         app_label = 'price_monitor'
         verbose_name = ugettext_lazy('Email Notification')
         verbose_name_plural = ugettext_lazy('Email Notifications')
-        ordering = ('email', )
+        ordering = ('email',)

@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'price_monitor.product_advertising_api',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -49,7 +50,6 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
 ]
 
 ROOT_URLCONF = 'glue.urls'
@@ -221,11 +221,11 @@ elif EMAIL_BACKEND == 'django.core.mail.backends.filebased.EmailBackend':
 
 # Celery
 CELERY_ACCEPT_CONTENT = ['pickle', 'json']
-BROKER_URL = os.environ.get('BROKER_URL')
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', '')
 CELERY_CHORD_PROPAGATES = True
 # redis specific, see http://celery.readthedocs.org/en/latest/getting-started/brokers/redis.html#caveats
-BROKER_TRANSPORT_OPTIONS = {
+CELERY_BROKER_TRANSPORT_OPTIONS = {
     'fanout_prefix': True,
     'fanout_patterns': True,
 }

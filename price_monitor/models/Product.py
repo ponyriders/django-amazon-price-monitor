@@ -52,9 +52,10 @@ class Product(models.Model):
     small_image_url = models.URLField(blank=True, null=True, verbose_name=_('URL to small product image'))
     offer_url = models.URLField(blank=True, null=True, verbose_name=_('URL to the offer'))
 
-    current_price = models.ForeignKey(Price, blank=True, null=True, related_name='product_current', verbose_name=_('Current price'))
-    highest_price = models.ForeignKey(Price, blank=True, null=True, related_name='product_highest', verbose_name=_('Highest price ever'))
-    lowest_price = models.ForeignKey(Price, blank=True, null=True, related_name='product_lowest', verbose_name=_('Lowest price ever'))
+    current_price = models.ForeignKey(Price, on_delete=models.CASCADE, blank=True, null=True, related_name='product_current', verbose_name=_('Current price'))
+    highest_price = models.ForeignKey(Price, on_delete=models.CASCADE, blank=True, null=True, related_name='product_highest',
+                                      verbose_name=_('Highest price ever'))
+    lowest_price = models.ForeignKey(Price, on_delete=models.CASCADE, blank=True, null=True, related_name='product_lowest', verbose_name=_('Lowest price ever'))
 
     def get_prices_for_chart(self):
         """
@@ -146,4 +147,4 @@ class Product(models.Model):
         app_label = 'price_monitor'
         verbose_name = ugettext_lazy('Product')
         verbose_name_plural = ugettext_lazy('Products')
-        ordering = ('title', 'asin', )
+        ordering = ('title', 'asin',)

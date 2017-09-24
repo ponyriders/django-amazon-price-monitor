@@ -5,6 +5,8 @@
 django-amazon-price-monitor
 ===========================
 
+**Necessary settings changes for upcoming version 0.8 can be found in the** `history <https://github.com/ponyriders/django-amazon-price-monitor/blob/master/HISTORY.rst>`_ **.**
+
 Monitors prices of Amazon products via Product Advertising API.
 
 Basic structure
@@ -72,11 +74,11 @@ Setup
 Prerequisites
 ~~~~~~~~~~~~~
 
-+--------+-----+------------+-----+
-| Python | 3.3 | 3.4        | 3.5 |
-+========+=====+============+=====+
-| Django | 1.8 | 1.8 or 1.9 | 1.9 |
-+--------+-----+------------+-----+
++--------+----------------------+-----------------+------+
+| Python | 3.4                  | 3.5             | 3.6  |
++========+======================+=================+======+
+| Django | 1.8, 1.9, 1.10, 1.11 | 1.9, 1.10, 1.11 | 1.11 |
++--------+----------------------+-----------------+------+
 
 For additional used packages see `setup.py <https://github.com/ponyriders/django-amazon-price-monitor/blob/master/setup.py#L23>`__.
 
@@ -131,7 +133,7 @@ You need to have a broker and a result backend set.
 
 ::
 
-    BROKER_URL = ...
+    CELERY_BROKER_URL = ...
     CELERY_RESULT_BACKEND = ...
       
     # some additional settings
@@ -381,14 +383,14 @@ A sample ``docker-compose.override.yml`` file could look like this:
 	version: '2'
 	services:
 	  celery:
-		command: /bin/true
-		environment:
-		  PRICE_MONITOR_AWS_ACCESS_KEY_ID: XXX
-		  PRICE_MONITOR_AWS_SECRET_ACCESS_KEY: XXX
-		  PRICE_MONITOR_AMAZON_PRODUCT_API_REGION: DE
-		  PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG: XXX
-		  PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES: 5
-		  PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES: 60
+	    command: /bin/true
+	    environment:
+	      PRICE_MONITOR_AWS_ACCESS_KEY_ID: XXX
+	      PRICE_MONITOR_AWS_SECRET_ACCESS_KEY: XXX
+	      PRICE_MONITOR_AMAZON_PRODUCT_API_REGION: DE
+	      PRICE_MONITOR_AMAZON_PRODUCT_API_ASSOC_TAG: XXX
+	      PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES: 5
+	      PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES: 60
 
 It will avoid the automatic startup of celery (``command: /bin/true``) and set the required settings for AWS (in fact they are only needed in the celery
 container). You can then manually start the container and execute celery which is quite useful if you develop anything that includes changes in the tasks and
@@ -412,7 +414,7 @@ thus requires the celery to be restarted (execute from the ``docker`` folder!):
 	PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 	SECRET_KEY=Vceev7yWMtEQzHaTZX52
 	PWD=/srv/project
-	BROKER_URL=redis://redis/1
+	CELERY_BROKER_URL=redis://redis/1
 	C_FORCE_ROOT='True'
 	PRICE_MONITOR_AWS_SECRET_ACCESS_KEY=XXX
 	POSTGRES_USER=pm_user
