@@ -25,19 +25,20 @@ setup(
         # main dependencies
         'Django>=1.8,<2',
         # for product advertising api
-        'beautifulsoup4',
-        'bottlenose>=0.6.2',
-        'celery>=4,<5',
-        'python-dateutil>=2.5.1',
+        'beautifulsoup4<=4.6',
+        'bottlenose>=0.6.2,<1.2',
+        'celery>=4,<4.1',
+        'python-dateutil>=2.5.1,<2.7',
+        'kombu>=4.1.0,<4.2',
         # for pm api
-        'djangorestframework>=3.3',
+        'djangorestframework>=3.3,<3.7',
         # for graphs
-        'pygal>=2.0.7',
-        'lxml',
+        'pygal>=2.0.7,<2.5',
+        'lxml>=4,<4.1',
         # pygal png output
-        'CairoSVG',
-        'tinycss',
-        'cssselect',
+        'CairoSVG>=2,<2.1',
+        'tinycss>=0.4,<0.5',
+        'cssselect>=1.0.1,<1.1',
     ],
     license='MIT',
     zip_safe=False,
