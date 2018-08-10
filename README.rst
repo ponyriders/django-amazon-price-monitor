@@ -293,8 +293,6 @@ backend configured.
 Development setup with Docker
 -----------------------------
 The package comes with an easy to use Docker setup - you just need ``docker`` and ``docker-compose``.
-The setup is nearly similar to the one of `treasury <https://github.com/dArignac/treasury>`__ ( a project by `darignac <https://github.com/dArignac>`__), you
-can read the `documentation <http://treasury.readthedocs.org/en/latest/installation/docker.html>`__ there to get a better insight.
 
 Structure
 ~~~~~~~~~
