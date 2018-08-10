@@ -283,12 +283,7 @@ Caching
 
 Celery settings
 ~~~~~~~~~~~~~~~
-
-To be able to run the required Celery tasks, Celery itself has to be set
-up. Please see the `Celery
-Documentation <http://docs.celeryproject.org/en/latest/index.html>`__
-about how to setup the whole thing. You'll need a broker and a result
-backend configured.
+To be able to run the required Celery tasks, Celery itself has to be set up. Please see the `Celery Documentation <http://docs.celeryproject.org/en/latest/index.html>`__ about how to setup the whole thing. You'll need a broker and a result backend configured.
 
 Development setup with Docker
 -----------------------------
@@ -340,9 +335,9 @@ Basically the same as ``web``, but starts the Celery worker with beat.
 
 If you want to develop anything involving tasks, see the `Usage <_docker-usage-override-settings>`__ section below.
 
-Image: data
-^^^^^^^^^^^
-The ``data`` container mounts several paths:
+Volumes
+^^^^^^^
+The containers mount several paths:
 
 +--------------------------+----------------------------------+----------------------------------------------------+
 | Folder in container      | Folder on host                   | Information                                        |
@@ -378,7 +373,7 @@ Please see or adjust the ``docker\web\project\settings.py`` for all settings tha
 A sample ``docker-compose.override.yml`` file could look like this:
 ::
 
-	version: '2'
+	version: '3'
 	services:
 	  celery:
 	    command: /bin/true
@@ -448,32 +443,22 @@ thus requires the celery to be restarted (execute from the ``docker`` folder!):
 
 Start/Stop/Build
 ^^^^^^^^^^^^^^^^
-Use the make file to execute the most common tasks. It will execute ``docker-compose`` with the project name ``pm`` resulting in the container's name pattern
-``pm_*``.
 ::
 
-	docker-build-base: - builds the base docker image (not necessary normally as image is on docker hub)
-	docker-build-web:  - builds the web docker image
-	docker-up:         - uses docker-compose to bring the containers up
-	docker-stop:       - uses docker-compose to stop the containers
-	docker-ps:         - runs docker-compose ps
+	cd docker
+
+	# start
+	docker-compose up -d
+
+	# stop
+	docker-compose stop
+
+	# inspect
+	docker-compose logs -f
 
 A fixture with a Django user ``admin`` and the password ``password`` is loaded automatically.
 
-So to start the pricemonitor on a system do the following:
-::
-
-	make docker-build-web && make docker-up
-
-To stop it:
-::
-
-	make docker-stop
-
-To inspect the logs (assuming the ``pricemonitor/web`` container has the name ``pm_web_1`` (check with ``make docker-ps`` or ``docker ps -a``)):
-::
-
-	docker logs -f pm_web_1
+To build the images, use the `Makefile` from the root directory.
 
 Templates
 ---------
