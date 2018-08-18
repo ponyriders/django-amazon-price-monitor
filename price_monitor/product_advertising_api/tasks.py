@@ -353,7 +353,7 @@ class NotifySubscriberTask(Task):
 
         logger.info('Trying to send notification email to %s...', subscription.email_notification.email)
         try:
-            send_mail(product, subscription, price, self.get_audience_rating_info(product))
+            send_mail(product, subscription, price)
         except SMTPServerDisconnected:
             logger.exception('SMTP server was disconnected.')
         else:
