@@ -238,9 +238,18 @@ class SynchronizeProductsTask(Task):
         """
         now = timezone.now()
 
+        # the price value
+        price_new = amazon_data['price'] if 'price' in amazon_data else None
+        price_old = product.current_price.value
+
+        # compare the new price to the last one and calculate the price drop
+        price_drop = 0.0
+        if price_new is not None:
+            price_drop = (price_old - price_new) / price_old
+
         # create the price
         price = Price.objects.create(
-            value=amazon_data['price'] if 'price' in amazon_data else None,
+            value=price_new,
             currency=amazon_data['currency'] if 'currency' in amazon_data else None,
             date_seen=now,
             product=product,
@@ -267,6 +276,10 @@ class SynchronizeProductsTask(Task):
         product.save()
 
         if price.value is not None:
+            # if the price of the product dropped more or equals settings.PRICE_MONITOR_BIG_PRICE_DROP_THRESHOLD,
+            # then send a notification
+            self.__inform_about_price_drop(price_drop, price_old, product)
+
             # get all subscriptions of product that are subscribed to the current price or a higher one and
             # whose owners have not been notified about that particular subscription price since before
             # settings.PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES.
@@ -284,6 +297,26 @@ class SynchronizeProductsTask(Task):
                 # FIXME: how to handle failed notifications?
                 NotifySubscriberTask().apply_async((product.pk, price.pk, sub.pk), countdown=5)
 
+    def __inform_about_price_drop(self, price_drop, price_old, product):
+        """
+        Checks if the price dropped by more or equals PRICE_MONITOR_BIG_PRICE_DROP_THRESHOLD.
+        If so, informs every subscriber of the product about it.
+        :param price_drop: the price drop value as 1 of 100
+        :type price_drop: float
+        :param price_old: the old price value before the current sync
+        :type price_old: float
+        :param product: the product the price belongs to
+        :type product: price_monitor.models.Product
+        """
+        if price_drop >= app_settings.PRICE_MONITOR_BIG_PRICE_DROP_THRESHOLD:
+            logger.info(
+                'Price drop threshold reached for product %s, old price %05.2f, new price %05.2f, dropped by %05.2f%%',
+                product.asin, 
+                price_old, 
+                price_new, 
+                price_drop * 100
+            )
+            # FIXME #112 implement
 
 class NotifySubscriberTask(Task):
 

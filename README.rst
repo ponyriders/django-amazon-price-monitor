@@ -5,6 +5,22 @@
 django-amazon-price-monitor
 ===========================
 
+This project enables you to monitor prices on Amazon an to be informed when your personal price limit for a product was reached.
+
+Features
+--------
+* web UI for all interactions
+	* add an Amazon product within a UI by entering its ASIN
+	* display graph of prices of time
+	* enter a price limit per product
+* notifications
+	* all notifications are as email
+	* when price limit was reached
+	* if a big price drop happened (many thanks to `Swiftnesses <https://github.com/Swiftnesses>`_ for suggesting the feature!)
+
+Setup
+=====
+
 **Necessary settings changes for upcoming version 0.8 can be found in the** `history <https://github.com/ponyriders/django-amazon-price-monitor/blob/master/HISTORY.rst>`_ **.**
 
 Monitors prices of Amazon products via Product Advertising API.
@@ -236,8 +252,8 @@ Product synchronization
     # Amazon only allows caching up to 24 hours, so the maximum value is 1440!
     PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES = 720  # 12 hours
 
-Notifications
-'''''''''''''
+Notifications for reaching a price limit
+''''''''''''''''''''''''''''''''''''''''
 
 To be able to send out the notification emails, set up a proper email
 backend (see `Django
@@ -268,6 +284,17 @@ documentation <https://docs.djangoproject.com/en/1.5/topics/email/#topic-email-b
 
     # name of the site in notifications
     PRICE_MONITOR_SITENAME = 'Price Monitor'
+
+
+Big price drop
+''''''''''''''
+If a price drops by a certain threshold, the subscribers of that product will be informed with an email.
+
+::
+
+	# if the price of a products drops for more or equals this threshold, we send out a notification if a user has a subscription of the product
+	# value in percentage of 100, 1 = 100%, 0.65 = 65%, default: 0.25 = 25%
+	PRICE_MONITOR_BIG_PRICE_DROP_THRESHOLD = 0.25
 
 Caching
 '''''''
