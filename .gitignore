@@ -9,6 +9,7 @@
 .pydevproject
 .settings
 .tox
+.vscode
 build
 dist
 django_amazon_price_monitor.egg-info
