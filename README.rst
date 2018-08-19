@@ -241,7 +241,7 @@ Optional settings
 ^^^^^^^^^^^^^^^^^
 
 The following settings can be adjusted but come with reasonable default
-values.
+values. The displayed values here are the default ones.
 
 Product synchronization
 '''''''''''''''''''''''
@@ -250,7 +250,7 @@ Product synchronization
 
     # time after which products shall be refreshed
     # Amazon only allows caching up to 24 hours, so the maximum value is 1440!
-    PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES = 720  # 12 hours
+    PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES = 60 * 12  # 12 hours
 
 Notifications for reaching a price limit
 ''''''''''''''''''''''''''''''''''''''''
@@ -261,29 +261,41 @@ documentation <https://docs.djangoproject.com/en/1.5/topics/email/#topic-email-b
 
 ::
 
-    # time after which to notify the user again about a price limit hit (in minutes)
-    PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES = 10080  # 7 days
+	# time after which to notify the user again about a price limit hit (in minutes)
+	PRICE_MONITOR_SUBSCRIPTION_RENOTIFICATION_MINUTES = 60 * 24 * 7  # 7 days
 
-    # sender address of the notification email
-    PRICE_MONITOR_EMAIL_SENDER = 'noreply@localhost'
+	# sender address of the notification email
+	PRICE_MONITOR_EMAIL_SENDER = 'noreply@localhost'
 
-    # currency name to use on notifications
-    PRICE_MONITOR_DEFAULT_CURRENCY = 'EUR'
+	# currency name to use on notifications
+	PRICE_MONITOR_DEFAULT_CURRENCY = 'EUR'
 
-    # subject and body of the notification emails
-    gettext = lambda x: x
-    PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT = gettext(
-        'Price limit for %(product)s reached'
-    )
-    PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY = gettext(
-        'The price limit of %(price_limit)0.2f %(currency)s has been reached for the '
-        'article "%(product_title)s" - the current price is %(price)0.2f %(currency)s.'
-        '\n\nPlease support our platform by using this '
-        'link for buying: %(link)s\n\n\nRegards,\nThe Team'
-    )
+	# subject and body of the notification emails
+	gettext = lambda x: x
+	PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT = gettext(
+		'Price limit for %(product)s reached'
+	)
+	PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY = gettext(
+		'The price limit of {price_limit:0.2f} {currency:s} has been reached for the article "{product_title:s}."\n'
+		'Current price is {price:0.2f} {currency:s} ({price_date:s}).'
+	)
 
-    # name of the site in notifications
-    PRICE_MONITOR_SITENAME = 'Price Monitor'
+	# email footer, is used for every email being send
+	PRICE_MONITOR_I18N_EMAIL_FOOTER = gettext(
+		'\n\n'
+		'Please support our platform by using this affiliate link for buying the product: {url_product_amazon:s}'
+		'\n'
+		'Adjust the price limits for the products here: {url_product_detail:s}'
+		'\n\n'
+		'{additional_text:s}'
+		'\n'
+		'Regards,'
+		'\n'
+		'The Team'
+	)
+
+	# name of the site in notifications
+	PRICE_MONITOR_SITENAME = 'Price Monitor'
 
 
 Big price drop
@@ -295,6 +307,17 @@ If a price drops by a certain threshold, the subscribers of that product will be
 	# if the price of a products drops for more or equals this threshold, we send out a notification if a user has a subscription of the product
 	# value in percentage of 100, 1 = 100%, 0.65 = 65%, default: 0.25 = 25%
 	PRICE_MONITOR_BIG_PRICE_DROP_THRESHOLD = 0.25
+
+	# big drop notification email body
+	PRICE_MONITOR_BIG_PRICE_DROP_EMAIL_NOTIFICATION_BODY = gettext(
+		'The price of "{product_title:s}" dropped more than {price_drop_limit:0.2f}%:'
+		'\n\n'
+		'Old price: {price_old:0.2f} {currency:s}'
+		'\n'
+		'New price: {price_new:0.2f} {currency:s}'
+		'\n'
+		'Drop rate: {price_drop:0.2f}%'
+	)
 
 Caching
 '''''''
@@ -486,6 +509,16 @@ Start/Stop/Build
 A fixture with a Django user ``admin`` and the password ``password`` is loaded automatically.
 
 To build the images, use the `Makefile` from the root directory.
+
+Update i18n
+^^^^^^^^^^^
+::
+
+	cd docker
+	docker-compose run web sh -c "cd /srv/pricemonitor/price_monitor && django-admin makemessages -l de"
+	# afterwards translate with poedit, then:
+	docker-compose run web sh -c "cd /srv/pricemonitor/price_monitor && django-admin compilemessages"
+
 
 Templates
 ---------

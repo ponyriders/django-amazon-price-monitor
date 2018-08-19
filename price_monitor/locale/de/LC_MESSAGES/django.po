@@ -7,217 +7,246 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-28 19:33+0100\n"
-"PO-Revision-Date: 2015-10-28 19:42+0100\n"
+"POT-Creation-Date: 2018-08-19 11:51+0000\n"
+"PO-Revision-Date: 2018-08-19 13:52+0200\n"
 "Last-Translator: Alexander Herrmann <darignac@gmail.com>\n"
 "Language-Team: Deutsch <darignac@gmail.com>\n"
-"Language: Deutsch\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 2.0.6\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: admin.py:27
+#: admin.py:39
 msgid "Reset to status \"Created\"."
 msgstr "Auf Status \"Erstellt\" zurücksetzen."
 
-#: admin.py:38
+#: admin.py:50
 msgid "Resynchronize with API"
 msgstr "Mit API resynchronisieren"
 
-#: app_settings.py:32
+#: app_settings.py:61
 #, python-format
 msgid "Price limit for %(product)s reached"
 msgstr "Preislimit für %(product)s erreicht"
 
-#: app_settings.py:38
-#, python-format
+#: app_settings.py:67
 msgid ""
-"The price limit of %(price_limit)0.2f %(currency)s has been reached for the "
-"article \"%(product_title)s\" - the current price is %(price)0.2f "
-"%(currency)s.\n"
+"The price limit of {price_limit:0.2f} {currency:s} has been reached for the "
+"article \"{product_title:s}.\"\n"
+"Current price is {price:0.2f} {currency:s} ({price_date:s})."
+msgstr ""
+"Das Preislimit von %(price_limit)0.2f %(currency)s wurde für den Artikel "
+"\"%(product_title)s\" erreicht.\n"
+"Der aktuelle Preis ist %(price)0.2f %(currency)s ({price_date:s})."
+
+#: app_settings.py:76
+msgid ""
 "\n"
-"Please support our platform by using this link for buying: %(link)s\n"
 "\n"
+"Please support our platform by using this affiliate link for buying the "
+"product: {url_product_amazon:s}\n"
+"Adjust the price limits for the product here: {url_product_detail:s}\n"
 "\n"
+"{additional_text:s}\n"
 "Regards,\n"
 "The Team"
 msgstr ""
-"Das Preislimit von %(price_limit)0.2f %(currency)s wurde für den Artikel "
-"\"%(product_title)s\" erreicht - der aktuelle Preis ist %(price)0.2f "
-"%(currency)s.\n"
-"\n"
-"Bitte unterstütze unsere Plattform, indem du den Artikel über diesen Link "
-"einkaufst: %(link)s\n"
 "\n"
 "\n"
+"Bitte unterstütze unsere Plattform indem du diesen Affiliate-Link zum Kaufen "
+"des Artikels benutzt: {url_product_amazon:s}\n"
+"Du kannst das Preislimit für das Produkt hier anpassen: {url_product_detail:"
+"s}\n"
+"\n"
+"{additional_text:s}\n"
 "Grüße,\n"
 "Das Team"
 
-#: forms.py:14 models/Product.py:40
+#: app_settings.py:104
+#, python-format
+msgid "Price drop of {price_drop:0.2f}% for {product_title:s} happened!"
+msgstr "Preissturz von {price_drop:0.2f}% für {product_title:s} ist passiert!"
+
+#: app_settings.py:111
+msgid ""
+"The price of \"{product_title:s}\" dropped more than "
+"{price_drop_limit:0.2f}%:\n"
+"\n"
+"Old price: {price_old:0.2f} {currency:s}\n"
+"New price: {price_new:0.2f} {currency:s}\n"
+"Drop rate: {price_drop:0.2f}%"
+msgstr ""
+"Der Preis von \"{product_title:s}\" ist mehr als {price_drop_limit:0.2f}% "
+"gefallen:\n"
+"\n"
+"Alter Preis: {price_old:0.2f} {currency:s}\n"
+"Neuer Preis: {price_new:0.2f} {currency:s}\n"
+"Preissturzrate: {price_drop:0.2f}%"
+
+#: forms.py:15 models/Product.py:41
 msgid "ASIN"
 msgstr "ASIN"
 
-#: models/EmailNotification.py:14 models/Subscription.py:12
+#: models/EmailNotification.py:15 models/Subscription.py:13
 msgid "Owner"
 msgstr "Besitzer"
 
-#: models/EmailNotification.py:15
+#: models/EmailNotification.py:16
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
-#: models/EmailNotification.py:31 models/Subscription.py:16
+#: models/EmailNotification.py:36 models/Subscription.py:17
 msgid "Email Notification"
 msgstr "E-Mail-Benachrichtigung"
 
-#: models/EmailNotification.py:32
+#: models/EmailNotification.py:37
 msgid "Email Notifications"
 msgstr "E-Mail-Benachrichtigungen"
 
-#: models/Price.py:9 models/Price.py:29
+#: models/Price.py:10 models/Price.py:31
 msgid "Price"
 msgstr "Preis"
 
-#: models/Price.py:10
+#: models/Price.py:11
 msgid "Currency"
 msgstr "Währung"
 
-#: models/Price.py:11
+#: models/Price.py:12
 msgid "Date of price"
 msgstr "Datum des Preises"
 
-#: models/Price.py:12 models/Product.py:127 models/Subscription.py:13
+#: models/Price.py:13 models/Product.py:148 models/Subscription.py:14
 msgid "Product"
 msgstr "Produkt"
 
-#: models/Price.py:30
+#: models/Price.py:32
 msgid "Prices"
 msgstr "Preise"
 
-#: models/Product.py:23
+#: models/Product.py:24
 msgid "Created"
 msgstr "Erstellt"
 
-#: models/Product.py:24
-msgid "Synced over API"
-msgstr "über API synchronisiert"
-
 #: models/Product.py:25
-msgid "Unsynchable"
-msgstr "nicht synchronisierbar"
+msgid "Synced over API"
+msgstr "Über API synchronisiert"
 
-#: models/Product.py:29
+#: models/Product.py:26
+msgid "Unsynchable"
+msgstr "Nicht synchronisierbar"
+
+#: models/Product.py:30
 msgid "Date of creation"
 msgstr "Erstellungsdatum"
 
-#: models/Product.py:30
+#: models/Product.py:31
 msgid "Date of last update"
 msgstr "Datum der letzten Aktualisierung"
 
-#: models/Product.py:31
+#: models/Product.py:32
 msgid "Date of last synchronization"
 msgstr "Datum der letzten Synchronisierung"
 
-#: models/Product.py:34
+#: models/Product.py:35
 msgid "Status"
 msgstr "Status"
 
-#: models/Product.py:37
+#: models/Product.py:38
 msgid "Subscribers"
 msgstr "Abonnenten"
 
-#: models/Product.py:41
+#: models/Product.py:42
 msgid "Title"
 msgstr "Titel"
 
-#: models/Product.py:42
+#: models/Product.py:43
 msgid "Artist"
 msgstr "Künstler"
 
-#: models/Product.py:43
+#: models/Product.py:44
 msgid "ISBN"
 msgstr "ISBN"
 
-#: models/Product.py:44
+#: models/Product.py:45
 msgid "E-ISBN"
 msgstr "E-ISBN"
 
-#: models/Product.py:45
+#: models/Product.py:46
 msgid "Binding"
 msgstr "Bindung"
 
-#: models/Product.py:46
+#: models/Product.py:47
 msgid "Publication date"
 msgstr "Erscheinungsdatum"
 
-#: models/Product.py:47
+#: models/Product.py:48
 msgid "Release date"
 msgstr "Freigabedatum"
 
-#: models/Product.py:48
+#: models/Product.py:49
 msgid "Audience rating"
 msgstr "Zielgruppe"
 
-#: models/Product.py:49
+#: models/Product.py:50
 msgid "URL to large product image"
 msgstr "URL zum großen Produktbild"
 
-#: models/Product.py:50
+#: models/Product.py:51
 msgid "URL to medium product image"
 msgstr "URL zum mittleren Produktbild"
 
-#: models/Product.py:51
+#: models/Product.py:52
 msgid "URL to small product image"
 msgstr "URL zum kleinen Produktbild"
 
-#: models/Product.py:52
+#: models/Product.py:53
 msgid "URL to the offer"
 msgstr "URL zum Angebot"
 
-#: models/Product.py:54
-#| msgid "Currency"
+#: models/Product.py:55
 msgid "Current price"
 msgstr "Aktueller Preis"
 
-#: models/Product.py:55
+#: models/Product.py:57
 msgid "Highest price ever"
 msgstr "Höchster Preis"
 
-#: models/Product.py:56
+#: models/Product.py:58
 msgid "Lowest price ever"
 msgstr "Niedrigster Preis"
 
-#: models/Product.py:114
+#: models/Product.py:119
 msgid "Unsynchronized Product"
 msgstr "Nicht synchronisiertes Produkt"
 
-#: models/Product.py:128
+#: models/Product.py:149
 msgid "Products"
 msgstr "Produkte"
 
-#: models/Subscription.py:14
+#: models/Subscription.py:15
 msgid "Price limit"
 msgstr "Preislimit"
 
-#: models/Subscription.py:15
+#: models/Subscription.py:16
 msgid "Date of last sent notification"
 msgstr "Datum der zuletzt gesendeten Benachrichtigung"
 
-#: models/Subscription.py:24
+#: models/Subscription.py:27
 msgid "Notification email"
 msgstr "Benachrichtigungs-E-Mail"
 
-#: models/Subscription.py:39
+#: models/Subscription.py:46
 msgid "Subscription"
 msgstr "Abonnement"
 
-#: models/Subscription.py:40
+#: models/Subscription.py:47
 msgid "Subscriptions"
 msgstr "Abonnements"
 
-#: models/mixins/PublicIDMixin.py:17
+#: models/mixins/PublicIDMixin.py:18
 msgid "Public-ID"
 msgstr "Public-ID"
 

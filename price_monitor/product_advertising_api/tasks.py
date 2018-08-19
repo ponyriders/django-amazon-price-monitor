@@ -240,12 +240,12 @@ class SynchronizeProductsTask(Task):
 
         # the price value
         price_new = amazon_data['price'] if 'price' in amazon_data else None
-        price_old = product.current_price.value
+        price_old = product.current_price.value if product.current_price is not None else None
 
         # compare the new price to the last one and calculate the price drop
         # FIXME #112 add unit tests
         price_drop = 0.0
-        if price_new is not None:
+        if price_new is not None and price_old is not None:
             price_drop = (price_old - price_new) / price_old
 
         # create the price
@@ -310,15 +310,21 @@ class SynchronizeProductsTask(Task):
         :param product: the product the price belongs to
         :type product: price_monitor.models.Product
         """
+        # FIXME #112 we need to store that we informed about a price drop, probably set a limit in minutes for the product
+        # e.g. send the first price drop, store that date, do not send another price drop until the first + 30 minutes is over
         if price_drop >= app_settings.PRICE_MONITOR_BIG_PRICE_DROP_THRESHOLD:
             logger.info(
                 'Price drop threshold reached for product %s, old price %05.2f, new price %05.2f, dropped by %05.2f%%',
-                product.asin, 
-                price_old, 
-                price_new, 
+                product.asin,
+                price_old,
+                product.current_price.value,
                 price_drop * 100
             )
-            # FIXME #112 implement
+            # inform every active subscriber of the product
+            for subscriber in product.subscribers.filter(is_active=True):
+                # FIXME #112 implement
+                pass
+
 
 class NotifySubscriberTask(Task):
 

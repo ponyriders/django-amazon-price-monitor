@@ -53,22 +53,27 @@ def send_mail(product, subscription, price, additional_text=''):
     :param additional_text: additional text to include in mail
     :type additional_text: str
     """
-    django_send_mail(
+    body = _(app_settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY).format(
+        price_limit=subscription.price_limit,
+        currency=price.currency,
+        price=price.value,
+        price_date=price.date_seen.strftime('%b %d, %Y %H:%M %p %Z'),
+        product_title=product.get_title(),
+    )
+    body += _(app_settings.PRICE_MONITOR_I18N_EMAIL_FOOTER).format(
+        url_product_amazon=product.offer_url,
+        url_product_detail=product.get_detail_url(),
+        additional_text=additional_text,
+    )
+    success = django_send_mail(
         _(app_settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_SUBJECT) % {'product': product.title},
-        _(app_settings.PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY).format(
-            price_limit=subscription.price_limit,
-            currency=price.currency,
-            price=price.value,
-            price_date=price.date_seen.strftime('%b %d, %Y %H:%M %p %Z'),
-            product_title=product.get_title(),
-            url_product_amazon=product.offer_url,
-            url_product_detail=product.get_detail_url(),
-            additional_text=additional_text,
-        ),
+        body,
         app_settings.PRICE_MONITOR_EMAIL_SENDER,
         [subscription.email_notification.email],
         fail_silently=False,
     )
+    if success != 1:
+        logger.error('Sending mail to %s for product %s failed', subscription.email_notification.email, product.asin)
 
 
 def chunk_list(the_list, chunk_size):

@@ -45,7 +45,7 @@ PRICE_MONITOR_AMAZON_SSL_IMAGE_DOMAIN = getattr(settings, 'PRICE_MONITOR_AMAZON_
 
 # synchronization settings
 # refresh product after 12 hours
-PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES = int(getattr(settings, 'PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES', 12 * 60))
+PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES = int(getattr(settings, 'PRICE_MONITOR_AMAZON_PRODUCT_REFRESH_THRESHOLD_MINUTES', 60 * 12))
 
 # notification settings
 # time after when to notify about a subscription again
@@ -64,12 +64,19 @@ PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY = getattr(
     settings,
     'PRICE_MONITOR_I18N_EMAIL_NOTIFICATION_BODY',
     ugettext_lazy(
-        'The price limit of {price_limit:0.2f} {currency:s} has been reached for the article "{product_title:s}"\n'
+        'The price limit of {price_limit:0.2f} {currency:s} has been reached for the article "{product_title:s}."\n'
         'Current price is {price:0.2f} {currency:s} ({price_date:s}).'
+    )
+)
+# email footer, is used for every email being send
+PRICE_MONITOR_I18N_EMAIL_FOOTER = getattr(
+    settings,
+    'PRICE_MONITOR_I18N_EMAIL_FOOTER',
+    ugettext_lazy(
         '\n\n'
         'Please support our platform by using this affiliate link for buying the product: {url_product_amazon:s}'
         '\n'
-        'Adjust the price limits for the products here: {url_product_detail:s}'
+        'Adjust the price limits for the product here: {url_product_detail:s}'
         '\n\n'
         '{additional_text:s}'
         '\n'
@@ -91,15 +98,12 @@ PRICE_MONITOR_GRAPH_CACHE_KEY_PREFIX = getattr(settings, 'PRICE_MONITOR_GRAPH_CA
 # value in percentage of 100, 1 = 100%, 0.65 = 65%, default: 0.25 = 25%
 PRICE_MONITOR_BIG_PRICE_DROP_THRESHOLD = getattr(settings, 'PRICE_MONITOR_BIG_PRICE_DROP_THRESHOLD', 0.25)
 # big drop notification email subject
-# FIXME #112 add email settings for readme
-# FIXME #112 create translations!
 PRICE_MONITOR_BIG_PRICE_DROP_EMAIL_NOTIFICATION_SUBJECT = getattr(
     settings,
     'PRICE_MONITOR_BIG_PRICE_DROP_EMAIL_NOTIFICATION_SUBJECT',
     ugettext_lazy('Price drop of {price_drop:0.2f}% for {product_title:s} happened!')
 )
 # big drop notification email body
-# FIXME #112 refactor email footers to separare setting for DRY
 PRICE_MONITOR_BIG_PRICE_DROP_EMAIL_NOTIFICATION_BODY = getattr(
     settings,
     'PRICE_MONITOR_BIG_PRICE_DROP_EMAIL_NOTIFICATION_BODY',
@@ -111,16 +115,6 @@ PRICE_MONITOR_BIG_PRICE_DROP_EMAIL_NOTIFICATION_BODY = getattr(
         'New price: {price_new:0.2f} {currency:s}'
         '\n'
         'Drop rate: {price_drop:0.2f}%'
-        '\n\n'
-        'Please support our platform by using this affiliate link for buying the product: {url_product_amazon:s}'
-        '\n'
-        'Adjust the price limits for the products here: {url_product_detail:s}'
-        '\n\n'
-        '{additional_text:s}'
-        '\n'
-        'Regards,'
-        '\n'
-        'The Team'
     )
 )
 

@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     python3-cairo \
     python3-minimal \
     python3-pip \
+    gettext \
 && rm -rf /tmp/* /var/tmp/* \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
