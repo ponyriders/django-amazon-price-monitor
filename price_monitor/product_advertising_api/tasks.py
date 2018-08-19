@@ -243,6 +243,7 @@ class SynchronizeProductsTask(Task):
         price_old = product.current_price.value
 
         # compare the new price to the last one and calculate the price drop
+        # FIXME #112 add unit tests
         price_drop = 0.0
         if price_new is not None:
             price_drop = (price_old - price_new) / price_old
@@ -297,6 +298,7 @@ class SynchronizeProductsTask(Task):
                 # FIXME: how to handle failed notifications?
                 NotifySubscriberTask().apply_async((product.pk, price.pk, sub.pk), countdown=5)
 
+    # FIXME #112 add unit tests
     def __inform_about_price_drop(self, price_drop, price_old, product):
         """
         Checks if the price dropped by more or equals PRICE_MONITOR_BIG_PRICE_DROP_THRESHOLD.
