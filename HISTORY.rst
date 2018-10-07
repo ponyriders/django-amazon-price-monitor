@@ -12,7 +12,7 @@ TBA
 
 **Bugfixes:**
 
-- fixed handling of ISBN-13 values in the ISBN-10 return value from Amazon Product Advertising API `#121 <https://github.com/ponyriders/django-amazon-price-monitor/issues/121>`__
+- fixed handling of ISBN-13 values in the ISBN-10 return value from Amazon Product Advertising API `#121 <https://github.com/ponyriders/django-amazon-price-monitor/issues/121>`__ (`PR#122 <https://github.com/ponyriders/django-amazon-price-monitor/pull/122>`__)
 
 `0.7 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.7>`__
 ----------------------------------------------------------------------
