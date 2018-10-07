@@ -3,6 +3,7 @@ import datetime
 from .data import (
     product_sample_3_products,
     product_sample_10_products,
+    product_sample_isbn_issue,
     product_sample_lookup_fail,
     product_sample_no_audience_rating,
     product_sample_no_images,
@@ -721,3 +722,45 @@ class ProductAdvertisingAPITest(TestCase):
         self.assertEqual(api.format_datetime('2014-10-11'), datetime.datetime(2014, 10, 11))
         self.assertEqual(api.format_datetime('2012-12'), datetime.datetime(2012, 12, datetime.datetime.now().day))
         self.assertEqual(api.format_datetime('2015-02'), datetime.datetime(2015, 2, datetime.datetime.now().day))
+
+    @patch.object(ProductAdvertisingAPI, 'lookup_at_amazon')
+    @patch.object(ProductAdvertisingAPI, '__init__')
+    @log_capture()
+    def test_invalid_isbn_value(self, product_api_init, product_api_lookup, lc):
+        """
+        Test for a product with an ISBN-13 value in the ISBN-10 field (isbn).
+        :param product_api_init: mockup for ProductAdvertisingAPI.__init__
+        :type product_api_init: unittest.mock.MagicMock
+        :param product_api_lookup: mockup for ProductAdvertisingAPI.lookup_at_amazon
+        :type product_api_lookup: unittest.mock.MagicMock
+        :param lc: log capture instance
+        :type lc: testfixtures.logcapture.LogCaptureForDecorator
+        """
+        product_api_init.return_value = None
+        product_api_lookup.return_value = self.__get_product_bs(product_sample_isbn_issue)
+
+        api = ProductAdvertisingAPI()
+        values = api.item_lookup(['TESTASIN20'])
+
+        # ensure the mocks were called
+        self.assertTrue(product_api_init.called)
+        self.assertTrue(product_api_lookup.called)
+
+        self.assertNotEqual(None, values)
+        self.assertEqual(type(dict()), type(values))
+        self.assertEqual(len(values), 1)
+
+        self.assertTrue('TESTASIN20' in values)
+        self.assertEqual('TESTASIN20', values['TESTASIN20']['asin'])
+
+        product = values['TESTASIN20']
+
+        # though "isbn" contains a ISBN-13 value we save that into "eisbn" and clear "isbn"
+        self.assertEqual(product['isbn'], None)
+        self.assertEqual(len(product['eisbn']), 13)
+        self.assertEqual(product['eisbn'], '1234567890123')
+
+        # check log output
+        lc.check(
+            ('price_monitor.product_advertising_api', 'INFO', 'starting lookup for ASINs TESTASIN20')
+        )

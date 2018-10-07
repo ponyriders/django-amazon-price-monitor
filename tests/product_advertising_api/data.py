@@ -925,3 +925,79 @@ product_sample_with_artist = """
     </items>
 </itemlookupresponse>
 """
+
+# a product with an ISBN-13 in the ISBN-10 field, see issue https://github.com/ponyriders/django-amazon-price-monitor/issues/121
+product_sample_isbn_issue = """
+<itemlookupresponse xmlns="http://webservices.amazon.com/AWSECommerceService/2013-08-01">
+    <items>
+        <request>
+            <isvalid>True</isvalid>
+            <itemlookuprequest>
+                <idtype>ASIN</idtype>
+                <itemid>TESTASIN20</itemid>
+                <responsegroup>Large</responsegroup>
+                <variationpage>All</variationpage>
+            </itemlookuprequest>
+        </request>
+        <item>
+            <asin>TESTASIN20</asin>
+            <salesrank>2</salesrank>
+            <smallimage>
+                <url>http://ecx.images-amazon.com/images/I/TESTASIN20._SL75_.jpg</url>
+                <height units="pixels">75</height>
+                <width units="pixels">75</width>
+            </smallimage>
+            <mediumimage>
+                <url>http://ecx.images-amazon.com/images/I/TESTASIN20._SL160_.jpg</url>
+                <height units="pixels">160</height>
+                <width units="pixels">160</width>
+            </mediumimage>
+            <largeimage>
+                <url>http://ecx.images-amazon.com/images/I/TESTASIN20.jpg</url>
+                <height units="pixels">500</height>
+                <width units="pixels">500</width>
+            </largeimage>
+            <itemattributes>
+                <actor>John Doe</actor>
+                <actor>Jane Doe</actor>
+                <aspectratio>2.39:1</aspectratio>
+                <audiencerating>Freigegeben ab 16 Jahren</audiencerating>
+                <binding>Blu-ray</binding>
+                <brand>Test Distribution Company</brand>
+                <creator role="Hauptdarsteller">John Doe</creator>
+                <creator role="Hauptdarsteller">Jane Doe</creator>
+                <director>John Director</director>
+                <ean>1234567890123</ean>
+                <eanlist>
+                    <eanlistelement>1234567890123</eanlistelement>
+                </eanlist>
+                <edition>Standard Edition</edition>
+                <format>Letterboxed</format>
+                <format>Widescreen</format>
+                <isbn>1234567890123</isbn>
+                <label>Test Label Company</label>
+                <manufacturer>Test Manufacturer Company</manufacturer>
+                <mpn>12345678</mpn>
+                <numberofdiscs>2</numberofdiscs>
+                <numberofitems>2</numberofitems>
+                <packagedimensions>
+                    <height units="Hundertstel Zoll">39</height>
+                    <length units="Hundertstel Zoll">669</length>
+                    <weight units="Hundertstel Pfund">18</weight>
+                    <width units="Hundertstel Zoll">528</width>
+                </packagedimensions>
+                <partnumber>12345678</partnumber>
+                <productgroup>DVD &amp; Blu-ray</productgroup>
+                <producttypename>ABIS_BOOK</producttypename>
+                <publicationdate>2018-09-27</publicationdate>
+                <publisher>Test Publisher Company</publisher>
+                <regioncode>2</regioncode>
+                <releasedate>2018-09-27</releasedate>
+                <runningtime units="Minuten">119</runningtime>
+                <studio>Test Studio Company</studio>
+                <title>The ISDN Test Product</title>
+            </itemattributes>
+        </item>
+    </items>
+</itemlookupresponse>
+"""

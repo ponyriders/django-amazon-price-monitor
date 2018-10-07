@@ -10,6 +10,10 @@ TBA
 	- ``CairoSVG`` is not pinned to version below ``2`` any more, with this we drop support for Python ``3.3`` as it is not compatible
 - dropped support for ``Python 3.3``
 
+**Bugfixes:**
+
+- fixed handling of ISBN-13 values in the ISBN-10 return value from Amazon Product Advertising API `#121 <https://github.com/ponyriders/django-amazon-price-monitor/issues/121>`__
+
 `0.7 <https://pypi.python.org/pypi/django-amazon-price-monitor/0.7>`__
 ----------------------------------------------------------------------
 **Features:**
