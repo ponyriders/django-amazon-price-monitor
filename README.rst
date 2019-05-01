@@ -368,7 +368,8 @@ Override settings
 To override some settings as well as to set up the **required AWS settings** you can create a ``docker-compose.override.yml`` and fill with the specific values
 (also see `docker-compose documentation <https://docs.docker.com/compose/extends/>`__).
 
-Please see or adjust the ``docker\web\project\settings.py`` for all settings that are read from the environment. They can be overwritten.
+Please see or adjust the ``docker\web\project\glue\settings.py`` for all settings that are read from the environment.
+They can be overwritten.
 
 A sample ``docker-compose.override.yml`` file could look like this:
 ::

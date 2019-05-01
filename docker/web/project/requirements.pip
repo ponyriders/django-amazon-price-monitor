@@ -3,4 +3,5 @@ dj-database-url
 psycopg2>=2.5.4
 celery>=4,<5
 django-redis-cache>=1.5.4
-hiredis
+hiredis<0.3
+Pillow<6
