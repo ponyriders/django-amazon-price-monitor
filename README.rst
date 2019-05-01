@@ -5,9 +5,43 @@
 django-amazon-price-monitor
 ===========================
 
-**Necessary settings changes for upcoming version 0.8 can be found in the** `history <https://github.com/ponyriders/django-amazon-price-monitor/blob/master/HISTORY.rst>`_ **.**
-
 Monitors prices of Amazon products via Product Advertising API.
+
+**Necessary settings changes for upcoming version 0.8 can be found in the** `history <https://github.com/ponyriders/django-amazon-price-monitor/blob/master/HISTORY.rst>`_ **.**
+UPDATE: 0.8 will never come, see the end of life announcement below.
+
+END OF LIFE
+-----------
+
+**!!! IMPORTANT !!!**
+
+
+Since January 23rd 2019 the efficiency guidelines for using the Product Advertising API have changed dramatically.
+Requests limits for the API are now calculated based on the revenue generated with the Amazon Associate account the
+Product Advertising API is connected with.
+
+You can find the details here: https://docs.aws.amazon.com/AWSECommerceService/latest/DG/TroubleshootingApplications.html#efficiency-guidelines
+
+**For django-amazon-price-monitor this means the END OF LIFE from now on.**
+
+But why?
+
+We started the project to solve the issue of saving money with Amazon while having control over your data by self
+hosting this project. To continue maintaining and extending the project we'd need to have enough revenue in our
+associate account, which we do not have. The result is that our API account used for developing this project is blocked
+and we cannot continue. Also our private little instance of pricemonitor, used by some of our friends and us, will be
+shut down, too.
+
+The changes in the guidelines make it pretty hard for small projects that do not primarily focus on generating revenue
+with Amazon to continue. As the `django-amazon-price-monitor` did not get that much love in the last months and years
+from us as we focused on other things, the only logic consequence for us is to pull the plug.
+
+Thanks to all involved for participating in this journey with us!
+
+Best
+
+Alex + Martin
+
 
 Basic structure
 ---------------
